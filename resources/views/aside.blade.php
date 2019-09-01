@@ -22,9 +22,10 @@
                                     class="feather icon-home"></i></span><span class="pcoded-mtext">Usuarios</span></a>
                             <ul class="pcoded-submenu">
                                 <li class=""><a @click="menu=0">Usuarios</a></li>
-                                <li class=""><a @click="menu=0">Persona</a></li>
-                                <li class=""><a @click="menu=1">Roles</a></li>
-                                <li class=""><a @click="menu=2">Gestion Permisos</a></li>
+                                <li class=""><a @click="menu=1">Proveedores</a></li>
+                                <li class=""><a @click="menu=2">Clientes</a></li>
+                                <li class=""><a @click="menu=3">Roles</a></li>
+                                <li class=""><a @click="menu=4">Gestion Permisos</a></li>
                             </ul>
                         </li>
                     @endif
@@ -34,8 +35,10 @@
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
                                     class="feather icon-home"></i></span><span class="pcoded-mtext">Productos</span></a>
                             <ul class="pcoded-submenu">
-                                <li class=""><a @click="menu=3">Categorias</a></li>
-                                <li class=""><a @click="menu=4">Presentación</a></li>
+                                <li class=""><a @click="menu=5">Productos</a></li>
+                                <li class=""><a @click="menu=6">Categorias</a></li>
+                                <li class=""><a @click="menu=7">Presentación</a></li>
+                                <li class=""><a @click="menu=8">Historial</a></li>
                             </ul>
                         </li>
                     @endif

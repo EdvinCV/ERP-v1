@@ -3,9 +3,9 @@
         <v-toolbar flat color="white">
             <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="500px">
+            <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark class="mb-2" v-on="on">Asignar Permiso</v-btn>
+                     <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Proveedor</v-btn>
                 </template>
                 <v-card>
                     <v-card-title>
@@ -15,38 +15,15 @@
                     <v-card-text>
                         <v-container grid-list-md>
                             <v-layout wrap>
-                                <v-flex v-if="this.editedIndex === -1" xs12 sm12 md12>
-                                    <v-select
-                                        v-model="selectRol"
-                                        :hint="`${selectRol.nombreRol}`"
-                                        :items="listaRoles"
-                                        item-text="nombreRol"
-                                        item-value="id"
-                                        label="Seleccionar rol"
-                                        persistent-hint
-                                        return-object
-                                        single-line
-                                    ></v-select>
-                                </v-flex>
-                                <v-flex v-if="this.editedIndex === -1" xs12 sm12 md12>
-                                    <v-select
-                                        v-model="selectPermiso"
-                                        :items="listaPermisos"
-                                        item-text="nombrePermiso"
-                                        item-value="id"
-                                        label="Seleccionar permiso"
-                                        persistent-hint
-                                        return-object
-                                        single-line
-                                    ></v-select>
-                                </v-flex>
-                                <v-flex xs12 sm12 md12 >
-                                    Estado
-                                    <v-switch 
-                                        v-model="switch1"
-                                        :label = "`${switch1.toString()}`"
-                                    ></v-switch>
-                                </v-flex>
+                                <v-flex xs12 sm12 md12>
+                                    <v-text-field v-model="editedItem.nombre" label="Nombres"></v-text-field>
+                                    <v-text-field v-model="editedItem.apellido" label="Apellidos"></v-text-field>
+                                    <v-text-field v-model="editedItem.direccion" label="Direccion"></v-text-field>
+                                    <v-text-field v-model="editedItem.telefono" label="Telefono"></v-text-field>
+                                    <v-text-field v-model="editedItem.nit" label="NIT"></v-text-field>
+                                    <v-text-field v-model="editedItem.correo" label="Correo"></v-text-field>
+                                    <v-text-field v-model="editedItem.nombreProveedor" label="Nombre Empresa"></v-text-field>
+                                </v-flex> 
                             </v-layout>
                         </v-container>
                     </v-card-text>
@@ -68,13 +45,18 @@
         </v-toolbar>
         
 
-        <v-data-table :headers="headers" :items="permisos" class="elevation-1" :search="search">
+        <v-data-table :headers="headers" :items="proveedores" class="elevation-1" :search="search">
             <template v-slot:items="props">
                 <td class="text-xs-left">{{ props.item.id }}</td>
-                <td class="text-xs-left">{{ props.item.nombrePermiso }}</td>
-                <td class="text-xs-left">{{ props.item.nombreRol }}</td>
-                <td class="text-xs-left"><v-chip :color="getColor(props.item.estado)" dark>{{ verEstado(props.item.estado) }}</v-chip></td>
-                <td class="justify-center layout px-0">
+                <td class="text-xs-left">{{ props.item.nombre }}</td>
+                <td class="text-xs-left">{{ props.item.apellido }}</td>
+                <td class="text-xs-left">{{ props.item.direccion }}</td>
+                <td class="text-xs-left">{{ props.item.telefono }}</td>
+                <td class="text-xs-left">{{ props.item.nit }}</td>
+                <td class="text-xs-left">{{ props.item.correo }}</td>
+                <td class="text-xs-left">{{ props.item.nombreProveedor }}</td>
+                
+                <td class="justify-right layout px-0">
                     <v-icon small class="mr-2" @click="editItem(props.item)">
                         edit
                     </v-icon>
@@ -99,11 +81,7 @@
         data: () => ({
             search: '',
             dialog: false,
-            selectRol: [],
-            selectPermiso: [],
-            switch1: false,
             error: 0,
-            bandera: 0,
             errorMsj: [],
             headers: [
                 {
@@ -111,49 +89,58 @@
                     align: 'left',
                     value: 'id'
                 },
-                { text: 'Permiso', value: 'nombrePermiso' },
-                { text: 'Rol', value: 'nombreRol' },
-                { text: 'Estado', value: 'estado' },
+                { 
+                    text: 'Nombre', 
+                    value: 'nombre' 
+                },
+                { text: 'Apellido', value: 'apellido' },
+                { text: 'Direccion', value: 'direccion' },
+                { text: 'Telefono', value: 'telefono' },
+                { text: 'Nit', value: 'nit' },
+                { text: 'Correo', value: 'correo' },
+                { text: 'Proveedor', value: 'nombreProveedor' },
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
-            permisos: [],
-            listaRoles: [],
-            listaPermisos: [],
+            proveedores: [],
             editedIndex: -1,
             editedItem: {
                 id: 0,
-                nombreRol: '',
-                nombrePermiso: '',
+                nombre: '',
+                apellido: '',
+                direccion: '',
+                telefono: '',
+                nit: '',
+                correo: '',
+                nombreProveedor: '',
                 estado: true,
             },
             defaultItem: {
                 id: 0,
-                nombreRol: '',
-                nombrePermiso: '',
+                nombre: '',
+                apellido: '',
+                direccion: '',
+                telefono: '',
+                nit: '',
+                correo: '',
+                nombreProveedor: '',
                 estado: true,
             }
         }),
-
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'Asignar Permisos' : 'Editar Permiso'
+                return this.editedIndex === -1 ? 'Nuevo Proveedor' : 'Editar Proveedor'
             }
         },
-
         watch: {
             dialog(val) {
-                val || this.close();
+                val || this.close()
             }
         },
-
         created() {
-            this.initialize();
-            this.cargaPermisos();
-            this.cargaRoles();
+            this.initialize()
         },
-
         methods: {
-            getColor (estado) {
+             getColor (estado) {
                 if (estado) return 'green'
                 else return 'red'
                 verEstado();            
@@ -163,54 +150,33 @@
                 if(estado) return "Activo";
                 else return "Inactivo";
             },
-
             validate() {
                 this.error = 0;
                 this.errorMsj = [];
+                if (!this.editedItem.nombre)
+                    this.errorMsj.push('El nombre de la Presentacion no puede estar vacio');
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
             },
             initialize() {
-                let me = this;
-                axios.get('/permisos')
+                axios.get('/proveedores')
                     .then(response => {
-                        this.permisos = response.data;
+                        this.proveedores = response.data;
                     })
                     .catch(errors => {
                         console.log(errors);
                     });
             },
-            cargaPermisos() {
-                let me = this;
-                axios.get('/listaP')
-                .then(function (response) {
-                    me.listaPermisos = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error.response);
-                });
-            },
-            cargaRoles() {
-                let me = this;
-                axios.get('/rol')
-                .then(function (response) {
-                    me.listaRoles = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error.response);
-                });
-            },
             editItem(item) {
-                this.editedIndex = this.permisos.indexOf(item)
+                this.editedIndex = this.proveedores.indexOf(item)
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
             },
-
             deleteItem(item) {
                 let me=this;
                 swal.fire({
-                    title: 'Quieres eliminar este permiso?',
+                    title: 'Quieres eliminar este proveedor?',
                     text: "No podras revertir la eliminacion!",
                     type: 'warning',
                     showCancelButton: true,
@@ -220,25 +186,33 @@
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {
-                        axios.delete(`/rolPermiso/${item.id}/delete`).then(response => {
-                            me.initialize();
-                            swal.fire({
+                        axios({
+                        method: 'put',
+                        url: '/proveedores/eliminar',
+                        data: {
+                            id:item.id,
+                        }
+                    }).then(function (response) {
+                        swal.fire({
                             position: 'top-end',
                             type: 'success',
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
-                        }).catch(error => {
-                            swal.fire({
+                        me.initialize();
+                        me.close();
+                    }).catch(function (error) {
+                        swal.fire({
                             position: 'top-end',
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
-                        });
+                        me.initialize();
+                        me.close();
+                    });
                     }
                 });
             },
-
             close() {
                 this.error=0;
                 this.dialog = false;
@@ -247,7 +221,6 @@
                     this.editedIndex = -1
                 }, 300)
             },
-
             save() {
                 let me = this;
                 if (this.validate()) {
@@ -256,10 +229,16 @@
                 if (this.editedIndex > -1) {
                     axios({
                         method: 'put',
-                        url: '/permisos/editar',
+                        url: '/proveedores/actualizar',
                         data: {
                             id:this.editedItem.id,
-                            estado:this.switch1
+                            nombre: me.editedItem.nombre,
+                            apellido: me.editedItem.apellido,
+                            direccion: me.editedItem.direccion,
+                            telefono: me.editedItem.telefono,
+                            nit: me.editedItem.nit,
+                            correo: me.editedItem.correo,
+                            nombreProveedor: me.editedItem.nombreProveedor
                         }
                     }).then(function (response) {
                         swal.fire({
@@ -282,10 +261,15 @@
                 } else {
                     axios({
                         method: 'post',
-                        url: '/rolPermiso/nuevo',
+                        url: '/proveedores/nuevo',
                         data: {
-                            nombreRol : this.selectRol.id,
-                            nombrePermiso : this.selectPermiso.id
+                            nombre: me.editedItem.nombre,
+                            apellido: me.editedItem.apellido,
+                            direccion: me.editedItem.direccion,
+                            telefono: me.editedItem.telefono,
+                            nit: me.editedItem.nit,
+                            correo: me.editedItem.correo,
+                            nombreProveedor: me.editedItem.nombreProveedor
                         }
                     }).then(function (response) {
                         swal.fire({

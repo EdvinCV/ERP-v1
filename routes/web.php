@@ -31,7 +31,10 @@ Route::post('/rol/nuevo', 'RolController@store');
 Route::put('/rol/editar', 'RolController@edit');
 //Rutas permisos
 Route::get('/permisos', 'PermisosController@index');
+Route::get('/listaP', 'PermisosController@listarPermisos');
 Route::put('/permisos/editar', 'PermisosController@edit');
+Route::post('/rolPermiso/nuevo', 'PermisosController@store');
+Route::delete('/rolPermiso/{rolP}/delete', 'PermisosController@drop');
 //Rutas presentacion
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/presentacion', 'PresentacionController@index');
@@ -40,3 +43,15 @@ Route::put('/presentacion/actualizar', 'PresentacionController@update');
 Route::put('/presentacion/desactivar', 'PresentacionController@desactivar');
 Route::put('/presentacion/activar', 'PresentacionController@activar');
 Route::delete('/presentacion/{presentacion}/delete', 'PresentacionController@drop');
+//Rutas proveedores
+Route::get('/proveedores', 'ProveedorController@index');
+Route::post('/proveedores/nuevo', 'ProveedorController@store');
+Route::put('/proveedores/actualizar', 'ProveedorController@update');
+Route::put('/proveedores/eliminar', 'ProveedorController@desactivar');
+
+//Rutas clientes
+Route::get('/clientes', 'ClienteController@index');
+Route::post('/clientes/nuevo', 'ClienteController@store');
+Route::put('/clientes/actualizar', 'ClienteController@update');
+Route::put('/clientes/eliminar', 'ClienteController@desactivar');
+

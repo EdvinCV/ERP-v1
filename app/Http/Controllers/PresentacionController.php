@@ -28,7 +28,7 @@ class PresentacionController extends Controller
             $presentacion->nombre=$request->nombre;
             $presentacion->estado = '1';
             $presentacion->save();
-            return 'Se ha agregado el rol correctamente';
+            return 'Presentación agregada correctamente.';
         }catch(\Exception $e){
             $response['error'] = $e->getMessage();
             return response()->json($response, 500);
@@ -54,7 +54,7 @@ class PresentacionController extends Controller
             $presentacion->nombre=$nombre;
             $presentacion->estado = '1';
             $presentacion->save();
-            return 'Se ha modificado la categoria correctamente';
+            return 'Presentación modificada correctamente';
         }
         catch(\Exception $e){
             $response['error'] = $e->getMessage();
@@ -64,7 +64,7 @@ class PresentacionController extends Controller
     public function drop(Presentacion $presentacion){
         try{
             $presentacion->delete();
-            return 'Se ha eliminado la categoria correctamente';
+            return 'Presentación eliminada correctamente';
         }catch(\Exception $e){
             $response['error'] = $e->getMessage();
             return response()->json($response, 500);
