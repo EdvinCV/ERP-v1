@@ -34,6 +34,7 @@
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
                                     class="feather icon-home"></i></span><span class="pcoded-mtext">Productos</span></a>
                             <ul class="pcoded-submenu">
+                                <li class=""><a @click="menu=5">Productos</a></li>
                                 <li class=""><a @click="menu=3">Categorias</a></li>
                                 <li class=""><a @click="menu=4">Presentación</a></li>
                             </ul>

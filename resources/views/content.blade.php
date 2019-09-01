@@ -12,4 +12,7 @@
     <template v-if="menu==4">
         <Presentacion></Presentacion>
     </template>
+    <template v-if="menu==5">
+        <Producto><Producto>
+    </template>
 @endsection

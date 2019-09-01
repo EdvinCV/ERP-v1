@@ -22,7 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/categoria', 'CategoriaController@index');
 Route::post('/categoria/registrar', 'CategoriaController@store');
 Route::put('/categoria/actualizar', 'CategoriaController@update');
-Route::put('/categoria/desactivar', 'CategoriaController@desactivar');
+Route::put('/categoria/desactivar', 'CategoriaController@desactivate');
 Route::put('/categoria/activar', 'CategoriaController@activar');
 Route::delete('/categoria/{categoria}/delete', 'CategoriaController@drop');
 //Rutas roles
@@ -40,3 +40,10 @@ Route::put('/presentacion/actualizar', 'PresentacionController@update');
 Route::put('/presentacion/desactivar', 'PresentacionController@desactivar');
 Route::put('/presentacion/activar', 'PresentacionController@activar');
 Route::delete('/presentacion/{presentacion}/delete', 'PresentacionController@drop');
+//Rutas Productos
+Route::get('/producto', 'ProductoController@index');
+Route::post('/producto/registrar', 'ProductoController@store');
+Route::put('/producto/actualizar', 'ProductoController@update');
+Route::put('/producto/desactivar', 'ProductoController@desactivate');
+//Rutas Personas
+Route::get('/persona', 'PersonaController@index');

@@ -20,7 +20,7 @@
     <!-- vandor css -->
     <link rel="stylesheet" href="assets/css/style.css">
 
-    
+    <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
     
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
