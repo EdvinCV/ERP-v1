@@ -48,7 +48,7 @@
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
                                     class="feather icon-home"></i></span><span class="pcoded-mtext">Proveedores</span></a>
                             <ul class="pcoded-submenu">
-                                <li class=""><a @click="menu=0">Nuevo Usuario</a></li>
+                                <li class=""><a @click="menu=20">Nuevo Usuario</a></li>
                                 <li class=""><a @click="menu=0">Permisos</a></li>
                             </ul>
                         </li>
@@ -70,7 +70,7 @@
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
                                     class="feather icon-home"></i></span><span class="pcoded-mtext">Ventas</span></a>
                             <ul class="pcoded-submenu">
-                                <li class=""><a @click="menu=0">Nuevo Usuario</a></li>
+                                <li class=""><a @click="menu=20">Nuevo Usuario</a></li>
                                 <li class=""><a @click="menu=0">Permisos</a></li>
                             </ul>
                         </li>

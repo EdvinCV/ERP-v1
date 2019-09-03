@@ -25,4 +25,7 @@
     <template v-if="menu==10">
         <Presentacion></Presentacion>
     </template>
+    <template v-if="menu==20">
+        <Venta></Venta>
+    </template>
 @endsection

@@ -15,6 +15,7 @@ Vue.component('Permisos', require('./components/Permisos.vue').default);
 Vue.component('Presentacion', require('./components/Presentacion.vue').default);
 Vue.component('Proveedor', require('./components/Proveedores.vue').default);
 Vue.component('Cliente', require('./components/Clientes.vue').default);
+Vue.component('Venta', require('./components/Ventas.vue').default);
 
 
 
