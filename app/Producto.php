@@ -22,4 +22,8 @@ class Producto extends Model
     public function persona() {
         return $this->belongsTo('\App\Persona');
     }
+    public function historialcalidads()
+    {
+        return $this->hasMany('App\Historialcalidad');
+    }
 }

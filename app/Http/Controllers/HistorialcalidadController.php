@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Historialcalidad;
+use App\Producto;
+
+class HistorialcalidadController extends Controller
+{
+    public function index(Request $request){
+            $historialcalidad = DB::table('historialcalidads')
+            ->select(DB::raw('historialcalidads.id, productos.nombre as Producto,historialcalidads.calificacion','historialcalidads.created_at'))
+            ->join('productos','historialcalidads.idproducto','=','productos.id')->get();
+        return $historialcalidad;
+    }
+    public function store(Request $request)
+    {
+        try{
+            $historialcalidad = new Historialcalidad();
+            $historialcalidad->idproducto=$request->idproducto;
+            $historialcalidad->calificacion = $request->calificacion;
+            $historialcalidad->save();
+            return 'Historial de calidad agregado correctamente';
+        }catch(\Exception $e){
+            $response['error'] = $e->getMessage();
+            return response()->json($response, 500);
+        }
+    }
+    public function update(Request $request)
+    {
+        $id=$request->id;
+        $idproducto=$request->idproducto;
+        $calificacion=$request->calificacion;
+        try{
+            $historialcalidad= Historialcalidad::findOrFail($id);
+            $id=$request->id;
+            $historialcalidad->idproducto=$request->idproducto;
+            $historialcalidad->calificacion = $request->calificacion;
+            $historialcalidad->save();
+            return 'Historial de calidad modificado correctamente';
+        
+        }catch(\Exception $e){
+            $response['error'] = $e->getMessage();
+            return response()->json($response, 500);
+        }
+    }
+    public function drop(Historialcalidad $historialcalidad){
+        try{
+            $historialcalidad->delete();
+            return 'Historial de calidad eliminado correctamente';
+        }catch(\Exception $e){
+            $response['error'] = $e->getMessage();
+            return response()->json($response, 500);
+        }
+       
+    }
+}

@@ -37,6 +37,7 @@
                                 <li class=""><a @click="menu=5">Productos</a></li>
                                 <li class=""><a @click="menu=3">Categorias</a></li>
                                 <li class=""><a @click="menu=4">Presentación</a></li>
+                                <li class=""><a @click="menu=6">Historial de Calidad</a></li>
                             </ul>
                         </li>
                     @endif
