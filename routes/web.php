@@ -47,3 +47,8 @@ Route::put('/producto/actualizar', 'ProductoController@update');
 Route::put('/producto/desactivar', 'ProductoController@desactivate');
 //Rutas Personas
 Route::get('/persona', 'PersonaController@index');
+// Rutas de Historial de calidad
+Route::get('/historialcalidad', 'HistorialcalidadController@index');
+Route::post('/historialcalidad/registrar', 'HistorialcalidadController@store');
+Route::put('/historialcalidad/actualizar', 'HistorialcalidadController@update');
+Route::delete('/historialcalidad/{historialcalidad}/delete', 'HistorialcalidadController@drop');

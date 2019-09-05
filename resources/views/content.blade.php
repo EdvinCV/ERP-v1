@@ -15,4 +15,7 @@
     <template v-if="menu==5">
         <Producto><Producto>
     </template>
+    <template v-if="menu==6">
+        <Historialcalidad><Historialcalidad>
+    </template>
 @endsection

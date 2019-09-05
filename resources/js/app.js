@@ -20,6 +20,7 @@ Vue.component('Roles', require('./components/Roles.vue').default);
 Vue.component('Permisos', require('./components/Permisos.vue').default);
 Vue.component('Presentacion', require('./components/Presentacion.vue').default);
 Vue.component('Producto', require('./components/Producto.vue').default);
+Vue.component('Historialcalidad', require('./components/Historialcalidad.vue').default);
 
 
 

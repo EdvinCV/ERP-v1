@@ -14,9 +14,9 @@ class ProductoController extends Controller
     
    public function index(Request $request){
        $producto = DB::table('productos')
-                       ->select(DB::raw('productos.id, productos.nombre, productos.precioventa, productos.preciocompra, productos.gastocomercializacion, 
-                       productos.utilidad, productos.impuesto, productos.maximoprecio, productos.minimoprecio, productos.estado, productos.codigo, productos.cantidadapartado, productos.existencia',
-                       'categorias.id','presentacions.nombre','personas.nombre'))
+                       ->select(DB::raw('productos.id,productos.nombre as Producto,productos.precioventa, productos.preciocompra, productos.gastocomercializacion, 
+                       productos.utilidad, productos.impuesto, productos.maximoprecio, productos.minimoprecio, productos.estado, productos.codigo, productos.cantidadapartado, productos.existencia,
+                       categorias.nombre as categoria,presentacions.nombre as presentacion,personas.nombre as persona'))
                        ->join('categorias','productos.idcategoria','=','categorias.id')
                        ->join('presentacions','productos.idpresentacion','=','presentacions.id')
                        ->join('personas','productos.idpersona','=','personas.id')

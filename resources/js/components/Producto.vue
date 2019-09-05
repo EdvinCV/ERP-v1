@@ -66,7 +66,7 @@
         <v-data-table :headers="headers" :items="producto" class="elevation-1" :search="search">
             <template v-slot:items="props">
                 <td class="text-xs-left">{{ props.item.id }}</td>
-                <td class="text-xs-left">{{ props.item.nombre }}</td>
+                <td class="text-xs-left">{{ props.item.Producto }}</td>
                 <td class="text-xs-left">{{ props.item.precioventa }}</td>
                 <td class="text-xs-left">{{ props.item.preciocompra }}</td>
                 <td class="text-xs-left">{{ props.item.gastocomercializacion }}</td>
@@ -78,9 +78,9 @@
                 <td class="text-xs-left">{{ props.item.codigo }}</td>
                 <td class="text-xs-left">{{ props.item.cantidadapartado }}</td>
                 <td class="text-xs-left">{{ props.item.existencia }}</td>
-                <td class="text-xs-left">{{ props.item.idcategoria }}</td>
-                <td class="text-xs-left">{{ props.item.idpresentacion }}</td>
-                <td class="text-xs-left">{{ props.item.idpersona }}</td>
+                <td class="text-xs-left">{{ props.item.categoria }}</td>
+                <td class="text-xs-left">{{ props.item.presentacion }}</td>
+                <td class="text-xs-left">{{ props.item.persona }}</td>
             
 
                 <td class="justify-right layout px-0">
@@ -184,7 +184,7 @@
                     value: 'idpresentacion'
                 },
                 {
-                    text: 'Empleado',
+                    text: 'Proveedor',
                     value: 'idpersona'
                 },
 
