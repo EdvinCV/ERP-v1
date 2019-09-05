@@ -1,18 +1,11 @@
 <template>
     <div>
-        <v-toolbar flat color="white">
-            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
-            <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="700px">
-                <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Rol</v-btn>
-                </template>
-                <v-card>
-                    <v-card-title>
-                        <span class="headline">{{ formTitle }}</span>
-                    </v-card-title>
-                    <v-card-text>
-                        <v-container grid-list-md>
+        <h2>Nueva Venta</h2>
+        <v-switch 
+            v-model="switchFact"
+            :label = "`Generar Factura`"
+        ></v-switch>
+        <v-container>
                             <v-layout wrap>
                                 <v-flex xs6 sm6 md6>
                                     <v-autocomplete @change="buscarNIT()" v-model="editedItem.idCliente" item-text="nombreCliente" item-value="id" label="Clientes" :items="roles"></v-autocomplete>
@@ -33,7 +26,7 @@
                                     <v-text-field v-model="editedItem.cantProducto" label="Cantidad" ></v-text-field>
                                 </v-flex>
                                 <v-flex xs2 sm2 md2>
-                                    <v-text-field v-model="editedItem.ivaProd" label="Impuesto"></v-text-field>
+                                    <v-text-field v-model="editedItem.precio" label="Precio"></v-text-field>
                                 </v-flex>
                                 <v-flex xs1 sm1 md1>
                                     <v-btn @click="agregarProducto()" fab dark small color="primary">
@@ -56,7 +49,7 @@
                                             <td class="text-xs-left">{{ props.item.iva }}</td>
                                             <td class="text-xs-left">{{ props.item.sub }}</td>
                                             <td class="justify-center layout px-0">
-                                                <v-icon small @click="deleteItem(props.item)">
+                                                <v-icon small @click="eliminarProducto(props)">
                                                     delete
                                                 </v-icon>
                                             </td>
@@ -67,55 +60,17 @@
                             <v-layout wrap>
                             </v-layout>
                         </v-container>
-                    </v-card-text>
-                    <template v-if="error">
-                        <v-divider></v-divider>
-                        <div class="text-xs-center">
-                            <strong class="red--text text--lighten-1" v-for="e in errorMsj" :key="e" v-text="e"></strong>
-                            <br>
-                        </div>
-                        <v-divider></v-divider>
-                    </template>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
-                        <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
-        </v-toolbar>
-        
-
-        <v-data-table :headers="headers" :items="roles" class="elevation-1" :search="search">
-            <template v-slot:items="props">
-                <td class="text-xs-left">{{ props.item.id }}</td>
-                <td class="text-xs-left">{{ props.item.nombreRol }}</td>
-                <td class="justify-center layout px-0">
-                    <v-icon small class="mr-2" @click="editItem(props.item)">
-                        edit
-                    </v-icon>
-                    <v-icon small @click="deleteItem(props.item)">
-                        delete
-                    </v-icon>
-                </td>
-            </template>
-            <template v-slot:no-data>
-                <v-btn color="primary" @click="initialize">Recargar</v-btn>
-            </template>
-            <template v-slot:no-results>
-                <v-alert :value="true" color="error" icon="warning">
-                  No hay resultados de "{{ search }}".
-                </v-alert>
-            </template>
-        </v-data-table>
     </div>
 </template>
+
+
 <script>
     export default {
         data: () => ({
             search: '',
             dialog: false,
             error: 0,
+            switchFact: false,
             errorMsj: [],
             headers: [
                 {
@@ -139,6 +94,7 @@
             ],
             roles: [],
             carrito: [],
+            prods: [],
             editedIndex: -1,
             editedItem: {
                 id: 0,
@@ -204,6 +160,12 @@
                 this.editedItem.nit = cliente[0].nit;
                 this.editedItem.direccion = cliente[0].direccion;
             },
+            buscarProducto(){
+                let me = this;
+                var prod = this.roles.filter(function(c){
+                    return c.id == me.editedItem.idCliente;
+                });  
+            },
             agregarProducto(){
                 let me = this;
                 me.carrito.push({
@@ -213,6 +175,14 @@
                     iva: parseFloat(me.editedItem.ivaProd),
                     sub: parseInt(me.editedItem.cantProducto) * parseFloat(me.editedItem.ivaProd)
                 });
+                me.calcularTotal();
+            },
+            eliminarProducto(e){
+                let me = this;
+                var item = e.item,
+                    index = this.carrito.indexOf(item);
+                
+                this.carrito.splice(index,1);
                 me.calcularTotal();
             },
             calcularTotal(){

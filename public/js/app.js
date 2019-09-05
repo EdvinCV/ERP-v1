@@ -3501,58 +3501,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       search: '',
       dialog: false,
       error: 0,
+      switchFact: false,
       errorMsj: [],
       headers: [{
         text: 'Id',
@@ -3585,6 +3540,7 @@ __webpack_require__.r(__webpack_exports__);
       }],
       roles: [],
       carrito: [],
+      prods: [],
       editedIndex: -1,
       editedItem: {
         id: 0,
@@ -3645,6 +3601,12 @@ __webpack_require__.r(__webpack_exports__);
       this.editedItem.nit = cliente[0].nit;
       this.editedItem.direccion = cliente[0].direccion;
     },
+    buscarProducto: function buscarProducto() {
+      var me = this;
+      var prod = this.roles.filter(function (c) {
+        return c.id == me.editedItem.idCliente;
+      });
+    },
     agregarProducto: function agregarProducto() {
       var me = this;
       me.carrito.push({
@@ -3654,6 +3616,13 @@ __webpack_require__.r(__webpack_exports__);
         iva: parseFloat(me.editedItem.ivaProd),
         sub: parseInt(me.editedItem.cantProducto) * parseFloat(me.editedItem.ivaProd)
       });
+      me.calcularTotal();
+    },
+    eliminarProducto: function eliminarProducto(e) {
+      var me = this;
+      var item = e.item,
+          index = this.carrito.indexOf(item);
+      this.carrito.splice(index, 1);
       me.calcularTotal();
     },
     calcularTotal: function calcularTotal() {
@@ -44971,521 +44940,267 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("h2", [_vm._v("Nueva Venta")]),
+      _vm._v(" "),
+      _c("v-switch", {
+        attrs: { label: "Generar Factura" },
+        model: {
+          value: _vm.switchFact,
+          callback: function($$v) {
+            _vm.switchFact = $$v
+          },
+          expression: "switchFact"
+        }
+      }),
+      _vm._v(" "),
       _c(
-        "v-toolbar",
-        { attrs: { flat: "", color: "white" } },
+        "v-container",
         [
-          _c("v-text-field", {
-            attrs: {
-              "append-icon": "search",
-              label: "Buscar",
-              "single-line": "",
-              "hide-details": ""
-            },
-            model: {
-              value: _vm.search,
-              callback: function($$v) {
-                _vm.search = $$v
-              },
-              expression: "search"
-            }
-          }),
+          _c(
+            "v-layout",
+            { attrs: { wrap: "" } },
+            [
+              _c(
+                "v-flex",
+                { attrs: { xs6: "", sm6: "", md6: "" } },
+                [
+                  _c("v-autocomplete", {
+                    attrs: {
+                      "item-text": "nombreCliente",
+                      "item-value": "id",
+                      label: "Clientes",
+                      items: _vm.roles
+                    },
+                    on: {
+                      change: function($event) {
+                        return _vm.buscarNIT()
+                      }
+                    },
+                    model: {
+                      value: _vm.editedItem.idCliente,
+                      callback: function($$v) {
+                        _vm.$set(_vm.editedItem, "idCliente", $$v)
+                      },
+                      expression: "editedItem.idCliente"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { xs3: "", sm3: "", md3: "" } },
+                [
+                  _c("v-text-field", {
+                    attrs: { label: "NIT", readonly: "" },
+                    model: {
+                      value: _vm.editedItem.nit,
+                      callback: function($$v) {
+                        _vm.$set(_vm.editedItem, "nit", $$v)
+                      },
+                      expression: "editedItem.nit"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { xs3: "", sm3: "", md3: "" } },
+                [
+                  _c("v-text-field", {
+                    attrs: { label: "Dirección" },
+                    model: {
+                      value: _vm.editedItem.direccion,
+                      callback: function($$v) {
+                        _vm.$set(_vm.editedItem, "direccion", $$v)
+                      },
+                      expression: "editedItem.direccion"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
-          _c("v-spacer"),
+          _c("h6", [_vm._v("Ingrese productos")]),
           _vm._v(" "),
           _c(
-            "v-dialog",
-            {
-              attrs: { "max-width": "700px" },
+            "v-layout",
+            { attrs: { wrap: "" } },
+            [
+              _c(
+                "v-flex",
+                { attrs: { xs7: "", sm7: "", md7: "" } },
+                [
+                  _c("v-autocomplete", {
+                    attrs: {
+                      "item-text": "nombreCliente",
+                      "item-value": "id",
+                      label: "Nombre del producto",
+                      items: _vm.roles
+                    },
+                    on: {
+                      change: function($event) {
+                        return _vm.buscarNIT()
+                      }
+                    },
+                    model: {
+                      value: _vm.editedItem.detProducto,
+                      callback: function($$v) {
+                        _vm.$set(_vm.editedItem, "detProducto", $$v)
+                      },
+                      expression: "editedItem.detProducto"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { xs2: "", sm2: "", md2: "" } },
+                [
+                  _c("v-text-field", {
+                    attrs: { label: "Cantidad" },
+                    model: {
+                      value: _vm.editedItem.cantProducto,
+                      callback: function($$v) {
+                        _vm.$set(_vm.editedItem, "cantProducto", $$v)
+                      },
+                      expression: "editedItem.cantProducto"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { xs2: "", sm2: "", md2: "" } },
+                [
+                  _c("v-text-field", {
+                    attrs: { label: "Precio" },
+                    model: {
+                      value: _vm.editedItem.precio,
+                      callback: function($$v) {
+                        _vm.$set(_vm.editedItem, "precio", $$v)
+                      },
+                      expression: "editedItem.precio"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { xs1: "", sm1: "", md1: "" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { fab: "", dark: "", small: "", color: "primary" },
+                      on: {
+                        click: function($event) {
+                          return _vm.agregarProducto()
+                        }
+                      }
+                    },
+                    [_c("v-icon", { attrs: { dark: "" } }, [_vm._v("add")])],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("h6", [_vm._v("Productos ingresados")]),
+          _vm._v(" "),
+          [
+            _c("v-data-table", {
+              staticClass: "elevation-1",
+              attrs: {
+                headers: _vm.headersAddP,
+                items: _vm.carrito,
+                "hide-actions": ""
+              },
               scopedSlots: _vm._u([
                 {
-                  key: "activator",
-                  fn: function(ref) {
-                    var on = ref.on
+                  key: "items",
+                  fn: function(props) {
                     return [
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.idProd))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.nombreProducto))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.cantidad))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.iva))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.sub))
+                      ]),
+                      _vm._v(" "),
                       _c(
-                        "v-btn",
-                        _vm._g(
-                          {
-                            staticClass: "mb-2",
-                            attrs: { color: "primary", dark: "" }
-                          },
-                          on
-                        ),
-                        [_vm._v("Nuevo Rol")]
+                        "td",
+                        { staticClass: "justify-center layout px-0" },
+                        [
+                          _c(
+                            "v-icon",
+                            {
+                              attrs: { small: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.eliminarProducto(props)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                                delete\n                                            "
+                              )
+                            ]
+                          )
+                        ],
+                        1
                       )
                     ]
                   }
                 }
-              ]),
+              ])
+            }),
+            _vm._v(" "),
+            _c("v-text-field", {
+              attrs: { label: "Total", readonly: "" },
               model: {
-                value: _vm.dialog,
+                value: _vm.editedItem.total,
                 callback: function($$v) {
-                  _vm.dialog = $$v
+                  _vm.$set(_vm.editedItem, "total", $$v)
                 },
-                expression: "dialog"
+                expression: "editedItem.total"
               }
-            },
-            [
-              _vm._v(" "),
-              _c(
-                "v-card",
-                [
-                  _c("v-card-title", [
-                    _c("span", { staticClass: "headline" }, [
-                      _vm._v(_vm._s(_vm.formTitle))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-text",
-                    [
-                      _c(
-                        "v-container",
-                        { attrs: { "grid-list-md": "" } },
-                        [
-                          _c(
-                            "v-layout",
-                            { attrs: { wrap: "" } },
-                            [
-                              _c(
-                                "v-flex",
-                                { attrs: { xs6: "", sm6: "", md6: "" } },
-                                [
-                                  _c("v-autocomplete", {
-                                    attrs: {
-                                      "item-text": "nombreCliente",
-                                      "item-value": "id",
-                                      label: "Clientes",
-                                      items: _vm.roles
-                                    },
-                                    on: {
-                                      change: function($event) {
-                                        return _vm.buscarNIT()
-                                      }
-                                    },
-                                    model: {
-                                      value: _vm.editedItem.idCliente,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "idCliente",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "editedItem.idCliente"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-flex",
-                                { attrs: { xs3: "", sm3: "", md3: "" } },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "NIT", readonly: "" },
-                                    model: {
-                                      value: _vm.editedItem.nit,
-                                      callback: function($$v) {
-                                        _vm.$set(_vm.editedItem, "nit", $$v)
-                                      },
-                                      expression: "editedItem.nit"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-flex",
-                                { attrs: { xs3: "", sm3: "", md3: "" } },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Dirección" },
-                                    model: {
-                                      value: _vm.editedItem.direccion,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "direccion",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "editedItem.direccion"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("h6", [_vm._v("Ingrese productos")]),
-                          _vm._v(" "),
-                          _c(
-                            "v-layout",
-                            { attrs: { wrap: "" } },
-                            [
-                              _c(
-                                "v-flex",
-                                { attrs: { xs7: "", sm7: "", md7: "" } },
-                                [
-                                  _c("v-autocomplete", {
-                                    attrs: {
-                                      "item-text": "nombreCliente",
-                                      "item-value": "id",
-                                      label: "Nombre del producto",
-                                      items: _vm.roles
-                                    },
-                                    on: {
-                                      change: function($event) {
-                                        return _vm.buscarNIT()
-                                      }
-                                    },
-                                    model: {
-                                      value: _vm.editedItem.detProducto,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "detProducto",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "editedItem.detProducto"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-flex",
-                                { attrs: { xs2: "", sm2: "", md2: "" } },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Cantidad" },
-                                    model: {
-                                      value: _vm.editedItem.cantProducto,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "cantProducto",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "editedItem.cantProducto"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-flex",
-                                { attrs: { xs2: "", sm2: "", md2: "" } },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: { label: "Impuesto" },
-                                    model: {
-                                      value: _vm.editedItem.ivaProd,
-                                      callback: function($$v) {
-                                        _vm.$set(_vm.editedItem, "ivaProd", $$v)
-                                      },
-                                      expression: "editedItem.ivaProd"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-flex",
-                                { attrs: { xs1: "", sm1: "", md1: "" } },
-                                [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        fab: "",
-                                        dark: "",
-                                        small: "",
-                                        color: "primary"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.agregarProducto()
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { dark: "" } }, [
-                                        _vm._v("add")
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("h6", [_vm._v("Productos ingresados")]),
-                          _vm._v(" "),
-                          [
-                            _c("v-data-table", {
-                              staticClass: "elevation-1",
-                              attrs: {
-                                headers: _vm.headersAddP,
-                                items: _vm.carrito,
-                                "hide-actions": ""
-                              },
-                              scopedSlots: _vm._u([
-                                {
-                                  key: "items",
-                                  fn: function(props) {
-                                    return [
-                                      _c(
-                                        "td",
-                                        { staticClass: "text-xs-left" },
-                                        [_vm._v(_vm._s(props.item.idProd))]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "text-xs-left" },
-                                        [
-                                          _vm._v(
-                                            _vm._s(props.item.nombreProducto)
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "text-xs-left" },
-                                        [_vm._v(_vm._s(props.item.cantidad))]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "text-xs-left" },
-                                        [_vm._v(_vm._s(props.item.iva))]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "text-xs-left" },
-                                        [_vm._v(_vm._s(props.item.sub))]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        {
-                                          staticClass:
-                                            "justify-center layout px-0"
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            {
-                                              attrs: { small: "" },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.deleteItem(
-                                                    props.item
-                                                  )
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n                                                delete\n                                            "
-                                              )
-                                            ]
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ]
-                                  }
-                                }
-                              ])
-                            }),
-                            _vm._v(" "),
-                            _c("v-text-field", {
-                              attrs: { label: "Total", readonly: "" },
-                              model: {
-                                value: _vm.editedItem.total,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.editedItem, "total", $$v)
-                                },
-                                expression: "editedItem.total"
-                              }
-                            })
-                          ],
-                          _vm._v(" "),
-                          _c("v-layout", { attrs: { wrap: "" } })
-                        ],
-                        2
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _vm.error
-                    ? [
-                        _c("v-divider"),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "text-xs-center" },
-                          [
-                            _vm._l(_vm.errorMsj, function(e) {
-                              return _c("strong", {
-                                key: e,
-                                staticClass: "red--text text--lighten-1",
-                                domProps: { textContent: _vm._s(e) }
-                              })
-                            }),
-                            _vm._v(" "),
-                            _c("br")
-                          ],
-                          2
-                        ),
-                        _vm._v(" "),
-                        _c("v-divider")
-                      ]
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    [
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { color: "blue darken-1", flat: "" },
-                          on: { click: _vm.close }
-                        },
-                        [_vm._v("Cancelar")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { color: "blue darken-1", flat: "" },
-                          on: { click: _vm.save }
-                        },
-                        [_vm._v("Guardar")]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                2
-              )
-            ],
-            1
-          )
+            })
+          ],
+          _vm._v(" "),
+          _c("v-layout", { attrs: { wrap: "" } })
         ],
-        1
-      ),
-      _vm._v(" "),
-      _c("v-data-table", {
-        staticClass: "elevation-1",
-        attrs: { headers: _vm.headers, items: _vm.roles, search: _vm.search },
-        scopedSlots: _vm._u([
-          {
-            key: "items",
-            fn: function(props) {
-              return [
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.id))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.nombreRol))
-                ]),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  { staticClass: "justify-center layout px-0" },
-                  [
-                    _c(
-                      "v-icon",
-                      {
-                        staticClass: "mr-2",
-                        attrs: { small: "" },
-                        on: {
-                          click: function($event) {
-                            return _vm.editItem(props.item)
-                          }
-                        }
-                      },
-                      [_vm._v("\n                    edit\n                ")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-icon",
-                      {
-                        attrs: { small: "" },
-                        on: {
-                          click: function($event) {
-                            return _vm.deleteItem(props.item)
-                          }
-                        }
-                      },
-                      [_vm._v("\n                    delete\n                ")]
-                    )
-                  ],
-                  1
-                )
-              ]
-            }
-          },
-          {
-            key: "no-data",
-            fn: function() {
-              return [
-                _c(
-                  "v-btn",
-                  {
-                    attrs: { color: "primary" },
-                    on: { click: _vm.initialize }
-                  },
-                  [_vm._v("Recargar")]
-                )
-              ]
-            },
-            proxy: true
-          },
-          {
-            key: "no-results",
-            fn: function() {
-              return [
-                _c(
-                  "v-alert",
-                  { attrs: { value: true, color: "error", icon: "warning" } },
-                  [
-                    _vm._v(
-                      '\n              No hay resultados de "' +
-                        _vm._s(_vm.search) +
-                        '".\n            '
-                    )
-                  ]
-                )
-              ]
-            },
-            proxy: true
-          }
-        ])
-      })
+        2
+      )
     ],
     1
   )
