@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Categoria;
 
 class CategoriaController extends Controller
@@ -14,7 +15,11 @@ class CategoriaController extends Controller
      */
     public function index(Request $request)
     {
-        return Categoria::orderBy('created_at', 'desc')->get();
+        //return Categoria::orderBy('created_at', 'desc')->get();
+        $categoria = DB::table('categorias')
+            ->select(DB::raw('categorias.id, categorias.nombre'))
+            ->where('categorias.estado','=','1')->get();
+        return $categoria;
     }
 
     
@@ -80,11 +85,17 @@ class CategoriaController extends Controller
        
     }
     
-    public function desactivar(Request $request)
-    {
-        $categoria = Categoria::findOrFail($request->id);
-        $categoria->estado = '0';
-        $categoria->save();
+    public function desactivate(Request $request){
+        $id=$request->id;
+        try{
+            $categoria=Categoria::findOrFail($id);
+            $categoria->estado='0';
+            $categoria->save();
+            return 'Se ha desactivado correctamente';
+        }catch(\Exception $e){
+            $response['error'] = $e->getMessage();
+            return response()->json($response, 500);
+        }
     }
     public function activar(Request $request)
     {

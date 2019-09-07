@@ -15,11 +15,17 @@
     <template v-if="menu==4">
         <Permisos></Permisos>
     </template>
+    <template v-if="menu==5">
+        <Producto></Producto>
+    </template>
     <template v-if="menu==6">
         <Categoria></Categoria>
     </template>
     <template v-if="menu==7">
         <Presentacion></Presentacion>
+    </template>
+    <template v-if="menu==8">
+        <Historialcalidad></Historialcalidad>
     </template>
 
     <template v-if="menu==10">

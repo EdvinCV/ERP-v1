@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Nueva Venta</h2>
+        <h2>Venta</h2>
         <v-switch 
             v-model="switchFact"
             :label = "`Generar Factura`"
@@ -8,7 +8,8 @@
         <v-container>
                             <v-layout wrap>
                                 <v-flex xs6 sm6 md6>
-                                    <v-autocomplete @change="buscarNIT()" v-model="editedItem.idCliente" item-text="nombreCliente" item-value="id" label="Clientes" :items="roles"></v-autocomplete>
+                                    <multiselect @input="buscarNIT()" v-model="editedItem.idCliente" :options="clientes" placeholder="Seleccione un cliente"
+                                            label="nombreCliente" track-by="nombreCliente"></multiselect>
                                 </v-flex>
                                 <v-flex xs3 sm3 md3>
                                     <v-text-field v-model="editedItem.nit" label="NIT" readonly></v-text-field>
@@ -20,7 +21,8 @@
                                 <h6>Ingrese productos</h6>
                             <v-layout wrap>
                                 <v-flex xs7 sm7 md7>
-                                    <v-autocomplete @change="buscarNIT()" v-model="editedItem.detProducto" item-text="nombreCliente" item-value="id" label="Nombre del producto" :items="roles"></v-autocomplete>
+                                    <multiselect @input="buscarProducto()" v-model="editedItem.detProducto" :options="roles" placeholder="Seleccione un producto"
+                                            label="Producto" track-by="Producto"></multiselect>
                                 </v-flex>
                                 <v-flex xs2 sm2 md2>
                                     <v-text-field v-model="editedItem.cantProducto" label="Cantidad" ></v-text-field>
@@ -65,7 +67,11 @@
 
 
 <script>
+    import multiselect from 'vue-multiselect'
     export default {
+        components:{
+            multiselect
+        },
         data: () => ({
             search: '',
             dialog: false,
@@ -95,6 +101,7 @@
             roles: [],
             carrito: [],
             prods: [],
+            clientes: [],
             editedIndex: -1,
             editedItem: {
                 id: 0,
@@ -129,7 +136,9 @@
         },
 
         created() {
-            this.initialize()
+            this.initialize(),
+            this.cargaProductos(),
+            this.cargaClientes()
         },
 
         methods: {
@@ -143,7 +152,7 @@
                 return this.error;
             },
             initialize() {
-                axios.get('/clientes')
+                axios.get('/producto')
                     .then(response => {
                         this.roles = response.data;
                     })
@@ -151,10 +160,31 @@
                         console.log(errors);
                     });
             },
+            cargaProductos() {
+                let me = this;
+                axios.get('/producto')
+                .then(function (response) {
+                    me.prods = response.data;
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+            },
+            cargaClientes() {
+                let me = this;
+                axios.get('/clientes')
+                .then(function (response) {
+                    me.clientes = response.data;
+
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+            },
             buscarNIT(){
                 let me = this;
-                var cliente = this.roles.filter(function(c){
-                    return c.id == me.editedItem.idCliente;
+                var cliente = this.clientes.filter(function(c){
+                    return c.id == me.editedItem.idCliente.id;
                 });
                 console.log(cliente[0].nit);
                 this.editedItem.nit = cliente[0].nit;
@@ -162,9 +192,10 @@
             },
             buscarProducto(){
                 let me = this;
-                var prod = this.roles.filter(function(c){
-                    return c.id == me.editedItem.idCliente;
-                });  
+                var producto = this.prods.filter(function(p){
+                    return p.id == me.editedItem.detProducto.id;
+                });
+                this.editedItem.precio = producto[0].precioventa;
             },
             agregarProducto(){
                 let me = this;

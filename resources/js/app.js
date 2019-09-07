@@ -16,6 +16,8 @@ Vue.component('Presentacion', require('./components/Presentacion.vue').default);
 Vue.component('Proveedor', require('./components/Proveedores.vue').default);
 Vue.component('Cliente', require('./components/Clientes.vue').default);
 Vue.component('Venta', require('./components/Ventas.vue').default);
+Vue.component('Producto', require('./components/Producto.vue').default);
+Vue.component('Historialcalidad', require('./components/Historialcalidad.vue').default);
 
 
 

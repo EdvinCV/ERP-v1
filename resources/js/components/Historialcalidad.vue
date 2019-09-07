@@ -5,7 +5,7 @@
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark class="mb-2" v-on="on">Nueva Categoria</v-btn>
+                    <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo historial de calidad</v-btn>
                 </template>
                 <v-card>
                     <v-card-title>
@@ -16,7 +16,18 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                    <v-text-field v-model="editedItem.nombre" label="Nombre Categoria"></v-text-field>
+                                     <v-flex xs12>
+                                        <multiselect v-model="idproducto" :options="productos" placeholder="Seleccione un producto"
+                                            label="Producto" track-by="Producto"></multiselect>
+                                    </v-flex>
+                                    
+                                    <v-radio-group color="success" v-model="editedItem.calificacion" column >
+                                        <v-radio label="Nada Satisfecho" value="1" color="success"></v-radio>
+                                        <v-radio label="Poco Satisfecho" value="2"></v-radio>
+                                        <v-radio label="Neutral" value="3"></v-radio>
+                                        <v-radio label="Muy Satisfecho" value="4"></v-radio>
+                                        <v-radio label="Totalmente Satisfecho" value="5"></v-radio>
+                                    </v-radio-group>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -39,15 +50,18 @@
         </v-toolbar>
         
 
-        <v-data-table :headers="headers" :items="categoria" class="elevation-1" :search="search">
+        <v-data-table :headers="headers" :items="historialcalidad" class="elevation-1" :search="search">
             <template v-slot:items="props">
                 <td class="text-xs-left">{{ props.item.id }}</td>
-                <td class="text-xs-left">{{ props.item.nombre }}</td>
+                <td class="text-xs-left">{{ props.item.Producto }}</td>
+                <td class="text-xs-left">{{ props.item.calificacion }}</td>
+                <td class="text-xs-left">{{ props.item.fecha }}</td>
+            
                 <td class="justify-right layout px-0">
                     <v-icon small class="mr-2" @click="editItem(props.item)">
                         edit
                     </v-icon>
-                    <v-icon small @click="desactivar(props.item)">
+                    <v-icon small  @click="desactivar(props.item)">
                         delete
                     </v-icon>
                 </td>
@@ -64,38 +78,57 @@
     </div>
 </template>
 <script>
+
+    import multiselect from 'vue-multiselect'
     export default {
+        components:{
+            multiselect
+        },
+        
         data: () => ({
             search: '',
             dialog: false,
             error: 0,
             errorMsj: [],
+            select: [],
+            productos: [],
+
             headers: [
                 {
                     text: 'Id',
                     align: 'left',
                     value: 'id'
                 },
+              
                 { 
-                    text: 'Nombre', 
-                    value: 'nombre' 
+                    text: 'Producto', 
+                    value: 'idproducto' 
                 },
+                {
+                    text: 'Calificacion',
+                    value: 'calificacion'
+                },
+                
+
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
-            categoria: [],
+            historialcalidad: [],
+            idproducto: -1,
             editedIndex: -1,
             editedItem: {
                 id: 0,
-                nombre: '',
+                idproducto: '',
+                calificacion: '',
             },
             defaultItem: {
                 id: 0,
-                nombre: '',
+                idproducto: '',
+                calificacion: '',
             }
         }),
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'Nueva Categoria' : 'Editar Categoria'
+                return this.editedIndex === -1 ? 'Nuevo Historial de calidad' : 'Editar Historial de calidad'
             }
         },
         watch: {
@@ -104,78 +137,60 @@
             }
         },
         created() {
-            this.initialize()
+            this.initialize();
+            this.cargaProductos();
         },
         methods: {
             validate() {
                 this.error = 0;
                 this.errorMsj = [];
-                if (!this.editedItem.nombre)
-                    this.errorMsj.push('El nombre de la categoria no puede estar vacio');
+                if (!this.editedItem.calificacion)
+                    this.errorMsj.push('Se debe asignar una calificacón');
+                /*if(!this.editedItem.idcategoria)
+                    this.errorMsj.push('Se debe asignar una categoria')*/
+                
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
             },
+             cargaProductos() {
+                let me = this;
+                axios.get('/producto')
+                .then(function (response) {
+                    me.productos = response.data;
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+            },
             initialize() {
-                axios.get('/categoria')
+                axios.get('/historialcalidad')
                     .then(response => {
-                        this.categoria = response.data;
+                        this.historialcalidad = response.data;
                     })
                     .catch(errors => {
                         console.log(errors);
                     });
             },
             editItem(item) {
-                this.editedIndex = this.categoria.indexOf(item)
+                this.editedIndex = this.historialcalidad.indexOf(item)
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
-            },
-            deleteItem(item) {
+            },desactivar(item){
                 let me=this;
                 swal.fire({
-                    title: 'Quieres eliminar esta Categoria?',
-                    text: "No podras revertir la eliminacion!",
+                    title: '¿Quieres elimiar este historial de calidad?',
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, Eliminalo!',
-                    cancelButtonText: "Cancelar"
-                }).then((result) => {
-                    if (result.value) {
-                        axios.delete(`/categoria/${item.id}/delete`).then(response => {
-                            me.initialize();
-                            swal.fire({
-                            position: 'top-end',
-                            type: 'success',
-                            title: response.data,
-                            showConfirmButton: false,
-                            timer: 1500});
-                        }).catch(error => {
-                            swal.fire({
-                            position: 'top-end',
-                            type: 'error',
-                            title: error.response.data.error,
-                            showConfirmButton: true});
-                        });
-                    }
-                });
-            },
-            desactivar(item){
-                let me=this;
-                swal.fire({
-                    title: 'Quieres elimiara a esta categoria?',
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, eliminala!',
+                    confirmButtonText: 'Si, eliminalo!',
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {
                        axios({
                         method: 'put',
-                        url: 'categoria/desactivar',
+                        url: 'historialcalidad/desactivar',
                         data: {
                             id:item.id,
                             }
@@ -207,16 +222,21 @@
             },
             save() {
                 let me = this;
+                
                 if (this.validate()) {
                         return;
                     }
                 if (this.editedIndex > -1) {
+                    
                     axios({
+                        
                         method: 'put',
-                        url: '/categoria/actualizar',
+                        url: '/historialcalidad/actualizar',
                         data: {
-                            id: this.editedItem.id,
-                            nombre: this.editedItem.nombre
+                            id: me.editedItem.id,
+                            calificacion: me.editedItem.calificacion,
+                            idproducto: me.idproducto.id
+
                         }
                     }).then(function (response) {
                         swal.fire({
@@ -239,9 +259,10 @@
                 } else {
                     axios({
                         method: 'post',
-                        url: '/categoria/registrar',
+                        url: '/historialcalidad/registrar',
                         data: {
-                            nombre: me.editedItem.nombre
+                            calificacion: me.editedItem.calificacion,
+                            idproducto:me.idproducto.id   
                         }
                     }).then(function (response) {
                         swal.fire({
