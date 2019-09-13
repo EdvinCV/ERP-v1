@@ -9,6 +9,7 @@ import swal from 'sweetalert2';
 window.swal = swal;
 
 
+Vue.component('Usuario', require('./components/Usuarios.vue').default);
 Vue.component('categoria', require('./components/Categoria.vue').default);
 Vue.component('Roles', require('./components/Roles.vue').default);
 Vue.component('Permisos', require('./components/Permisos.vue').default);

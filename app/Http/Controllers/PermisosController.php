@@ -8,7 +8,7 @@ use App\RolPermiso;
 use App\Rol;
 
 class PermisosController extends Controller
-{
+{  
     //
     public function index(){
         $permisos = DB::table('rol_permisos')

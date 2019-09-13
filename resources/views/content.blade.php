@@ -1,8 +1,5 @@
 @extends('layout')
 @section('content')
-    <template v-if="menu==0">
-        
-    </template>
     <template v-if="menu==1">
         <Proveedor></Proveedor>
     </template>

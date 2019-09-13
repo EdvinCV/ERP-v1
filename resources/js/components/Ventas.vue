@@ -5,66 +5,79 @@
             v-model="switchFact"
             :label = "`Generar Factura`"
         ></v-switch>
-        <v-container>
-                            <v-layout wrap>
-                                <v-flex xs6 sm6 md6>
-                                    <multiselect @input="buscarNIT()" v-model="editedItem.idCliente" :options="clientes" placeholder="Seleccione un cliente"
-                                            label="nombreCliente" track-by="nombreCliente"></multiselect>
-                                </v-flex>
-                                <v-flex xs3 sm3 md3>
-                                    <v-text-field v-model="editedItem.nit" label="NIT" readonly></v-text-field>
-                                </v-flex>
-                                <v-flex xs3 sm3 md3>
-                                    <v-text-field v-model="editedItem.direccion" label="Dirección"></v-text-field>
-                                </v-flex>
-                            </v-layout>
-                                <h6>Ingrese productos</h6>
-                            <v-layout wrap>
-                                <v-flex xs7 sm7 md7>
-                                    <multiselect @input="buscarProducto()" v-model="editedItem.detProducto" :options="roles" placeholder="Seleccione un producto"
-                                            label="Producto" track-by="Producto"></multiselect>
-                                </v-flex>
-                                <v-flex xs2 sm2 md2>
-                                    <v-text-field v-model="editedItem.cantProducto" label="Cantidad" ></v-text-field>
-                                </v-flex>
-                                <v-flex xs2 sm2 md2>
-                                    <v-text-field v-model="editedItem.precio" label="Precio"></v-text-field>
-                                </v-flex>
-                                <v-flex xs1 sm1 md1>
-                                    <v-btn @click="agregarProducto()" fab dark small color="primary">
-                                        <v-icon dark>add</v-icon>
-                                    </v-btn>
-                                </v-flex>
-                            </v-layout>
-                                <h6>Productos ingresados</h6>
-                                <template>
-                                    <v-data-table
-                                        :headers="headersAddP"
-                                        :items="carrito"
-                                        class="elevation-1"
-                                        hide-actions
-                                    >
-                                        <template v-slot:items="props">
-                                            <td class="text-xs-left">{{ props.item.idProd }}</td>
-                                            <td class="text-xs-left">{{ props.item.nombreProducto }}</td>
-                                            <td class="text-xs-left">{{ props.item.cantidad }}</td>
-                                            <td class="text-xs-left">{{ props.item.iva }}</td>
-                                            <td class="text-xs-left">{{ props.item.sub }}</td>
-                                            <td class="justify-center layout px-0">
-                                                <v-icon small @click="eliminarProducto(props)">
-                                                    delete
-                                                </v-icon>
-                                            </td>
-                                        </template>
-                                    </v-data-table>
-                                    <v-text-field v-model="editedItem.total" label="Total" readonly></v-text-field>
-                                </template>                                
-                            <v-layout wrap>
-                            </v-layout>
-                        </v-container>
+        <v-container fluid>
+            <!--LAYOUT DE CLIENTE -->
+            <h6>Información cliente</h6>
+            <v-layout row>
+                <v-flex lg6 md6 xs6 pa-2>
+                    <multiselect @input="buscarNIT()" v-model="editedItem.idCliente" :options="clientes" placeholder="Seleccione un cliente"
+                        label="nombreCliente" track-by="nombreCliente"></multiselect>
+                </v-flex>
+                <v-flex lg3 md3 xs6 pa-2>
+                    <v-text-field v-model="editedItem.nit" label="NIT" readonly></v-text-field>
+                </v-flex>
+                <v-flex lg3 md3 xs6 pa-2>
+                    <v-text-field v-model="editedItem.direccion" label="Dirección"></v-text-field>
+                </v-flex>
+            </v-layout>
+            <!--LAYOUT DE PRODUCTOS-->
+            <h6>Ingrese productos</h6> 
+            <v-layout row>
+                <v-flex lg6 md6 xs6 pa-2>
+                    <multiselect @input="buscarProducto()" v-model="editedItem.detProducto" :options="prods" placeholder="Seleccione un producto"
+                        label="Producto" track-by="Producto" :allowEmpty="true"></multiselect>
+                </v-flex>
+                <v-flex lg2 md2 xs2 pa-2>
+                    <v-text-field v-model="editedItem.cantProducto" label="Cantidad"></v-text-field>
+                </v-flex>
+                <v-flex lg2 md2 xs2 pa-2>
+                    <v-text-field v-model="editedItem.precio" label="Precio"></v-text-field>
+                </v-flex>
+                <v-flex lg2 md2 xs2 pa-2>
+                    <v-text-field v-model="editedItem.descuento" label="Descuento" ></v-text-field>
+                </v-flex>
+                <v-flex xs1 sm1 md1>
+                    <v-btn @click="agregarProducto()" fab dark small color="primary">
+                        <v-icon dark>add</v-icon>
+                    </v-btn>
+                </v-flex>
+            </v-layout>
+            <!--LAYOUT PRODUCTOS INGRESADOS-->
+            <h6>Productos ingresados</h6>
+            <template>
+                <v-data-table
+                    :headers="headersAddP"
+                    :items="carrito"
+                    class="elevation-1"
+                    hide-actions
+                >
+                <template v-slot:items="props">
+                    <td class="text-xs-left">{{ props.item.nombreProducto }}</td>
+                    <td class="text-xs-left">{{ props.item.cantidad }}</td>
+                    <td class="text-xs-left">{{ props.item.precio }}</td>
+                    <td class="text-xs-left">{{ props.item.sub }}</td>
+                    <td class="justify-center layout px-0">
+                        <v-icon small @click="eliminarProducto(props)">
+                            delete
+                        </v-icon>
+                    </td>
+                </template>
+                </v-data-table>
+                <v-layout row>
+                    <v-flex lg6 md6 xs2 pa-2>
+                        <v-text-field v-model="editedItem.subtotal" label="Subtotal" readonly></v-text-field>
+                    </v-flex>
+                    <v-flex lg6 md6 xs2 pa-2>
+                        <v-text-field v-model="editedItem.total" label="Total" readonly></v-text-field>
+                    </v-flex>
+                </v-layout>
+            </template>      
+            <template>
+                <v-btn @click="save" block color="success" dark>GENERAR</v-btn>
+            </template>                                          
+        </v-container>
     </div>
 </template>
-
 
 <script>
     import multiselect from 'vue-multiselect'
@@ -78,48 +91,38 @@
             error: 0,
             switchFact: false,
             errorMsj: [],
-            headers: [
-                {
-                    text: 'Id',
-                    align: 'left',
-                    value: 'id'
-                },
-                { text: 'Rol', value: 'nombreRol' },
-                { text: 'Acciones', value: 'action', sortable: false},
-            ],
             headersAddP: [
-                {
-                    text: 'No.',
-                    align: 'left',
-                    value: 'contador'
-                },
-                { text: 'Producto', value: 'prod' },
+                { text: 'Descripcion', value: 'prod' },
                 { text: 'Cantidad', value: 'action'},
-                { text: 'IVA', value: 'prod' },
-                { text: 'Subtotal', value: 'prod' },
+                { text: 'Precio', value: 'pu'},
+                { text: 'Valor', value: 'prod' },
             ],
-            roles: [],
             carrito: [],
             prods: [],
             clientes: [],
             editedIndex: -1,
             editedItem: {
                 id: 0,
-                nombreRol: '',
                 idCliente: '',
                 nit: '',
                 direccion: '',
                 detProducto: '',
                 cantProducto: '',
-                ivaProd: '',
+                precio: '',
                 subtotal: '',
+                descuento: '',
                 total: ''
             },
             defaultItem: {
-                id: 0,
-                nombreRol: '',
+                idCliente: '',
                 nit: '',
-                direccion: ''
+                direccion: '',
+                detProducto: '',
+                cantProducto: '',
+                precio: '',
+                subtotal: '',
+                descuento: '',
+                total: ''
             }
         }),
 
@@ -149,12 +152,13 @@
                     this.errorMsj.push('El nombre del rol no puede estar vacio');
                 if (this.errorMsj.length)
                     this.error = 1;
+                this.editedIndex = -1;
                 return this.error;
             },
             initialize() {
                 axios.get('/producto')
                     .then(response => {
-                        this.roles = response.data;
+                        this.prods = response.data;
                     })
                     .catch(errors => {
                         console.log(errors);
@@ -196,17 +200,23 @@
                     return p.id == me.editedItem.detProducto.id;
                 });
                 this.editedItem.precio = producto[0].precioventa;
+                this.editedItem.cantProducto = 0;
+                this.editedItem.descuento = 0;
             },
             agregarProducto(){
                 let me = this;
                 me.carrito.push({
                     idProd: 5,
-                    nombreProducto: me.editedItem.detProducto,
+                    nombreProducto: me.editedItem.detProducto.Producto,
                     cantidad: parseInt(me.editedItem.cantProducto),
-                    iva: parseFloat(me.editedItem.ivaProd),
-                    sub: parseInt(me.editedItem.cantProducto) * parseFloat(me.editedItem.ivaProd)
+                    precio: me.editedItem.detProducto.precioventa,
+                    sub: parseInt(me.editedItem.cantProducto) * parseFloat(me.editedItem.detProducto.precioventa)
                 });
                 me.calcularTotal();
+                me.editedItem.cantProducto = 0;
+                me.editedItem.precio = 0;
+                me.editedItem.descuento = 0;        
+                console.log(me.carrito); 
             },
             eliminarProducto(e){
                 let me = this;
@@ -222,93 +232,20 @@
                 me.carrito.forEach(function(e){
                     t += e.sub;
                 })
-                me.editedItem.total = t;
+                me.editedItem.subtotal = t;
+                var iva = t*0.12;
+                me.editedItem.total = t + iva ;
             },
-            editItem(item) {
-                this.editedIndex = this.roles.indexOf(item)
-                this.editedItem = Object.assign({}, item)
-                this.dialog = true
-            },
-
-            deleteItem(item) {
-                let me=this;
-                swal.fire({
-                    title: 'Quieres eliminar este Rol?',
-                    text: "No podras revertir la eliminacion!",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, Eliminalo!',
-                    cancelButtonText: "Cancelar"
-                }).then((result) => {
-                    if (result.value) {
-                        axios.delete(`/Rol/${item.id}/delete`).then(response => {
-                            me.initialize();
-                            swal.fire({
-                            position: 'top-end',
-                            type: 'success',
-                            title: response.data,
-                            showConfirmButton: false,
-                            timer: 1500});
-                        }).catch(error => {
-                            swal.fire({
-                            position: 'top-end',
-                            type: 'error',
-                            title: error.response.data.error,
-                            showConfirmButton: true});
-                        });
-                    }
-                });
-            },
-
-            close() {
-                this.error=0;
-                this.dialog = false;
-                setTimeout(() => {
-                    this.editedItem = Object.assign({}, this.defaultItem)
-                    this.editedIndex = -1
-                }, 300)
-            },
-
             save() {
                 let me = this;
-                if (this.validate()) {
-                        return;
-                    }
-                if (this.editedIndex > -1) {
-                    axios({
-                        method: 'put',
-                        url: '/rol/editar',
-                        data: {
-                            id:this.editedItem.id,
-                            nombre: this.editedItem.nombreRol
-                        }
-                    }).then(function (response) {
-                        swal.fire({
-                            position: 'top-end',
-                            type: 'success',
-                            title: response.data,
-                            showConfirmButton: false,
-                            timer: 1500});
-                        me.initialize();
-                        me.close();
-                    }).catch(function (error) {
-                        console.log(error.response);
-                        swal.fire({
-                            position: 'top-end',
-                            type: 'error',
-                            title: error.response.data.error,
-                            showConfirmButton: true});
-                        me.initialize();
-                        me.close();
-                    });                    
-                } else {
-                    axios({
+                axios({
                         method: 'post',
-                        url: '/rol/nuevo',
+                        url: '/venta/nuevo',
                         data: {
-                            nombre: me.editedItem.nombreRol
+                            total: this.editedItem.total,
+                            subtotal: this.editedItem.subtotal,
+                            idCliente: this.editedItem.idCliente.id,
+                            carrito: this.editedItem.carrito
                         }
                     }).then(function (response) {
                         swal.fire({
@@ -327,8 +264,8 @@
                             showConfirmButton: true});
                         me.initialize();
                         me.close();
-                    }); 
-                }
+                    });      
+                    console.log(this.editedItem.idCliente);
             }
         }
     }
