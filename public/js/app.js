@@ -1762,19 +1762,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       search: '',
       dialog: false,
+      nameRules: [function (v) {
+        return !!v || 'El nombre de la categoría no puede estar vacio';
+      }, function (v) {
+        return v && v.length <= 199 || 'El nombre de la categoría no puede ser mayor a 200';
+      }, function (v) {
+        return /[a-zA-Z]/.test(v) || 'la categoría solo puede tener letras';
+      }],
       error: 0,
       errorMsj: [],
       headers: [{
-        text: 'Id',
-        align: 'left',
-        value: 'id'
-      }, {
-        text: 'Nombre',
+        text: 'Categoría',
         value: 'nombre'
       }, {
         text: 'Acciones',
@@ -1795,7 +1799,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     formTitle: function formTitle() {
-      return this.editedIndex === -1 ? 'Nueva Categoria' : 'Editar Categoria';
+      return this.editedIndex === -1 ? 'Nueva Categoría' : 'Editar Categoría';
     }
   },
   watch: {
@@ -1810,7 +1814,7 @@ __webpack_require__.r(__webpack_exports__);
     validate: function validate() {
       this.error = 0;
       this.errorMsj = [];
-      if (!this.editedItem.nombre) this.errorMsj.push('El nombre de la categoria no puede estar vacio');
+      if (!this.editedItem.nombre) this.errorMsj.push('El nombre de la categoría no puede estar vacio');
       if (this.errorMsj.length) this.error = 1;
       return this.error;
     },
@@ -1831,8 +1835,8 @@ __webpack_require__.r(__webpack_exports__);
     deleteItem: function deleteItem(item) {
       var me = this;
       swal.fire({
-        title: 'Quieres eliminar esta Categoria?',
-        text: "No podras revertir la eliminacion!",
+        title: '¿Quieres eliminar esta Categoría?',
+        text: "¡No podras revertir la eliminación!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -1864,7 +1868,7 @@ __webpack_require__.r(__webpack_exports__);
     desactivar: function desactivar(item) {
       var me = this;
       swal.fire({
-        title: 'Quieres elimiara a esta categoria?',
+        title: '¿Quieres elimiar a esta categoría?',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -2068,6 +2072,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2081,16 +2086,16 @@ __webpack_require__.r(__webpack_exports__);
       errorMsj: [],
       select: [],
       productos: [],
+      fecha: new Date().toISOString().substr(0, 10),
       headers: [{
-        text: 'Id',
-        align: 'left',
-        value: 'id'
-      }, {
         text: 'Producto',
         value: 'idproducto'
       }, {
         text: 'Calificacion',
         value: 'calificacion'
+      }, {
+        text: 'Fecha',
+        value: 'fecha'
       }, {
         text: 'Acciones',
         value: 'action',
@@ -2133,6 +2138,9 @@ __webpack_require__.r(__webpack_exports__);
       /*if(!this.editedItem.idcategoria)
           this.errorMsj.push('Se debe asignar una categoria')*/
 
+      if (!this.editedItem.fecha) this.errorMsj.push('Se debe asignar una fecha');
+      if (this.editedItem.fecha > new Date().toISOString()) this.errorMsj.push('Se debe asignar una fecha anterior'); //console.log(new Date().toISOString());
+
       if (this.errorMsj.length) this.error = 1;
       return this.error;
     },
@@ -2158,25 +2166,20 @@ __webpack_require__.r(__webpack_exports__);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
-    desactivar: function desactivar(item) {
+    deleteItem: function deleteItem(item) {
       var me = this;
       swal.fire({
-        title: '¿Quieres elimiar este historial de calidad?',
+        title: '¿Quieres eliminar este historial de calidad?',
+        text: "¡No podras revertir la eliminación!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, eliminalo!',
+        confirmButtonText: 'Si, Eliminalo!',
         cancelButtonText: "Cancelar"
       }).then(function (result) {
         if (result.value) {
-          axios({
-            method: 'put',
-            url: 'historialcalidad/desactivar',
-            data: {
-              id: item.id
-            }
-          }).then(function (response) {
+          axios["delete"]("/historialcalidad/".concat(item.id, "/delete")).then(function (response) {
             me.initialize();
             swal.fire({
               position: 'top-end',
@@ -2220,7 +2223,8 @@ __webpack_require__.r(__webpack_exports__);
           data: {
             id: me.editedItem.id,
             calificacion: me.editedItem.calificacion,
-            idproducto: me.idproducto.id
+            idproducto: me.idproducto.id,
+            fecha: me.editedItem.fecha
           }
         }).then(function (response) {
           swal.fire({
@@ -2248,7 +2252,8 @@ __webpack_require__.r(__webpack_exports__);
           url: '/historialcalidad/registrar',
           data: {
             calificacion: me.editedItem.calificacion,
-            idproducto: me.idproducto.id
+            idproducto: me.idproducto.id,
+            fecha: me.editedItem.fecha
           }
         }).then(function (response) {
           swal.fire({
@@ -2925,6 +2930,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2934,19 +2947,48 @@ __webpack_require__.r(__webpack_exports__);
     return {
       search: '',
       dialog: false,
+      nameRules: [function (v) {
+        return !!v || 'El nombre del producto no puede estar vacio';
+      }, function (v) {
+        return v && v.length <= 199 || 'El nombre del producto no puede ser mayor a 200';
+      }, function (v) {
+        return /[a-zA-Z]/.test(v) || 'El nombre del producto solo puede tener letras';
+      }],
+      numberRules: [function (v) {
+        return /^(\d*\.)?\d+$/.test(v) || 'Solo es permitido usar numeros';
+      }],
       error: 0,
       errorMsj: [],
       select: [],
       categorias: [],
       presentaciones: [],
       personas: [],
-      headers: [{
-        text: 'Id',
-        align: 'left',
-        value: 'id'
+      switch1: false,
+      headersC: [{
+        text: 'Producto',
+        value: 'Producto'
       }, {
-        text: 'Nombre',
-        value: 'nombre'
+        text: 'Presentacion',
+        value: 'presentacion'
+      }, {
+        text: 'Proveedor',
+        value: 'persona'
+      }, {
+        text: 'Precio Venta',
+        value: 'precioventa'
+      }, {
+        text: 'Precio Compra',
+        value: 'preciocompra'
+      }],
+      headers: [{
+        text: 'Producto',
+        value: 'Producto'
+      }, {
+        text: 'Presentacion',
+        value: 'presentacion'
+      }, {
+        text: 'Proveedor',
+        value: 'persona'
       }, {
         text: 'Precio Venta',
         value: 'precioventa'
@@ -2983,12 +3025,6 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         text: 'Categoria',
         value: 'categoria'
-      }, {
-        text: 'Presentacion',
-        value: 'idpresentacion'
-      }, {
-        text: 'Proveedor',
-        value: 'idpersona'
       }, {
         text: 'Acciones',
         value: 'action',
@@ -3056,8 +3092,9 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     validate: function validate() {
       this.error = 0;
+      var x = true;
       this.errorMsj = [];
-      if (!this.editedItem.nombre) this.errorMsj.push('El nombre del producto no puede estar vacio');
+      if (!this.editedItem.nombre) this.errorMsj.push('El nombre del producto no puede estar vacio. ');
       /*if(!this.editedItem.idcategoria)
           this.errorMsj.push('Se debe asignar una categoria')
       if(!this.editedItem.idpresentacion)
@@ -3065,9 +3102,9 @@ __webpack_require__.r(__webpack_exports__);
       if(!this.editedItem.idpersona)
           this.errorMsj.push('Se debe asignar un proveedor')*/
 
-      if (!this.editedItem.precioventa) this.errorMsj.push('Se debe asignar un precio de venta');
-      if (!this.editedItem.preciocompra) this.errorMsj.push('Se debe asignar una precio de compra');
-      if (!this.editedItem.utilidad) this.errorMsj.push('Se debe asignar un valor de utilidad');
+      if (!this.editedItem.precioventa) this.errorMsj.push('Se debe asignar un precio de venta. ');
+      if (!this.editedItem.preciocompra) this.errorMsj.push('Se debe asignar una precio de compra. ');
+      if (!this.editedItem.utilidad) this.errorMsj.push('Se debe asignar un valor de utilidad. ');
       if (this.errorMsj.length) this.error = 1;
       return this.error;
     },
@@ -42715,7 +42752,7 @@ var render = function() {
                           },
                           on
                         ),
-                        [_vm._v("Nueva Categoria")]
+                        [_vm._v("Nueva Categoría")]
                       )
                     ]
                   }
@@ -42756,7 +42793,14 @@ var render = function() {
                                 { attrs: { xs12: "", sm12: "", md12: "" } },
                                 [
                                   _c("v-text-field", {
-                                    attrs: { label: "Nombre Categoria" },
+                                    attrs: {
+                                      type: "text",
+                                      maxlength: "200",
+                                      required: "",
+                                      rules: _vm.nameRules,
+                                      counter: 200,
+                                      label: "Nombre Categoria"
+                                    },
                                     model: {
                                       value: _vm.editedItem.nombre,
                                       callback: function($$v) {
@@ -42850,10 +42894,6 @@ var render = function() {
             key: "items",
             fn: function(props) {
               return [
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.id))
-                ]),
-                _vm._v(" "),
                 _c("td", { staticClass: "text-xs-left" }, [
                   _vm._v(_vm._s(props.item.nombre))
                 ]),
@@ -43115,7 +43155,21 @@ var render = function() {
                                       })
                                     ],
                                     1
-                                  )
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-date-picker", {
+                                    attrs: {
+                                      locale: "es-GT",
+                                      color: "green lighten-1"
+                                    },
+                                    model: {
+                                      value: _vm.editedItem.fecha,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.editedItem, "fecha", $$v)
+                                      },
+                                      expression: "editedItem.fecha"
+                                    }
+                                  })
                                 ],
                                 1
                               )
@@ -43202,10 +43256,6 @@ var render = function() {
             fn: function(props) {
               return [
                 _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.id))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
                   _vm._v(_vm._s(props.item.Producto))
                 ]),
                 _vm._v(" "),
@@ -43241,7 +43291,7 @@ var render = function() {
                         attrs: { small: "" },
                         on: {
                           click: function($event) {
-                            return _vm.desactivar(props.item)
+                            return _vm.deleteItem(props.item)
                           }
                         }
                       },
@@ -43965,6 +44015,17 @@ var render = function() {
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),
+          _c("v-switch", {
+            attrs: { label: "Ver todo" },
+            model: {
+              value: _vm.switch1,
+              callback: function($$v) {
+                _vm.switch1 = $$v
+              },
+              expression: "switch1"
+            }
+          }),
+          _vm._v(" "),
           _c(
             "v-dialog",
             {
@@ -44025,7 +44086,14 @@ var render = function() {
                                 { attrs: { xs12: "", sm12: "", md12: "" } },
                                 [
                                   _c("v-text-field", {
-                                    attrs: { label: "Nombre Producto" },
+                                    attrs: {
+                                      type: "text",
+                                      label: "Nombre Producto",
+                                      maxlength: "200",
+                                      required: "",
+                                      rules: _vm.nameRules,
+                                      counter: 200
+                                    },
                                     model: {
                                       value: _vm.editedItem.nombre,
                                       callback: function($$v) {
@@ -44038,6 +44106,7 @@ var render = function() {
                                   _c("v-text-field", {
                                     attrs: {
                                       label: "Precio Venta",
+                                      rules: _vm.numberRules,
                                       prefix: "Q"
                                     },
                                     model: {
@@ -44056,6 +44125,7 @@ var render = function() {
                                   _c("v-text-field", {
                                     attrs: {
                                       label: "Precio Compra",
+                                      rules: _vm.numberRules,
                                       prefix: "Q"
                                     },
                                     model: {
@@ -44074,6 +44144,7 @@ var render = function() {
                                   _c("v-text-field", {
                                     attrs: {
                                       label: "Gasto de Comercializacion",
+                                      rules: _vm.numberRules,
                                       prefix: "Q"
                                     },
                                     model: {
@@ -44092,7 +44163,11 @@ var render = function() {
                                   }),
                                   _vm._v(" "),
                                   _c("v-text-field", {
-                                    attrs: { label: "Utilidad", prefix: "Q" },
+                                    attrs: {
+                                      label: "Utilidad",
+                                      rules: _vm.numberRules,
+                                      prefix: "Q"
+                                    },
                                     model: {
                                       value: _vm.editedItem.utilidad,
                                       callback: function($$v) {
@@ -44107,7 +44182,11 @@ var render = function() {
                                   }),
                                   _vm._v(" "),
                                   _c("v-text-field", {
-                                    attrs: { label: "Impuesto", prefix: "Q" },
+                                    attrs: {
+                                      label: "Impuesto",
+                                      rules: _vm.numberRules,
+                                      prefix: "Q"
+                                    },
                                     model: {
                                       value: _vm.editedItem.impuesto,
                                       callback: function($$v) {
@@ -44124,6 +44203,7 @@ var render = function() {
                                   _c("v-text-field", {
                                     attrs: {
                                       label: "Precio Maximo",
+                                      rules: _vm.numberRules,
                                       prefix: "Q"
                                     },
                                     model: {
@@ -44142,6 +44222,7 @@ var render = function() {
                                   _c("v-text-field", {
                                     attrs: {
                                       label: "Precio Minimo",
+                                      rules: _vm.numberRules,
                                       prefix: "Q"
                                     },
                                     model: {
@@ -44352,7 +44433,7 @@ var render = function() {
       _c("v-data-table", {
         staticClass: "elevation-1",
         attrs: {
-          headers: _vm.headers,
+          headers: _vm.switch1 == true ? _vm.headers : _vm.headersC,
           items: _vm.producto,
           search: _vm.search
         },
@@ -44362,11 +44443,15 @@ var render = function() {
             fn: function(props) {
               return [
                 _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.id))
+                  _vm._v(_vm._s(props.item.Producto))
                 ]),
                 _vm._v(" "),
                 _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.Producto))
+                  _vm._v(_vm._s(props.item.presentacion))
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-xs-left" }, [
+                  _vm._v(_vm._s(props.item.persona))
                 ]),
                 _vm._v(" "),
                 _c("td", { staticClass: "text-xs-left" }, [
@@ -44377,53 +44462,49 @@ var render = function() {
                   _vm._v(_vm._s(props.item.preciocompra))
                 ]),
                 _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.gastocomercializacion))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.utilidad))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.impuesto))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.maximoprecio))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.minimoprecio))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.estado))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.codigo))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.cantidadapartado))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.existencia))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.categoria))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.presentacion))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.persona))
-                ]),
+                _vm.switch1 == true
+                  ? [
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.gastocomercializacion))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.utilidad))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.impuesto))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.maximoprecio))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.minimoprecio))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.estado))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.codigo))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.cantidadapartado))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.existencia))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.categoria))
+                      ])
+                    ]
+                  : _vm._e(),
                 _vm._v(" "),
                 _c(
                   "td",

@@ -5,7 +5,7 @@
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark class="mb-2" v-on="on">Nueva Categoria</v-btn>
+                    <v-btn color="primary" dark class="mb-2" v-on="on">Nueva Categoría</v-btn>
                 </template>
                 <v-card>
                     <v-card-title>
@@ -16,7 +16,8 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                    <v-text-field v-model="editedItem.nombre" label="Nombre Categoria"></v-text-field>
+                                    <v-text-field type="text" v-model="editedItem.nombre" maxlength="200" required :rules="nameRules" :counter="200"
+                                    label="Nombre Categoria"></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -41,7 +42,7 @@
 
         <v-data-table :headers="headers" :items="categoria" class="elevation-1" :search="search">
             <template v-slot:items="props">
-                <td class="text-xs-left">{{ props.item.id }}</td>
+                
                 <td class="text-xs-left">{{ props.item.nombre }}</td>
                 <td class="justify-right layout px-0">
                     <v-icon small class="mr-2" @click="editItem(props.item)">
@@ -68,19 +69,19 @@
         data: () => ({
             search: '',
             dialog: false,
+                nameRules: [
+      v => !!v || 'El nombre de la categoría no puede estar vacio',
+      v => (v && v.length <= 199) || 'El nombre de la categoría no puede ser mayor a 200',
+       v => /[a-zA-Z]/.test(v) || 'la categoría solo puede tener letras',
+    ],
             error: 0,
             errorMsj: [],
             headers: [
-                {
-                    text: 'Id',
-                    align: 'left',
-                    value: 'id'
-                },
                 { 
-                    text: 'Nombre', 
+                    text: 'Categoría', 
                     value: 'nombre' 
                 },
-                { text: 'Acciones', value: 'action', sortable: false},
+                { text: 'Acciones', value: 'action', sortable: false },
             ],
             categoria: [],
             editedIndex: -1,
@@ -95,7 +96,7 @@
         }),
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'Nueva Categoria' : 'Editar Categoria'
+                return this.editedIndex === -1 ? 'Nueva Categoría' : 'Editar Categoría'
             }
         },
         watch: {
@@ -111,7 +112,7 @@
                 this.error = 0;
                 this.errorMsj = [];
                 if (!this.editedItem.nombre)
-                    this.errorMsj.push('El nombre de la categoria no puede estar vacio');
+                    this.errorMsj.push('El nombre de la categoría no puede estar vacio');
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
@@ -133,8 +134,8 @@
             deleteItem(item) {
                 let me=this;
                 swal.fire({
-                    title: 'Quieres eliminar esta Categoria?',
-                    text: "No podras revertir la eliminacion!",
+                    title: '¿Quieres eliminar esta Categoría?',
+                    text: "¡No podras revertir la eliminación!",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -164,7 +165,7 @@
             desactivar(item){
                 let me=this;
                 swal.fire({
-                    title: 'Quieres elimiara a esta categoria?',
+                    title: '¿Quieres elimiar a esta categoría?',
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

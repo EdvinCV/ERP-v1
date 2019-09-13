@@ -3,7 +3,10 @@
         <v-toolbar flat color="white">
             <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
             <v-spacer></v-spacer>
+            <v-switch v-model="switch1" label="Ver todo"></v-switch>
+            
             <v-dialog v-model="dialog" max-width="600px">
+                
                 <template v-slot:activator="{ on }">
                     <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Producto</v-btn>
                 </template>
@@ -11,19 +14,21 @@
                     <v-card-title>
                         <span class="headline">{{ formTitle }}</span>
                     </v-card-title>
-
+                    
                     <v-card-text>
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                    <v-text-field v-model="editedItem.nombre" label="Nombre Producto"></v-text-field>
-                                    <v-text-field label="Precio Venta"  prefix="Q" v-model="editedItem.precioventa"></v-text-field>
-                                    <v-text-field label="Precio Compra" prefix="Q" v-model="editedItem.preciocompra"></v-text-field>    
-                                    <v-text-field label="Gasto de Comercializacion" prefix="Q" v-model="editedItem.gastocomercializacion"></v-text-field>
-                                    <v-text-field label="Utilidad" prefix="Q" v-model="editedItem.utilidad"></v-text-field>
-                                    <v-text-field label="Impuesto" prefix="Q" v-model="editedItem.impuesto"></v-text-field>
-                                    <v-text-field label="Precio Maximo" prefix="Q" v-model="editedItem.maximoprecio"></v-text-field>
-                                    <v-text-field label="Precio Minimo" prefix="Q" v-model="editedItem.minimoprecio"></v-text-field>
+                                    <v-text-field  type="text" v-model="editedItem.nombre" label="Nombre Producto" 
+                                    maxlength="200"  required :rules="nameRules" :counter="200"></v-text-field>
+                                    <v-text-field label="Precio Venta" :rules="numberRules" prefix="Q" v-model="editedItem.precioventa"></v-text-field>
+                                    <v-text-field label="Precio Compra" :rules="numberRules" prefix="Q" v-model="editedItem.preciocompra"></v-text-field>    
+                                    <v-text-field label="Gasto de Comercializacion" :rules="numberRules" prefix="Q" v-model="editedItem.gastocomercializacion"></v-text-field>
+                                    <v-text-field label="Utilidad" :rules="numberRules" prefix="Q" v-model="editedItem.utilidad"></v-text-field>
+                                    <v-text-field label="Impuesto" :rules="numberRules" prefix="Q" v-model="editedItem.impuesto"></v-text-field>
+                                    <v-text-field label="Precio Maximo" :rules="numberRules" prefix="Q" v-model="editedItem.maximoprecio"></v-text-field>
+                                    <v-text-field label="Precio Minimo" :rules="numberRules" prefix="Q" v-model="editedItem.minimoprecio"></v-text-field>
+                                    
                                     <v-text-field v-model="editedItem.codigo" label="Codigo"></v-text-field>
                                     <v-text-field v-model="editedItem.cantidadapartado" label="Cantidad Apartado"></v-text-field>
                                     <v-text-field v-model="editedItem.existencia" label="Existencia"></v-text-field>
@@ -63,24 +68,27 @@
         </v-toolbar>
         
 
-        <v-data-table :headers="headers" :items="producto" class="elevation-1" :search="search">
+        <v-data-table :headers="switch1 == true ? headers : headersC" :items="producto" class="elevation-1" :search="search">
+            
             <template v-slot:items="props">
-                <td class="text-xs-left">{{ props.item.id }}</td>
+               
                 <td class="text-xs-left">{{ props.item.Producto }}</td>
-                <td class="text-xs-left">{{ props.item.precioventa }}</td>
-                <td class="text-xs-left">{{ props.item.preciocompra }}</td>
-                <td class="text-xs-left">{{ props.item.gastocomercializacion }}</td>
-                <td class="text-xs-left">{{ props.item.utilidad }}</td>
-                <td class="text-xs-left">{{ props.item.impuesto }}</td>
-                <td class="text-xs-left">{{ props.item.maximoprecio }}</td>
-                <td class="text-xs-left">{{ props.item.minimoprecio }}</td>
-                <td class="text-xs-left">{{ props.item.estado }}</td>
-                <td class="text-xs-left">{{ props.item.codigo }}</td>
-                <td class="text-xs-left">{{ props.item.cantidadapartado }}</td>
-                <td class="text-xs-left">{{ props.item.existencia }}</td>
-                <td class="text-xs-left">{{ props.item.categoria }}</td>
                 <td class="text-xs-left">{{ props.item.presentacion }}</td>
                 <td class="text-xs-left">{{ props.item.persona }}</td>
+                <td class="text-xs-left">{{ props.item.precioventa }}</td>
+                <td class="text-xs-left">{{ props.item.preciocompra }}</td>
+                <template v-if="switch1 == true">
+                    <td class="text-xs-left">{{ props.item.gastocomercializacion }}</td>
+                    <td class="text-xs-left">{{ props.item.utilidad }}</td>
+                    <td class="text-xs-left">{{ props.item.impuesto }}</td>
+                    <td class="text-xs-left">{{ props.item.maximoprecio }}</td>
+                    <td class="text-xs-left">{{ props.item.minimoprecio }}</td>
+                    <td class="text-xs-left">{{ props.item.estado }}</td>
+                    <td class="text-xs-left">{{ props.item.codigo }}</td>
+                    <td class="text-xs-left">{{ props.item.cantidadapartado }}</td>
+                    <td class="text-xs-left">{{ props.item.existencia }}</td>
+                    <td class="text-xs-left">{{ props.item.categoria }}</td>
+                </template>
             
 
                 <td class="justify-right layout px-0">
@@ -114,22 +122,58 @@
         data: () => ({
             search: '',
             dialog: false,
+              nameRules: [
+      v => !!v || 'El nombre del producto no puede estar vacio',
+      v => (v && v.length <= 199) || 'El nombre del producto no puede ser mayor a 200',
+       v => /[a-zA-Z]/.test(v) || 'El nombre del producto solo puede tener letras',
+    ],
+            numberRules:[
+                v => /^(\d*\.)?\d+$/.test(v) || 'Solo es permitido usar numeros',
+            ],
             error: 0,
             errorMsj: [],
             select: [],
             categorias: [],
             presentaciones: [],
             personas: [],
-            headers: [
-                {
-                    text: 'Id',
-                    align: 'left',
-                    value: 'id'
-                },
-              
+            switch1: false,
+                
+            headersC: [
+
                 { 
-                    text: 'Nombre', 
-                    value: 'nombre' 
+                    text: 'Producto', 
+                    value: 'Producto' 
+                }, 
+                {
+                    text: 'Presentacion',
+                    value: 'presentacion'
+                },
+                {
+                    text: 'Proveedor',
+                    value: 'persona'
+                },
+                {
+                    text: 'Precio Venta',
+                    value: 'precioventa'
+                },
+                {
+                    text: 'Precio Compra',
+                    value: 'preciocompra'
+                }
+                ],
+            headers: [
+
+                { 
+                    text: 'Producto', 
+                    value: 'Producto' 
+                }, 
+                {
+                    text: 'Presentacion',
+                    value: 'presentacion'
+                },
+                {
+                    text: 'Proveedor',
+                    value: 'persona'
                 },
                 {
                     text: 'Precio Venta',
@@ -139,6 +183,7 @@
                     text: 'Precio Compra',
                     value: 'preciocompra'
                 },
+                
                 {
                     text: 'Gasto Comercializacion',
                     value: 'gastocomercializacion'
@@ -179,14 +224,7 @@
                     text: 'Categoria',
                     value: 'categoria'
                 },
-                {
-                    text: 'Presentacion',
-                    value: 'idpresentacion'
-                },
-                {
-                    text: 'Proveedor',
-                    value: 'idpersona'
-                },
+               
 
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
@@ -212,6 +250,7 @@
                 idcategoria: '',
                 idpresentacion: '',
                 idpersona: '',
+                
             },
             defaultItem: {
                 id: 0,
@@ -230,6 +269,7 @@
                 idcategorias: '',
                 idpresentacion: '',
                 idpersona: '',
+                
             }
         }),
         computed: {
@@ -250,10 +290,12 @@
         },
         methods: {
             validate() {
+                
                 this.error = 0;
+                var x = true;
                 this.errorMsj = [];
                 if (!this.editedItem.nombre)
-                    this.errorMsj.push('El nombre del producto no puede estar vacio');
+                    this.errorMsj.push('El nombre del producto no puede estar vacio. ');
                 /*if(!this.editedItem.idcategoria)
                     this.errorMsj.push('Se debe asignar una categoria')
                 if(!this.editedItem.idpresentacion)
@@ -261,11 +303,13 @@
                 if(!this.editedItem.idpersona)
                     this.errorMsj.push('Se debe asignar un proveedor')*/
                 if(!this.editedItem.precioventa)
-                    this.errorMsj.push('Se debe asignar un precio de venta')
+                    this.errorMsj.push('Se debe asignar un precio de venta. ')
                 if(!this.editedItem.preciocompra)
-                    this.errorMsj.push('Se debe asignar una precio de compra')
+                    this.errorMsj.push('Se debe asignar una precio de compra. ')
                 if(!this.editedItem.utilidad)
-                    this.errorMsj.push('Se debe asignar un valor de utilidad')
+                    this.errorMsj.push('Se debe asignar un valor de utilidad. ')
+                
+            
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;

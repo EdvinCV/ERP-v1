@@ -28,6 +28,7 @@
                                         <v-radio label="Muy Satisfecho" value="4"></v-radio>
                                         <v-radio label="Totalmente Satisfecho" value="5"></v-radio>
                                     </v-radio-group>
+                                    <v-date-picker v-model="editedItem.fecha" locale="es-GT" color="green lighten-1"></v-date-picker>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -52,7 +53,7 @@
 
         <v-data-table :headers="headers" :items="historialcalidad" class="elevation-1" :search="search">
             <template v-slot:items="props">
-                <td class="text-xs-left">{{ props.item.id }}</td>
+                
                 <td class="text-xs-left">{{ props.item.Producto }}</td>
                 <td class="text-xs-left">{{ props.item.calificacion }}</td>
                 <td class="text-xs-left">{{ props.item.fecha }}</td>
@@ -61,7 +62,7 @@
                     <v-icon small class="mr-2" @click="editItem(props.item)">
                         edit
                     </v-icon>
-                    <v-icon small  @click="desactivar(props.item)">
+                    <v-icon small  @click="deleteItem(props.item)">
                         delete
                     </v-icon>
                 </td>
@@ -92,13 +93,8 @@
             errorMsj: [],
             select: [],
             productos: [],
-
+            fecha: new Date().toISOString().substr(0, 10),
             headers: [
-                {
-                    text: 'Id',
-                    align: 'left',
-                    value: 'id'
-                },
               
                 { 
                     text: 'Producto', 
@@ -107,6 +103,10 @@
                 {
                     text: 'Calificacion',
                     value: 'calificacion'
+                },
+                {
+                    text: 'Fecha',
+                    value: 'fecha'
                 },
                 
 
@@ -148,7 +148,11 @@
                     this.errorMsj.push('Se debe asignar una calificacón');
                 /*if(!this.editedItem.idcategoria)
                     this.errorMsj.push('Se debe asignar una categoria')*/
-                
+                if(!this.editedItem.fecha)
+                    this.errorMsj.push('Se debe asignar una fecha');
+                if((this.editedItem.fecha)>(new Date().toISOString()))
+                    this.errorMsj.push('Se debe asignar una fecha anterior');
+                //console.log(new Date().toISOString());
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
@@ -176,25 +180,20 @@
                 this.editedIndex = this.historialcalidad.indexOf(item)
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
-            },desactivar(item){
+            },deleteItem(item) {
                 let me=this;
                 swal.fire({
-                    title: '¿Quieres elimiar este historial de calidad?',
+                    title: '¿Quieres eliminar este historial de calidad?',
+                    text: "¡No podras revertir la eliminación!",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, eliminalo!',
+                    confirmButtonText: 'Si, Eliminalo!',
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {
-                       axios({
-                        method: 'put',
-                        url: 'historialcalidad/desactivar',
-                        data: {
-                            id:item.id,
-                            }
-                        }).then(response => {
+                        axios.delete(`/historialcalidad/${item.id}/delete`).then(response => {
                             me.initialize();
                             swal.fire({
                             position: 'top-end',
@@ -235,7 +234,8 @@
                         data: {
                             id: me.editedItem.id,
                             calificacion: me.editedItem.calificacion,
-                            idproducto: me.idproducto.id
+                            idproducto: me.idproducto.id,
+                            fecha: me.editedItem.fecha
 
                         }
                     }).then(function (response) {
@@ -262,7 +262,8 @@
                         url: '/historialcalidad/registrar',
                         data: {
                             calificacion: me.editedItem.calificacion,
-                            idproducto:me.idproducto.id   
+                            idproducto:me.idproducto.id,   
+                            fecha: me.editedItem.fecha
                         }
                     }).then(function (response) {
                         swal.fire({
