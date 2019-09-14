@@ -22,7 +22,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/categoria', 'CategoriaController@index');
 Route::post('/categoria/registrar', 'CategoriaController@store');
 Route::put('/categoria/actualizar', 'CategoriaController@update');
-Route::put('/categoria/desactivar', 'CategoriaController@desactivar');
 Route::put('/categoria/activar', 'CategoriaController@activar');
 Route::delete('/categoria/{categoria}/delete', 'CategoriaController@drop');
 //Rutas roles
@@ -55,3 +54,17 @@ Route::post('/clientes/nuevo', 'ClienteController@store');
 Route::put('/clientes/actualizar', 'ClienteController@update');
 Route::put('/clientes/eliminar', 'ClienteController@desactivar');
 
+//Rutas Productos
+Route::get('/producto', 'ProductoController@index');
+Route::post('/producto/registrar', 'ProductoController@store');
+Route::put('/producto/actualizar', 'ProductoController@update');
+Route::put('/producto/desactivar', 'ProductoController@desactivate');
+//Rutas Personas
+Route::get('/persona', 'PersonaController@index');
+// Rutas de Historial de calidad
+Route::get('/historialcalidad', 'HistorialcalidadController@index');
+Route::post('/historialcalidad/registrar', 'HistorialcalidadController@store');
+Route::put('/historialcalidad/actualizar', 'HistorialcalidadController@update');
+Route::delete('/historialcalidad/{historialcalidad}/delete', 'HistorialcalidadController@drop');
+// Rutas ventas
+Route::post('/venta/nuevo', 'VentasController@store');

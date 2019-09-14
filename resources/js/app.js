@@ -9,6 +9,7 @@ import swal from 'sweetalert2';
 window.swal = swal;
 
 
+Vue.component('Usuario', require('./components/Usuarios.vue').default);
 Vue.component('categoria', require('./components/Categoria.vue').default);
 Vue.component('Roles', require('./components/Roles.vue').default);
 Vue.component('Permisos', require('./components/Permisos.vue').default);
@@ -16,6 +17,8 @@ Vue.component('Presentacion', require('./components/Presentacion.vue').default);
 Vue.component('Proveedor', require('./components/Proveedores.vue').default);
 Vue.component('Cliente', require('./components/Clientes.vue').default);
 Vue.component('Venta', require('./components/Ventas.vue').default);
+Vue.component('Producto', require('./components/Producto.vue').default);
+Vue.component('Historialcalidad', require('./components/Historialcalidad.vue').default);
 
 
 

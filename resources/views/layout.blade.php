@@ -20,7 +20,7 @@
     <!-- vandor css -->
     <link rel="stylesheet" href="assets/css/style.css">
 
-    
+    <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
     
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -47,7 +47,7 @@
                     <div class="b-bg">
                         <i class="feather icon-trending-up"></i>
                     </div>
-                    <span class="b-title">Datta Able</span>
+                    <span class="b-title">ADAM</span>
                 </a>
             </div>
             <a class="mobile-menu" id="mobile-header" href="#!">
@@ -258,13 +258,10 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
                                         <div class="page-header-title">
-                                            <h5 class="m-b-10">Data Tables</h5>
+                                            <h5 class="m-b-10"><a href="route"><i class="feather icon-home"></i></a> Menú</h5>
                                         </div>
                                         <ul class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="index.html"><i
-                                                        class="feather icon-home"></i></a></li>
-                                            <li class="breadcrumb-item"><a href="#!">Table</a></li>
-                                            <li class="breadcrumb-item"><a href="#!">Data Tables</a></li>
+                                            <li class="breadcrumb-item"></li>
                                         </ul>
                                     </div>
                                 </div>
