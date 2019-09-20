@@ -68,3 +68,6 @@ Route::put('/historialcalidad/actualizar', 'HistorialcalidadController@update');
 Route::delete('/historialcalidad/{historialcalidad}/delete', 'HistorialcalidadController@drop');
 // Rutas ventas
 Route::post('/venta/nuevo', 'VentasController@store');
+// Rutas Caja
+Route::get('/caja', 'CajaController@index');
+Route::post('/caja/registrar', 'CajaController@store');

@@ -72,6 +72,7 @@
                             <ul class="pcoded-submenu">
                                 <li class=""><a @click="menu=20">Nueva venta</a></li>
                                 <li class=""><a @click="menu=0">Historial ventas</a></li>
+                                <li class=""><a @click="menu=11">Caja</a></li>
                             </ul>
                         </li>
                     @endif

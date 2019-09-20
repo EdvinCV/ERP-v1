@@ -157,10 +157,31 @@
                 this.error = 0;
                 this.errorMsj = [];
                 if (!this.editedItem.nombre)
-                    this.errorMsj.push('El nombre de la Presentacion no puede estar vacio');
+                    this.errorMsj.push('El nombre de la Presentacion no puede estar vacio. ');
+                    if(!this.editedItem.nit){
+                    this.editedItem.nit = 'CF';
+                    x = true;
+                }
+                if(this.editedItem.nit)
+                {
+                    if((this.valNit(this.editedItem.nit))==false && this.editedItem.nit != 'CF')
+                    this.errorMsj.push('NIT no valido. ');
+                }
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
+            },
+            valNit(nit){
+                var nd, add=0;
+                if(nd =  /^(\d+)\-?([\dk])$/i.exec(nit)){
+                    nd[2] = (nd[2].toLowerCase()=='k')?10:parseInt(nd[2]);
+                    for (var i = 0; i < nd[1].length; i++) {
+                        add += ( (((i-nd[1].length)*-1)+1) * nd[1][i] );
+                    }
+                    return ((11 - (add % 11)) % 11) == nd[2];
+                }else{
+                    return false;
+                }
             },
             initialize() {
                 axios.get('/clientes')

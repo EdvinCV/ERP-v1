@@ -4,10 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Caja;
 
 class CajaController extends Controller
 {
+    public function index(Request $request)
+    {
+        $caja = DB::table('cajas')
+            ->select(DB::raw('cajas.id, cajas.cantidad, cajas.created_at,users.name,cajas.tipo, cajas.observacion'))
+            ->join('users','cajas.idEmpleado','=','users.id')->get();
+        return $caja;
+    }
     public function store(Request $req){
         try {
             $caja = new Caja;

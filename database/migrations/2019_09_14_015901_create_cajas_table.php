@@ -11,6 +11,8 @@ class CreateCajasTable extends Migration
      *
      * @return void
      */
+
+   
     public function up()
     {
         Schema::create('cajas', function (Blueprint $table) {
