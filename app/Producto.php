@@ -11,7 +11,7 @@ class Producto extends Model
     protected $fillable = [
         'idcategoria','idpresentacion','idpersona','nombre','precioventa','preciocompra',
         'gastocomercializacion','utilidad','impuesto','maximoprecio','minimoprecio',
-        'estado','codigo','cantidadapartado','existencia'
+        'estado','codigo','cantidadapartado','existencia','porcComercializacion','porcUtilidad'
     ];
     public function categoria() {
         return $this->belongsTo('\App\Categoria');

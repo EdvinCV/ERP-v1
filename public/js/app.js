@@ -3456,6 +3456,31 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3567,22 +3592,60 @@ __webpack_require__.r(__webpack_exports__);
     multiselect: vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default.a
   },
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
       search: '',
       dialog: false,
+      idcategoria: {
+        id: 0,
+        nombre: ''
+      },
+      nameRules: [function (v) {
+        return !!v || 'El nombre del producto no puede estar vacio';
+      }, function (v) {
+        return v && v.length <= 199 || 'El nombre del producto no puede ser mayor a 200';
+      }, function (v) {
+        return /[a-zA-Z]/.test(v) || 'El nombre del producto solo puede tener letras';
+      }],
+      decimalRules: [function (v) {
+        return /^(\d*\.)?\d*$/.test(v) || 'Solo es permitido usar numeros';
+      }],
+      numberRules: [function (v) {
+        return /^[0-9]*$/.test(v) || 'Solo es permitido usar numeros';
+      }],
       error: 0,
       errorMsj: [],
       select: [],
       categorias: [],
       presentaciones: [],
       personas: [],
-      headers: [{
-        text: 'Id',
-        align: 'left',
-        value: 'id'
+      switch1: false,
+      headersC: [{
+        text: 'Producto',
+        value: 'Producto'
       }, {
-        text: 'Nombre',
-        value: 'nombre'
+        text: 'Presentacion',
+        value: 'presentacion'
+      }, {
+        text: 'Proveedor',
+        value: 'persona'
+      }, {
+        text: 'Precio Venta',
+        value: 'precioventa'
+      }, {
+        text: 'Precio Compra',
+        value: 'preciocompra'
+      }],
+      headers: [{
+        text: 'Producto',
+        value: 'Producto'
+      }, {
+        text: 'Presentacion',
+        value: 'presentacion'
+      }, {
+        text: 'Proveedor',
+        value: 'persona'
       }, {
         text: 'Precio Venta',
         value: 'precioventa'
@@ -3620,58 +3683,50 @@ __webpack_require__.r(__webpack_exports__);
         text: 'Categoria',
         value: 'categoria'
       }, {
-        text: 'Presentacion',
-        value: 'idpresentacion'
-      }, {
-        text: 'Proveedor',
-        value: 'idpersona'
-      }, {
         text: 'Acciones',
         value: 'action',
         sortable: false
       }],
-      producto: [],
-      idcategoria: -1,
-      idpresentacion: -1,
-      idpersona: -1,
-      editedIndex: -1,
-      editedItem: {
-        id: 0,
-        nombre: '',
-        precioventa: '',
-        preciocompra: '',
-        gastocomercializacion: '',
-        utilidad: '',
-        impuesto: '',
-        maximoprecio: '',
-        minimoprecio: '',
-        estado: '',
-        codigo: '',
-        cantidadapartado: '',
-        existencia: '',
-        idcategoria: '',
-        idpresentacion: '',
-        idpersona: ''
-      },
-      defaultItem: {
-        id: 0,
-        nombre: '',
-        precioventa: '',
-        preciocompra: '',
-        gastocomercializacion: '',
-        utilidad: '',
-        impuesto: '',
-        maximoprecio: '',
-        minimoprecio: '',
-        estado: '',
-        codigo: '',
-        cantidadapartado: '',
-        existencia: '',
-        idcategorias: '',
-        idpresentacion: '',
-        idpersona: ''
-      }
-    };
+      producto: []
+    }, _defineProperty(_ref, "idcategoria", -1), _defineProperty(_ref, "idpresentacion", -1), _defineProperty(_ref, "idpersona", -1), _defineProperty(_ref, "editedIndex", -1), _defineProperty(_ref, "editedItem", {
+      id: 0,
+      Producto: '',
+      precioventa: '',
+      preciocompra: '',
+      gastocomercializacion: '',
+      utilidad: '',
+      impuesto: '',
+      maximoprecio: '',
+      minimoprecio: '',
+      estado: '',
+      codigo: '',
+      cantidadapartado: '',
+      existencia: '',
+      idcategoria: 0,
+      idpresentacion: '',
+      idpersona: '',
+      porcComercializacion: '',
+      porcUtilidad: ''
+    }), _defineProperty(_ref, "defaultItem", {
+      id: 0,
+      Producto: '',
+      precioventa: '',
+      preciocompra: '',
+      gastocomercializacion: '',
+      utilidad: '',
+      impuesto: '',
+      maximoprecio: '',
+      minimoprecio: '',
+      estado: '',
+      codigo: '',
+      cantidadapartado: '',
+      existencia: '',
+      idcategoria: 0,
+      idpresentacion: '',
+      idpersona: '',
+      porcComercializacion: '',
+      porcUtilidad: ''
+    }), _ref;
   },
   computed: {
     formTitle: function formTitle() {
@@ -3688,12 +3743,14 @@ __webpack_require__.r(__webpack_exports__);
     this.cargaCategorias();
     this.cargaPresentaciones();
     this.cargaPersonas();
+    this.porcentajes();
   },
-  methods: {
+  methods: _defineProperty({
     validate: function validate() {
       this.error = 0;
+      var x = true;
       this.errorMsj = [];
-      if (!this.editedItem.nombre) this.errorMsj.push('El nombre del producto no puede estar vacio');
+      if (!this.editedItem.Producto) this.errorMsj.push('El nombre del producto no puede estar vacio. ');
       /*if(!this.editedItem.idcategoria)
           this.errorMsj.push('Se debe asignar una categoria')
       if(!this.editedItem.idpresentacion)
@@ -3701,11 +3758,23 @@ __webpack_require__.r(__webpack_exports__);
       if(!this.editedItem.idpersona)
           this.errorMsj.push('Se debe asignar un proveedor')*/
 
-      if (!this.editedItem.precioventa) this.errorMsj.push('Se debe asignar un precio de venta');
-      if (!this.editedItem.preciocompra) this.errorMsj.push('Se debe asignar una precio de compra');
-      if (!this.editedItem.utilidad) this.errorMsj.push('Se debe asignar un valor de utilidad');
+      if (!this.editedItem.precioventa) this.errorMsj.push('Se debe asignar un precio de venta. ');
+      if (!this.editedItem.preciocompra) this.errorMsj.push('Se debe asignar una precio de compra. ');
+      if (!this.editedItem.utilidad) this.errorMsj.push('Se debe asignar un valor de utilidad. ');
       if (this.errorMsj.length) this.error = 1;
       return this.error;
+    },
+    porcentajes: function porcentajes() {
+      var me = this;
+      this.editedItem.gastocomercializacion = this.editedItem.preciocompra * this.editedItem.porcComercializacion;
+      return this.editedItem.gastocomercializacion;
+      console.log(this.editedItem.gastocomercializacion);
+    },
+    porcentajes2: function porcentajes2() {
+      var me = this;
+      this.editedItem.utilidad = (this.editedItem.preciocompra + this.editedItem.gastocomercializacion) * this.editedItem.porcUtilidad;
+      return this.editedItem.utilidad;
+      console.log(this.editedItem.gastocomercializacion);
     },
     cargaCategorias: function cargaCategorias() {
       var me = this;
@@ -3736,14 +3805,18 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/producto').then(function (response) {
         _this.producto = response.data;
+
+        _this.porcentajes();
       })["catch"](function (errors) {
         console.log(errors);
       });
+      this.porcentajes();
     },
     editItem: function editItem(item) {
       this.editedIndex = this.producto.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
+      this.porcentajes();
     },
     desactivar: function desactivar(item) {
       var me = this;
@@ -3839,7 +3912,7 @@ __webpack_require__.r(__webpack_exports__);
           url: '/producto/actualizar',
           data: {
             id: me.editedItem.id,
-            nombre: me.editedItem.nombre,
+            Producto: this.editedItem.Producto,
             precioventa: me.editedItem.precioventa,
             preciocompra: me.editedItem.preciocompra,
             gastocomercializacion: me.editedItem.gastocomercializacion,
@@ -3851,9 +3924,11 @@ __webpack_require__.r(__webpack_exports__);
             codigo: me.editedItem.codigo,
             cantidadapartado: me.editedItem.cantidadapartado,
             existencia: me.editedItem.existencia,
-            idcategoria: me.idcategoria.id,
-            idpresentacion: me.idpresentacion.id,
-            idpersona: me.idpersona.id
+            idcategoria: me.editedItem.idcategoria.id,
+            idpresentacion: me.editedItem.idpresentacion.id,
+            idpersona: me.editedItem.idpersona.id,
+            porcComercializacion: me.editedItem.porcComercializacion,
+            porcUtilidad: me.editedItem.porcUtilidad
           }
         }).then(function (response) {
           swal.fire({
@@ -3880,7 +3955,7 @@ __webpack_require__.r(__webpack_exports__);
           method: 'post',
           url: '/producto/registrar',
           data: {
-            nombre: me.editedItem.nombre,
+            Producto: me.editedItem.Producto,
             precioventa: me.editedItem.precioventa,
             preciocompra: me.editedItem.preciocompra,
             gastocomercializacion: me.editedItem.gastocomercializacion,
@@ -3892,9 +3967,11 @@ __webpack_require__.r(__webpack_exports__);
             codigo: me.editedItem.codigo,
             cantidadapartado: me.editedItem.cantidadapartado,
             existencia: me.editedItem.existencia,
-            idcategoria: me.idcategoria.id,
-            idpresentacion: me.idpresentacion.id,
-            idpersona: me.idpersona.id
+            idcategoria: me.editedItem.idcategoria.id,
+            idpresentacion: me.editedItem.idpresentacion.id,
+            idpersona: me.editedItem.idpersona.id,
+            porcComercializacion: me.editedItem.porcComercializacion,
+            porcUtilidad: me.editedItem.porcUtilidad
           }
         }).then(function (response) {
           swal.fire({
@@ -3918,7 +3995,30 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     }
-  }
+  }, "close", function close() {
+    this.dialog = false;
+    this.editar = 0;
+    this.editedItem.idcategoria = 0;
+    this.editedItem.idpresentacion = 0;
+    this.editedItem.idpersona = 0;
+    this.editedItem.Producto = '';
+    this.editedItem.precioventa = '';
+    this.editedItem.preciocompra = '';
+    this.editedItem.gastocomercializacion = '';
+    this.editedItem.utilidad = '';
+    this.editedItem.impuesto = '';
+    this.editedItem.maximoprecio = '';
+    this.editedItem.minimoprecio = '';
+    this.editedItem.codigo = '';
+    this.editedItem.cantidadapartado = '';
+    this.editedItem.existencia = '';
+    this.editedItem.porcComercializacion = '', this.editedItem.porcUtilidad = '';
+    this.categorias = [];
+    this.presentaciones = [];
+    this.personas = [];
+    this.error = 0;
+    this.errorMsj = [];
+  })
 });
 
 /***/ }),
@@ -46197,6 +46297,17 @@ var render = function() {
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),
+          _c("v-switch", {
+            attrs: { label: "Ver todo" },
+            model: {
+              value: _vm.switch1,
+              callback: function($$v) {
+                _vm.switch1 = $$v
+              },
+              expression: "switch1"
+            }
+          }),
+          _vm._v(" "),
           _c(
             "v-dialog",
             {
@@ -46257,19 +46368,31 @@ var render = function() {
                                 { attrs: { xs12: "", sm12: "", md12: "" } },
                                 [
                                   _c("v-text-field", {
-                                    attrs: { label: "Nombre Producto" },
+                                    attrs: {
+                                      type: "text",
+                                      label: "Nombre Producto",
+                                      maxlength: "200",
+                                      required: "",
+                                      rules: _vm.nameRules,
+                                      counter: 200
+                                    },
                                     model: {
-                                      value: _vm.editedItem.nombre,
+                                      value: _vm.editedItem.Producto,
                                       callback: function($$v) {
-                                        _vm.$set(_vm.editedItem, "nombre", $$v)
+                                        _vm.$set(
+                                          _vm.editedItem,
+                                          "Producto",
+                                          $$v
+                                        )
                                       },
-                                      expression: "editedItem.nombre"
+                                      expression: "editedItem.Producto"
                                     }
                                   }),
                                   _vm._v(" "),
                                   _c("v-text-field", {
                                     attrs: {
                                       label: "Precio Venta",
+                                      rules: _vm.decimalRules,
                                       prefix: "Q"
                                     },
                                     model: {
@@ -46288,6 +46411,7 @@ var render = function() {
                                   _c("v-text-field", {
                                     attrs: {
                                       label: "Precio Compra",
+                                      rules: _vm.decimalRules,
                                       prefix: "Q"
                                     },
                                     model: {
@@ -46303,43 +46427,176 @@ var render = function() {
                                     }
                                   }),
                                   _vm._v(" "),
+                                  _c(
+                                    "v-layout",
+                                    { attrs: { row: "" } },
+                                    [
+                                      _c(
+                                        "v-flex",
+                                        {
+                                          attrs: {
+                                            lg6: "",
+                                            md6: "",
+                                            xs6: "",
+                                            "pa-2": ""
+                                          }
+                                        },
+                                        [
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              label:
+                                                "Porcentaje de Comercializacion",
+                                              rules: _vm.decimalRules
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.porcentajes()
+                                              }
+                                            },
+                                            model: {
+                                              value:
+                                                _vm.editedItem
+                                                  .porcComercializacion,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.editedItem,
+                                                  "porcComercializacion",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "editedItem.porcComercializacion"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-flex",
+                                        {
+                                          attrs: {
+                                            lg6: "",
+                                            md6: "",
+                                            xs6: "",
+                                            "pa-2": ""
+                                          }
+                                        },
+                                        [
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              label:
+                                                "Gasto de Comercializacion",
+                                              rules: _vm.decimalRules,
+                                              prefix: "Q"
+                                            },
+                                            model: {
+                                              value:
+                                                _vm.editedItem
+                                                  .gastocomercializacion,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.editedItem,
+                                                  "gastocomercializacion",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "editedItem.gastocomercializacion"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-layout",
+                                    { attrs: { row: "" } },
+                                    [
+                                      _c(
+                                        "v-flex",
+                                        {
+                                          attrs: {
+                                            lg6: "",
+                                            md6: "",
+                                            xs6: "",
+                                            "pa-2": ""
+                                          }
+                                        },
+                                        [
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              label: "Porcentaje de Utilidad",
+                                              rules: _vm.decimalRules
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.porcentajes2()
+                                              }
+                                            },
+                                            model: {
+                                              value:
+                                                _vm.editedItem.porcUtilidad,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.editedItem,
+                                                  "porcUtilidad",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "editedItem.porcUtilidad"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-flex",
+                                        {
+                                          attrs: {
+                                            lg6: "",
+                                            md6: "",
+                                            xs6: "",
+                                            "pa-2": ""
+                                          }
+                                        },
+                                        [
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              label: "Utilidad",
+                                              rules: _vm.decimalRules,
+                                              prefix: "Q"
+                                            },
+                                            model: {
+                                              value: _vm.editedItem.utilidad,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.editedItem,
+                                                  "utilidad",
+                                                  $$v
+                                                )
+                                              },
+                                              expression: "editedItem.utilidad"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
                                   _c("v-text-field", {
                                     attrs: {
-                                      label: "Gasto de Comercializacion",
+                                      label: "Impuesto",
+                                      rules: _vm.decimalRules,
                                       prefix: "Q"
                                     },
-                                    model: {
-                                      value:
-                                        _vm.editedItem.gastocomercializacion,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "gastocomercializacion",
-                                          $$v
-                                        )
-                                      },
-                                      expression:
-                                        "editedItem.gastocomercializacion"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-text-field", {
-                                    attrs: { label: "Utilidad", prefix: "Q" },
-                                    model: {
-                                      value: _vm.editedItem.utilidad,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedItem,
-                                          "utilidad",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "editedItem.utilidad"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-text-field", {
-                                    attrs: { label: "Impuesto", prefix: "Q" },
                                     model: {
                                       value: _vm.editedItem.impuesto,
                                       callback: function($$v) {
@@ -46356,6 +46613,7 @@ var render = function() {
                                   _c("v-text-field", {
                                     attrs: {
                                       label: "Precio Maximo",
+                                      rules: _vm.decimalRules,
                                       prefix: "Q"
                                     },
                                     model: {
@@ -46374,6 +46632,7 @@ var render = function() {
                                   _c("v-text-field", {
                                     attrs: {
                                       label: "Precio Minimo",
+                                      rules: _vm.decimalRules,
                                       prefix: "Q"
                                     },
                                     model: {
@@ -46401,7 +46660,10 @@ var render = function() {
                                   }),
                                   _vm._v(" "),
                                   _c("v-text-field", {
-                                    attrs: { label: "Cantidad Apartado" },
+                                    attrs: {
+                                      label: "Cantidad Apartado",
+                                      rules: _vm.numberRules
+                                    },
                                     model: {
                                       value: _vm.editedItem.cantidadapartado,
                                       callback: function($$v) {
@@ -46416,7 +46678,10 @@ var render = function() {
                                   }),
                                   _vm._v(" "),
                                   _c("v-text-field", {
-                                    attrs: { label: "Existencia" },
+                                    attrs: {
+                                      label: "Existencia",
+                                      rules: _vm.numberRules
+                                    },
                                     model: {
                                       value: _vm.editedItem.existencia,
                                       callback: function($$v) {
@@ -46442,16 +46707,21 @@ var render = function() {
                                             attrs: {
                                               options: _vm.categorias,
                                               placeholder:
-                                                "Seleccione una categoria",
+                                                "Seleccione una categoría",
                                               label: "nombre",
                                               "track-by": "nombre"
                                             },
                                             model: {
-                                              value: _vm.idcategoria,
+                                              value: _vm.editedItem.idcategoria,
                                               callback: function($$v) {
-                                                _vm.idcategoria = $$v
+                                                _vm.$set(
+                                                  _vm.editedItem,
+                                                  "idcategoria",
+                                                  $$v
+                                                )
                                               },
-                                              expression: "idcategoria"
+                                              expression:
+                                                "editedItem.idcategoria"
                                             }
                                           })
                                         ],
@@ -46466,16 +46736,22 @@ var render = function() {
                                             attrs: {
                                               options: _vm.presentaciones,
                                               placeholder:
-                                                "Seleccione una presentacion",
+                                                "Seleccione una presentación",
                                               label: "nombre",
                                               "track-by": "nombre"
                                             },
                                             model: {
-                                              value: _vm.idpresentacion,
+                                              value:
+                                                _vm.editedItem.idpresentacion,
                                               callback: function($$v) {
-                                                _vm.idpresentacion = $$v
+                                                _vm.$set(
+                                                  _vm.editedItem,
+                                                  "idpresentacion",
+                                                  $$v
+                                                )
                                               },
-                                              expression: "idpresentacion"
+                                              expression:
+                                                "editedItem.idpresentacion"
                                             }
                                           })
                                         ],
@@ -46490,16 +46766,20 @@ var render = function() {
                                             attrs: {
                                               options: _vm.personas,
                                               placeholder:
-                                                "Seleccione una persona",
+                                                "Seleccione un Proveedor",
                                               label: "nombre",
                                               "track-by": "nombreProveedor"
                                             },
                                             model: {
-                                              value: _vm.idpersona,
+                                              value: _vm.editedItem.idpersona,
                                               callback: function($$v) {
-                                                _vm.idpersona = $$v
+                                                _vm.$set(
+                                                  _vm.editedItem,
+                                                  "idpersona",
+                                                  $$v
+                                                )
                                               },
-                                              expression: "idpersona"
+                                              expression: "editedItem.idpersona"
                                             }
                                           })
                                         ],
@@ -46584,7 +46864,7 @@ var render = function() {
       _c("v-data-table", {
         staticClass: "elevation-1",
         attrs: {
-          headers: _vm.headers,
+          headers: _vm.switch1 == true ? _vm.headers : _vm.headersC,
           items: _vm.producto,
           search: _vm.search
         },
@@ -46594,11 +46874,15 @@ var render = function() {
             fn: function(props) {
               return [
                 _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.id))
+                  _vm._v(_vm._s(props.item.Producto))
                 ]),
                 _vm._v(" "),
                 _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.Producto))
+                  _vm._v(_vm._s(props.item.presentacion))
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-xs-left" }, [
+                  _vm._v(_vm._s(props.item.persona))
                 ]),
                 _vm._v(" "),
                 _c("td", { staticClass: "text-xs-left" }, [
@@ -46609,53 +46893,49 @@ var render = function() {
                   _vm._v(_vm._s(props.item.preciocompra))
                 ]),
                 _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.gastocomercializacion))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.utilidad))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.impuesto))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.maximoprecio))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.minimoprecio))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.estado))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.codigo))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.cantidadapartado))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.existencia))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.categoria))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.presentacion))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.persona))
-                ]),
+                _vm.switch1 == true
+                  ? [
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.gastocomercializacion))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.utilidad))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.impuesto))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.maximoprecio))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.minimoprecio))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.estado))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.codigo))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.cantidadapartado))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.existencia))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-xs-left" }, [
+                        _vm._v(_vm._s(props.item.categoria))
+                      ])
+                    ]
+                  : _vm._e(),
                 _vm._v(" "),
                 _c(
                   "td",

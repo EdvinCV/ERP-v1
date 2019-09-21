@@ -43,6 +43,8 @@ class ProductoController extends Controller
             $producto->codigo=$request->codigo;
             $producto->cantidadapartado=$request->cantidadapartado;
             $producto->existencia=$request->existencia;
+            $producto->porcComercializacion=$request->porcComercializacion;
+            $producto->porcUtilidad=$request->porcUtilidad;
             $producto->save();
             return 'Producto ingresado correctamente';
         }catch(\Exception $e){
@@ -58,7 +60,7 @@ class ProductoController extends Controller
         $idcategoria=$request->idcategoria;
         $idpresentacion=$request->idpresentacion;
         $idpersona=$request->idpersona;
-        $nombre=$request->nombre;
+        $Producto=$request->Producto;
         $precioventa=$request->precioventa;
         $preciocompra=$request->preciocompra;
         $gastocomercializacion=$request->gastocomercializacion;
@@ -69,13 +71,14 @@ class ProductoController extends Controller
         $codigo=$request->codigo;
         $cantidadapartado=$request->cantidadapartado;
         $existencia=$request->existencia;
-
+        $porcComercializacion=$request->porcComercializacion;
+        $porcUtilidad=$request->porcUtilidad;
         try{
             $producto= Producto::findOrFail($id);
             $producto->idcategoria=$idcategoria;
             $producto->idpresentacion=$idpresentacion;
             $producto->idpersona=$idpersona;
-            $producto->nombre = $nombre;
+            $producto->nombre = $Producto;
             $producto->precioventa=$precioventa;
             $producto->preciocompra=$preciocompra;
             $producto->gastocomercializacion=$gastocomercializacion;
@@ -87,7 +90,8 @@ class ProductoController extends Controller
             $producto->codigo=$codigo;
             $producto->cantidadapartado=$cantidadapartado;
             $producto->existencia=$existencia;
-           
+            $producto->porcComercializacion=$porcComercializacion;
+            $producto->porcUtilidad=$porcUtilidad;
             $producto->save();
             return 'Producto modificado correctamente';
         }

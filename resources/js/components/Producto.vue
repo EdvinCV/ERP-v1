@@ -3,7 +3,10 @@
         <v-toolbar flat color="white">
             <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
             <v-spacer></v-spacer>
+            <v-switch v-model="switch1" label="Ver todo"></v-switch>
+            
             <v-dialog v-model="dialog" max-width="600px">
+                
                 <template v-slot:activator="{ on }">
                     <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Producto</v-btn>
                 </template>
@@ -11,33 +14,50 @@
                     <v-card-title>
                         <span class="headline">{{ formTitle }}</span>
                     </v-card-title>
-
+                    
                     <v-card-text>
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                    <v-text-field v-model="editedItem.nombre" label="Nombre Producto"></v-text-field>
-                                    <v-text-field label="Precio Venta"  prefix="Q" v-model="editedItem.precioventa"></v-text-field>
-                                    <v-text-field label="Precio Compra" prefix="Q" v-model="editedItem.preciocompra"></v-text-field>    
-                                    <v-text-field label="Gasto de Comercializacion" prefix="Q" v-model="editedItem.gastocomercializacion"></v-text-field>
-                                    <v-text-field label="Utilidad" prefix="Q" v-model="editedItem.utilidad"></v-text-field>
-                                    <v-text-field label="Impuesto" prefix="Q" v-model="editedItem.impuesto"></v-text-field>
-                                    <v-text-field label="Precio Maximo" prefix="Q" v-model="editedItem.maximoprecio"></v-text-field>
-                                    <v-text-field label="Precio Minimo" prefix="Q" v-model="editedItem.minimoprecio"></v-text-field>
+                                    <v-text-field  type="text" v-model="editedItem.Producto" label="Nombre Producto" 
+                                    maxlength="200"  required :rules="nameRules" :counter="200"></v-text-field>
+                                    <v-text-field label="Precio Venta" :rules="decimalRules" prefix="Q" v-model="editedItem.precioventa"></v-text-field>
+                                    <v-text-field label="Precio Compra" :rules="decimalRules" prefix="Q" v-model="editedItem.preciocompra" ></v-text-field>    
+                                    <v-layout row>
+                                        <v-flex lg6 md6 xs6 pa-2>
+                                            <v-text-field @click="porcentajes()" label="Porcentaje de Comercializacion" :rules="decimalRules" v-model="editedItem.porcComercializacion"></v-text-field>
+                                        </v-flex>
+                                         <v-flex lg6 md6 xs6 pa-2>
+                                            <v-text-field label="Gasto de Comercializacion" :rules="decimalRules" prefix="Q" v-model="editedItem.gastocomercializacion"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                      <v-layout row>
+                                        <v-flex lg6 md6 xs6 pa-2>
+                                            <v-text-field @click="porcentajes2()" label="Porcentaje de Utilidad" :rules="decimalRules" v-model="editedItem.porcUtilidad"></v-text-field>
+                                        </v-flex>
+                                         <v-flex lg6 md6 xs6 pa-2>
+                                            <v-text-field label="Utilidad" :rules="decimalRules" prefix="Q" v-model="editedItem.utilidad"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                    
+                                    <v-text-field label="Impuesto" :rules="decimalRules" prefix="Q" v-model="editedItem.impuesto"></v-text-field>
+                                    <v-text-field label="Precio Maximo" :rules="decimalRules" prefix="Q" v-model="editedItem.maximoprecio"></v-text-field>
+                                    <v-text-field label="Precio Minimo" :rules="decimalRules" prefix="Q" v-model="editedItem.minimoprecio"></v-text-field>
+                                    
                                     <v-text-field v-model="editedItem.codigo" label="Codigo"></v-text-field>
-                                    <v-text-field v-model="editedItem.cantidadapartado" label="Cantidad Apartado"></v-text-field>
-                                    <v-text-field v-model="editedItem.existencia" label="Existencia"></v-text-field>
+                                    <v-text-field v-model="editedItem.cantidadapartado" label="Cantidad Apartado" :rules="numberRules"></v-text-field>
+                                    <v-text-field v-model="editedItem.existencia" label="Existencia" :rules="numberRules"></v-text-field>
                                     <v-flex xs12>
                                     <v-flex xs12>
-                                        <multiselect v-model="idcategoria" :options="categorias" placeholder="Seleccione una categoria"
+                                        <multiselect v-model="editedItem.idcategoria" :options="categorias" placeholder="Seleccione una categoría"
                                             label="nombre" track-by="nombre"></multiselect>
                                     </v-flex>
                                     <v-flex xs12>
-                                        <multiselect v-model="idpresentacion" :options="presentaciones" placeholder="Seleccione una presentacion"
+                                        <multiselect v-model="editedItem.idpresentacion" :options="presentaciones" placeholder="Seleccione una presentación"
                                             label="nombre" track-by="nombre"></multiselect>
                                     </v-flex>
                                     <v-flex xs12>
-                                        <multiselect v-model="idpersona" :options="personas" placeholder="Seleccione una persona"
+                                         <multiselect v-model="editedItem.idpersona" :options="personas" placeholder="Seleccione un Proveedor"
                                             label="nombre" track-by="nombreProveedor"></multiselect>
                                     </v-flex>
                                 </v-flex>                                    
@@ -63,24 +83,27 @@
         </v-toolbar>
         
 
-        <v-data-table :headers="headers" :items="producto" class="elevation-1" :search="search">
+        <v-data-table :headers="switch1 == true ? headers : headersC" :items="producto" class="elevation-1" :search="search">
+            
             <template v-slot:items="props">
-                <td class="text-xs-left">{{ props.item.id }}</td>
+               
                 <td class="text-xs-left">{{ props.item.Producto }}</td>
-                <td class="text-xs-left">{{ props.item.precioventa }}</td>
-                <td class="text-xs-left">{{ props.item.preciocompra }}</td>
-                <td class="text-xs-left">{{ props.item.gastocomercializacion }}</td>
-                <td class="text-xs-left">{{ props.item.utilidad }}</td>
-                <td class="text-xs-left">{{ props.item.impuesto }}</td>
-                <td class="text-xs-left">{{ props.item.maximoprecio }}</td>
-                <td class="text-xs-left">{{ props.item.minimoprecio }}</td>
-                <td class="text-xs-left">{{ props.item.estado }}</td>
-                <td class="text-xs-left">{{ props.item.codigo }}</td>
-                <td class="text-xs-left">{{ props.item.cantidadapartado }}</td>
-                <td class="text-xs-left">{{ props.item.existencia }}</td>
-                <td class="text-xs-left">{{ props.item.categoria }}</td>
                 <td class="text-xs-left">{{ props.item.presentacion }}</td>
                 <td class="text-xs-left">{{ props.item.persona }}</td>
+                <td class="text-xs-left">{{ props.item.precioventa }}</td>
+                <td class="text-xs-left">{{ props.item.preciocompra }}</td>
+                <template v-if="switch1 == true">
+                    <td class="text-xs-left">{{ props.item.gastocomercializacion }}</td>
+                    <td class="text-xs-left">{{ props.item.utilidad }}</td>
+                    <td class="text-xs-left">{{ props.item.impuesto }}</td>
+                    <td class="text-xs-left">{{ props.item.maximoprecio }}</td>
+                    <td class="text-xs-left">{{ props.item.minimoprecio }}</td>
+                    <td class="text-xs-left">{{ props.item.estado }}</td>
+                    <td class="text-xs-left">{{ props.item.codigo }}</td>
+                    <td class="text-xs-left">{{ props.item.cantidadapartado }}</td>
+                    <td class="text-xs-left">{{ props.item.existencia }}</td>
+                    <td class="text-xs-left">{{ props.item.categoria }}</td>
+                </template>
             
 
                 <td class="justify-right layout px-0">
@@ -104,7 +127,6 @@
     </div>
 </template>
 <script>
-
     import multiselect from 'vue-multiselect'
     export default {
         components:{
@@ -114,22 +136,64 @@
         data: () => ({
             search: '',
             dialog: false,
+             idcategoria: {
+                id: 0,
+                nombre: ''
+            },
+            
+            nameRules: [
+            v => !!v || 'El nombre del producto no puede estar vacio',
+            v => (v && v.length <= 199) || 'El nombre del producto no puede ser mayor a 200',
+            v => /[a-zA-Z]/.test(v) || 'El nombre del producto solo puede tener letras',
+            ],
+            decimalRules:[
+                v => /^(\d*\.)?\d*$/.test(v) || 'Solo es permitido usar numeros',
+            ],
+            numberRules:[
+                v => /^[0-9]*$/.test(v) || 'Solo es permitido usar numeros',
+            ],
             error: 0,
             errorMsj: [],
             select: [],
             categorias: [],
             presentaciones: [],
             personas: [],
-            headers: [
-                {
-                    text: 'Id',
-                    align: 'left',
-                    value: 'id'
-                },
-              
+            switch1: false,
+                
+            headersC: [
                 { 
-                    text: 'Nombre', 
-                    value: 'nombre' 
+                    text: 'Producto', 
+                    value: 'Producto' 
+                }, 
+                {
+                    text: 'Presentacion',
+                    value: 'presentacion'
+                },
+                {
+                    text: 'Proveedor',
+                    value: 'persona'
+                },
+                {
+                    text: 'Precio Venta',
+                    value: 'precioventa'
+                },
+                {
+                    text: 'Precio Compra',
+                    value: 'preciocompra'
+                }
+                ],
+            headers: [
+                { 
+                    text: 'Producto', 
+                    value: 'Producto' 
+                }, 
+                {
+                    text: 'Presentacion',
+                    value: 'presentacion'
+                },
+                {
+                    text: 'Proveedor',
+                    value: 'persona'
                 },
                 {
                     text: 'Precio Venta',
@@ -139,6 +203,7 @@
                     text: 'Precio Compra',
                     value: 'preciocompra'
                 },
+                
                 {
                     text: 'Gasto Comercializacion',
                     value: 'gastocomercializacion'
@@ -179,15 +244,7 @@
                     text: 'Categoria',
                     value: 'categoria'
                 },
-                {
-                    text: 'Presentacion',
-                    value: 'idpresentacion'
-                },
-                {
-                    text: 'Proveedor',
-                    value: 'idpersona'
-                },
-
+               
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
             producto: [],
@@ -197,7 +254,7 @@
             editedIndex: -1,
             editedItem: {
                 id: 0,
-                nombre: '',
+                Producto: '',
                 precioventa: '',
                 preciocompra: '',
                 gastocomercializacion: '',
@@ -209,13 +266,15 @@
                 codigo: '',
                 cantidadapartado: '',
                 existencia: '',
-                idcategoria: '',
+                idcategoria: 0,
                 idpresentacion: '',
                 idpersona: '',
+                porcComercializacion: '',
+                porcUtilidad: '',
             },
             defaultItem: {
                 id: 0,
-                nombre: '',
+                Producto: '',
                 precioventa: '',
                 preciocompra: '',
                 gastocomercializacion: '',
@@ -227,15 +286,19 @@
                 codigo: '',
                 cantidadapartado: '',
                 existencia: '',
-                idcategorias: '',
+                idcategoria: 0,
                 idpresentacion: '',
                 idpersona: '',
+                porcComercializacion: '',
+                porcUtilidad: '',
+                
             }
         }),
         computed: {
             formTitle() {
                 return this.editedIndex === -1 ? 'Nueva Producto' : 'Editar Producto'
             }
+            
         },
         watch: {
             dialog(val) {
@@ -247,13 +310,16 @@
             this.cargaCategorias();
             this.cargaPresentaciones();
             this.cargaPersonas();
+            this.porcentajes();
         },
         methods: {
             validate() {
+                
                 this.error = 0;
+                var x = true;
                 this.errorMsj = [];
-                if (!this.editedItem.nombre)
-                    this.errorMsj.push('El nombre del producto no puede estar vacio');
+                if (!this.editedItem.Producto)
+                    this.errorMsj.push('El nombre del producto no puede estar vacio. ');
                 /*if(!this.editedItem.idcategoria)
                     this.errorMsj.push('Se debe asignar una categoria')
                 if(!this.editedItem.idpresentacion)
@@ -261,21 +327,36 @@
                 if(!this.editedItem.idpersona)
                     this.errorMsj.push('Se debe asignar un proveedor')*/
                 if(!this.editedItem.precioventa)
-                    this.errorMsj.push('Se debe asignar un precio de venta')
+                    this.errorMsj.push('Se debe asignar un precio de venta. ')
                 if(!this.editedItem.preciocompra)
-                    this.errorMsj.push('Se debe asignar una precio de compra')
+                    this.errorMsj.push('Se debe asignar una precio de compra. ')
                 if(!this.editedItem.utilidad)
-                    this.errorMsj.push('Se debe asignar un valor de utilidad')
+                    this.errorMsj.push('Se debe asignar un valor de utilidad. ')
+                
+            
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
+            },
+            porcentajes(){
+                let me = this;
+                
+                this.editedItem.gastocomercializacion = this.editedItem.preciocompra * this.editedItem.porcComercializacion;
+                return this.editedItem.gastocomercializacion;
+                console.log(this.editedItem.gastocomercializacion);
+            },
+             porcentajes2(){
+                let me = this;
+                
+                this.editedItem.utilidad = (this.editedItem.preciocompra + this.editedItem.gastocomercializacion)* this.editedItem.porcUtilidad;
+                return this.editedItem.utilidad;
+                console.log(this.editedItem.gastocomercializacion);
             },
              cargaCategorias() {
                 let me = this;
                 axios.get('/categoria')
                 .then(function (response) {
                     me.categorias = response.data;
-
                 })
                 .catch(function (error) {
                     console.log(error.response);
@@ -286,7 +367,6 @@
                 axios.get('/presentacion')
                 .then(function (response) {
                     me.presentaciones = response.data;
-
                 })
                 .catch(function (error) {
                     console.log(error.response);
@@ -297,7 +377,6 @@
                 axios.get('/proveedores')
                 .then(function (response) {
                     me.personas = response.data;
-
                 })
                 .catch(function (error) {
                     console.log(error.response);
@@ -307,15 +386,18 @@
                 axios.get('/producto')
                     .then(response => {
                         this.producto = response.data;
+                        this.porcentajes();
                     })
                     .catch(errors => {
                         console.log(errors);
                     });
+                    this.porcentajes();
             },
             editItem(item) {
                 this.editedIndex = this.producto.indexOf(item)
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
+                this.porcentajes()
             },desactivar(item){
                 let me=this;
                 swal.fire({
@@ -405,7 +487,7 @@
                         url: '/producto/actualizar',
                         data: {
                             id: me.editedItem.id,
-                            nombre: me.editedItem.nombre,
+                            Producto: this.editedItem.Producto,
                             precioventa: me.editedItem.precioventa,
                             preciocompra: me.editedItem.preciocompra,
                             gastocomercializacion: me.editedItem.gastocomercializacion,
@@ -417,11 +499,11 @@
                             codigo: me.editedItem.codigo,
                             cantidadapartado: me.editedItem.cantidadapartado,
                             existencia: me.editedItem.existencia,
-
-                            idcategoria:me.idcategoria.id,
-                            idpresentacion:me.idpresentacion.id,
-                            idpersona:me.idpersona.id
-
+                            idcategoria:me.editedItem.idcategoria.id,
+                            idpresentacion:me.editedItem.idpresentacion.id,
+                            idpersona:me.editedItem.idpersona.id,
+                            porcComercializacion: me.editedItem.porcComercializacion,
+                            porcUtilidad: me.editedItem.porcUtilidad
                         }
                     }).then(function (response) {
                         swal.fire({
@@ -447,7 +529,7 @@
                         url: '/producto/registrar',
                         data: {
                             
-                            nombre: me.editedItem.nombre,
+                            Producto: me.editedItem.Producto,
                             precioventa: me.editedItem.precioventa,
                             preciocompra: me.editedItem.preciocompra,
                             gastocomercializacion: me.editedItem.gastocomercializacion,
@@ -459,9 +541,11 @@
                             codigo: me.editedItem.codigo,
                             cantidadapartado: me.editedItem.cantidadapartado,
                             existencia: me.editedItem.existencia,
-                            idcategoria:me.idcategoria.id,
-                            idpresentacion:me.idpresentacion.id,
-                            idpersona:me.idpersona.id
+                            idcategoria:me.editedItem.idcategoria.id,
+                            idpresentacion:me.editedItem.idpresentacion.id,
+                            idpersona:me.editedItem.idpersona.id,
+                            porcComercializacion: me.editedItem.porcComercializacion,
+                            porcUtilidad: me.editedItem.porcUtilidad
                         }
                     }).then(function (response) {
                         swal.fire({
@@ -482,6 +566,31 @@
                         me.close();
                     }); 
                 }
+            },
+            close() {
+                this.dialog = false;
+                this.editar = 0;
+                this.editedItem.idcategoria = 0;
+                this.editedItem.idpresentacion = 0;
+                this.editedItem.idpersona =0;
+                this.editedItem.Producto = '';
+                this.editedItem.precioventa = '';
+                this.editedItem.preciocompra ='';
+                this.editedItem.gastocomercializacion ='';
+                this.editedItem.utilidad = '';
+                this.editedItem.impuesto = '';
+                this.editedItem.maximoprecio ='';
+                this.editedItem.minimoprecio ='';
+                this.editedItem.codigo ='';
+                this.editedItem.cantidadapartado='';
+                this.editedItem.existencia='';
+                this.editedItem.porcComercializacion='',
+                this.editedItem.porcUtilidad='';
+                this.categorias = [];
+                this.presentaciones = [];
+                this.personas = [];
+                this.error = 0;
+                this.errorMsj = [];
             }
         }
     }
