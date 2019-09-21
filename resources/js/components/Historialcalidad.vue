@@ -29,6 +29,8 @@
                                         <v-radio label="Totalmente Satisfecho" value="5"></v-radio>
                                     </v-radio-group>
                                     <v-date-picker v-model="editedItem.fecha" locale="es-GT" color="green lighten-1"></v-date-picker>
+                                    <v-text-field type="text" v-model="editedItem.descripcion" maxlength="500" 
+                                    label="Descripción"></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -57,7 +59,7 @@
                 <td class="text-xs-left">{{ props.item.Producto }}</td>
                 <td class="text-xs-left">{{ props.item.calificacion }}</td>
                 <td class="text-xs-left">{{ props.item.fecha }}</td>
-            
+                <td class="text-xs-left">{{ props.item.descripcion }}</td>
                 <td class="justify-right layout px-0">
                     <v-icon small class="mr-2" @click="editItem(props.item)">
                         edit
@@ -108,7 +110,10 @@
                     text: 'Fecha',
                     value: 'fecha'
                 },
-                
+                 {
+                    text: 'Descripción',
+                    value: 'descripcion'
+                },
 
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
@@ -119,11 +124,13 @@
                 id: 0,
                 idproducto: '',
                 calificacion: '',
+                descripcion: '',
             },
             defaultItem: {
                 id: 0,
                 idproducto: '',
                 calificacion: '',
+                descripcion: '',
             }
         }),
         computed: {
@@ -235,8 +242,8 @@
                             id: me.editedItem.id,
                             calificacion: me.editedItem.calificacion,
                             idproducto: me.idproducto.id,
-                            fecha: me.editedItem.fecha
-
+                            fecha: me.editedItem.fecha,
+                            descripcion: me.editedItem.descripcion
                         }
                     }).then(function (response) {
                         swal.fire({
@@ -263,7 +270,8 @@
                         data: {
                             calificacion: me.editedItem.calificacion,
                             idproducto:me.idproducto.id,   
-                            fecha: me.editedItem.fecha
+                            fecha: me.editedItem.fecha,
+                            descripcion: me.editedItem.descripcion
                         }
                     }).then(function (response) {
                         swal.fire({

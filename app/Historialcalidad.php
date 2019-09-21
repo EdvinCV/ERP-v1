@@ -8,7 +8,7 @@ class Historialcalidad extends Model
 {
     protected $table = 'historialcalidads';
     protected $primarykey = 'id';
-    protected $fillable = ['id','calificacion','fecha','idproducto'];
+    protected $fillable = ['id','calificacion','fecha','idproducto', 'descripcion'];
     public function producto() {
         return $this->belongsTo('\App\Producto');
     }

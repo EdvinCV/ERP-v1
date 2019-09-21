@@ -12,7 +12,7 @@ class HistorialcalidadController extends Controller
     public function index(Request $request){
             $historialcalidad = DB::table('historialcalidads')
             ->select(DB::raw('historialcalidads.id, productos.nombre as Producto,historialcalidads.calificacion,
-            DATE_FORMAT(historialcalidads.fecha,"%d-%m-%Y") as fecha'))
+            DATE_FORMAT(historialcalidads.fecha,"%d-%m-%Y") as fecha, descripcion'))
             ->join('productos','historialcalidads.idproducto','=','productos.id')->get();
         return $historialcalidad;
     }
@@ -23,6 +23,7 @@ class HistorialcalidadController extends Controller
             $historialcalidad->idproducto=$request->idproducto;
             $historialcalidad->calificacion = $request->calificacion;
             $historialcalidad->fecha = $request->fecha;
+            $historialcalidad->descripcion = $request->descripcion;
             $historialcalidad->save();
             return 'Historial de calidad agregado correctamente';
         }catch(\Exception $e){
@@ -36,12 +37,14 @@ class HistorialcalidadController extends Controller
         $idproducto=$request->idproducto;
         $calificacion=$request->calificacion;
         $fecha=$request->fecha;
+        $descripcion=$request->descripcion;
         try{
             $historialcalidad= Historialcalidad::findOrFail($id);
             $id=$request->id;
             $historialcalidad->idproducto=$request->idproducto;
             $historialcalidad->calificacion = $request->calificacion;
             $historialcalidad->fecha = $request->fecha;
+            $historialcalidad->descripcion = $request->descripcion;
             $historialcalidad->save();
             return 'Historial de calidad modificado correctamente';
         

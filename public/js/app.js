@@ -2073,6 +2073,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2097,6 +2099,9 @@ __webpack_require__.r(__webpack_exports__);
         text: 'Fecha',
         value: 'fecha'
       }, {
+        text: 'Descripción',
+        value: 'descripcion'
+      }, {
         text: 'Acciones',
         value: 'action',
         sortable: false
@@ -2107,12 +2112,14 @@ __webpack_require__.r(__webpack_exports__);
       editedItem: {
         id: 0,
         idproducto: '',
-        calificacion: ''
+        calificacion: '',
+        descripcion: ''
       },
       defaultItem: {
         id: 0,
         idproducto: '',
-        calificacion: ''
+        calificacion: '',
+        descripcion: ''
       }
     };
   },
@@ -2224,7 +2231,8 @@ __webpack_require__.r(__webpack_exports__);
             id: me.editedItem.id,
             calificacion: me.editedItem.calificacion,
             idproducto: me.idproducto.id,
-            fecha: me.editedItem.fecha
+            fecha: me.editedItem.fecha,
+            descripcion: me.editedItem.descripcion
           }
         }).then(function (response) {
           swal.fire({
@@ -2253,7 +2261,8 @@ __webpack_require__.r(__webpack_exports__);
           data: {
             calificacion: me.editedItem.calificacion,
             idproducto: me.idproducto.id,
-            fecha: me.editedItem.fecha
+            fecha: me.editedItem.fecha,
+            descripcion: me.editedItem.descripcion
           }
         }).then(function (response) {
           swal.fire({
@@ -43169,6 +43178,25 @@ var render = function() {
                                       },
                                       expression: "editedItem.fecha"
                                     }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      type: "text",
+                                      maxlength: "500",
+                                      label: "Descripción"
+                                    },
+                                    model: {
+                                      value: _vm.editedItem.descripcion,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedItem,
+                                          "descripcion",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedItem.descripcion"
+                                    }
                                   })
                                 ],
                                 1
@@ -43265,6 +43293,10 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", { staticClass: "text-xs-left" }, [
                   _vm._v(_vm._s(props.item.fecha))
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-xs-left" }, [
+                  _vm._v(_vm._s(props.item.descripcion))
                 ]),
                 _vm._v(" "),
                 _c(
