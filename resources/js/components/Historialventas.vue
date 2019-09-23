@@ -1,82 +1,19 @@
 <template>
     <div>
+        <h3>Historial ventas</h3>
         <v-toolbar flat color="white">
-            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
-            <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="500px">
-                <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark class="mb-2" v-on="on">Asignar Permiso</v-btn>
-                </template>
-                <v-card>
-                    <v-card-title>
-                        <span class="headline">{{ formTitle }}</span>
-                    </v-card-title>
-
-                    <v-card-text>
-                        <v-container grid-list-md>
-                            <v-layout wrap>
-                                <v-flex v-if="this.editedIndex === -1" xs12 sm12 md12>
-                                    <v-select
-                                        v-model="selectRol"
-                                        :hint="`${selectRol.nombreRol}`"
-                                        :items="listaRoles"
-                                        item-text="nombreRol"
-                                        item-value="id"
-                                        label="Seleccionar rol"
-                                        persistent-hint
-                                        return-object
-                                        single-line
-                                    ></v-select>
-                                </v-flex>
-                                <v-flex v-if="this.editedIndex === -1" xs12 sm12 md12>
-                                    <v-select
-                                        v-model="selectPermiso"
-                                        :items="listaPermisos"
-                                        item-text="nombrePermiso"
-                                        item-value="id"
-                                        label="Seleccionar permiso"
-                                        persistent-hint
-                                        return-object
-                                        single-line
-                                    ></v-select>
-                                </v-flex>
-                                <v-flex xs12 sm12 md12 >
-                                    Estado
-                                    <v-switch 
-                                        v-model="switch1"
-                                        :label = "switch1 ? 'Activado' : 'Desactivado' "
-                                    ></v-switch>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card-text>
-                    <template v-if="error">
-                        <v-divider></v-divider>
-                        <div class="text-xs-center">
-                            <strong class="red--text text--lighten-1" v-for="e in errorMsj" :key="e" v-text="e"></strong>
-                            <br>
-                        </div>
-                        <v-divider></v-divider>
-                    </template>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
-                        <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
+        <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
         </v-toolbar>
-        
-
-        <v-data-table :headers="headers" :items="permisos" class="elevation-1" :search="search">
+        <v-data-table :headers="headers" :items="ventas" class="elevation-1" :search="search">
             <template v-slot:items="props">
-                <td class="text-xs-left">{{ props.item.id }}</td>
-                <td class="text-xs-left">{{ props.item.nombrePermiso }}</td>
-                <td class="text-xs-left">{{ props.item.nombreRol }}</td>
-                <td class="text-xs-left"><v-chip :color="getColor(props.item.estado)" dark>{{ verEstado(props.item.estado) }}</v-chip></td>
+                <td class="text-xs-left">{{ props.item.nombreCliente }}</td>
+                <td class="text-xs-left">Q. {{ props.item.total }}</td>
+                <td class="text-xs-left">{{ props.item.numeroFactura }}</td>
+                <td class="text-xs-left">{{ props.item.created_at }}</td>
+                <td class="text-xs-left"><v-chip :color="getColor(props.item.facturado)" dark>{{ verEstado(props.item.facturado) }}</v-chip></td>
                 <td class="justify-center layout px-0">
-                    <v-icon small class="mr-2" @click="editItem(props.item)">
-                        edit
+                    <v-icon small @click="verDetalles(props.item.id)">
+                        fas fa-edit
                     </v-icon>
                     <v-icon small @click="deleteItem(props.item)">
                         delete
@@ -99,38 +36,21 @@
         data: () => ({
             search: '',
             dialog: false,
-            selectRol: [],
-            selectPermiso: [],
-            switch1: false,
+            ventas: [],
             error: 0,
-            bandera: 0,
             errorMsj: [],
             headers: [
-                {
-                    text: 'Id',
-                    align: 'left',
-                    value: 'id'
-                },
-                { text: 'Permiso', value: 'nombrePermiso' },
-                { text: 'Rol', value: 'nombreRol' },
-                { text: 'Estado', value: 'estado' },
+                { text: 'Cliente', value: 'nombreCliente' },
+                { text: 'Total', value: 'total' },
+                { text: 'No. Factura', value: 'numeroFactura' },
+                { text: 'Fecha', value: 'created_at' },
+                { text: 'Facturado', value: 'facturado' },
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
-            permisos: [],
-            listaRoles: [],
-            listaPermisos: [],
             editedIndex: -1,
             editedItem: {
-                id: 0,
-                nombreRol: '',
-                nombrePermiso: '',
-                estado: true,
             },
             defaultItem: {
-                id: 0,
-                nombreRol: '',
-                nombrePermiso: '',
-                estado: true,
             }
         }),
 
@@ -148,8 +68,6 @@
 
         created() {
             this.initialize();
-            this.cargaPermisos();
-            this.cargaRoles();
         },
 
         methods: {
@@ -160,8 +78,8 @@
             },
 
             verEstado (estado) {
-                if(estado) return "Activo";
-                else return "Inactivo";
+                if(estado) return "Facturado";
+                else return "No Facturado";
             },
 
             validate() {
@@ -173,44 +91,22 @@
             },
             initialize() {
                 let me = this;
-                axios.get('/permisos')
+                axios.get('/ventas/listar')
                     .then(response => {
-                        this.permisos = response.data;
+                        this.ventas = response.data;
                     })
                     .catch(errors => {
                         console.log(errors);
                     });
             },
-            cargaPermisos() {
-                let me = this;
-                axios.get('/listaP')
-                .then(function (response) {
-                    me.listaPermisos = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error.response);
-                });
-            },
-            cargaRoles() {
-                let me = this;
-                axios.get('/rol')
-                .then(function (response) {
-                    me.listaRoles = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error.response);
-                });
-            },
-            editItem(item) {
-                this.editedIndex = this.permisos.indexOf(item)
-                this.editedItem = Object.assign({}, item)
-                this.dialog = true
+            verDetalles(item) {
+                window.open(window.location.origin +'/ventas/'+item+'/detalles');
             },
 
             deleteItem(item) {
                 let me=this;
                 swal.fire({
-                    title: 'Quieres eliminar este permiso?',
+                    title: 'Quieres eliminar esta venta?',
                     text: "No podras revertir la eliminacion!",
                     type: 'warning',
                     showCancelButton: true,
@@ -220,7 +116,7 @@
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {
-                        axios.delete(`/rolPermiso/${item.id}/delete`).then(response => {
+                        axios.delete(`/venta/${item.id}/eliminar`).then(response => {
                             me.initialize();
                             swal.fire({
                             position: 'top-end',

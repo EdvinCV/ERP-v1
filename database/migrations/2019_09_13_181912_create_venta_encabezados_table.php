@@ -19,11 +19,13 @@ class CreateVentaEncabezadosTable extends Migration
             $table->decimal('iva', 12, 3);
             $table->decimal('totalSinIVA', 12, 3);
             $table->string('serie',20)->nullable();
+            $table->boolean('facturado');
             $table->integer('numeroFactura')->nullable();
             $table->bigInteger('idPersona')->unsigned();
             $table->bigInteger('idEmpleado')->unsigned();
             $table->bigInteger('idTipoPago')->unsigned();
             $table->string('cheque')->nullable();
+            $table->string('banco')->nullable();
             //Llaves foráneas
             $table->foreign('idPersona')->references('id')->on('personas');
             $table->foreign('idEmpleado')->references('id')->on('users');
