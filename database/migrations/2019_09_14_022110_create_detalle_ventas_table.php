@@ -20,7 +20,6 @@ class CreateDetalleVentasTable extends Migration
             $table->decimal('descuento',12,3);
             $table->bigInteger('idProducto')->unsigned();
             $table->bigInteger('idVentaEncabezado')->unsigned();
-
             $table->foreign('idProducto')->references('id')->on('productos');
             $table->foreign('idVentaEncabezado')->references('id')->on('venta_encabezados');
             $table->timestamps();

@@ -23,6 +23,7 @@ Vue.component('Historialventas', require('./components/Historialventas.vue').def
 Vue.component('Orden', require('./components/Orden.vue').default);
 
 
+Vue.component('Caja', require('./components/Caja.vue').default);
 
 
 const app = new Vue({
@@ -30,5 +31,5 @@ const app = new Vue({
     data:{
         menu:100,
         ruta:''
-    }
+    },
 });

@@ -77,3 +77,6 @@ Route::get('/usuarios', 'UsuarioController@index');
 Route::post('/usuario/registrar', 'UsuarioController@store');
 Route::delete('usuario/{id}/delete', 'UsuarioController@drop');
 Route::put('usuario/actualizar', 'UsuarioController@update');
+// Rutas Caja
+Route::get('/caja', 'CajaController@index');
+Route::post('/caja/registrar', 'CajaController@store');
