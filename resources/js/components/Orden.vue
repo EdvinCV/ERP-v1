@@ -1,23 +1,6 @@
 <template>
     <div>
         <h2>Venta</h2>
-        <v-switch 
-            v-model="switchFact"
-            :label = "`Facturado`"
-        ></v-switch>
-        <v-flex lg3 md3 xs3 pa-2>
-            <v-text-field v-model="editedItem.numFact" label="No. Factura"></v-text-field>
-        </v-flex>
-        <v-radio-group v-model="radios" row @change="pago()">
-            <v-radio label="Efectivo" value="efectivo"></v-radio>
-            <v-radio label="Cheque" value="cheque"></v-radio>
-            <v-flex lg3 md3 xs3 pa-2>
-                    <v-text-field v-model="editedItem.cheque" label="No. Cheque" v-if="bandera"></v-text-field>
-            </v-flex>
-            <v-flex lg3 md3 xs3 pa-2>
-                <v-text-field v-model="editedItem.banco" label="Banco" v-if="bandera"></v-text-field>
-            </v-flex>
-        </v-radio-group>
         <v-container fluid>
             <!--LAYOUT DE CLIENTE -->
             <h6>Información cliente</h6>
@@ -25,12 +8,6 @@
                 <v-flex lg6 md6 xs6 pa-2>
                     <multiselect @input="buscarNIT()" v-model="editedItem.idCliente" :options="clientes" placeholder="Seleccione un cliente"
                         label="nombreCliente" track-by="nombreCliente"></multiselect>
-                </v-flex>
-                <v-flex lg3 md3 xs6 pa-2>
-                    <v-text-field v-model="editedItem.nit" label="NIT" readonly></v-text-field>
-                </v-flex>
-                <v-flex lg3 md3 xs6 pa-2>
-                    <v-text-field v-model="editedItem.direccion" label="Dirección"></v-text-field>
                 </v-flex>
             </v-layout>
             <!--LAYOUT DE PRODUCTOS-->
@@ -43,12 +20,6 @@
                 <v-flex lg2 md2 xs2 pa-2>
                     <v-text-field v-model="editedItem.cantProducto" label="Cantidad"></v-text-field>
                 </v-flex>
-                <v-flex lg2 md2 xs2 pa-2>
-                    <v-text-field v-model="editedItem.precio" label="Precio"></v-text-field>
-                </v-flex>
-                <v-flex lg2 md2 xs2 pa-2>
-                    <v-text-field v-model="editedItem.descuento" label="Descuento" ></v-text-field>
-                </v-flex>
                 <v-flex xs1 sm1 md1>
                     <v-btn @click="agregarProducto()" fab dark small color="primary">
                         <v-icon dark>add</v-icon>
@@ -56,7 +27,7 @@
                 </v-flex>
             </v-layout>
             <!--LAYOUT PRODUCTOS INGRESADOS-->
-            <h6>Productos ingresados</h6>
+            <h6>Listado Orden Compra</h6>
             <template>
                 <v-data-table
                     :headers="headersAddP"
@@ -67,13 +38,6 @@
                 <template v-slot:items="props">
                     <td class="text-xs-left">{{ props.item.nombreProducto }}</td>
                     <td class="text-xs-left">{{ props.item.cantidad }}</td>
-                    <td class="text-xs-left">{{ props.item.precio }}</td>
-                    <td class="text-xs-left">{{ props.item.sub }}</td>
-                    <td class="justify-center layout px-0">
-                        <v-icon small @click="eliminarProducto(props)">
-                            delete
-                        </v-icon>
-                    </td>
                 </template>
                 </v-data-table>
                 <v-layout row>
@@ -100,17 +64,11 @@
         },
         data: () => ({
             search: '',
-            bandera: false,
             dialog: false,
             error: 0,
-            radios: '',
-            switchFact: false,
             errorMsj: [],
             headersAddP: [
                 { text: 'Descripcion', value: 'prod' },
-                { text: 'Cantidad', value: 'action'},
-                { text: 'Precio', value: 'pu'},
-                { text: 'Subtotal', value: 'prod' },
             ],
             carrito: [],
             prods: [],
@@ -118,29 +76,18 @@
             editedIndex: -1,
             editedItem: {
                 id: 0,
-                idCliente: '',
-                nit: '',
-                direccion: '',
                 detProducto: '',
                 cantProducto: '',
                 precio: '',
                 subtotal: '',
-                descuento: '',
                 total: '',
-                cheque: '',
-                banco: '',
-                numFact: 0,
                 detalle: []
             },
             defaultItem: {
-                idCliente: '',
-                nit: '',
-                direccion: '',
                 detProducto: '',
                 cantProducto: '',
                 precio: '',
                 subtotal: '',
-                descuento: '',
                 total: '',
                 detalle: []
             }
@@ -244,23 +191,27 @@
             },
             agregarProducto(){
                 let me = this;
-                if(this.editedItem.cantProducto == 0 || this.editedItem.precio == 0 || !this.editedItem.detProducto || this.editedItem.descuento < 0 || this.editedItem.descuento > 100)
+               /* if(this.editedItem.cantProducto == 0 || this.editedItem.precio == 0 || !this.editedItem.detProducto || this.editedItem.descuento < 0 || this.editedItem.descuento > 100)
                     this.mostrarAlert();
                 else{
                     me.carrito.push({
-                    idProd: me.editedItem.detProducto.id,
-                    nombreProducto: me.editedItem.detProducto.Producto,
-                    cantidad: parseInt(me.editedItem.cantProducto),
-                    precio: me.editedItem.detProducto.precioventa,
-                    descuento: me.editedItem.descuento,
-                    sub: ( (parseInt(me.editedItem.cantProducto) * parseFloat(me.editedItem.detProducto.precioventa) * (100 - me.editedItem.descuento)) / 100)
+                        idProd: me.editedItem.detProducto.id,
+                        nombreProducto: me.editedItem.detProducto.Producto,
+                        cantidad: parseInt(me.editedItem.cantProducto),
+                    });*/
+                var e = [];
+                this.headersAddP.forEach(function(element){
+                    e.splice(e.length,0,element["text"]);
+                });
+                var indice = e.indexOf(this.editedItem.idCliente.nombreCliente);
+                if(indice === -1){
+                    this.headersAddP.push({
+                        text: this.editedItem.idCliente.nombreCliente,
+                        value: this.editedItem.idCliente.nombreCliente
                     });
-                    me.calcularTotal();
-                    me.editedItem.cantProducto = 0;
-                    me.editedItem.precio = 0;
-                    me.editedItem.descuento = 0;
-                    me.editedItem.detProducto = '';
-                }            
+                }
+                   
+                           
             },
             eliminarProducto(e){
                 let me = this;
@@ -343,6 +294,13 @@
                 me.editedItem.subtotal = t;
                 var iva = t*0.12;
                 me.editedItem.total = t + iva ;
+            },
+            agregarColumna(){
+                this.headersAddP.push({
+                    text: 'Cliente',
+                    value: 'cliente'
+
+                });
             },
             close() {
                 this.error=0;

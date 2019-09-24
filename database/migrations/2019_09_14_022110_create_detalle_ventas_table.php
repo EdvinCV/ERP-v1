@@ -17,6 +17,7 @@ class CreateDetalleVentasTable extends Migration
             $table->bigIncrements('id');
             $table->decimal('subtotal', 12, 3);
             $table->integer('cantidad');
+            $table->decimal('descuento',12,3);
             $table->bigInteger('idProducto')->unsigned();
             $table->bigInteger('idVentaEncabezado')->unsigned();
             $table->foreign('idProducto')->references('id')->on('productos');

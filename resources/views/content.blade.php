@@ -1,5 +1,9 @@
 @extends('layout')
 @section('content')
+
+    <template v-if="menu==0">
+        <Usuarios></Usuarios>
+    </template>
     <template v-if="menu==1">
         <Proveedor></Proveedor>
     </template>
@@ -33,5 +37,11 @@
     </template>
     <template v-if="menu==20">
         <Venta></Venta>
+    </template>
+    <template v-if="menu==21">
+        <HistorialVentas></HistorialVentas>
+    </template>
+    <template v-if="menu==22">
+        <Orden></Orden>
     </template>
 @endsection
