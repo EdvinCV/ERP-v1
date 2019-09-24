@@ -38,4 +38,7 @@
     <template v-if="menu==21">
         <HistorialVentas></HistorialVentas>
     </template>
+    <template v-if="menu==22">
+        <Orden></Orden>
+    </template>
 @endsection
