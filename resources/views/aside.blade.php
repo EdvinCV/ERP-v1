@@ -71,12 +71,8 @@
                                     class="feather icon-home"></i></span><span class="pcoded-mtext">Ventas</span></a>
                             <ul class="pcoded-submenu">
                                 <li class=""><a @click="menu=20">Nueva venta</a></li>
-<<<<<<< HEAD
                                 <li class=""><a @click="menu=21">Historial ventas</a></li>
-=======
-                                <li class=""><a @click="menu=0">Historial ventas</a></li>
                                 <li class=""><a @click="menu=11">Caja</a></li>
->>>>>>> 9b28f9353981da1613739e9e6df995ec8413ed14
                             </ul>
                         </li>
                     @endif
