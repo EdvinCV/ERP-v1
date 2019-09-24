@@ -50,7 +50,6 @@
                 <td class="text-xs-left">{{ props.item.cantidad }}</td>
                 <td class="text-xs-left">{{ props.item.created_at }}</td>
                 <td class="text-xs-left">{{ props.item.name }}</td>
-                <td class="text-xs-left">{{ props.item.tipo }}</td>
                 <td class="text-xs-left">{{ props.item.observacion }}</td>
                 
             </template>
@@ -85,10 +84,6 @@
                 {
                     text: 'Usuario',
                     value: 'name'
-                },
-                {
-                    text: 'Tipo',
-                    value: 'tipo'
                 },
                 {
                     text: 'Observaciones',

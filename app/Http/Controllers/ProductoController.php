@@ -31,7 +31,7 @@ class ProductoController extends Controller
             $producto->idcategoria=$request->idcategoria;
             $producto->idpresentacion=$request->idpresentacion;
             $producto->idpersona=$request->idpersona;
-            $producto->nombre = $request->nombre;
+            $producto->nombre = $request->Producto;
             $producto->precioventa=$request->precioventa;
             $producto->preciocompra=$request->preciocompra;
             $producto->gastocomercializacion=$request->gastocomercializacion;

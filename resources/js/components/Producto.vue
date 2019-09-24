@@ -15,7 +15,7 @@
                         <span class="headline">{{ formTitle }}</span>
                     </v-card-title>
                     
-                    <v-card-text>
+                    <v-card-text >
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
@@ -25,7 +25,7 @@
                                     <v-text-field label="Precio Compra" :rules="decimalRules" prefix="Q" v-model="editedItem.preciocompra" ></v-text-field>    
                                     <v-layout row>
                                         <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field @click="porcentajes()" label="Porcentaje de Comercializacion" :rules="decimalRules" v-model="editedItem.porcComercializacion"></v-text-field>
+                                            <v-text-field @change="porcentajes()" label="Porcentaje de Comercializacion" :rules="decimalRules" v-model="editedItem.porcComercializacion"></v-text-field>
                                         </v-flex>
                                          <v-flex lg6 md6 xs6 pa-2>
                                             <v-text-field label="Gasto de Comercializacion" :rules="decimalRules" prefix="Q" v-model="editedItem.gastocomercializacion"></v-text-field>
@@ -33,10 +33,10 @@
                                     </v-layout>
                                       <v-layout row>
                                         <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field @click="porcentajes2()" label="Porcentaje de Utilidad" :rules="decimalRules" v-model="editedItem.porcUtilidad"></v-text-field>
+                                            <v-text-field @change="porcentajes2()" label="Porcentaje de Utilidad" :rules="decimalRules" v-model="editedItem.porcUtilidad" ></v-text-field>
                                         </v-flex>
                                          <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field label="Utilidad" :rules="decimalRules" prefix="Q" v-model="editedItem.utilidad"></v-text-field>
+                                            <v-text-field label="Utilidad" :rules="decimalRules" prefix="Q" v-model="editedItem.utilidad" ></v-text-field>
                                         </v-flex>
                                     </v-layout>
                                     
@@ -136,10 +136,7 @@
         data: () => ({
             search: '',
             dialog: false,
-             idcategoria: {
-                id: 0,
-                nombre: ''
-            },
+
             
             nameRules: [
             v => !!v || 'El nombre del producto no puede estar vacio',
@@ -147,10 +144,10 @@
             v => /[a-zA-Z]/.test(v) || 'El nombre del producto solo puede tener letras',
             ],
             decimalRules:[
-                v => /^(\d*\.)?\d*$/.test(v) || 'Solo es permitido usar numeros',
+                v => /^\d{1,3}(?:,\s?\d{3})*(?:\.\d*)?$/.test(v) || 'Solo es permitido usar numeros',
             ],
             numberRules:[
-                v => /^[0-9]*$/.test(v) || 'Solo es permitido usar numeros',
+                v => /^[0-9]+$/.test(v) || 'Solo es permitido usar numeros',
             ],
             error: 0,
             errorMsj: [],
@@ -266,7 +263,7 @@
                 codigo: '',
                 cantidadapartado: '',
                 existencia: '',
-                idcategoria: 0,
+                idcategoria: '',
                 idpresentacion: '',
                 idpersona: '',
                 porcComercializacion: '',
@@ -286,7 +283,7 @@
                 codigo: '',
                 cantidadapartado: '',
                 existencia: '',
-                idcategoria: 0,
+                idcategoria: '',
                 idpresentacion: '',
                 idpersona: '',
                 porcComercializacion: '',
@@ -310,7 +307,7 @@
             this.cargaCategorias();
             this.cargaPresentaciones();
             this.cargaPersonas();
-            this.porcentajes();
+
         },
         methods: {
             validate() {
@@ -338,19 +335,25 @@
                     this.error = 1;
                 return this.error;
             },
+            
             porcentajes(){
                 let me = this;
-                
-                this.editedItem.gastocomercializacion = this.editedItem.preciocompra * this.editedItem.porcComercializacion;
-                return this.editedItem.gastocomercializacion;
+                var r;
+                r = this.editedItem.preciocompra * this.editedItem.porcComercializacion;
+                r = Number(r.toFixed(2));
+                this.editedItem.gastocomercializacion = r;
+                return r;
                 console.log(this.editedItem.gastocomercializacion);
             },
              porcentajes2(){
                 let me = this;
-                
-                this.editedItem.utilidad = (this.editedItem.preciocompra + this.editedItem.gastocomercializacion)* this.editedItem.porcUtilidad;
-                return this.editedItem.utilidad;
-                console.log(this.editedItem.gastocomercializacion);
+                var r; 
+                r = parseFloat(this.editedItem.preciocompra) + parseFloat(this.editedItem.gastocomercializacion);
+                r = r * parseFloat(this.editedItem.porcUtilidad);
+                r = Number(r.toFixed(2));
+                this.editedItem.utilidad = r;
+                return r;
+                console.log(r);
             },
              cargaCategorias() {
                 let me = this;
@@ -386,18 +389,18 @@
                 axios.get('/producto')
                     .then(response => {
                         this.producto = response.data;
-                        this.porcentajes();
+                        
                     })
                     .catch(errors => {
                         console.log(errors);
                     });
-                    this.porcentajes();
+                   
             },
             editItem(item) {
                 this.editedIndex = this.producto.indexOf(item)
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
-                this.porcentajes()
+                
             },desactivar(item){
                 let me=this;
                 swal.fire({

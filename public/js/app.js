@@ -1763,7 +1763,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1780,9 +1779,6 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         text: 'Usuario',
         value: 'name'
-      }, {
-        text: 'Tipo',
-        value: 'tipo'
       }, {
         text: 'Observaciones',
         value: 'observacion'
@@ -3592,15 +3588,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     multiselect: vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default.a
   },
   data: function data() {
-    var _ref;
-
-    return _ref = {
+    return {
       search: '',
       dialog: false,
-      idcategoria: {
-        id: 0,
-        nombre: ''
-      },
       nameRules: [function (v) {
         return !!v || 'El nombre del producto no puede estar vacio';
       }, function (v) {
@@ -3609,10 +3599,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return /[a-zA-Z]/.test(v) || 'El nombre del producto solo puede tener letras';
       }],
       decimalRules: [function (v) {
-        return /^(\d*\.)?\d*$/.test(v) || 'Solo es permitido usar numeros';
+        return /^\d{1,3}(?:,\s?\d{3})*(?:\.\d*)?$/.test(v) || 'Solo es permitido usar numeros';
       }],
       numberRules: [function (v) {
-        return /^[0-9]*$/.test(v) || 'Solo es permitido usar numeros';
+        return /^[0-9]+$/.test(v) || 'Solo es permitido usar numeros';
       }],
       error: 0,
       errorMsj: [],
@@ -3687,46 +3677,52 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         value: 'action',
         sortable: false
       }],
-      producto: []
-    }, _defineProperty(_ref, "idcategoria", -1), _defineProperty(_ref, "idpresentacion", -1), _defineProperty(_ref, "idpersona", -1), _defineProperty(_ref, "editedIndex", -1), _defineProperty(_ref, "editedItem", {
-      id: 0,
-      Producto: '',
-      precioventa: '',
-      preciocompra: '',
-      gastocomercializacion: '',
-      utilidad: '',
-      impuesto: '',
-      maximoprecio: '',
-      minimoprecio: '',
-      estado: '',
-      codigo: '',
-      cantidadapartado: '',
-      existencia: '',
-      idcategoria: 0,
-      idpresentacion: '',
-      idpersona: '',
-      porcComercializacion: '',
-      porcUtilidad: ''
-    }), _defineProperty(_ref, "defaultItem", {
-      id: 0,
-      Producto: '',
-      precioventa: '',
-      preciocompra: '',
-      gastocomercializacion: '',
-      utilidad: '',
-      impuesto: '',
-      maximoprecio: '',
-      minimoprecio: '',
-      estado: '',
-      codigo: '',
-      cantidadapartado: '',
-      existencia: '',
-      idcategoria: 0,
-      idpresentacion: '',
-      idpersona: '',
-      porcComercializacion: '',
-      porcUtilidad: ''
-    }), _ref;
+      producto: [],
+      idcategoria: -1,
+      idpresentacion: -1,
+      idpersona: -1,
+      editedIndex: -1,
+      editedItem: {
+        id: 0,
+        Producto: '',
+        precioventa: '',
+        preciocompra: '',
+        gastocomercializacion: '',
+        utilidad: '',
+        impuesto: '',
+        maximoprecio: '',
+        minimoprecio: '',
+        estado: '',
+        codigo: '',
+        cantidadapartado: '',
+        existencia: '',
+        idcategoria: '',
+        idpresentacion: '',
+        idpersona: '',
+        porcComercializacion: '',
+        porcUtilidad: ''
+      },
+      defaultItem: {
+        id: 0,
+        Producto: '',
+        precioventa: '',
+        preciocompra: '',
+        gastocomercializacion: '',
+        utilidad: '',
+        impuesto: '',
+        maximoprecio: '',
+        minimoprecio: '',
+        estado: '',
+        codigo: '',
+        cantidadapartado: '',
+        existencia: '',
+        idcategoria: '',
+        idpresentacion: '',
+        idpersona: '',
+        porcComercializacion: '',
+        porcUtilidad: ''
+      }
+    };
   },
   computed: {
     formTitle: function formTitle() {
@@ -3743,7 +3739,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.cargaCategorias();
     this.cargaPresentaciones();
     this.cargaPersonas();
-    this.porcentajes();
   },
   methods: _defineProperty({
     validate: function validate() {
@@ -3766,15 +3761,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     porcentajes: function porcentajes() {
       var me = this;
-      this.editedItem.gastocomercializacion = this.editedItem.preciocompra * this.editedItem.porcComercializacion;
-      return this.editedItem.gastocomercializacion;
+      var r;
+      r = this.editedItem.preciocompra * this.editedItem.porcComercializacion;
+      r = Number(r.toFixed(2));
+      this.editedItem.gastocomercializacion = r;
+      return r;
       console.log(this.editedItem.gastocomercializacion);
     },
     porcentajes2: function porcentajes2() {
       var me = this;
-      this.editedItem.utilidad = (this.editedItem.preciocompra + this.editedItem.gastocomercializacion) * this.editedItem.porcUtilidad;
-      return this.editedItem.utilidad;
-      console.log(this.editedItem.gastocomercializacion);
+      var r;
+      r = parseFloat(this.editedItem.preciocompra) + parseFloat(this.editedItem.gastocomercializacion);
+      r = r * parseFloat(this.editedItem.porcUtilidad);
+      r = Number(r.toFixed(2));
+      this.editedItem.utilidad = r;
+      return r;
+      console.log(r);
     },
     cargaCategorias: function cargaCategorias() {
       var me = this;
@@ -3805,18 +3807,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       axios.get('/producto').then(function (response) {
         _this.producto = response.data;
-
-        _this.porcentajes();
       })["catch"](function (errors) {
         console.log(errors);
       });
-      this.porcentajes();
     },
     editItem: function editItem(item) {
       this.editedIndex = this.producto.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
-      this.porcentajes();
     },
     desactivar: function desactivar(item) {
       var me = this;
@@ -44496,10 +44494,6 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("td", { staticClass: "text-xs-left" }, [
-                  _vm._v(_vm._s(props.item.tipo))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "text-xs-left" }, [
                   _vm._v(_vm._s(props.item.observacion))
                 ])
               ]
@@ -46449,7 +46443,7 @@ var render = function() {
                                               rules: _vm.decimalRules
                                             },
                                             on: {
-                                              click: function($event) {
+                                              change: function($event) {
                                                 return _vm.porcentajes()
                                               }
                                             },
@@ -46533,7 +46527,7 @@ var render = function() {
                                               rules: _vm.decimalRules
                                             },
                                             on: {
-                                              click: function($event) {
+                                              change: function($event) {
                                                 return _vm.porcentajes2()
                                               }
                                             },
