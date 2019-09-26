@@ -53,20 +53,18 @@
                                     class="feather icon-file"></i></span><span class="pcoded-mtext">Presentacion</span></a></li>
                                     <li><a @click="menu=8" ><span class="pcoded-micon"><i
                                     class="feather icon-calendar"></i></span><span class="pcoded-mtext">Historial</span></a></li>
-                                
-    
                             </ul>
                             
                         </li>
                     @endif
-                    @if($p->nombrePermiso == "Proveedores" && $p->estado)
+                   @if($p->nombrePermiso == "Proveedores" && $p->estado)
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
                             class="nav-item pcoded-hasmenu">
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
                                     class="feather icon-home"></i></span><span class="pcoded-mtext">Proveedores</span></a>
                             <ul class="pcoded-submenu">
-                                <li class=""><a @click="menu=20">Nuevo Usuario</a></li>
-                                <li class=""><a @click="menu=0">Permisos</a></li>
+                                <li class=""><a @click="menu=9">Proveedores</a></li>
+                                <li class=""><a @click="menu=10">Reporte proveedores</a></li>
                             </ul>
                         </li>
                     @endif
@@ -76,8 +74,8 @@
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
                                     class="feather icon-home"></i></span><span class="pcoded-mtext">Clientes</span></a>
                             <ul class="pcoded-submenu">
-                                <li class=""><a @click="menu=0">Nuevo Usuario</a></li>
-                                <li class=""><a @click="menu=0">Permisos</a></li>
+                                <li class=""><a @click="menu=11">Clientes</a></li>
+                                <li class=""><a @click="menu=12">Reporte clientes</a></li>
                             </ul>
                         </li>
                     @endif
@@ -87,14 +85,14 @@
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
                                     class="feather icon-tag"></i></span><span class="pcoded-mtext">Ventas</span></a><hr>
                             <ul class="pcoded-submenu">
-                            <li><a @click="menu=20" ><span class="pcoded-micon"><i
+                            <li><a @click="menu=13" ><span class="pcoded-micon"><i
                                     class="feather icon-credit-card"></i></span><span class="pcoded-mtext">Venta</span></a></li>
-                                    <li><a @click="menu=0" ><span class="pcoded-micon"><i
+                                    <li><a @click="menu=14" ><span class="pcoded-micon"><i
                                     class="feather icon-share"></i></span><span class="pcoded-mtext">Historial</span></a></li>
-                                <li><a @click="menu=11" ><span class="pcoded-micon"><i
+                                <li><a @click="menu=15" ><span class="pcoded-micon"><i
                                     class="feather icon-box"></i></span><span class="pcoded-mtext">Caja</span></a></li>
-                                    <li><a @click="menu=21" ><span class="pcoded-micon"><i
-                                    class="feather icon-box"></i></span><span class="pcoded-mtext">Chart</span></a></li>
+                                    <li><a @click="menu=16" ><span class="pcoded-micon"><i
+                                    class="feather icon-box"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
                             </ul>
                         </li>
                     @endif
@@ -104,8 +102,8 @@
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
                                     class="feather icon-home"></i></span><span class="pcoded-mtext">Compras</span></a>
                             <ul class="pcoded-submenu">
-                                <li class=""><a @click="menu=0">Nuevo Usuario</a></li>
-                                <li class=""><a @click="menu=0">Permisos</a></li>
+                                <li class=""><a @click="menu=17">Compras</a></li>
+                                <li class=""><a @click="menu=18">Historial</a></li>
                             </ul>
                         </li>
                     @endif
@@ -115,8 +113,7 @@
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
                                     class="feather icon-home"></i></span><span class="pcoded-mtext">Reportes</span></a>
                             <ul class="pcoded-submenu">
-                                <li class=""><a @click="menu=0" v-on:click="ruta='Roles'">Nuevo Usuario</a></li>
-                                <li class=""><a @click="menu=10">Permisos</a></li>
+                                <li class=""><a @click="menu=19" v-on:click="ruta='Roles'">Pruebas</a></li>
                             </ul>
                         </li>
                     @endif
