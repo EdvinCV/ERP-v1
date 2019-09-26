@@ -5,11 +5,11 @@
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Rol</v-btn>
+                <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Nuevo Rol</v-btn>
                 </template>
                 <v-card>
-                    <v-card-title>
-                        <span class="headline">{{ formTitle }}</span>
+       <v-card-title style="background-color:#668c2d">
+                        <span class="headline" style="color:#fff">{{ formTitle }}</span>
                     </v-card-title>
 
                     <v-card-text>
@@ -17,7 +17,7 @@
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
                                     <br><br>
-                                    <v-text-field v-model="editedItem.nombreRol" label="Nombre Rol"></v-text-field>
+                                    <v-text-field v-model="editedItem.nombreRol" maxlength="50"  required :rules="nameRules" :counter="50" label="Nombre Rol"></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -44,7 +44,7 @@
             <template v-slot:items="props">
                 <td class="text-xs-left">{{ props.item.id }}</td>
                 <td class="text-xs-left">{{ props.item.nombreRol }}</td>
-                <td class="justify-center layout px-0">
+                <td class="justify-right layout px-0">
                     <v-icon small class="mr-2" @click="editItem(props.item)">
                         edit
                     </v-icon>
@@ -54,7 +54,7 @@
                 </td>
             </template>
             <template v-slot:no-data>
-                <v-btn color="primary" @click="initialize">Recargar</v-btn>
+               <v-btn style="background-color:#668c2d"  @click="initialize">Recargar</v-btn>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
@@ -70,6 +70,12 @@
             search: '',
             dialog: false,
             error: 0,
+                       nameRules: [
+      v => !!v || 'El rol no puede estar vacio',
+      v => (v && v.length <= 49) || 'El nombre del rol no puede ser mayor a 50',
+       v => /[a-zA-Z]/.test(v) || 'el rol solo puede tener letras',
+      
+    ],
             errorMsj: [],
             headers: [
                 {

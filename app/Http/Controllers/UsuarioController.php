@@ -18,6 +18,16 @@ class UsuarioController extends Controller
         return $usuarios;
     }
 
+    public function listarRolCompras(){
+        $users = DB::table('users')
+        ->select('users.id', 'users.name', 'users.email', 'rols.nombreRol','users.estado')
+        ->join('rols', 'rols.id', '=', 'users.rolId')
+        ->where('rols.nombreRol', '=', 'Compras')
+        ->get();
+        
+        return $users;
+    }
+
     public function store(Request $request){
         try {
             $user = new User;
