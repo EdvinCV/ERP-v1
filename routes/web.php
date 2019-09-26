@@ -74,9 +74,16 @@ Route::get('/ventas/{id}/detalles','VentasController@detalleVenta');
 Route::get('/ventas/{id}/factura', 'VentasController@generarFactura');
 //Rutas usuarios
 Route::get('/usuarios', 'UsuarioController@index');
+Route::get('/rolCompras', 'UsuarioController@listarRolCompras');
 Route::post('/usuario/registrar', 'UsuarioController@store');
 Route::delete('usuario/{id}/delete', 'UsuarioController@drop');
 Route::put('usuario/actualizar', 'UsuarioController@update');
 // Rutas Caja
 Route::get('/caja', 'CajaController@index');
 Route::post('/caja/registrar', 'CajaController@store');
+//Rutas compras
+Route::post('/compra/nuevo', 'OrdenCompraController@generarOrden');
+Route::get('/compra/{id}/orden', 'OrdenCompraController@imprimirOrden');
+Route::get('/compra/ordenes', 'OrdenCompraController@index');
+Route::get('/compra/{id}/detalles', 'OrdenCompraController@detalles');
+

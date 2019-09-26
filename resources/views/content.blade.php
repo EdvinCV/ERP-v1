@@ -44,4 +44,7 @@
     <template v-if="menu==22">
         <Orden></Orden>
     </template>
+    <template v-if="menu==23">
+        <OrdenesCompra></OrdenesCompra>
+    </template>
 @endsection
