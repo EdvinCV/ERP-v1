@@ -34,4 +34,7 @@
     <template v-if="menu==20">
         <Venta></Venta>
     </template>
+    <template v-if="menu==21">
+    <chart></chart>
+    </template>
 @endsection

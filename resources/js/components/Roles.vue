@@ -5,10 +5,10 @@
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Rol</v-btn>
+                <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Nuevo Rol</v-btn>
                 </template>
                 <v-card>
-           <v-card-title style="background-color:#4b6e82">
+       <v-card-title style="background-color:#668c2d">
                         <span class="headline" style="color:#fff">{{ formTitle }}</span>
                     </v-card-title>
 
@@ -54,7 +54,7 @@
                 </td>
             </template>
             <template v-slot:no-data>
-                <v-btn color="primary" @click="initialize">Recargar</v-btn>
+               <v-btn style="background-color:#668c2d"  @click="initialize">Recargar</v-btn>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
