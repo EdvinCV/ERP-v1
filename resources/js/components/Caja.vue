@@ -36,8 +36,9 @@
                     </template>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        
-                        <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
+                                
+                        <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
+                    
                     </v-card-actions>
                 </v-card>
             </v-dialog>

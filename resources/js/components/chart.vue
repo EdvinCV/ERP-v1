@@ -15,7 +15,6 @@ export default {
   name: 'HelloWorld',
   mounted() {
     let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
-
     chart.paddingRight = 20;
 
     let data = [];
