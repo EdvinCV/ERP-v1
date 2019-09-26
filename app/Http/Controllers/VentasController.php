@@ -7,6 +7,7 @@ use App\VentaEncabezado;
 use Illuminate\Support\Facades\Auth;
 use App\DetalleVenta;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class VentasController extends Controller
 {
@@ -74,6 +75,18 @@ class VentasController extends Controller
                         ->get();   
 
         return $ventas;
+    }
+    public function validarTotal()
+    {
+        $total = DB::table('venta_encabezados')
+            ->select(DB::raw('SUM(venta_encabezados.total) as Total'))
+            ->join('tipo_pagos','tipo_pagos.id','=','venta_encabezados.idTipoPago')
+            ->whereRaw('DATE_FORMAT(venta_encabezados.created_at,"%y-%m-%d") = curdate()')
+            ->where('tipo_pagos.nombreTipo','=','Efectivo')
+            
+            
+            ->get();
+        return $total;
     }
     
     public function drop(VentaEncabezado $venta){

@@ -1768,8 +1768,9 @@ __webpack_require__.r(__webpack_exports__);
     return {
       search: '',
       dialog: false,
-      error: 0,
+      error: '',
       errorMsj: [],
+      entradas: [],
       headers: [{
         text: 'Cantidad',
         value: 'cantidad'
@@ -1811,6 +1812,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.initialize();
+    this.cargaEntradas();
   },
   mounted: function mounted() {
     this.dialog = true;
@@ -1819,8 +1821,10 @@ __webpack_require__.r(__webpack_exports__);
     validate: function validate() {
       this.error = 0;
       this.errorMsj = [];
+      this.cargaEntradas();
       if (!this.editedItem.cantidad) this.errorMsj.push('La cantidad no puede estar vacia. ');
       if (!this.editedItem.tipo) this.errorMsj.push('Se debe de asignar un tipo. ');
+      if (this.editedItem.cantidad != this.entradas[0].Total) this.errorMsj.push('Las cantidades no coinciden. ');
       if (this.errorMsj.length) this.error = 1;
       return this.error;
     },
@@ -1831,6 +1835,14 @@ __webpack_require__.r(__webpack_exports__);
         _this.caja = response.data;
       })["catch"](function (errors) {
         console.log(errors);
+      });
+    },
+    cargaEntradas: function cargaEntradas() {
+      var me = this;
+      axios.get('/ventas/validartotal').then(function (response) {
+        me.entradas = response.data;
+      })["catch"](function (error) {
+        console.log(error.response);
       });
     },
     editItem: function editItem(item) {
@@ -89487,8 +89499,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Estuardo\Desktop\Proyecto Carrera\ERP-v1\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Estuardo\Desktop\Proyecto Carrera\ERP-v1\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Usuario\Documents\Proyecto de Carrera\Tecnico\ERP-v1-master\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Usuario\Documents\Proyecto de Carrera\Tecnico\ERP-v1-master\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

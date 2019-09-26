@@ -69,8 +69,9 @@
         data: () => ({
             search: '',
             dialog: false,
-            error: 0,
+            error: '',
             errorMsj: [],
+            entradas: [],
             headers: [
 
                 { 
@@ -117,7 +118,8 @@
             }
         },
         created() {
-            this.initialize()
+            this.initialize();
+            this.cargaEntradas();   
         },
         mounted(){
             this.dialog = true
@@ -126,10 +128,13 @@
             validate() {
                 this.error = 0;
                 this.errorMsj = [];
+                this.cargaEntradas();
                 if (!this.editedItem.cantidad)
                     this.errorMsj.push('La cantidad no puede estar vacia. ');
                 if (!this.editedItem.tipo)
                     this.errorMsj.push('Se debe de asignar un tipo. ');
+                if(this.editedItem.cantidad != this.entradas[0].Total)
+                    this.errorMsj.push('Las cantidades no coinciden. ')
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
@@ -142,6 +147,17 @@
                     .catch(errors => {
                         console.log(errors);
                     });
+            },
+            cargaEntradas() {
+                let me = this;
+                axios.get('/ventas/validartotal')
+                .then(function (response) {
+                    me.entradas = response.data;
+                   
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
             },
             editItem(item) {
                 this.editedIndex = this.caja.indexOf(item)
