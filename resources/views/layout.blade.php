@@ -57,14 +57,7 @@
                 <ul class="navbar-nav mr-auto">
                     <li><a href="#!" class="full-screen" onclick="javascript:toggleFullScreen()"><i
                                 class="feather icon-maximize"></i></a></li>
-                    <li class="nav-item dropdown">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown">Dropdown</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#!">Action</a></li>
-                            <li><a class="dropdown-item" href="#!">Another action</a></li>
-                            <li><a class="dropdown-item" href="#!">Something else here</a></li>
-                        </ul>
-                    </li>
+             
                     <li class="nav-item">
                         <div class="main-search">
                             <div class="input-group">
@@ -81,70 +74,18 @@
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li>
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i
-                                    class="icon feather icon-bell"></i></a>
-                            <div class="dropdown-menu dropdown-menu-right notification">
-                                <div class="noti-head">
-                                    <h6 class="d-inline-block m-b-0">Notifications</h6>
-                                    <div class="float-right">
-                                        <a href="#!" class="m-r-10">mark as read</a>
-                                        <a href="#!">clear all</a>
-                                    </div>
-                                </div>
-                                <ul class="noti-body">
-                                    <li class="n-title">
-                                        <p class="m-b-0">NEW</p>
-                                    </li>
-                                    <li class="notification">
-                                        <div class="media">
-                                            <img class="img-radius" src="assets/images/user/avatar-1.jpg"
-                                                alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <p><strong>John Doe</strong><span class="n-time text-muted"><i
-                                                            class="icon feather icon-clock m-r-10"></i>30 min</span></p>
-                                                <p>New ticket Added</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="n-title">
-                                        <p class="m-b-0">EARLIER</p>
-                                    </li>
-                                    <li class="notification">
-                                        <div class="media">
-                                            <img class="img-radius" src="assets/images/user/avatar-2.jpg"
-                                                alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <p><strong>Joseph William</strong><span class="n-time text-muted"><i
-                                                            class="icon feather icon-clock m-r-10"></i>30 min</span></p>
-                                                <p>Prchace New Theme and make payment</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="notification">
-                                        <div class="media">
-                                            <img class="img-radius" src="assets/images/user/avatar-3.jpg"
-                                                alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <p><strong>Sara Soudein</strong><span class="n-time text-muted"><i
-                                                            class="icon feather icon-clock m-r-10"></i>30 min</span></p>
-                                                <p>currently login</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div class="noti-footer">
-                                    <a href="#!">show all</a>
-                                </div>
-                            </div>
-                        </div>
+                    <img src="assets/images/user/avatar-1.jpg" class="img-radius"
+                                        alt="User-Profile-Image" width="35" height="35">
+                    <span>{{ auth()->user()->name }}</span>
+                  
+               
                     </li>
                     <li>
                         <div class="dropdown drp-user">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="#menusuers" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 <i class="icon feather icon-settings"></i>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right profile-notification">
+                            <div id="menusuers" class="dropdown-menu dropdown-menu-right profile-notification">
                                 <div class="pro-head">
                                     <img src="assets/images/user/avatar-1.jpg" class="img-radius"
                                         alt="User-Profile-Image">
@@ -258,7 +199,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-12">
                                         <div class="page-header-title">
-                                            <h5 class="m-b-10"><a href="route"><i class="feather icon-home"></i></a> Menú</h5>
+                                            <h3 class="m-b-10" style="color:#668C2D"><a ><i class="feather icon-home"></i></a> Menú</h3>
                                         </div>
                                         <ul class="breadcrumb">
                                             <li class="breadcrumb-item"></li>
@@ -267,10 +208,13 @@
                                 </div>
                             </div>
                         </div>
-                        <v-app>
-                        @yield('content')
                         
+                        <v-app>
+                        
+                        @yield('content')
+                      
                         </v-app>
+                        
                     </div>
                 </div>
             </div>
@@ -281,10 +225,63 @@
     <script src="{{ asset('assets/js/vendor-all.min.js') }}"></script>
 	<script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/pcoded.min.js') }}"></script>
-    
+    <!-- chartjs js -->
+    <script src="assets/plugins/chart-chartjs/js/Chart.min.js"></script>
+    <script src="assets/js/pages/chart-chart-custom.js"></script>
 
    
-  
+    <script>
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+
+am4core.useTheme(am4themes_animated);
+
+
+export default {
+  name: 'HelloWorld',
+  mounted() {
+    let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
+
+    chart.paddingRight = 20;
+
+    let data = [];
+    let visits = 10;
+    for (let i = 1; i < 366; i++) {
+      visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
+      data.push({ date: new Date(2018, 0, i), name: "name" + i, value: visits });
+    }
+
+    chart.data = data;
+
+    let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    dateAxis.renderer.grid.template.location = 0;
+
+    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.tooltip.disabled = true;
+    valueAxis.renderer.minWidth = 35;
+
+    let series = chart.series.push(new am4charts.LineSeries());
+    series.dataFields.dateX = "date";
+    series.dataFields.valueY = "value";
+
+    series.tooltipText = "{valueY.value}";
+    chart.cursor = new am4charts.XYCursor();
+
+    let scrollbarX = new am4charts.XYChartScrollbar();
+    scrollbarX.series.push(series);
+    chart.scrollbarX = scrollbarX;
+
+    this.chart = chart;
+  },
+
+  beforeDestroy() {
+    if (this.chart) {
+      this.chart.dispose();
+    }
+  }
+}
+</script>
 
     
 </body>

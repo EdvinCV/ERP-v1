@@ -25,6 +25,7 @@ Vue.component('Orden', require('./components/Orden.vue').default);
 Vue.component('Caja', require('./components/Caja.vue').default);
 
 
+Vue.component('Chart', require('./components/chart.vue').default);
 
 
 const app = new Vue({

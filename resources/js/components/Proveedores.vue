@@ -5,24 +5,24 @@
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
-                     <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Proveedor</v-btn>
+                  <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Nuevo Proveedor</v-btn>
                 </template>
                 <v-card>
-                    <v-card-title>
-                        <span class="headline">{{ formTitle }}</span>
+            <v-card-title style="background-color:#668c2d">
+                        <span class="headline" style="color:#fff">{{ formTitle }}</span>
                     </v-card-title>
 
                     <v-card-text>
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                    <v-text-field v-model="editedItem.nombre" label="Nombres"></v-text-field>
-                                    <v-text-field v-model="editedItem.apellido" label="Apellidos"></v-text-field>
-                                    <v-text-field v-model="editedItem.direccion" label="Direccion"></v-text-field>
-                                    <v-text-field v-model="editedItem.telefono" label="Telefono"></v-text-field>
+                                 <v-text-field maxlength="50"  required :counter="50" :rules="nameRules" v-model="editedItem.nombre" label="Nombres"></v-text-field>
+                                    <v-text-field maxlength="50"  required :counter="50" :rules="apellidoRules" v-model="editedItem.apellido" label="Apellidos"></v-text-field>
+                                    <v-text-field maxlength="100"  required :counter="100" :rules="direccion" v-model="editedItem.direccion" label="Direccion"></v-text-field>
+                                    <v-text-field maxlength="20"  required :counter="20" :rules="telefono" v-model="editedItem.telefono" label="Telefono"></v-text-field>
                                     <v-text-field v-model="editedItem.nit" label="NIT"></v-text-field>
-                                    <v-text-field v-model="editedItem.correo" label="Correo"></v-text-field>
-                                    <v-text-field v-model="editedItem.nombreProveedor" label="Nombre Empresa"></v-text-field>
+                                    <v-text-field type="email" :rules="correoRules" v-model="editedItem.correo" label="Correo"></v-text-field>
+                                    <v-text-field maxlength="200"  required :counter="200" :rules="empresaRules" v-model="editedItem.nombreProveedor" label="Nombre Empresa"></v-text-field>
                                 </v-flex> 
                             </v-layout>
                         </v-container>
@@ -66,7 +66,7 @@
                 </td>
             </template>
             <template v-slot:no-data>
-                <v-btn color="primary" @click="initialize">Recargar</v-btn>
+                <v-btn style="background-color:#668c2d"  @click="initialize">Recargar</v-btn>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
@@ -89,6 +89,44 @@
                     align: 'left',
                     value: 'id'
                 },
+            ],
+             valid: true,
+             nitRules:[
+                v => !!v || 'El campo de Nit no puede estar vacio',
+             ],
+                     nameRules: [
+      v => !!v || 'El nombre del proveedor no puede estar vacio',
+      v => (v && v.length <= 49) || 'El nombre del proveedor no puede ser mayor a 50',
+       v => /[a-zA-Z]/.test(v) || 'El nombre del proveedor solo puede tener letras',
+    ],
+           apellidoRules: [
+      v => !!v || 'El apellido del proveedor no puede estar vacio',
+      v => (v && v.length <= 49) || 'El apellido del proveedor no puede ser mayor a 50',
+       v => /[a-zA-Z]/.test(v) || 'El apellido del proveedor solo puede tener letras',
+    ],
+       direccion: [
+      v => !!v || 'La direccion del proveedor no puede estar vacia',
+      v => (v && v.length <= 99) || 'El apellido del proveedor no puede ser mayor a 100',
+    ],
+       telefono: [
+      v => !!v || 'El telefono del proveedor no puede estar vacio',
+      v => (v && v.length <= 13) || 'El telefono del proveedor no puede ser mayor a 20',
+       v => /^[0-9]+$/.test(v) || 'El telefono del proveedor solo puede tener numeros',
+    ],
+            empresaRules: [
+      v => !!v || 'El nombre de la empresa no puede estar vacio',
+      v => (v && v.length <= 199) || 'El nombre de la empresa no puede ser mayor a 199',
+    ],
+     correoRules: [
+     
+   v => !!v || 'El campo de correo no puede estar vacio',
+    v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(v)|| 'El correo ingresado no existe',
+    ],
+    
+            errorMsj: [],
+
+            headers: [
+      
                 { 
                     text: 'Nombre', 
                     value: 'nombre' 
@@ -150,14 +188,35 @@
                 if(estado) return "Activo";
                 else return "Inactivo";
             },
-            validate() {
+   validate() {
                 this.error = 0;
                 this.errorMsj = [];
-                if (!this.editedItem.nombre)
-                    this.errorMsj.push('El nombre de la Presentacion no puede estar vacio');
+                if (!this.editedItem.nombre, !this.editedItem.apellido,  !this.editedItem.nit, !this.editedItem.telefono, !this.editedItem.direccion,!this.editedItem.nombreProveedor,!this.editedItem.correo)
+                    this.errorMsj.push('Los campos de proveedores no puede estar vacios. ');
+                    if(!this.editedItem.nit){
+                    this.editedItem.nit = 'CF';
+                    x = true;
+                }
+                if(this.editedItem.nit)
+                {
+                    if((this.valNit(this.editedItem.nit))==false && this.editedItem.nit != 'CF')
+                    this.errorMsj.push('NIT no valido. ');
+                }
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
+            },
+            valNit(nit){
+                var nd, add=0;
+                if(nd =  /^(\d+)\-?([\dk])$/i.exec(nit)){
+                    nd[2] = (nd[2].toLowerCase()=='k')?10:parseInt(nd[2]);
+                    for (var i = 0; i < nd[1].length; i++) {
+                        add += ( (((i-nd[1].length)*-1)+1) * nd[1][i] );
+                    }
+                    return ((11 - (add % 11)) % 11) == nd[2];
+                }else{
+                    return false;
+                }
             },
             initialize() {
                 axios.get('/proveedores')

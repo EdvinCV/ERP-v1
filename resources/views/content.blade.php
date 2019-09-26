@@ -46,5 +46,6 @@
     </template>
     <template v-if="menu==23">
         <OrdenesCompra></OrdenesCompra>
+    <chart></chart>
     </template>
 @endsection
