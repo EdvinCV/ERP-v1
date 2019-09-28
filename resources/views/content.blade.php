@@ -52,4 +52,5 @@
     <template v-if="menu==19">
         <chart></chart>
     </template>
+
 @endsection

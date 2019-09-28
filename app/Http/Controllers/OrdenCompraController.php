@@ -25,7 +25,15 @@ class OrdenCompraController extends Controller
                     ->get();
         return $detalles;
     }
-
+    public function validarTotal()
+    {
+        $total = DB::table('compra_encabezados')
+            ->select(DB::raw('SUM(compra_encabezados.totalCompra) as Total'))
+            ->whereRaw('DATE_FORMAT(compra_encabezados.created_at,"%y-%m-%d") = curdate()')
+            ->where('compra_encabezados.finalizado','=','1')
+            ->get();
+        return $total;
+    }
     public function generarOrden(Request $req){
         //Este método genera el pdf de la orden de compra y guarda los elementos en una tabla.
         try {

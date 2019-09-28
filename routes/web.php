@@ -87,4 +87,5 @@ Route::post('/compra/nuevo', 'OrdenCompraController@generarOrden');
 Route::get('/compra/{id}/orden', 'OrdenCompraController@imprimirOrden');
 Route::get('/compra/ordenes', 'OrdenCompraController@index');
 Route::get('/compra/{id}/detalles', 'OrdenCompraController@detalles');
+Route::get('/compra/validartotal', 'OrdenCompraController@validarTotal');
 

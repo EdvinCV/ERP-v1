@@ -80,8 +80,11 @@
                         </li>
                     @endif
                     @if($p->nombrePermiso == "Ventas" && $p->estado)
+                    <div id="app">
+                        <acaja></acaja>
+                    </div>
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
-                            class="nav-item pcoded-hasmenu">
+                            class="nav-item pcoded-hasmenu" id="app">
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
                                     class="feather icon-tag"></i></span><span class="pcoded-mtext">Ventas</span></a><hr>
                             <ul class="pcoded-submenu">

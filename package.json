@@ -24,7 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "@amcharts/amcharts4": "^4.6.2",
+        "@amcharts/amcharts4": "^4.6.3",
         "chart.js": "^2.8.0",
         "material-design-icons-iconfont": "^5.0.1",
         "sweetalert2": "^8.17.6",
