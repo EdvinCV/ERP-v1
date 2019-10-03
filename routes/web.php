@@ -79,6 +79,7 @@ Route::get('/rolCompras', 'UsuarioController@listarRolCompras');
 Route::post('/usuario/registrar', 'UsuarioController@store');
 Route::delete('usuario/{id}/delete', 'UsuarioController@drop');
 Route::put('usuario/actualizar', 'UsuarioController@update');
+Route::get('/usuario/inicio', 'UsuarioController@inicio');
 // Rutas Caja
 Route::get('/caja', 'CajaController@index');
 Route::post('/caja/registrar', 'CajaController@store');

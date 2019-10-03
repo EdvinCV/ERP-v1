@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
@@ -17,7 +18,16 @@ class UsuarioController extends Controller
                         ->get();
         return $usuarios;
     }
-
+    public function inicio(){
+        $usuarios = DB::table('users')
+            ->select(DB::raw('users.id' ))
+            ->whereRaw('DATE_FORMAT(users.last_login,"%y-%m-%d") < curdate()')
+            ->where('id','=',Auth::user()->id)
+            ->groupBy('users.id')           
+            ->get()
+            ->count();
+        return $usuarios;
+    }
     public function listarRolCompras(){
         $users = DB::table('users')
         ->select('users.id', 'users.name', 'users.email', 'rols.nombreRol','users.estado')
