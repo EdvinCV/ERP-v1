@@ -1,27 +1,31 @@
 <template>
     <div>
+            <div class="contenedor" style="background-color=#668C2D">
+      <center> <h2 style="color:#668C2D">Caja</h2></center>
+        </div>
+     <hr>
         <v-toolbar flat color="white">
-            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+            <v-text-field color="#668c2d" v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark class="mb-2" v-on="on">Registrar Caja</v-btn>
+                   <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Registrar Caja</v-btn>
                 </template>
                 <v-card>
-                    <v-card-title>
-                        <span class="headline">{{ formTitle }}</span>
+              <v-card-title style="background-color:#668c2d">
+                        <span class="headline" style="color:#fff">{{ formTitle }}</span>
                     </v-card-title>
 
                     <v-card-text>
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                    <v-text-field label="Cantidad"  prefix="Q" v-model="editedItem.cantidad"></v-text-field>
+                                    <v-text-field color="#668c2d" label="Cantidad"  prefix="Q" v-model="editedItem.cantidad"></v-text-field>
                                      <v-radio-group color="success" v-model="editedItem.tipo" column >
                                         <v-radio label="Apertura" value="1" color="success"></v-radio>
                                         <v-radio label="Cierre" value="2" color="success"></v-radio>
                                     </v-radio-group>
-                                    <v-text-field label="Observaciones" v-model="editedItem.observacion"></v-text-field>
+                                    <v-text-field color="#668c2d" label="Observaciones" v-model="editedItem.observacion"></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -37,12 +41,17 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         
-                        <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
+                        <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
         </v-toolbar>
-        
+            <v-card-title>
+           
+     
+        <div class="flex-grow-1"></div>
+   
+      </v-card-title>
 
         <v-data-table :headers="headers" :items="caja" class="elevation-1" :search="search">
             <template v-slot:items="props">
@@ -50,12 +59,11 @@
                 <td class="text-xs-left">{{ props.item.cantidad }}</td>
                 <td class="text-xs-left">{{ props.item.created_at }}</td>
                 <td class="text-xs-left">{{ props.item.name }}</td>
-                <td class="text-xs-left">{{ props.item.tipo }}</td>
                 <td class="text-xs-left">{{ props.item.observacion }}</td>
                 
             </template>
             <template v-slot:no-data>
-                <v-btn color="primary" @click="initialize">Recargar</v-btn>
+              <v-btn style="background-color:#668c2d" dark class="mb-2"  @click="initialize">Recargar</v-btn>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
@@ -85,10 +93,6 @@
                 {
                     text: 'Usuario',
                     value: 'name'
-                },
-                {
-                    text: 'Tipo',
-                    value: 'tipo'
                 },
                 {
                     text: 'Observaciones',

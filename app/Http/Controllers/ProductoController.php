@@ -16,10 +16,11 @@ class ProductoController extends Controller
        $producto = DB::table('productos')
                        ->select(DB::raw('productos.id,productos.nombre as Producto,productos.precioventa, productos.preciocompra, productos.gastocomercializacion, 
                        productos.utilidad, productos.impuesto, productos.maximoprecio, productos.minimoprecio, productos.estado, productos.codigo, productos.cantidadapartado, productos.existencia,
-                       categorias.nombre as categoria,presentacions.nombre as presentacion,personas.nombre as persona'))
+                       categorias.nombre as categoria,presentacions.nombre as presentacion,personas.nombre as persona, CONCAT(productos.nombre, " - " ,presentacions.nombre,  " - ",proveedors.nombreProveedor) as mostrar'))
                        ->join('categorias','productos.idcategoria','=','categorias.id')
                        ->join('presentacions','productos.idpresentacion','=','presentacions.id')
                        ->join('personas','productos.idpersona','=','personas.id')
+                       ->join('proveedors', 'proveedors.idpersona', '=', 'personas.id')
                        ->where('productos.estado','=','1')->get();
        return $producto;
        
@@ -31,7 +32,7 @@ class ProductoController extends Controller
             $producto->idcategoria=$request->idcategoria;
             $producto->idpresentacion=$request->idpresentacion;
             $producto->idpersona=$request->idpersona;
-            $producto->nombre = $request->nombre;
+            $producto->nombre = $request->Producto;
             $producto->precioventa=$request->precioventa;
             $producto->preciocompra=$request->preciocompra;
             $producto->gastocomercializacion=$request->gastocomercializacion;

@@ -21,7 +21,9 @@
     <link rel="stylesheet" href="assets/css/style.css">
 
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
@@ -44,10 +46,8 @@
             <div class="m-header">
                 <a class="mobile-menu" id="mobile-collapse1" href="#!"><span></span></a>
                 <a href="index.html" class="b-brand">
-                    <div class="b-bg">
-                        <i class="feather icon-trending-up"></i>
-                    </div>
-                    <span class="b-title">ADAM</span>
+              
+                    <span class="b-title">INCOFIN</span>
                 </a>
             </div>
             <a class="mobile-menu" id="mobile-header" href="#!">
@@ -57,94 +57,23 @@
                 <ul class="navbar-nav mr-auto">
                     <li><a href="#!" class="full-screen" onclick="javascript:toggleFullScreen()"><i
                                 class="feather icon-maximize"></i></a></li>
-                    <li class="nav-item dropdown">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown">Dropdown</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#!">Action</a></li>
-                            <li><a class="dropdown-item" href="#!">Another action</a></li>
-                            <li><a class="dropdown-item" href="#!">Something else here</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <div class="main-search">
-                            <div class="input-group">
-                                <input type="text" id="m-search" class="form-control" placeholder="Search . . .">
-                                <a href="#!" class="input-group-append search-close">
-                                    <i class="feather icon-x input-group-text"></i>
-                                </a>
-                                <span class="input-group-append search-btn btn btn-primary">
-                                    <i class="feather icon-search input-group-text"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </li>
+             
+           
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li>
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i
-                                    class="icon feather icon-bell"></i></a>
-                            <div class="dropdown-menu dropdown-menu-right notification">
-                                <div class="noti-head">
-                                    <h6 class="d-inline-block m-b-0">Notifications</h6>
-                                    <div class="float-right">
-                                        <a href="#!" class="m-r-10">mark as read</a>
-                                        <a href="#!">clear all</a>
-                                    </div>
-                                </div>
-                                <ul class="noti-body">
-                                    <li class="n-title">
-                                        <p class="m-b-0">NEW</p>
-                                    </li>
-                                    <li class="notification">
-                                        <div class="media">
-                                            <img class="img-radius" src="assets/images/user/avatar-1.jpg"
-                                                alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <p><strong>John Doe</strong><span class="n-time text-muted"><i
-                                                            class="icon feather icon-clock m-r-10"></i>30 min</span></p>
-                                                <p>New ticket Added</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="n-title">
-                                        <p class="m-b-0">EARLIER</p>
-                                    </li>
-                                    <li class="notification">
-                                        <div class="media">
-                                            <img class="img-radius" src="assets/images/user/avatar-2.jpg"
-                                                alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <p><strong>Joseph William</strong><span class="n-time text-muted"><i
-                                                            class="icon feather icon-clock m-r-10"></i>30 min</span></p>
-                                                <p>Prchace New Theme and make payment</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="notification">
-                                        <div class="media">
-                                            <img class="img-radius" src="assets/images/user/avatar-3.jpg"
-                                                alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <p><strong>Sara Soudein</strong><span class="n-time text-muted"><i
-                                                            class="icon feather icon-clock m-r-10"></i>30 min</span></p>
-                                                <p>currently login</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div class="noti-footer">
-                                    <a href="#!">show all</a>
-                                </div>
-                            </div>
-                        </div>
+                    <img src="assets/images/user/avatar-1.jpg" class="img-radius"
+                                        alt="User-Profile-Image" width="35" height="35">
+                    <span style="color:#000">{{ auth()->user()->name }}</span>
+                  
+               
                     </li>
                     <li>
                         <div class="dropdown drp-user">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="#menusuers" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 <i class="icon feather icon-settings"></i>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right profile-notification">
+                            <div id="menusuers" class="dropdown-menu dropdown-menu-right profile-notification">
                                 <div class="pro-head">
                                     <img src="assets/images/user/avatar-1.jpg" class="img-radius"
                                         alt="User-Profile-Image">
@@ -159,11 +88,11 @@
                                     </form>
                                     </a>
                                 </div>
+                
                                 <ul class="pro-body">
-                                    <li><a href="#!" class="dropdown-item"><i class="feather icon-user"></i> Perfil</a></li>
-                                    <li><a href="#!" class="dropdown-item"><i class="feather icon-settings"></i>Configuraciones</a></li>
-                                    
-                                    
+                                <li><a href="#!" class="dropdown-item" data-toggle="modal" data-target="#myModal"><i class="feather icon-user"></i> Perfil</a></li>
+                               
+      
                                 </ul>
                             </div>
                         </div>
@@ -253,24 +182,106 @@
                 <div class="pcoded-content">
                     <div class="pcoded-inner-content">
                         <!-- [ breadcrumb ] start -->
-                        <div class="page-header">
-                            <div class="page-block">
-                                <div class="row align-items-center">
-                                    <div class="col-md-12">
-                                        <div class="page-header-title">
-                                            <h5 class="m-b-10"><a href="route"><i class="feather icon-home"></i></a> Menú</h5>
+                   
+                        <div class="page-header-title">
+                                            <h3 class="m-b-10" style="color:#668C2D"><a ><i class="feather icon-home"></i></a> Menú</h3>
                                         </div>
-                                        <ul class="breadcrumb">
-                                            <li class="breadcrumb-item"></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <v-app>
+                        <v-app style="background: white">
+                  
+                      <!--  <div id="chartdiv" style="width: 100%; height: 500px;"></div> -->
                         @yield('content')
-                        
+
                         </v-app>
+
+
+<!--ingresar modal-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form method="POST" action="{{ route('profile.update') }}" class="form-horizontal" enctype="multipart/form-data">
+    @csrf
+                                    @method('PUT')
+            <div class="modal-header">
+          <img src="assets/images/user/avatar-1.jpg" class="img-radius"
+                                        alt="User-Profile-Image" width="100" height="100">
+                                     <h2>{{ auth()->user()->name }}</h2>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+
+                </button>
+                
+            </div>
+            <div class="modal-body">
+                <div role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#uploadTab" aria-controls="uploadTab" role="tab" data-toggle="tab" style="color:#668C2D">Perfil</a>
+
+                        </li>
+                        <li role="presentation"><a href="#browseTab" aria-controls="browseTab" role="tab" data-toggle="tab" style="color:#668C2D">Contraseña</a>
+
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="uploadTab">
+                        <div class="form-group">
+    <label for="exampleInputEmail1">Nombre</label>
+    <input type="text" id="name" class="form-control" placeholder="Enter your name" name="name" value="{{ Auth::user()->name }}">
+  </div>
+                        
+  <div class="form-group">
+    <label for="exampleInputEmail1">Correo electronico</label>
+    <input type="text" id="email_address_2" class="form-control" placeholder="Enter your email address" name="email" value="{{ Auth::user()->email }}">
+    
+  </div>
+  <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary save" style="background-color:#668C2D" >Guardar Cambios</button>
+            </div>
+            </form>
+                        
+                        </div>
+                        
+                        <div role="tabpanel" class="tab-pane" id="browseTab">
+                        <form method="POST" action="{{ route('password.update') }}" class="form-horizontal">
+                        @csrf
+                                    @method('PUT')
+                        <div class="form-group">
+    <label for="exampleInputEmail1">Contraseña actual</label>
+    <input type="password" id="old_password" class="form-control" placeholder="Enter your old password" name="old_password">
+    
+  </div>     
+
+  <div class="form-group">
+    <label for="password">Contraseña Nueva</label>
+    <input type="password" id="password" class="form-control" placeholder="Enter your new password" name="password" >
+    
+  </div>     
+
+  <div class="form-group">
+    <label for="confirm_password">Confirmar Contraseña</label>
+    <input type="password" id="confirm_password" class="form-control" placeholder="Enter your new password again" name="password_confirmation" style="color:#668C2D">
+    
+  </div>         
+      
+  <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary save" style="background-color:#668C2D">Guardar Cambios</button>
+            </div>      
+                        
+                        
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       
+           
+        </div>
+    </div>
+</div>
+<!--terminar modal-->
                     </div>
                 </div>
             </div>
@@ -281,11 +292,34 @@
     <script src="{{ asset('assets/js/vendor-all.min.js') }}"></script>
 	<script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/pcoded.min.js') }}"></script>
-    
 
+    <script src="http://www.amcharts.com/lib/3/amcharts.js"></script>
+  <script src="http://www.amcharts.com/lib/3/serial.js"></script>
+  <script src="http://www.amcharts.com/lib/3/plugins/dataloader/dataloader.min.js"></script>
+    <script>
+  var chart = AmCharts.makeChart( "chartdiv", {
+    "type": "serial",
+    "dataLoader": {
+      "url": "data.php"
+    },
+    "pathToImages": "http://www.amcharts.com/lib/images/",
+    "categoryField": "created_at",
+    "dataDateFormat": "YYYY-MM-DD",
+    "startDuration": 1,
+    "categoryAxis": {
+      "parseDates": true
+    },
+    "graphs": [ {
+      "valueField": "total",
+      "bullet": "round",
+      "bulletBorderColor": "#FFFFFF",
+      "bulletBorderThickness": 2,
+      "lineThickness ": 2,
+      "lineAlpha": 0.5
+    }]
+  } );
+  </script>
    
-  
-
     
 </body>
 

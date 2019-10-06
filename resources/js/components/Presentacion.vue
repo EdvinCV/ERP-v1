@@ -1,22 +1,36 @@
 <template>
+
+  
     <div>
+       
+        <div class="contenedor" style="background-color=#668C2D">
+      <center> <h2 style="color:#668C2D">Presentacion</h2></center>
+        </div>
+     <hr>
         <v-toolbar flat color="white">
-            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+           <v-text-field
+          v-model="search"
+          append-icon="search"
+          label="Buscar"
+          single-line
+          hide-details
+        ></v-text-field>
+           
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark class="mb-2" v-on="on">Nueva Presentacion</v-btn>
+                    <v-btn style="background-color:#668c2d" dark class="mb-2" v-on="on">Nueva Presentacion</v-btn>
                 </template>
-                <v-card>
-                    <v-card-title>
-                        <span class="headline">{{ formTitle }}</span>
+                <v-card >
+                 <v-card-title style="background-color:#668c2d">
+                        <span class="headline" style="color:#fff">{{ formTitle }}</span>
                     </v-card-title>
 
                     <v-card-text>
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                    <v-text-field v-model="editedItem.nombre" label="Nombre Presentacion"></v-text-field>
+                                      <v-text-field color="#668c2d" type="text" v-model="editedItem.nombre" maxlength="50"  required :rules="nameRules" :counter="50" label="Nombre Presentacion"></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -31,15 +45,22 @@
                     </template>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
-                        <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
+                        <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
+                        <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
         </v-toolbar>
         
+          <v-card-title>
+           
+     
+        <div class="flex-grow-1"></div>
+    
+      </v-card-title>
 
-        <v-data-table :headers="headers" :items="presentacion" class="elevation-1" :search="search">
+        <v-data-table :headers="headers" :items="presentacion" class="elevation-1" :search="search" >
+            
             <template v-slot:items="props">
                 <td class="text-xs-left">{{ props.item.id }}</td>
                 <td class="text-xs-left">{{ props.item.nombre }}</td>
@@ -53,7 +74,7 @@
                 </td>
             </template>
             <template v-slot:no-data>
-                <v-btn color="primary" @click="initialize">Recargar</v-btn>
+              <v-btn style="background-color:#668c2d" dark class="mb-2" @click="initialize">Recargar</v-btn>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
@@ -68,6 +89,12 @@
         data: () => ({
             search: '',
             dialog: false,
+                     nameRules: [
+      v => !!v || 'El nombre de la presentacion no puede estar vacio',
+      v => (v && v.length <= 49) || 'El nombre de la presentacion no puede ser mayor a 50',
+       v => /[a-zA-Z]/.test(v) || 'la presentacion solo puede tener letras',
+    
+    ],
             error: 0,
             errorMsj: [],
             headers: [

@@ -1,15 +1,27 @@
 <template>
     <div>
+                            <div class="contenedor" style="backgrounhd-color=#668C2D">
+      <center> <h2 style="color:#668C2D">Gestion de permisos</h2></center>
+        </div>
+     <hr>
         <v-toolbar flat color="white">
-            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+          
+             <v-text-field
+          v-model="search"
+          append-icon="search"
+          label="Buscar"
+          single-line
+          hide-details
+        ></v-text-field>
+             
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark class="mb-2" v-on="on">Asignar Permiso</v-btn>
+                <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Asignar Permiso</v-btn>
                 </template>
                 <v-card>
-                    <v-card-title>
-                        <span class="headline">{{ formTitle }}</span>
+                   <v-card-title style="background-color:#668c2d">
+                        <span class="headline" style="color:#fff">{{ formTitle }}</span>
                     </v-card-title>
 
                     <v-card-text>
@@ -44,7 +56,7 @@
                                     Estado
                                     <v-switch 
                                         v-model="switch1"
-                                        :label = "`${switch1.toString()}`"
+                                        :label = "switch1 ? 'Activado' : 'Desactivado' "
                                     ></v-switch>
                                 </v-flex>
                             </v-layout>
@@ -60,13 +72,18 @@
                     </template>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
-                        <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
+                        <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
+                      <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
         </v-toolbar>
         
+             <v-card-title>
+        
+        <div class="flex-grow-1"></div>
+     
+      </v-card-title>
 
         <v-data-table :headers="headers" :items="permisos" class="elevation-1" :search="search">
             <template v-slot:items="props">
@@ -74,7 +91,7 @@
                 <td class="text-xs-left">{{ props.item.nombrePermiso }}</td>
                 <td class="text-xs-left">{{ props.item.nombreRol }}</td>
                 <td class="text-xs-left"><v-chip :color="getColor(props.item.estado)" dark>{{ verEstado(props.item.estado) }}</v-chip></td>
-                <td class="justify-center layout px-0">
+                <td class="justify-right layout px-0">
                     <v-icon small class="mr-2" @click="editItem(props.item)">
                         edit
                     </v-icon>
@@ -84,7 +101,7 @@
                 </td>
             </template>
             <template v-slot:no-data>
-                <v-btn color="primary" @click="initialize">Recargar</v-btn>
+           <v-btn style="background-color:#668c2d" dark class="mb-2"  @click="initialize">Recargar</v-btn>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
@@ -154,7 +171,7 @@
 
         methods: {
             getColor (estado) {
-                if (estado) return 'green'
+                if (estado) return '#668C2D'
                 else return 'red'
                 verEstado();            
             },

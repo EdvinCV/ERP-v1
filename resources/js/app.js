@@ -9,7 +9,8 @@ import swal from 'sweetalert2';
 window.swal = swal;
 
 
-Vue.component('Usuario', require('./components/Usuarios.vue').default);
+Vue.component('ordenescompra', require('./components/OrdenesCompra.vue').default);
+Vue.component('Usuarios', require('./components/Usuarios.vue').default);
 Vue.component('categoria', require('./components/Categoria.vue').default);
 Vue.component('Roles', require('./components/Roles.vue').default);
 Vue.component('Permisos', require('./components/Permisos.vue').default);
@@ -19,14 +20,17 @@ Vue.component('Cliente', require('./components/Clientes.vue').default);
 Vue.component('Venta', require('./components/Ventas.vue').default);
 Vue.component('Producto', require('./components/Producto.vue').default);
 Vue.component('Historialcalidad', require('./components/Historialcalidad.vue').default);
+Vue.component('Historialventas', require('./components/Historialventas.vue').default);
+Vue.component('Orden', require('./components/Orden.vue').default);
 Vue.component('Caja', require('./components/Caja.vue').default);
+Vue.component('chart', require('./components/chart.vue').default);
+Vue.component('reportes', require('./components/reportes.vue').default);
 
 
 const app = new Vue({
     el: '#app',
     data:{
-
-        menu:0,
+        menu:100,
         ruta:''
     },
 });

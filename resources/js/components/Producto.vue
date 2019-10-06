@@ -1,52 +1,73 @@
 <template>
+
     <div>
-        <v-toolbar flat color="white">
-            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+           <div class="contenedor" style="background-color=#668C2D">
+      <center> <h2 style="color:#668C2D">Productos</h2></center>
+        </div>
+     <hr>
+        <v-toolbar flat color="white" >
+           
             <v-spacer></v-spacer>
-            <v-switch v-model="switch1" label="Ver todo"></v-switch>
+           
             
             <v-dialog v-model="dialog" max-width="600px">
                 
                 <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Producto</v-btn>
+                   <v-btn style="background-color:#668c2d" dark class="mb-2" v-on="on">Nuevo Producto</v-btn>
                 </template>
                 <v-card>
-                    <v-card-title>
-                        <span class="headline">{{ formTitle }}</span>
+               <v-card-title style="background-color:#668c2d">
+                        <span class="headline" style="color:#fff">{{ formTitle }}</span>
                     </v-card-title>
                     
-                    <v-card-text>
+                    <v-card-text justify="center">
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                    <v-text-field  type="text" v-model="editedItem.Producto" label="Nombre Producto" 
+                                    <v-text-field color="#668c2d" type="text" v-model="editedItem.Producto" label="Nombre Producto" 
                                     maxlength="200"  required :rules="nameRules" :counter="200"></v-text-field>
-                                    <v-text-field label="Precio Venta" :rules="decimalRules" prefix="Q" v-model="editedItem.precioventa"></v-text-field>
-                                    <v-text-field label="Precio Compra" :rules="decimalRules" prefix="Q" v-model="editedItem.preciocompra" ></v-text-field>    
+                                     <v-layout row>
+                                         <v-flex lg6 md6 xs6 pa-2>
+                                    <v-text-field color="#668c2d" label="Precio Venta" :rules="decimalRules" prefix="Q" v-model="editedItem.precioventa"></v-text-field>
+                                     </v-flex>
+                                    <v-flex lg6 md6 xs6 pa-2>
+                                    <v-text-field color="#668c2d" label="Precio Compra" :rules="decimalRules" prefix="Q" v-model="editedItem.preciocompra" ></v-text-field>    
+                                     </v-flex>
+                                     </v-layout>
                                     <v-layout row>
                                         <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field @click="porcentajes()" label="Porcentaje de Comercializacion" :rules="decimalRules" v-model="editedItem.porcComercializacion"></v-text-field>
+                                            <v-text-field color="#668c2d" @change="porcentajes()" label="Porcentaje de Comercializacion" :rules="decimalRules" v-model="editedItem.porcComercializacion"></v-text-field>
                                         </v-flex>
                                          <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field label="Gasto de Comercializacion" :rules="decimalRules" prefix="Q" v-model="editedItem.gastocomercializacion"></v-text-field>
+                                            <v-text-field color="#668c2d" label="Gasto de Comercializacion" :rules="decimalRules" prefix="Q" v-model="editedItem.gastocomercializacion"></v-text-field>
                                         </v-flex>
                                     </v-layout>
                                       <v-layout row>
                                         <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field @click="porcentajes2()" label="Porcentaje de Utilidad" :rules="decimalRules" v-model="editedItem.porcUtilidad"></v-text-field>
+                                            <v-text-field color="#668c2d" @change="porcentajes2()" label="Porcentaje de Utilidad" :rules="decimalRules" v-model="editedItem.porcUtilidad" ></v-text-field>
                                         </v-flex>
                                          <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field label="Utilidad" :rules="decimalRules" prefix="Q" v-model="editedItem.utilidad"></v-text-field>
+                                            <v-text-field color="#668c2d" label="Utilidad" :rules="decimalRules" prefix="Q" v-model="editedItem.utilidad" ></v-text-field>
                                         </v-flex>
                                     </v-layout>
-                                    
-                                    <v-text-field label="Impuesto" :rules="decimalRules" prefix="Q" v-model="editedItem.impuesto"></v-text-field>
-                                    <v-text-field label="Precio Maximo" :rules="decimalRules" prefix="Q" v-model="editedItem.maximoprecio"></v-text-field>
-                                    <v-text-field label="Precio Minimo" :rules="decimalRules" prefix="Q" v-model="editedItem.minimoprecio"></v-text-field>
-                                    
-                                    <v-text-field v-model="editedItem.codigo" label="Codigo"></v-text-field>
-                                    <v-text-field v-model="editedItem.cantidadapartado" label="Cantidad Apartado" :rules="numberRules"></v-text-field>
-                                    <v-text-field v-model="editedItem.existencia" label="Existencia" :rules="numberRules"></v-text-field>
+                                     <v-layout row>
+                                    <v-flex lg6 md6 xs6 pa-2>
+                                    <v-text-field color="#668c2d" label="Impuesto" :rules="decimalRules" prefix="Q" v-model="editedItem.impuesto"></v-text-field>
+                                     </v-flex>
+                                       <v-flex lg6 md6 xs6 pa-2>
+                                    <v-text-field color="#668c2d" label="Precio Maximo" :rules="decimalRules" prefix="Q" v-model="editedItem.maximoprecio"></v-text-field>
+                                     </v-flex>
+                                     </v-layout>
+                                      <v-layout row>
+                                       <v-flex lg6 md6 xs6 pa-2>
+                                    <v-text-field color="#668c2d" label="Precio Minimo" :rules="decimalRules" prefix="Q" v-model="editedItem.minimoprecio"></v-text-field>
+                                     </v-flex>
+                                     <v-flex lg6 md6 xs6 pa-2>
+                                    <v-text-field color="#668c2d" v-model="editedItem.codigo" label="Codigo"></v-text-field>
+                                    </v-flex>
+                                    </v-layout>
+                                    <v-text-field color="#668c2d" v-model="editedItem.cantidadapartado" label="Cantidad Apartado" :rules="numberRules"></v-text-field>
+                                    <v-text-field color="#668c2d" v-model="editedItem.existencia" label="Existencia" :rules="numberRules"></v-text-field>
                                     <v-flex xs12>
                                     <v-flex xs12>
                                         <multiselect v-model="editedItem.idcategoria" :options="categorias" placeholder="Seleccione una categoría"
@@ -75,13 +96,25 @@
                     </template>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
-                        <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
+                        <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
+                      <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
         </v-toolbar>
         
+           <v-card-title>
+           
+      <v-switch v-model="switch1" label="Ver todo"></v-switch>
+        <div class="flex-grow-1"></div>
+        <v-text-field
+          v-model="search"
+          append-icon="search"
+          label="Buscar"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
 
         <v-data-table :headers="switch1 == true ? headers : headersC" :items="producto" class="elevation-1" :search="search">
             
@@ -116,7 +149,7 @@
                 </td>
             </template>
             <template v-slot:no-data>
-                <v-btn color="primary" @click="initialize">Recargar</v-btn>
+               <v-btn style="background-color:#668c2d" dark class="mb-2"  @click="initialize">Recargar</v-btn>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
@@ -125,6 +158,7 @@
             </template>
         </v-data-table>
     </div>
+    
 </template>
 <script>
     import multiselect from 'vue-multiselect'
@@ -136,10 +170,7 @@
         data: () => ({
             search: '',
             dialog: false,
-             idcategoria: {
-                id: 0,
-                nombre: ''
-            },
+
             
             nameRules: [
             v => !!v || 'El nombre del producto no puede estar vacio',
@@ -147,10 +178,10 @@
             v => /[a-zA-Z]/.test(v) || 'El nombre del producto solo puede tener letras',
             ],
             decimalRules:[
-                v => /^(\d*\.)?\d*$/.test(v) || 'Solo es permitido usar numeros',
+                v => /^\d{1,3}(?:,\s?\d{3})*(?:\.\d*)?$/.test(v) || 'Solo es permitido usar numeros',
             ],
             numberRules:[
-                v => /^[0-9]*$/.test(v) || 'Solo es permitido usar numeros',
+                v => /^[0-9]+$/.test(v) || 'Solo es permitido usar numeros',
             ],
             error: 0,
             errorMsj: [],
@@ -266,7 +297,7 @@
                 codigo: '',
                 cantidadapartado: '',
                 existencia: '',
-                idcategoria: 0,
+                idcategoria: '',
                 idpresentacion: '',
                 idpersona: '',
                 porcComercializacion: '',
@@ -286,7 +317,7 @@
                 codigo: '',
                 cantidadapartado: '',
                 existencia: '',
-                idcategoria: 0,
+                idcategoria: '',
                 idpresentacion: '',
                 idpersona: '',
                 porcComercializacion: '',
@@ -310,7 +341,7 @@
             this.cargaCategorias();
             this.cargaPresentaciones();
             this.cargaPersonas();
-            this.porcentajes();
+
         },
         methods: {
             validate() {
@@ -338,19 +369,25 @@
                     this.error = 1;
                 return this.error;
             },
+            
             porcentajes(){
                 let me = this;
-                
-                this.editedItem.gastocomercializacion = this.editedItem.preciocompra * this.editedItem.porcComercializacion;
-                return this.editedItem.gastocomercializacion;
+                var r;
+                r = this.editedItem.preciocompra * this.editedItem.porcComercializacion;
+                r = Number(r.toFixed(2));
+                this.editedItem.gastocomercializacion = r;
+                return r;
                 console.log(this.editedItem.gastocomercializacion);
             },
              porcentajes2(){
                 let me = this;
-                
-                this.editedItem.utilidad = (this.editedItem.preciocompra + this.editedItem.gastocomercializacion)* this.editedItem.porcUtilidad;
-                return this.editedItem.utilidad;
-                console.log(this.editedItem.gastocomercializacion);
+                var r; 
+                r = parseFloat(this.editedItem.preciocompra) + parseFloat(this.editedItem.gastocomercializacion);
+                r = r * parseFloat(this.editedItem.porcUtilidad);
+                r = Number(r.toFixed(2));
+                this.editedItem.utilidad = r;
+                return r;
+                console.log(r);
             },
              cargaCategorias() {
                 let me = this;
@@ -386,18 +423,18 @@
                 axios.get('/producto')
                     .then(response => {
                         this.producto = response.data;
-                        this.porcentajes();
+                        
                     })
                     .catch(errors => {
                         console.log(errors);
                     });
-                    this.porcentajes();
+                   
             },
             editItem(item) {
                 this.editedIndex = this.producto.indexOf(item)
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
-                this.porcentajes()
+                
             },desactivar(item){
                 let me=this;
                 swal.fire({

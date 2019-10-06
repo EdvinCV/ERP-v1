@@ -1,5 +1,8 @@
 @extends('layout')
 @section('content')
+    <template v-if="menu==0">
+        <Usuarios></Usuarios>
+    </template>
     <template v-if="menu==1">
         <Proveedor></Proveedor>
     </template>
@@ -24,14 +27,36 @@
     <template v-if="menu==8">
         <Historialcalidad></Historialcalidad>
     </template>
+<!-- 9 proveedores-->
+<!-- 10 reporte proveedores-->
+<!-- 11 clientes proveedores-->
+<!-- 12 reporte clientes-->
 
-    <template v-if="menu==10">
-        <Presentacion></Presentacion>
-    </template>
-    <template v-if="menu==11">
-        <Caja></Caja>
-    </template>
-    <template v-if="menu==20">
+    <template v-if="menu==13">
         <Venta></Venta>
     </template>
+    <template v-if="menu==14">
+        <HistorialVentas></HistorialVentas>
+    </template>
+    <template v-if="menu==15">
+        <Caja></Caja>
+    </template>
+    <!-- 16 reporte ventas-->
+
+    <template v-if="menu==17">
+        <Orden></Orden>
+    </template>
+    <template v-if="menu==18">
+        <OrdenesCompra></OrdenesCompra>
+    </template>
+    <template v-if="menu==19">
+        <chart></chart>
+    </template>
+    <template v-if="menu==30">
+        <perfil></perfil>
+    </template>
+    <template v-if="menu==31">
+        <reportes></reportes>
+    </template>
+
 @endsection

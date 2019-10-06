@@ -66,8 +66,27 @@ Route::get('/historialcalidad', 'HistorialcalidadController@index');
 Route::post('/historialcalidad/registrar', 'HistorialcalidadController@store');
 Route::put('/historialcalidad/actualizar', 'HistorialcalidadController@update');
 Route::delete('/historialcalidad/{historialcalidad}/delete', 'HistorialcalidadController@drop');
+
 // Rutas ventas
 Route::post('/venta/nuevo', 'VentasController@store');
+Route::get('/ventas/listar', 'VentasController@listarVentas');
+Route::delete('venta/{venta}/delete', 'VentasController@drop');
+Route::get('/ventas/{id}/detalles','VentasController@detalleVenta');
+Route::get('/ventas/{id}/factura', 'VentasController@generarFactura');
+//Rutas usuarios
+Route::get('/usuarios', 'UsuarioController@index');
+Route::get('/rolCompras', 'UsuarioController@listarRolCompras');
+Route::post('/usuario/registrar', 'UsuarioController@store');
+Route::delete('usuario/{id}/delete', 'UsuarioController@drop');
+Route::put('usuario/actualizar', 'UsuarioController@update');
+Route::put('usuario/profile-update','UsuarioController@updateProfile')->name('profile.update');
+Route::put('usuario/password-update','UsuarioController@updatePassword')->name('password.update');
 // Rutas Caja
 Route::get('/caja', 'CajaController@index');
 Route::post('/caja/registrar', 'CajaController@store');
+//Rutas compras
+Route::post('/compra/nuevo', 'OrdenCompraController@generarOrden');
+Route::get('/compra/{id}/orden', 'OrdenCompraController@imprimirOrden');
+Route::get('/compra/ordenes', 'OrdenCompraController@index');
+Route::get('/compra/{id}/detalles', 'OrdenCompraController@detalles');
+
