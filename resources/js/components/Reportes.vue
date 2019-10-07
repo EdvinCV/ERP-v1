@@ -100,25 +100,165 @@
                         <hr>
                     </div>
                     <div class="body">
-                          <h3>Cliente</h3>
-                          <v-layout row>
-                         <v-flex lg3 md3 xs6 pa-2>
-                    <v-text-field color="#668c2d" label="Dirección"></v-text-field>
-                </v-flex>
-                  </v-layout>
-                <hr>
-                    <h3>Producto</h3>
+
+   <div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<div class="card ">
+           <center><h3>Cliente</h3></center>
+            	<div class="card-body d-flex justify-content-between align-items-center">
+                
+  <v-text-field color="#668c2d" label="Dirección" justify-center></v-text-field>
+           <center>  <v-btn style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           </div>
+					<div class="card-body d-flex justify-content-between align-items-center">
+					
+				<v-layout row>
+   <v-flex lg6 md6 xs6 pa-2>
+      <v-menu
+          ref="menu"
+          v-model="menu"
+          :close-on-content-click="false"
+          :return-value.sync="date"
+          transition="scale-transition"
+          offset-y
+          min-width="100px"
+        >
+      <template v-slot:activator="{ on }">
+				   <v-text-field
+              v-model="date"
+              label="Fecha inicial"
+              prepend-icon="event"
+              readonly
+              v-on="on"
+            ></v-text-field>
+            </template>
+             <v-date-picker v-model="date" no-title scrollable>
+            <div class="flex-grow-1"></div>
+            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+          </v-date-picker>
+          </v-menu>
+            </v-flex>
+
+               <v-flex lg6 md6 xs6 pa-2>
+      <v-menu
+          ref="menu"
+          v-model="menu"
+          :close-on-content-click="false"
+          :return-value.sync="date"
+          transition="scale-transition"
+          offset-y
+          min-width="100px"
+        >
+      <template v-slot:activator="{ on }">
+				   <v-text-field
+              v-model="date"
+              label="Fecha final"
+              prepend-icon="event"
+              readonly
+              v-on="on"
+            ></v-text-field>
+            </template>
+             <v-date-picker v-model="date" no-title scrollable>
+            <div class="flex-grow-1"></div>
+            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+          </v-date-picker>
+          </v-menu>
+            </v-flex>
+</v-layout>
+        
+					</div>
+          	<div class="card-body d-flex justify-content-between align-items-center">
+           <center>  <v-btn style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           </div>
+				</div>
+			</div>
+		</div>
+         <hr>
+                 
                     <br>
-                     <v-layout row>
-                       <v-flex lg3 md3 xs6 pa-2>
-                    <v-text-field color="#668c2d" label="Dirección"></v-text-field>
-                </v-flex>
-          
-                 
-                <v-btn style="background-color:#668c2d"  dark class="mb-2">Nuevo Proveedor</v-btn>
-                 
-                   </v-layout>
-                    </div>
+      <div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<div class="card">
+           <center>  <h3>Producto</h3></center>
+            	<div class="card-body d-flex justify-content-between align-items-center">
+                
+  <v-text-field color="#668c2d" label="Dirección" justify-center></v-text-field>
+           <center>  <v-btn style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           </div>
+					<div class="card-body d-flex justify-content-between align-items-center">
+<v-layout row>
+   <v-flex lg6 md6 xs6 pa-2>
+      <v-menu
+          ref="menu"
+          v-model="menu"
+          :close-on-content-click="false"
+          :return-value.sync="date"
+          transition="scale-transition"
+          offset-y
+          min-width="100px"
+        >
+      <template v-slot:activator="{ on }">
+				   <v-text-field
+              v-model="date"
+              label="Fecha inicial"
+              prepend-icon="event"
+              readonly
+              v-on="on"
+            ></v-text-field>
+            </template>
+             <v-date-picker v-model="date" no-title scrollable>
+            <div class="flex-grow-1"></div>
+            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+          </v-date-picker>
+          </v-menu>
+            </v-flex>
+
+               <v-flex lg6 md6 xs6 pa-2>
+      <v-menu
+          ref="menu"
+          v-model="menu"
+          :close-on-content-click="false"
+          :return-value.sync="date"
+          transition="scale-transition"
+          offset-y
+          min-width="100px"
+        >
+      <template v-slot:activator="{ on }">
+				   <v-text-field
+              v-model="date"
+              label="Fecha final"
+              prepend-icon="event"
+              readonly
+              v-on="on"
+            ></v-text-field>
+            </template>
+             <v-date-picker v-model="date" no-title scrollable>
+            <div class="flex-grow-1"></div>
+            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+          </v-date-picker>
+          </v-menu>
+            </v-flex>
+</v-layout>
+
+					</div>
+    	<div class="card-body d-flex justify-content-between align-items-center">
+           <center>  <v-btn style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           </div>
+   	  
+                     
+  
+				</div>
+			</div>
+		</div>
+
+                
+            
+                  
+                     </div>
                 </div>
             </div>        
         </div>
