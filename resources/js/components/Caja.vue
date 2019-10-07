@@ -3,7 +3,7 @@
         <v-toolbar flat color="white">
             <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="600px">
+            <v-dialog v-model="dialog" persistent max-width="600px">
                 <template v-slot:activator="{ on }">
                    <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Registrar Caja</v-btn>
                 </template>
@@ -69,8 +69,10 @@
         data: () => ({
             search: '',
             dialog: false,
-            error: 0,
+            error: '',
             errorMsj: [],
+            entradas: [],
+            salidas: [],
             headers: [
 
                 { 
@@ -102,7 +104,7 @@
             defaultItem: {
                 id: 0,
                 cantidad: '',
-                 tipo: '',
+                tipo: '',
                 observacion: '',
             }
         }),
@@ -117,7 +119,9 @@
             }
         },
         created() {
-            this.initialize()
+            this.initialize();
+            this.cargaEntradas();   
+            this.cargaSalidas();
         },
         mounted(){
             this.dialog = true
@@ -126,10 +130,16 @@
             validate() {
                 this.error = 0;
                 this.errorMsj = [];
+                this.cargaEntradas();
+                this.cargaSalidas();
+                var r;
+                r = this.resta();
                 if (!this.editedItem.cantidad)
                     this.errorMsj.push('La cantidad no puede estar vacia. ');
                 if (!this.editedItem.tipo)
                     this.errorMsj.push('Se debe de asignar un tipo. ');
+                if(this.editedItem.cantidad != r)
+                    this.errorMsj.push('Las cantidades no coinciden. ')
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
@@ -142,6 +152,38 @@
                     .catch(errors => {
                         console.log(errors);
                     });
+            },
+            cargaEntradas() {
+                let me = this;
+                axios.get('/ventas/validartotal')
+                .then(function (response) {
+                    me.entradas = response.data;
+                   
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+            },
+             cargaSalidas() {
+                let me = this;
+                axios.get('/compra/validartotal')
+                .then(function (response) {
+                    me.salidas = response.data;
+                   
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+            },
+            resta(){
+                
+                let me = this;
+                var total;
+                total =  parseFloat(this.entradas[0].Total) - parseFloat(this.salidas[0].Total);
+                total = Number(total.toFixed(2));
+                return total;
+                console.log(total);
+                    
             },
             editItem(item) {
                 this.editedIndex = this.caja.indexOf(item)

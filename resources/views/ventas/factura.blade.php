@@ -8,28 +8,29 @@
 	.contenedor{
         border:1px solid;
 		width: 13.5cm;
-        height: 21.3cm;
+        height: 19.9cm;
         border-color: red;
 	}
     .nombre{
-        padding-top: 3.3cm;
-        padding-left: 2.3cm;
+        padding-top: 3.2cm;
+        padding-left: 2.5cm;
     }
     .direccion{
-        padding-top: 0.8cm;
-        padding-left: 2.3cm;
+        padding-top: 0.3cm;
+        padding-left: 2.5cm;
     }
     .fecha{
-        width: 5.2cm;
-        padding-top: 0.8cm;
-        padding-left: 2.3cm;
+        width: 6.5cm;
+        padding-top: 0.3cm;
+        padding-left: 2.5cm;
         float: left;
     }
     .nit{
-        padding-top: 0.8cm;
+        padding-top: 0.3cm;
         padding-left: 0.8cm;
     }
     .encabezado{
+        padding-top: 0.3cm;
         border:1px solid;
         border-color: green;
     }
@@ -37,33 +38,48 @@
         padding-top: 1cm;
         padding-left: 1.2cm;
         padding-right: 0.7cm;
-        height: 10.9cm;
+        height: 9.9cm;
         border:1px solid;
         border-color: blue;
+        
     }
     .cantidad{
         width: 2cm;
-        height: 10.4cm;
+        height: 9.9cm;
         float:left;
+        font-family: calibri;
+        font-size: 13px;
     }
     .descripcion{
         width: 7.7cm;
-        height: 10.4cm;
+        height: 9.9cm;
         float:left;
+        font-family: calibri;
+        font-size: 13px;
     }
     .valor{
         width: 2.3cm;
-        height: 10.4cm;
+        height: 9.9cm;
         float:left;
+        font-family: calibri;
+        font-size: 13px;
+    }
+    .final{
+        width: 13.5cm;
+        height: 3.3cm;
+        border:1px solid;
+        border-color: black;
     }
     .letras{
-        height: 0.6cm;
+        padding-top: 0.15cm;
+        margin-left: 1.4cm;
     }
     .info{
-        height: 2.1cm;
+        padding-top: 0.3cm;
     }
     .total{
-        margin-left: 11cm;
+        padding-top: 1.2cm;
+        margin-left: 10.8cm;
     }
 
 	</style>
@@ -127,7 +143,6 @@
             <div class="total">
                 @foreach($ventas as $v)
                     {{$v->total}}
-                    <br>
                 @endforeach
             </div>
         </div>

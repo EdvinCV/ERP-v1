@@ -69,6 +69,7 @@ Route::delete('/historialcalidad/{historialcalidad}/delete', 'HistorialcalidadCo
 // Rutas ventas
 Route::post('/venta/nuevo', 'VentasController@store');
 Route::get('/ventas/listar', 'VentasController@listarVentas');
+Route::get('/ventas/validartotal', 'VentasController@validarTotal');
 Route::delete('venta/{venta}/delete', 'VentasController@drop');
 Route::get('/ventas/{id}/detalles','VentasController@detalleVenta');
 Route::get('/ventas/{id}/factura', 'VentasController@generarFactura');
