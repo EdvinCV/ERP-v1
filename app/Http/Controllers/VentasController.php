@@ -66,6 +66,13 @@ class VentasController extends Controller
             return response()->json($response, 500);
         }
     }
+    public function cotizacion(Request $req){
+
+        $detalles = $req->carrito;
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('ventas.cotizacion', compact('detalles'));
+        return $pdf->download('cotizacion.pdf');
+    }
 
     public function listarVentas(){
         $ventas = DB::table('venta_encabezados')

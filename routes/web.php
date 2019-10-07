@@ -74,6 +74,7 @@ Route::get('/ventas/validartotal', 'VentasController@validarTotal');
 Route::delete('venta/{venta}/delete', 'VentasController@drop');
 Route::get('/ventas/{id}/detalles','VentasController@detalleVenta');
 Route::get('/ventas/{id}/factura', 'VentasController@generarFactura');
+Route::post('venta/cotizacion','VentasController@cotizacion');
 //Rutas usuarios
 Route::get('/usuarios', 'UsuarioController@index');
 Route::get('/rolCompras', 'UsuarioController@listarRolCompras');
@@ -96,6 +97,7 @@ Route::post('/compra/editar','OrdenCompraController@editarOrden');
 Route::delete('compra/{id}/eliminar', 'OrdenCompraController@drop');
 //Route::get('/compra/{id}/detalles', 'OrdenCompraController@detalles');
 Route::get('/compra/validartotal', 'OrdenCompraController@validarTotal');
+Route::get('/compra/{id}/finalizada','OrdenCompraController@ordenFinalizada');
 //RUTAS REPORTES
 Route::get('/ventas/reporteProductos', 'VentasController@reporteVentasProducto');
 Route::get('/ventas/reporteVClientes', 'VentasController@reporteVentasClientes');

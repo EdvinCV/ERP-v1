@@ -89,7 +89,8 @@
             </template>      
             <hr>
             <template>
-                <v-btn @click="save" block color="#668c2d" dark>GENERAR</v-btn>
+                <v-btn @click="save" block color="#668c2d" dark>GENERAR VENTA</v-btn>
+                <v-btn @click="cotizacion" block color="#668c2d" dark>Cotización</v-btn>
               
             </template>                                          
         </v-container>
@@ -308,7 +309,7 @@
                             timer: 1500});
                 }
             },
-            generarCotizacion(){
+            cotizacion(){
                 axios({
                         method: 'post',
                         url: '/venta/cotizacion',
@@ -324,18 +325,14 @@
                             title: 'Venta realizada',
                             showConfirmButton: false,
                             timer: 1500});
-                        me.initialize();
-                        me.close();
-                        window.open(window.location.origin +'/ventas/'+response.data+'/factura');
-                        
+          
                     }).catch(function (error) {
                         swal.fire({
                             position: 'top-end',
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
-                        me.initialize();
-                        me.close();
+                
                     });
             },
             calcularTotal(){

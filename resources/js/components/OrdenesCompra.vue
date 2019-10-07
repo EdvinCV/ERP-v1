@@ -133,7 +133,10 @@
                     <td class="text-xs-left">{{ props.item.created_at }}</td>
                     <td class="text-xs-left"><v-chip :color="getColor(props.item.finalizado)" dark>{{ verEstado(props.item.finalizado) }}</v-chip></td>
                     <td class="justify-center layout px-0">
-                        <v-icon title="Imprimir orden" @click="imprimirOrden(props.item.id)">
+                        <v-icon v-if="!props.item.finalizado" title="Imprimir orden" @click="imprimirOrden(props.item.id)">
+                            fas fa-copy
+                        </v-icon>
+                        <v-icon v-if="props.item.finalizado" title="Resumen orden" @click="imprimirOrdenFinalizada(props.item.id)">
                             fas fa-copy
                         </v-icon>
                         <v-icon title="Finalizar orden" v-if="!props.item.finalizado" @click="finalizarOrden(props.item.id)">
@@ -521,6 +524,9 @@
             },
             imprimirOrden(item){
                 window.open(window.location.origin +'/compra/'+item+'/orden');
+            },
+            imprimirOrdenFinalizada(item){
+                window.open(window.location.origin +'/compra/'+item+'/finalizada');
             }
         }
     }

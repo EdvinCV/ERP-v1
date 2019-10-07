@@ -91,12 +91,10 @@
                 else return 'red'
                 verEstado();            
             },
-
             verEstado (estado) {
                 if(estado) return "Facturado";
                 else return "No Facturado";
             },
-
             validate() {
                 this.error = 0;
                 this.errorMsj = [];
@@ -117,7 +115,6 @@
             verDetalles(item) {
                 window.open(window.location.origin +'/ventas/'+item+'/detalles');
             },
-
             deleteItem(item) {
                 let me=this;
                 swal.fire({
@@ -149,7 +146,6 @@
                     }
                 });
             },
-
             close() {
                 this.error=0;
                 this.dialog = false;
@@ -158,7 +154,6 @@
                     this.editedIndex = -1
                 }, 300)
             },
-
             save() {
                 let me = this;
                 if (this.validate()) {

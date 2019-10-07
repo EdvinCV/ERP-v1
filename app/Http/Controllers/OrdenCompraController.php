@@ -206,4 +206,39 @@ class OrdenCompraController extends Controller
             return response()->json($response, 500);
         }
     }
+    public function ordenFinalizada(){
+        $id = 1;
+        $clientes = DB::table('compra_detalles')
+                    ->select('clientes.nombreCliente', 'clientes.idPersona')
+                    ->join('clientes', 'clientes.idPersona', '=', 'compra_detalles.idPersona')
+                    ->where('idCompraEncabezado', '=', $id)
+                    ->groupBy('nombreCliente', 'idPersona')
+                    ->get();
+            
+        $productos = DB::table('compra_detalles')
+                    ->select('productos.id','productos.nombre as producto', 'presentacions.nombre as presentacion', 'proveedors.nombreProveedor', 'productos.preciocompra', DB::raw('SUM(compra_detalles.cantidad) as cantidad'), 'proveedors.idPersona')
+                    ->join('productos', 'productos.id', '=', 'compra_detalles.idProducto')
+                    ->join('presentacions', 'presentacions.id', '=', 'productos.idpresentacion')
+                    ->join('proveedors', 'proveedors.idPersona', '=', 'productos.idpersona')
+                    ->where('idCompraEncabezado', '=', $id)
+                    ->groupBy('productos.id', 'productos.nombre', 'presentacions.nombre', 'proveedors.nombreProveedor', 'productos.preciocompra', 'proveedors.idPersona')
+                    ->get();
+
+        $prodsClientes = DB::table('compra_detalles')
+                            ->select('productos.nombre as producto', 'compra_detalles.cantidad as cantidad', 'compra_detalles.idPersona', 'presentacions.nombre as presentacion')
+                            ->join('productos', 'productos.id', '=', 'compra_detalles.idProducto')
+                            ->join('proveedors', 'proveedors.idPersona', '=', 'productos.idpersona')
+                            ->join('presentacions', 'presentacions.id', '=', 'productos.idpresentacion')
+                            ->where('idCompraEncabezado', '=', $id)
+                            ->get();
+        
+        $orden = DB::table('compra_encabezados')
+                    ->get();
+
+        
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('compras.ordenFinalizada', compact('orden','clientes', 'productos', 'id', 'prodsClientes'));
+        return $pdf->stream('ordenCompra.pdf');
+
+    }
 }
