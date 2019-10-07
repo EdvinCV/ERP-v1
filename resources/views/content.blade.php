@@ -51,5 +51,11 @@
     <template v-if="menu==19">
         <chart></chart>
     </template>
+    <template v-if="menu==30">
+        <perfil></perfil>
+    </template>
+    <template v-if="menu==31">
+        <reportes></reportes>
+    </template>
 
 @endsection

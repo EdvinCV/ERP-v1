@@ -1,12 +1,15 @@
 <template>
     <div>
-        <h2>Orden de compra</h2>
+     <div class="contenedor" style="background-color=#668C2D">
+      <center> <h2 style="color:#668C2D">Orden Compra</h2></center>
+        </div>
+     <hr>
         <v-container fluid>
             <!--LAYOUT DE CLIENTE -->
             <h6>Encargado compra</h6>
             <v-layout row>
-                <v-flex lg6 md6 xs6 pa-2>
-                    <multiselect v-model="editedItem.idEncargado" :options="compras" placeholder="Seleccione un encargado"
+                <v-flex lg6 md6 xs6 pa-2 >
+                    <multiselect  v-model="editedItem.idEncargado" :options="compras" placeholder="Seleccione un encargado"
                         label="name" track-by="name"></multiselect>
                 </v-flex>
             </v-layout>
@@ -25,10 +28,10 @@
                         label="mostrar" track-by="Producto" :allowEmpty="true"></multiselect>
                 </v-flex>
                 <v-flex lg2 md2 xs2 pa-2>
-                    <v-text-field v-model="editedItem.cantProducto" label="Cantidad"></v-text-field>
+                    <v-text-field color="#668c2d" v-model="editedItem.cantProducto" label="Cantidad"></v-text-field>
                 </v-flex>
                 <v-flex xs1 sm1 md1>
-                    <v-btn @click="agregarProducto()" fab dark small color="primary">
+                    <v-btn @click="agregarProducto()" fab dark small color="#668c2d">
                         <v-icon dark>add</v-icon>
                     </v-btn>
                 </v-flex>
@@ -62,7 +65,7 @@
             </template>
             <br>      
             <template>
-                <v-btn @click="save" block color="success" dark>GENERAR</v-btn>
+                <v-btn @click="save" block color="#668c2d" dark>GENERAR</v-btn>
             </template>                                          
         </v-container>
     </div>

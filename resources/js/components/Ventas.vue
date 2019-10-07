@@ -1,6 +1,7 @@
 <template>
     <div>
-        <h2>Venta</h2>
+        <center><h2 style="color:#668C2D">Venta</h2></center>
+        <center><hr class="hrt"></center>
         <v-switch 
             v-model="switchFact"
             :label = "`Facturado`"
@@ -12,10 +13,10 @@
             <v-radio label="Efectivo" value="efectivo"></v-radio>
             <v-radio label="Cheque" value="cheque"></v-radio>
             <v-flex lg3 md3 xs3 pa-2>
-                    <v-text-field v-model="editedItem.cheque" label="No. Cheque" v-if="bandera"></v-text-field>
+                    <v-text-field color="#668c2d" v-model="editedItem.cheque" label="No. Cheque" v-if="bandera"></v-text-field>
             </v-flex>
             <v-flex lg3 md3 xs3 pa-2>
-                <v-text-field v-model="editedItem.banco" label="Banco" v-if="bandera"></v-text-field>
+                <v-text-field color="#668c2d" v-model="editedItem.banco" label="Banco" v-if="bandera"></v-text-field>
             </v-flex>
         </v-radio-group>
         <v-container fluid>
@@ -27,12 +28,13 @@
                         label="nombreCliente" track-by="nombreCliente"></multiselect>
                 </v-flex>
                 <v-flex lg3 md3 xs6 pa-2>
-                    <v-text-field v-model="editedItem.nit" label="NIT" readonly></v-text-field>
+                    <v-text-field color="#668c2d" v-model="editedItem.nit" label="NIT" readonly></v-text-field>
                 </v-flex>
                 <v-flex lg3 md3 xs6 pa-2>
-                    <v-text-field v-model="editedItem.direccion" label="Dirección"></v-text-field>
+                    <v-text-field color="#668c2d" v-model="editedItem.direccion" label="Dirección"></v-text-field>
                 </v-flex>
             </v-layout>
+            
             <!--LAYOUT DE PRODUCTOS-->
             <h6>Ingrese productos</h6> 
             <v-layout row>
@@ -41,13 +43,13 @@
                         label="mostrar" track-by="Producto" :allowEmpty="true"></multiselect>
                 </v-flex>
                 <v-flex lg2 md2 xs2 pa-2>
-                    <v-text-field v-model="editedItem.cantProducto" label="Cantidad"></v-text-field>
+                    <v-text-field color="#668c2d" v-model="editedItem.cantProducto" label="Cantidad"></v-text-field>
                 </v-flex>
                 <v-flex lg2 md2 xs2 pa-2>
-                    <v-text-field v-model="editedItem.precio" label="Precio"></v-text-field>
+                    <v-text-field color="#668c2d" v-model="editedItem.precio" label="Precio"></v-text-field>
                 </v-flex>
                 <v-flex lg2 md2 xs2 pa-2>
-                    <v-text-field v-model="editedItem.descuento" label="Descuento" ></v-text-field>
+                    <v-text-field color="#668c2d" v-model="editedItem.descuento" label="Descuento" ></v-text-field>
                 </v-flex>
                 <v-flex xs1 sm1 md1>
                     <v-btn @click="agregarProducto()" fab dark small color="primary">
@@ -78,15 +80,17 @@
                 </v-data-table>
                 <v-layout row>
                     <v-flex lg6 md6 xs2 pa-2>
-                        <v-text-field v-model="editedItem.subtotal" label="Subtotal" readonly></v-text-field>
+                        <v-text-field color="#668c2d" v-model="editedItem.subtotal" label="Subtotal" readonly></v-text-field>
                     </v-flex>
                     <v-flex lg6 md6 xs2 pa-2>
-                        <v-text-field v-model="editedItem.total" label="Total" readonly></v-text-field>
+                        <v-text-field color="#668c2d" v-model="editedItem.total" label="Total" readonly></v-text-field>
                     </v-flex>
                 </v-layout>
             </template>      
+            <hr>
             <template>
-                <v-btn @click="save" block color="success" dark>GENERAR</v-btn>
+                <v-btn @click="save" block color="#668c2d" dark>GENERAR</v-btn>
+              
             </template>                                          
         </v-container>
     </div>

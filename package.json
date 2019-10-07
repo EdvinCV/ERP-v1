@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "@amcharts/amcharts4": "^4.6.3",
+        "amcharts3": "^3.21.15",
         "chart.js": "^2.8.0",
         "material-design-icons-iconfont": "^5.0.1",
         "sweetalert2": "^8.17.6",

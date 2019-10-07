@@ -76,8 +76,8 @@ class VentasController extends Controller
 
         return $ventas;
     }
-    public function validarTotal()
-    {
+
+    public function validarTotal(){
         $total = DB::table('venta_encabezados')
             ->select(DB::raw('SUM(venta_encabezados.total) as Total'))
             ->join('tipo_pagos','tipo_pagos.id','=','venta_encabezados.idTipoPago')
@@ -143,5 +143,51 @@ class VentasController extends Controller
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadView('ventas.factura', compact('ventas', 'detalles'));
         return $pdf->stream('factura.pdf');
+    }
+
+    public function reporteVentasProducto(){
+        $fechaDe = date('2019-10-7');
+        $fechaA = date('2019-10-8');
+        $productos = DB::table('detalle_ventas')
+                    ->select(DB::raw('productos.nombre as producto, presentacions.nombre as presentacion, categorias.nombre as categoria, proveedors.nombreProveedor as proveedor, SUM(subtotal) AS total, SUM(cantidad) AS Cantidad'))
+                    ->join('productos','productos.id', '=', 'detalle_ventas.idProducto')
+                    ->join('presentacions','presentacions.id','=','productos.idpresentacion')
+                    ->join('categorias','categorias.id','=','productos.idcategoria')
+                    ->join('proveedors','proveedors.idPersona','=','productos.idPersona')
+                    ->whereBetween('detalle_ventas.created_at', [$fechaDe, $fechaA])
+                    ->groupBy('productos.id', 'productos.nombre','presentacions.nombre','categorias.nombre','proveedors.nombreProveedor')
+                    ->orderBy('total','desc')
+                    ->get();
+        
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('reportes.VentasProductos', compact('productos'));
+        return $pdf->stream('VentasPorProducto.pdf');
+    }
+
+    public function reporteVentasClientes(){
+        $fechaDe = date('2019-10-7');
+        $fechaA = date('2019-10-8');
+        $idCliente = 10;
+        
+        $cliente = DB::table('venta_encabezados')
+                    ->select(DB::raw('SUM(total) as Total, nombreCliente'))
+                    ->join('clientes','clientes.idPersona','=','venta_encabezados.idPersona')
+                    ->where('venta_encabezados.idPersona','=',$idCliente)
+                    ->groupBy('nombreCliente')
+                    ->get();
+    
+
+        $detallesVentas = DB::table('venta_encabezados')
+                    ->select('venta_encabezados.total','venta_encabezados.totalSinIVA','venta_encabezados.iva','venta_encabezados.numeroFactura','nombreTipo','venta_encabezados.created_at','cheque','banco')
+                    ->join('tipo_pagos','tipo_pagos.id','=','venta_encabezados.idTipoPago')
+                    ->where('venta_encabezados.idPersona','=',$idCliente)
+                    ->whereBetween('venta_encabezados.created_at',[$fechaDe, $fechaA])
+                    ->get();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('reportes.VentasPorCliente', compact('detallesVentas','cliente'));
+        return $pdf->stream('VentasPorCliente.pdf');
+                
+        
     }
 }

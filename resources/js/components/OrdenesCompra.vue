@@ -239,7 +239,7 @@
 
         methods: {
             getColor (estado) {
-                if (estado) return 'green'
+                if (estado) return '#668C2D'
                 else return 'red'
                 verEstado();            
             },

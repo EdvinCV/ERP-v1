@@ -7,24 +7,37 @@
 <style>
 	.contenedor
 	{
-		border:1px solid;
-		text-align:center;
+
+    text-align:center;
+    
+   
 	}
 	.contenedor>span {
 		display:inline-block;
 		vertical-align:middle;
 		line-height:normal;
-	}
-	</style>
+  }
+  .cont{
+  
+  }
+  .cont>span{
+    display:inline-block;
+		vertical-align:middle;
+		line-height:normal;
+  }
+  .hr{
+  
+  width: 80%;
+  }
+  </style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <html>
-     <
-       h5>QUETZALTENANGO, GUATEMALA</h5>
-     <h5>ADAM - INCOFIN</h5>
-     <div class="contenedor">
-          <h1>Venta</h1>
-     </div>
+  
+<center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
+<hr class="hr">
+     <center> <h5>QUETZALTENANGO, GUATEMALA</h5>
      <?php 
           echo "<br>" . "Generado Fecha: ";
           print_r($hoy["mday"] . '/');
@@ -35,21 +48,34 @@
           print_r($hoy["minutes"].':');
           print_r($hoy["seconds"]);
      ?>
-     <h4>Generado Por: {{Auth::user()->name}} - {{Auth::user()->email}}</h4>
+  </center>
+
+
+<div class="contenedor">
+        <h1>Venta</h1>
+        <hr class="hr">
+        </div>
+      
+<br>
+
+     <h6>Generado Por: {{Auth::user()->name}} - {{Auth::user()->email}}</h6>
 
       @foreach($ventas as $v)
-        <h4>Fecha Venta: {{ $v->created_at }}</h4>
-        <h4>Forma pago: {{ $v->nombreTipo }}</h4>
-        <h4>Cliente: {{ $v->nombreCliente }}</h4>
-        <h4>Direccion: {{ $v->direccion }}</h4>
-        <h4>NIT: {{ $v->nit }}</h4>
+        <h6>Fecha Venta: {{ $v->created_at }}</h6>
+        <h6>Forma pago: {{ $v->nombreTipo }}</h6>
+        <h6>Cliente: {{ $v->nombreCliente }}</h6>
+        <h6>Direccion: {{ $v->direccion }}</h6>
+        <h6>NIT: {{ $v->nit }}</h6>
       @endforeach
   
-     <br>
-     <h2>Productos vendidos</h2>
     
-     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    
+    <br>
+   <center> <h1 >Productos vendidos</h1></center>
+<hr>
+     <table width="100%" >
           <thead class="thead-dark">
+            <!--style="background-color:#668C2D" -->
             <tr>
               <th>#</th>
               <th>Producto</th>
@@ -58,12 +84,15 @@
               <th>Precio</th>
               <th>Subtotal</th>
               <th>Proveedor</th>
-                       
+              
             </tr>
           </thead>
           <tbody>
           @foreach($detalles as $d)
-            <tr>
+          <!--
+            style="background-color:#DCEDC8"
+          -->
+          <tr>
               <td>1</td>
               <td>{{ $d->producto }}</td>
               <td>{{ $d->presentacion }}</td>
@@ -75,9 +104,12 @@
           @endforeach           
           </tbody>
         </table>
+        <hr>
+    
         @foreach($ventas as $v)
-          <h4>Subtotal: {{$v->totalSinIVA }}</h4>
-          <h4>IVA: {{ $v->iva }}</h4>
-          <h4>Total: {{ $v->total }}</h4>
+          <h6>Subtotal: {{$v->totalSinIVA }}</h6>
+          <h6>IVA: {{ $v->iva }}</h6>
+          <h6>Total: {{ $v->total }}</h6>
         @endforeach
+
 </html>

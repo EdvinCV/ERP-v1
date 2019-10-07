@@ -1,9 +1,24 @@
 <template>
     <div>
-        <h3>Historial ventas</h3>
+       
+       <center> <h2 style="color:#668C2D">Historial ventas</h2></center>
+       <hr>
         <v-toolbar flat color="white">
-        <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+             <v-text-field color="#668c2d"
+          v-model="search"
+          append-icon="search"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
         </v-toolbar>
+          <v-card-title>
+           
+     
+        <div class="flex-grow-1"></div>
+   
+      </v-card-title>
+
         <v-data-table :headers="headers" :items="ventas" class="elevation-1" :search="search">
             <template v-slot:items="props">
                 <td class="text-xs-left">{{ props.item.nombreCliente }}</td>
@@ -21,7 +36,7 @@
                 </td>
             </template>
             <template v-slot:no-data>
-                <v-btn color="primary" @click="initialize">Recargar</v-btn>
+                <v-btn style="background-color:#668c2d" dark class="mb-2" @click="initialize">Recargar</v-btn>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
@@ -72,7 +87,7 @@
 
         methods: {
             getColor (estado) {
-                if (estado) return 'green'
+                if (estado) return '#668C2D'
                 else return 'red'
                 verEstado();            
             },

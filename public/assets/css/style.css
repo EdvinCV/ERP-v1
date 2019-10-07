@@ -1751,12 +1751,12 @@ p.text-muted {
           justify-content: center;
 }
 .b-brand .b-bg i {
-  color: #000;
+  color: #fff;
 }
 .b-brand .b-title {
   margin-left: 10px;
   font-weight: 100;
-  color: #000;
+  color: #fff;
   font-size: 18px;
 }
 
@@ -1888,6 +1888,9 @@ p.text-muted {
   }
 }
 /* Pre-loader css end */
+/* info boxxx-----------------*/
+
+/*info box--------------------*/
 /* header css start */
 .pcoded-header {
   z-index: 1028;
@@ -1900,13 +1903,11 @@ p.text-muted {
   position: relative;
   top: 0;
   background: transparent;
-  -webkit-box-shadow: 1px 0 15px 0 #ECEFF1;
-  box-shadow: 1px 0 15px 0 #ECEFF1;
+
   color: #000000;
   width: calc(100% - 264px);
   margin-left: 264px;
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
+
 }
 .pcoded-header .m-header {
   display: none;
@@ -2707,11 +2708,11 @@ p.text-muted {
   color: #668C2D;
 }
 .pcoded-navbar .pcoded-inner-navbar li .pcoded-submenu > li.active > a:before, .pcoded-navbar .pcoded-inner-navbar li .pcoded-submenu > li:focus > a:before, .pcoded-navbar .pcoded-inner-navbar li .pcoded-submenu > li:hover > a:before {
-  background: #1dc4e9;
+  background: #668C2D;
 }
 .pcoded-navbar .pcoded-inner-navbar > li.active:after, .pcoded-navbar .pcoded-inner-navbar > li.pcoded-trigger:after {
   content: "";
-  background-color: #1dc4e9;
+  background: #668C2D;
   z-index: 1027;
   position: absolute;
   left: 0;
@@ -3058,7 +3059,7 @@ p.text-muted {
 /* ==========================    Rsponsive Menu  start   ====================== */
 @media only screen and (max-width: 991px) {
   .pcoded-header {
-    background: #3f4d67;
+    background: #668c2d;
     color: #fff;
   }
   .pcoded-header .input-group-text,
@@ -3069,7 +3070,7 @@ p.text-muted {
   .pcoded-header .input-group-text:hover,
   .pcoded-header a:hover,
   .pcoded-header dropdown-toggle:hover {
-    color: #04a9f5;
+    color: #668c2d;
   }
   .pcoded-header #mobile-header {
     display: none;
@@ -5323,6 +5324,7 @@ body.layout-6 .pcoded-navbar.navbar-collapsed:hover .navbar-brand .mobile-menu {
 body.layout-6 .pcoded-navbar.navbar-collapsed:hover .navbar-brand .mobile-menu span {
   background: transparent;
 }
+
 body.layout-6 .pcoded-content {
   margin-top: 200px;
 }

@@ -14,7 +14,7 @@
                 <ul class="nav pcoded-inner-navbar ">
               
                     <li class="nav-item pcoded-menu-caption">
-                       <center> <h6>GESTION DE VENTAS</h6></center>
+                       <center> <h6 style="color:#668C2D">GESTION DE VENTAS</h6></center>
                        
                     </li><center><hr class="hrt"></center>
                    
@@ -23,7 +23,7 @@
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
                             class="nav-item pcoded-hasmenu">
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
-                                    class="feather icon-user feather-lg"></i></span><span class="pcoded-mtext">Usuarios</span></a>
+                                    class="feather icon-user feather-lg"></i></span><span class="pcoded-mtext">Usuarios</span></a><hr>
                             <ul class="pcoded-submenu">
                             <li><a @click="menu=1" ><span class="pcoded-micon"><i
                                     class="feather icon-users"></i></span><span class="pcoded-mtext">Control usuarios</span></a></li>
@@ -102,7 +102,7 @@
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
                             class="nav-item pcoded-hasmenu">
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
-                                    class="feather icon-home"></i></span><span class="pcoded-mtext">Compras</span></a>
+                                    class="feather icon-briefcase"></i></span><span class="pcoded-mtext">Compras</span></a><hr>
                             <ul class="pcoded-submenu">
                                 <li class=""><a @click="menu=17">Nueva compra</a></li>
                                 <li class=""><a @click="menu=18">Historial compras</a></li>
@@ -114,19 +114,24 @@
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
                             class="nav-item pcoded-hasmenu">
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
-                                    class="feather icon-home"></i></span><span class="pcoded-mtext">Reportes</span></a>
+                                    class="feather icon-file"></i></span><span class="pcoded-mtext">Reportes</span></a><hr>
                             <ul class="pcoded-submenu">
-                                <li class=""><a @click="menu=19" v-on:click="ruta='Roles'">Pruebas</a></li>
+                            <li><a @click="menu=10" ><span class="pcoded-micon"><i
+                                    class="feather icon-user-plus"></i></span><span class="pcoded-mtext">Nuevo Usuario</span></a></li>
+                                <li><a @click="menu=19" ><span class="pcoded-micon"><i
+                                    class="feather icon-bar-chart"></i></span><span class="pcoded-mtext">Graficas</span></a></li>
+                                    <li><a @click="menu=31" ><span class="pcoded-micon"><i
+                                    class="feather icon-file"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
                             </ul>
                         </li>
                     @endif
                     @endforeach
                 </ul>
-
+               
                 
             </div>
             
         </div>
-        
+
     </nav>
     <!-- [ navigati

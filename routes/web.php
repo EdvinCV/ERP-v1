@@ -66,6 +66,7 @@ Route::get('/historialcalidad', 'HistorialcalidadController@index');
 Route::post('/historialcalidad/registrar', 'HistorialcalidadController@store');
 Route::put('/historialcalidad/actualizar', 'HistorialcalidadController@update');
 Route::delete('/historialcalidad/{historialcalidad}/delete', 'HistorialcalidadController@drop');
+
 // Rutas ventas
 Route::post('/venta/nuevo', 'VentasController@store');
 Route::get('/ventas/listar', 'VentasController@listarVentas');
@@ -79,6 +80,8 @@ Route::get('/rolCompras', 'UsuarioController@listarRolCompras');
 Route::post('/usuario/registrar', 'UsuarioController@store');
 Route::delete('usuario/{id}/delete', 'UsuarioController@drop');
 Route::put('usuario/actualizar', 'UsuarioController@update');
+Route::put('usuario/profile-update','UsuarioController@updateProfile')->name('profile.update');
+Route::put('usuario/password-update','UsuarioController@updatePassword')->name('password.update');
 // Rutas Caja
 Route::get('/caja', 'CajaController@index');
 Route::post('/caja/registrar', 'CajaController@store');
@@ -91,3 +94,9 @@ Route::get('/compra/detallesGenerales', 'OrdenCompraController@indexGenerales');
 Route::post('/compra/guardar','OrdenCompraController@finalizarOrden');
 Route::post('/compra/editar','OrdenCompraController@editarOrden');
 Route::delete('compra/{id}/eliminar', 'OrdenCompraController@drop');
+//Route::get('/compra/{id}/detalles', 'OrdenCompraController@detalles');
+Route::get('/compra/validartotal', 'OrdenCompraController@validarTotal');
+//RUTAS REPORTES
+Route::get('/ventas/reporteProductos', 'VentasController@reporteVentasProducto');
+Route::get('/ventas/reporteVClientes', 'VentasController@reporteVentasClientes');
+

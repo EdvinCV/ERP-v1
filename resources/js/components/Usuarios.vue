@@ -1,35 +1,45 @@
 <template>
     <div>
+         <div class="contenedor" style="backgrounhd-color=#668C2D">
+      <center> <h2 style="color:#668C2D">Usuarios</h2></center>
+        </div>
+     <hr>
         <v-toolbar flat color="white">
-            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+         <v-text-field
+          v-model="search"
+          append-icon="search"
+          label="Buscar"
+          single-line
+          hide-details
+        ></v-text-field>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark class="mb-2" v-on="on">Crear usuario</v-btn>
+                    <v-btn style="background-color:#668c2d" dark class="mb-2" v-on="on">Crear usuario</v-btn>
                 </template>
                 <v-card>
-                    <v-card-title>
-                        <span class="headline">{{ formTitle }}</span>
+                     <v-card-title style="background-color:#668c2d">
+                       <span class="headline" style="color:#fff">{{ formTitle }}</span>
                     </v-card-title>
 
                     <v-card-text>
                       <v-container grid-list-md>
                         <v-layout wrap>
                           <v-flex xs12 sm12 md12>
-                            <v-text-field
+                            <v-text-field color="#668c2d"
                                 v-model="editedItem.name"
                                 :counter="10"
                                 label="Nombre"
                                 :rules="[rules.required, rules.min]"
                             ></v-text-field>
 
-                            <v-text-field
+                            <v-text-field color="#668c2d"
                                 v-model="editedItem.email"
                                 :rules="[rules.required, rules.email]"
                                 label="Correo Electrónico"
                             ></v-text-field>
 
-                            <v-text-field
+                            <v-text-field color="#668c2d"
                                 v-model="editedItem.pass"
                                 :append-icon="mostrar ? 'visibility' : 'visibility_off'"
                                 :rules="[rules.required, rules.min]"
@@ -42,7 +52,7 @@
                                 v-if="this.editedIndex === -1"
                             ></v-text-field>
 
-                            <v-text-field
+                            <v-text-field color="#668c2d"
                                 v-model="editedItem.confirmPass"
                                 :append-icon="mostrar ? 'visibility' : 'visibility_off'"
                                 :rules="[rules.required, rules.min]"
@@ -53,7 +63,7 @@
                                 @click:append="mostrar = !mostrar"
                                 v-if="this.editedIndex === -1"
                             ></v-text-field>
-                            <v-select
+                            <v-select color="#668c2d"
                                 v-model="editedItem.rol"
                                 :items="listaRoles"
                                 item-text="nombreRol"
@@ -85,13 +95,17 @@
                     </template>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
-                        <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
+                        <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
+                        <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
         </v-toolbar>
+        <v-card-title>
         
+        <div class="flex-grow-1"></div>
+   
+      </v-card-title>
 
         <v-data-table :headers="headers" :items="users" class="elevation-1" :search="search">
             <template v-slot:items="props">
@@ -109,7 +123,7 @@
                 </td>
             </template>
             <template v-slot:no-data>
-                <v-btn color="primary" @click="initialize">Recargar</v-btn>
+             <v-btn style="background-color:#668c2d" dark class="mb-2" @click="initialize">Recargar</v-btn>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
@@ -191,7 +205,7 @@
         },
         methods: {
             getColor (estado) {
-                if (estado) return 'green'
+                if (estado) return '#668C2D'
                 else return 'red'
                 verEstado();            
             },

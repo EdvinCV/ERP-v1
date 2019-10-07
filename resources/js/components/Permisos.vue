@@ -1,7 +1,19 @@
 <template>
     <div>
+                            <div class="contenedor" style="backgrounhd-color=#668C2D">
+      <center> <h2 style="color:#668C2D">Gestion de permisos</h2></center>
+        </div>
+     <hr>
         <v-toolbar flat color="white">
-            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+          
+             <v-text-field
+          v-model="search"
+          append-icon="search"
+          label="Buscar"
+          single-line
+          hide-details
+        ></v-text-field>
+             
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on }">
@@ -60,13 +72,18 @@
                     </template>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
-                        <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
+                        <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
+                      <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
         </v-toolbar>
         
+             <v-card-title>
+        
+        <div class="flex-grow-1"></div>
+     
+      </v-card-title>
 
         <v-data-table :headers="headers" :items="permisos" class="elevation-1" :search="search">
             <template v-slot:items="props">
@@ -83,7 +100,7 @@
                 </td>
             </template>
             <template v-slot:no-data>
-            <v-btn style="background-color:#668c2d"  @click="initialize">Recargar</v-btn>
+           <v-btn style="background-color:#668c2d" dark class="mb-2"  @click="initialize">Recargar</v-btn>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
@@ -148,7 +165,7 @@
 
         methods: {
             getColor (estado) {
-                if (estado) return 'green'
+                if (estado) return '#668C2D'
                 else return 'red'
                 verEstado();            
             },

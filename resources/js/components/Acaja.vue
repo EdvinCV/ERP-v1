@@ -2,7 +2,7 @@
     <div>
         
             
-            <v-dialog v-model="dialog" persistent max-width="600px">
+            <v-dialog v-model="dialog"  max-width="600px">
                 
                 <v-card>
               <v-card-title style="background-color:#668c2d">
@@ -48,10 +48,11 @@
             search: '',
             dialog: false,
             error: '',
+            inicio: false,
             errorMsj: [],
             entradas: [],
             salidas: [],
-            
+            usuarios: 0,
             caja: [],
             editedIndex: -1,
             editedItem: {
@@ -81,9 +82,15 @@
             this.initialize();
             this.cargaEntradas();   
             this.cargaSalidas();
+           
         },
         mounted(){
-            this.dialog = true
+            let me = this;
+            this.InicioS();
+            if(this.inicio == true)
+            {
+                this.dialog = true
+            }
         },
         methods: {
             validate() {
@@ -134,15 +141,34 @@
                     console.log(error.response);
                 });
             },
-            resta(){
+            cargaUsuarios() {
                 
+                let me = this;
+                axios.get('/usuario/inicio')
+                .then(function (response) {
+                    me.usuarios = response.data;
+                    this.InicioS();
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+            },
+            resta(){
                 let me = this;
                 var total;
                 total =  parseFloat(this.entradas[0].Total) - parseFloat(this.salidas[0].Total);
+                
                 total = Number(total.toFixed(2));
                 return total;
-                console.log(total);
-                    
+                console.log(this.entradas[0].Total);
+            },
+            InicioS(){
+                let me = this;
+                this.cargaUsuarios();
+                if(this.usuarios == 0)
+                {
+                    this.inicio = true;
+                }
             },
             editItem(item) {
                 this.editedIndex = this.caja.indexOf(item)

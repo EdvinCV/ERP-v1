@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,6 +16,18 @@ class UsuarioController extends Controller
                         ->select('users.id', 'users.name', 'users.email', 'rols.nombreRol','users.estado')
                         ->join('rols', 'rols.id', '=', 'users.rolId')
                         ->get();
+        return $usuarios;
+      
+    }
+
+    public function inicio(){
+        $usuarios = DB::table('users')
+            ->select(DB::raw('users.id' ))
+            ->whereRaw('DATE_FORMAT(users.last_login,"%y-%m-%d") < curdate()')
+            ->where('id','=',Auth::user()->id)
+            ->groupBy('users.id')           
+            ->get()
+            ->count();
         return $usuarios;
     }
 
@@ -65,7 +78,7 @@ class UsuarioController extends Controller
 
     public function update(Request $request){
         try {
-            $user = User::find($request->id);
+            $user = User::findOrFail(Auth::id());
             $user->name = $request->name;
             $user->email = $request->email;
             $user->estado = $request->switch1;
@@ -75,4 +88,51 @@ class UsuarioController extends Controller
             //throw $th;
         }
     }
+  
+
+    public function updateProfile(Request $request)
+    {
+      
+       
+        $user = User::findOrFail(Auth::id());
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->estado = '1';
+  
+            $user->save();
+            return redirect()->back();
+
+       
+      
+    }
+
+
+
+
+public function updatePassword(Request $request)
+    {
+       
+
+        $hashedPassword = Auth::user()->password;
+        if (Hash::check($request->old_password,$hashedPassword))
+        {
+            if (!Hash::check($request->password,$hashedPassword))
+            {
+                $user = User::findOrFail(Auth::id());
+                $user->password = Hash::make($request->password);
+                $user->save();
+               
+                Auth::logout();
+                return redirect()->back();
+            } else {
+               
+                return redirect()->back();
+            }
+        } else {
+           
+            return redirect()->back();
+        }
+    }
+  
+    
 }
