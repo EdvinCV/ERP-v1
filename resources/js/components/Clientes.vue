@@ -3,7 +3,7 @@
         <v-toolbar flat color="white">
             <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
             <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="600px">
+            <v-dialog v-model="dialog" full-screen>
                 <template v-slot:activator="{ on }">
                    <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Nuevo Cliente</v-btn>
                 </template>
@@ -48,7 +48,6 @@
 
         <v-data-table :headers="headers" :items="clientes" class="elevation-1" :search="search">
             <template v-slot:items="props">
-                <td class="text-xs-left">{{ props.item.id }}</td>
                 <td class="text-xs-left">{{ props.item.nombre }}</td>
                 <td class="text-xs-left">{{ props.item.apellido }}</td>
                 <td class="text-xs-left">{{ props.item.direccion }}</td>

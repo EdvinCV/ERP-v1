@@ -27,9 +27,12 @@ class HomeController extends Controller
     public function index()
     {
         $permisos = DB::table('rol_permisos')
-                        ->select(DB::raw('rol_permisos.estado, permisos.nombrePermiso'))
+                        ->select(DB::raw('rol_permisos.id, rol_permisos.estado, permisos.nombrePermiso'))
                         ->join('permisos','rol_permisos.permisoId','=','permisos.id')
-                        ->where('rolId','=',Auth::user()->rolId)->get();
+                        ->where('rolId','=',Auth::user()->rolId)
+                        ->groupBy('permisos.nombrePermiso','rol_permisos.estado', 'rol_permisos.id')
+                        ->orderBy('rol_permisos.id', 'asc')
+                        ->get();
         return view('content')->with(compact('permisos'));
     }
 }

@@ -79,7 +79,7 @@ class VentasController extends Controller
     public function drop(VentaEncabezado $venta){
         try{
             
-            DB::table('detalle_ventas')->where('idVentaEncabezado','=',1)->delete();
+            DB::table('detalle_ventas')->where('idVentaEncabezado','=',$venta->id)->delete();
             
             return 'Venta eliminada correctamente';
         }catch(\Exception $e){

@@ -41,7 +41,6 @@
 
         <v-data-table :headers="headers" :items="categoria" class="elevation-1" :search="search">
             <template v-slot:items="props">
-                <td class="text-xs-left">{{ props.item.id }}</td>
                 <td class="text-xs-left">{{ props.item.nombre }}</td>
                 <td class="justify-right layout px-0">
                     <v-icon small class="mr-2" @click="editItem(props.item)">
@@ -77,11 +76,6 @@
             error: 0,
             errorMsj: [],
             headers: [
-                {
-                    text: 'Id',
-                    align: 'left',
-                    value: 'id'
-                },
                 { 
                     text: 'Nombre', 
                     value: 'nombre' 

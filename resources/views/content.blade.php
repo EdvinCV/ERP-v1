@@ -1,37 +1,37 @@
 @extends('layout')
 @section('content')
-    <template v-if="menu==0">
+    <!-- MÓDULO USUARIOS -->
+    <template v-if="menu==1">
         <Usuarios></Usuarios>
     </template>
-    <template v-if="menu==1">
-        <Proveedor></Proveedor>
-    </template>
     <template v-if="menu==2">
-        <Cliente></Cliente>
-    </template>
-    <template v-if="menu==3">
         <Roles></Roles>
     </template>
-    <template v-if="menu==4">
+    <template v-if="menu==3">
         <Permisos></Permisos>
     </template>
-    <template v-if="menu==5">
+    <!-- MÓDULO CLIENTES -->
+    <template v-if="menu==4">
+        <Cliente></Cliente>
+    </template>
+    <!-- MÓDULO PROVEEDORES -->
+    <template v-if="menu==6">
+        <Proveedor></Proveedor>
+    </template>
+    <!-- MÓDULO PRODUCTOS -->
+    <template v-if="menu==8">
         <Producto></Producto>
     </template>
-    <template v-if="menu==6">
+    <template v-if="menu==9">
         <Categoria></Categoria>
     </template>
-    <template v-if="menu==7">
+    <template v-if="menu==10">
         <Presentacion></Presentacion>
     </template>
-    <template v-if="menu==8">
+    <template v-if="menu==11">
         <Historialcalidad></Historialcalidad>
     </template>
-<!-- 9 proveedores-->
-<!-- 10 reporte proveedores-->
-<!-- 11 clientes proveedores-->
-<!-- 12 reporte clientes-->
-
+    <!-- MÓDULO VENTAS -->
     <template v-if="menu==13">
         <Venta></Venta>
     </template>
@@ -41,8 +41,7 @@
     <template v-if="menu==15">
         <Caja></Caja>
     </template>
-    <!-- 16 reporte ventas-->
-
+    <!-- MÓDULO COMPRAS-->
     <template v-if="menu==17">
         <Orden></Orden>
     </template>

@@ -47,14 +47,14 @@
 
         <v-data-table :headers="headers" :items="proveedores" class="elevation-1" :search="search">
             <template v-slot:items="props">
-                <td class="text-xs-left">{{ props.item.id }}</td>
+                <td class="text-xs-left">{{ props.item.nombreProveedor }}</td>
                 <td class="text-xs-left">{{ props.item.nombre }}</td>
                 <td class="text-xs-left">{{ props.item.apellido }}</td>
                 <td class="text-xs-left">{{ props.item.direccion }}</td>
                 <td class="text-xs-left">{{ props.item.telefono }}</td>
                 <td class="text-xs-left">{{ props.item.nit }}</td>
                 <td class="text-xs-left">{{ props.item.correo }}</td>
-                <td class="text-xs-left">{{ props.item.nombreProveedor }}</td>
+                
                 
                 <td class="justify-right layout px-0">
                     <v-icon small class="mr-2" @click="editItem(props.item)">
@@ -126,7 +126,7 @@
             errorMsj: [],
 
             headers: [
-      
+                { text: 'Proveedor', value: 'nombreProveedor' },
                 { 
                     text: 'Nombre', 
                     value: 'nombre' 
@@ -136,7 +136,6 @@
                 { text: 'Telefono', value: 'telefono' },
                 { text: 'Nit', value: 'nit' },
                 { text: 'Correo', value: 'correo' },
-                { text: 'Proveedor', value: 'nombreProveedor' },
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
             proveedores: [],

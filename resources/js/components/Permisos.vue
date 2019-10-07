@@ -40,9 +40,9 @@
                                         single-line
                                     ></v-select>
                                 </v-flex>
-                                <v-flex xs12 sm12 md12 >
+                                <v-flex v-if="this.editedIndex > -1" xs12 sm12 md12 >
                                     Estado
-                                    <v-switch 
+                                    <v-switch
                                         v-model="switch1"
                                         :label = "switch1 ? 'Activado' : 'Desactivado' "
                                     ></v-switch>
@@ -70,9 +70,8 @@
 
         <v-data-table :headers="headers" :items="permisos" class="elevation-1" :search="search">
             <template v-slot:items="props">
-                <td class="text-xs-left">{{ props.item.id }}</td>
-                <td class="text-xs-left">{{ props.item.nombrePermiso }}</td>
                 <td class="text-xs-left">{{ props.item.nombreRol }}</td>
+                <td class="text-xs-left">{{ props.item.nombrePermiso }}</td>
                 <td class="text-xs-left"><v-chip :color="getColor(props.item.estado)" dark>{{ verEstado(props.item.estado) }}</v-chip></td>
                 <td class="justify-right layout px-0">
                     <v-icon small class="mr-2" @click="editItem(props.item)">
@@ -106,13 +105,8 @@
             bandera: 0,
             errorMsj: [],
             headers: [
-                {
-                    text: 'Id',
-                    align: 'left',
-                    value: 'id'
-                },
-                { text: 'Permiso', value: 'nombrePermiso' },
                 { text: 'Rol', value: 'nombreRol' },
+                { text: 'Permiso', value: 'nombrePermiso' },
                 { text: 'Estado', value: 'estado' },
                 { text: 'Acciones', value: 'action', sortable: false},
             ],

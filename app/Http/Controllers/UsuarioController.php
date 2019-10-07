@@ -39,8 +39,14 @@ class UsuarioController extends Controller
             $user->save();
             return 'Usuario creado correctamente';
         } catch (\Exception $e) {
-            $response['error'] = $e->getMessage();
-            return response()->json($response, 500);
+            if (User::where('email', '=', $request->email)->count() > 0){
+                $response['error'] = 'No se ha ingresado. Este correo ya existe.';
+                return response()->json($response, 500);
+            }else{
+                $response['error'] = $e->getMessage();
+                return response()->json($response, 500);
+            }
+            
         }
 
     }

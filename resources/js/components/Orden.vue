@@ -54,6 +54,11 @@
                     </td>
                 </template>
                 </v-data-table>
+                 <v-layout row>
+                    <v-flex lg6 md6 xs2 pa-2>
+                        <v-text-field v-model="editedItem.total" label="Total" readonly></v-text-field>
+                    </v-flex>
+                </v-layout>
             </template>
             <br>      
             <template>
@@ -81,7 +86,7 @@
                 { text: 'Cliente', value: 'cliente'},
                 { text: 'Eliminar', value: 'eliminar'}
             ],
-            carrito: [],
+                carrito: [],
             prods: [],
             clientes: [],
             compras: [],
@@ -91,6 +96,7 @@
                detProducto: '',
                idCliente: '',
                nombreCliente: '',
+               total: 0
             },
             defaultItem: {
               cantProducto: 0,
@@ -153,6 +159,14 @@
                     console.log(error.response);
                 });
             },
+            calcularTotal(){
+                let me = this;
+                var t = 0;
+                me.carrito.forEach(function(e){
+                    t += e.sub;
+                })
+                me.editedItem.total = t;
+            },
             cargaClientes() {
                 let me = this;
                 axios.get('/clientes')
@@ -185,8 +199,12 @@
                         presentacion: me.editedItem.detProducto.presentacion,
                         cantidad: parseInt(me.editedItem.cantProducto),
                         cliente: me.editedItem.idCliente.id,
-                        nombreCliente: me.editedItem.idCliente.nombreCliente
+                        nombreCliente: me.editedItem.idCliente.nombreCliente,
+                        precio: me.editedItem.detProducto.preciocompra,
+                        venta: me.editedItem.detProducto.precioventa,
+                        sub: (parseInt(me.editedItem.cantProducto) * parseFloat(me.editedItem.detProducto.preciocompra))
                     });
+                    me.calcularTotal();
                     this.editedItem.cantProducto = 0;
                     this.editedItem.detProducto = '';
                 }
@@ -206,6 +224,7 @@
                     index = this.carrito.indexOf(item);
                 
                 this.carrito.splice(index,1);
+                me.calcularTotal();
             },
             mostrarAlert(){
                 if(this.editedItem.detProducto == ''){
@@ -259,7 +278,8 @@
                         url: '/compra/nuevo',
                         data: {
                             carrito: this.carrito,
-                            idEncargado: this.editedItem.idEncargado.id
+                            idEncargado: this.editedItem.idEncargado.id,
+                            total: this.editedItem.total
                         }
                     }).then(function (response) {
                         swal.fire({

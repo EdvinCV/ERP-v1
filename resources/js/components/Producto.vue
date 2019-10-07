@@ -54,7 +54,7 @@
                                     </v-flex>
                                     <v-flex xs12>
                                         <multiselect v-model="editedItem.idpresentacion" :options="presentaciones" placeholder="Seleccione una presentación"
-                                            label="nombre" track-by="nombre"></multiselect>
+                                            label="nombre" track-by="presentacion"></multiselect>
                                     </v-flex>
                                     <v-flex xs12>
                                          <multiselect v-model="editedItem.idpersona" :options="personas" placeholder="Seleccione un Proveedor"
@@ -573,9 +573,7 @@
             close() {
                 this.dialog = false;
                 this.editar = 0;
-                this.editedItem.idcategoria = 0;
-                this.editedItem.idpresentacion = 0;
-                this.editedItem.idpersona =0;
+       
                 this.editedItem.Producto = '';
                 this.editedItem.precioventa = '';
                 this.editedItem.preciocompra ='';

@@ -3,8 +3,15 @@
      $total = 0;
 ?>
 
+  
+</script>
 <head>
 <style>
+
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
 	.contenedor
 	{
 		border:1px solid;
@@ -37,53 +44,93 @@
 </head>
 
 <html>
-     <
-       h5>QUETZALTENANGO, GUATEMALA</h5>
+      
+       <h5>QUETZALTENANGO, GUATEMALA</h5>
      <h5>ADAM - INCOFIN</h5>
      <div class="contenedor">
-          <h1>Orden de Compra <?php 
-          print_r($hoy["mday"] . '/');
-          print_r($hoy["mon"] . '/');
-          print_r($hoy["year"] . '<br>');
+          <h1>Orden de Compra #{{$id}}<?php
      ?></h1>
      </div>
     
         <h1>  </h1>
     
-     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-          <thead class="thead-dark">
+     <table style="width: 100%">
+          <thead>
             <tr>
               <th>#</th>
               <th>Producto</th>
               <th>Presentacion</th>
-              @foreach($clientes as $c)
-                <th>{{$c->nombreCliente}}</th>
-              @endforeach
-              <th>Total</th>    
+              <th>Proveedor</th>
+              <th>Cantidad</th>
               <th>Precio</th>
               <th>Total</th>
             </tr>
           </thead>
-          <div class="detalle">
-            <div class="descripcion">
-                @foreach($productos as $p)
-                    <p>{{$p->producto}}  {{$p->presentacion}}</p>
-                @endforeach  
-            </div>
-            @foreach($clientes as $c)
-            <div class="columna">
-                
-                    @foreach($productos as $p)
-                        @if($p->nombreCliente == $c->nombreCliente)
-                            {{$p->cantidad}}
-                            <br>
-                        @endif
-                    @endforeach
-                
-            </div>
-            @endforeach
-          </div>
-
-
+          <tbody>
+          @foreach($productos as $p)
+            <tr>
+              <td></td>
+              <td>{{ $p->producto}}</td>
+              <td>{{ $p->presentacion}}</td>
+              <td>{{ $p->nombreProveedor}}</td>
+              <td>{{ $p->cantidad}}</td>
+              <td>{{ $p->preciocompra}}</td>
+              <td id="subtotal">{{ $p->cantidad * $p->preciocompra}}</td>
+            </tr>
+          @endforeach
+          <tr>
+            <td>-</td>
+            <td>-----</td>
+            <td>-----</td>
+            <td>-----</td>
+            <td>-----</td>
+            <td>----- </td>
+            <td>-----</td>
+          </tr>
+          <tr>
+            <td>-</td>
+            <td>-----</td>
+            <td>-----</td>
+            <td>-----</td>
+            <td>-----</td>
+            <td>TOTAL </td>
+            <td>{{$total}}</td>
+          </tr>
+          </tbody>
         </table>
+
+        <!-- CLIENTES -->
+        @foreach($clientes as $c)
+        <div>
+          <div>
+            <h2>{{$c->nombreCliente}}</h2>
+          </div>
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Presentacion</th>
+                  <th>Cantidad</th>
+                </tr>
+              </thead>
+              <tbody>
+              @foreach($prodsClientes as $p)
+                @if($p->idPersona == $c->idPersona)
+                <tr>
+                  <td>{{$p->producto}}</td>
+                  <td>{{$p->presentacion}}</td>
+                  <td>{{$p->cantidad}}</td>
+                </tr>
+                @endif
+              @endforeach
+              </tbody>
+            
+
+            </table>
+          </div>
+        </div>
+        @endforeach
+        
+    </body>
 </html>

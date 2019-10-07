@@ -85,5 +85,8 @@ Route::post('/caja/registrar', 'CajaController@store');
 Route::post('/compra/nuevo', 'OrdenCompraController@generarOrden');
 Route::get('/compra/{id}/orden', 'OrdenCompraController@imprimirOrden');
 Route::get('/compra/ordenes', 'OrdenCompraController@index');
-Route::get('/compra/{id}/detalles', 'OrdenCompraController@detalles');
-
+Route::get('/compra/detalles', 'OrdenCompraController@detalles');
+Route::get('/compra/detallesGenerales', 'OrdenCompraController@indexGenerales');
+Route::post('/compra/guardar','OrdenCompraController@finalizarOrden');
+Route::post('/compra/editar','OrdenCompraController@editarOrden');
+Route::delete('compra/{id}/eliminar', 'OrdenCompraController@drop');
