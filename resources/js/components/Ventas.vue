@@ -1,5 +1,5 @@
 <template>
-    <div>
+<div>
         <center><h2 style="color:#668C2D">Venta</h2></center>
         <center><hr class="hrt"></center>
         <v-switch 
@@ -255,6 +255,7 @@
                     me.carrito.push({
                     idProd: me.editedItem.detProducto.id,
                     nombreProducto: me.editedItem.detProducto.Producto,
+                    presentacion: me.editedItem.detProducto.presentacion,
                     cantidad: parseInt(me.editedItem.cantProducto),
                     precio: me.editedItem.detProducto.precioventa,
                     descuento: me.editedItem.descuento,
@@ -313,27 +314,24 @@
                 axios({
                         method: 'post',
                         url: '/venta/cotizacion',
+                        responseType:'arraybuffer',
                         data: {
-                            total: this.editedItem.total,
-                            subtotal: this.editedItem.subtotal,
                             carrito: this.carrito,
+                            total: this.editedItem.precio
                         }
                     }).then(function (response) {
-                        swal.fire({
-                            position: 'center',
-                            type: 'success',
-                            title: 'Venta realizada',
-                            showConfirmButton: false,
-                            timer: 1500});
-          
+                        let blob = new Blob([response.data], { type:   'application/pdf' } )
+                        let link = document.createElement('a')
+                        link.href = window.URL.createObjectURL(blob)
+                        link.download = 'cotizacion.pdf'
+                        link.click()
                     }).catch(function (error) {
                         swal.fire({
                             position: 'top-end',
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
-                
-                    });
+                    });  
             },
             calcularTotal(){
                 let me = this;

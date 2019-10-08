@@ -68,22 +68,20 @@ class VentasController extends Controller
     }
     public function cotizacion(Request $req){
 
-        $detalles = $req->carrito;
+        $detalles = $req->input('carrito');
+        $total = 4;  
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadView('ventas.cotizacion', compact('detalles'));
-        return $pdf->download('cotizacion.pdf');
+        $pdf->loadView('ventas.cotizacion', compact('detalles',$total));
+        return $pdf->download('factura.pdf');
     }
-
     public function listarVentas(){
         $ventas = DB::table('venta_encabezados')
                         ->select('venta_encabezados.id', 'clientes.nombreCliente', 'venta_encabezados.total', 'venta_encabezados.created_at', 'facturado', 'numeroFactura')
                         ->join('personas', 'personas.id', '=', 'venta_encabezados.idPersona')
                         ->join('clientes', 'clientes.idPersona', '=', 'venta_encabezados.idPersona')
                         ->get();   
-
         return $ventas;
     }
-
     public function validarTotal(){
         $total = DB::table('venta_encabezados')
             ->select(DB::raw('SUM(venta_encabezados.total) as Total'))
@@ -95,7 +93,6 @@ class VentasController extends Controller
             ->get();
         return $total;
     }
-    
     public function drop(VentaEncabezado $venta){
         try{
             
@@ -107,7 +104,6 @@ class VentasController extends Controller
             return response()->json($response, 500);
         }
     }
-
     public function detalleVenta($id){
 
         $ventas = DB::table('venta_encabezados')
@@ -129,7 +125,6 @@ class VentasController extends Controller
         $pdf->loadView('ventas.detalles', compact('ventas', 'detalles'));
         return $pdf->stream('detallesVenta.pdf');
     }
-
     public function generarFactura($id){
 
         $ventas = DB::table('venta_encabezados')
@@ -151,7 +146,6 @@ class VentasController extends Controller
         $pdf->loadView('ventas.factura', compact('ventas', 'detalles'));
         return $pdf->stream('factura.pdf');
     }
-
     public function reporteVentasProducto(){
         $fechaDe = date('2019-10-7');
         $fechaA = date('2019-10-8');
@@ -170,11 +164,10 @@ class VentasController extends Controller
         $pdf->loadView('reportes.VentasProductos', compact('productos'));
         return $pdf->stream('VentasPorProducto.pdf');
     }
-
     public function reporteVentasClientes(){
         $fechaDe = date('2019-10-7');
         $fechaA = date('2019-10-8');
-        $idCliente = 10;
+        $idCliente = 7;
         
         $cliente = DB::table('venta_encabezados')
                     ->select(DB::raw('SUM(total) as Total, nombreCliente'))
@@ -197,4 +190,5 @@ class VentasController extends Controller
                 
         
     }
+    
 }
