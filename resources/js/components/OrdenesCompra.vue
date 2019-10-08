@@ -1,6 +1,9 @@
 <template>
     <div>
-        <center> <h3 style="color:#668C2D">Ordenes de Compra</h3></center>
+         <div class="contenedor" style="backgrounhd-color=#668C2D">
+      <center> <h2 style="color:#668C2D">Usuarios</h2></center>
+        </div>
+     <hr>
         <!-- FINALIZAR ORDEN DE COMPRA --> 
         <v-toolbar flat color="white">
             <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
@@ -123,7 +126,11 @@
                 </v-card>
 
             </v-dialog>
+           <v-card-title>
         
+        <div class="flex-grow-1"></div>
+   
+      </v-card-title>
             <v-data-table :headers="headers" :items="ordenes" class="elevation-1" :search="search">
             
                 <template v-slot:items="props">
@@ -133,19 +140,19 @@
                     <td class="text-xs-left">{{ props.item.created_at }}</td>
                     <td class="text-xs-left"><v-chip :color="getColor(props.item.finalizado)" dark>{{ verEstado(props.item.finalizado) }}</v-chip></td>
                     <td class="justify-center layout px-0">
-                        <v-icon v-if="!props.item.finalizado" title="Imprimir orden" @click="imprimirOrden(props.item.id)">
+                        <v-icon v-if="!props.item.finalizado" small class="mr-2" title="Imprimir orden" @click="imprimirOrden(props.item.id)">
                             fas fa-copy
                         </v-icon>
-                        <v-icon v-if="props.item.finalizado" title="Resumen orden" @click="imprimirOrdenFinalizada(props.item.id)">
+                        <v-icon v-if="props.item.finalizado" class="mr-2" small title="Resumen orden" @click="imprimirOrdenFinalizada(props.item.id)">
                             fas fa-copy
                         </v-icon>
-                        <v-icon title="Finalizar orden" v-if="!props.item.finalizado" @click="finalizarOrden(props.item.id)">
+                        <v-icon  title="Finalizar orden" class="mr-2" small v-if="!props.item.finalizado" @click="finalizarOrden(props.item.id)">
                             fas fa-check-square
                         </v-icon>
-                        <v-icon title="Editar orden" v-if="!props.item.finalizado" @click="editarOrden(props.item.id)">
+                        <v-icon title="Editar orden" small v-if="!props.item.finalizado" @click="editarOrden(props.item.id)">
                             fas fa-edit
                         </v-icon>
-                        <v-icon title="Eliminar orden"  @click="deleteItem(props.item)">
+                        <v-icon title="Eliminar orden"  class="mr-2" small @click="deleteItem(props.item)">
                             delete
                         </v-icon>
                     </td>

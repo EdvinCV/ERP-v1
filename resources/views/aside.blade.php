@@ -104,9 +104,12 @@
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
                                     class="feather icon-briefcase"></i></span><span class="pcoded-mtext">Compras</span></a><hr>
                             <ul class="pcoded-submenu">
-                                <li class=""><a @click="menu=17">Nueva compra</a></li>
-                                <li class=""><a @click="menu=18">Historial compras</a></li>
-                                <li class=""><a @click="menu=19">Reportes</a></li>
+                            <li><a @click="menu=17" ><span class="pcoded-micon"><i
+                                    class="feather icon-shopping-cart"></i></span><span class="pcoded-mtext">Nueva Compra</span></a></li>
+                                    <li><a @click="menu=18" ><span class="pcoded-micon"><i
+                                    class="feather icon-share"></i></span><span class="pcoded-mtext">Historial Compras</span></a></li>
+                                <li><a @click="menu=19" ><span class="pcoded-micon"><i
+                                    class="feather icon-box"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
                             </ul>
                         </li>
                     @endif
