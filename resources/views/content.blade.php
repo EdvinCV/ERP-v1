@@ -41,6 +41,9 @@
     <template v-if="menu==15">
         <Caja></Caja>
     </template>
+    <template v-if="menu==16">
+        <reportes></reportes>
+    </template>
     <!-- MÓDULO COMPRAS-->
     <template v-if="menu==17">
         <Orden></Orden>

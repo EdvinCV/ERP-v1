@@ -130,13 +130,13 @@
 
   <v-layout row wrap>
       <v-flex xs11 sm5>
-        <v-dialog ref="dialog" v-model="modal" :return-value.sync="date" width="290px">
+        <v-dialog ref="dialog" v-model="modal" :return-value.sync="date2" width="290px">
           <template v-slot:activator="{ on }">
-            <v-text-field v-model="date" label="Fecha Inicio" prepend-icon="event"  v-on="on"></v-text-field>
+            <v-text-field v-model="date2" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
-          <v-date-picker v-model="date" scrollable  locale="gt">
+          <v-date-picker v-model="date2" scrollable  locale="gt">
             <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+            <v-btn flat color="primary" @click="$refs.dialog.save(date2)">OK</v-btn>
           </v-date-picker>
         </v-dialog>     
     </v-flex>
@@ -148,7 +148,7 @@
         
 					</div>
           	<div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           <center>  <v-btn @click="guardar" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
            </div>
 				</div>
 			</div>
@@ -173,24 +173,24 @@
           ref="menu"
           v-model="menu"
           :close-on-content-click="false"
-          :return-value.sync="date"
+          :return-value.sync="date3"
           transition="scale-transition"
           offset-y
           min-width="100px"
         >
       <template v-slot:activator="{ on }">
 				   <v-text-field
-              v-model="date"
+              v-model="date3"
               label="Fecha inicial"
               prepend-icon="event"
               readonly
               v-on="on"
             ></v-text-field>
             </template>
-             <v-date-picker v-model="date" no-title scrollable>
+             <v-date-picker v-model="date3" no-title scrollable>
             <div class="flex-grow-1"></div>
             <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+            <v-btn text color="primary" @click="$refs.menu.save(date3)">OK</v-btn>
           </v-date-picker>
           </v-menu>
             </v-flex>
@@ -200,24 +200,24 @@
           ref="menu"
           v-model="menu"
           :close-on-content-click="false"
-          :return-value.sync="date"
+          :return-value.sync="date4"
           transition="scale-transition"
           offset-y
           min-width="100px"
         >
       <template v-slot:activator="{ on }">
 				   <v-text-field
-              v-model="date"
+              v-model="date4"
               label="Fecha final"
               prepend-icon="event"
               readonly
               v-on="on"
             ></v-text-field>
             </template>
-             <v-date-picker v-model="date" no-title scrollable>
+             <v-date-picker v-model="date4" no-title scrollable>
             <div class="flex-grow-1"></div>
             <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+            <v-btn text color="primary" @click="$refs.menu.save(date4)">OK</v-btn>
           </v-date-picker>
           </v-menu>
             </v-flex>
@@ -257,7 +257,9 @@
     },
     data: () => ({
       date: new Date().toISOString().substr(0, 10),
-      fechaFinal: new Date().toISOString().substr(0, 10),
+      date2: new Date().toISOString().substr(0, 10),
+      date3: new Date().toISOString().substr(0, 10),
+      date4: new Date().toISOString().substr(0, 10),
       menu: false,
       modal: false,
       clientes: [],
@@ -276,12 +278,36 @@
                 axios.get('/clientes')
                 .then(function (response) {
                     me.clientes = response.data;
-
                 })
                 .catch(function (error) {
                     console.log(error.response);
                 });
-            },
+      },
+      guardar(){
+        /*axios({
+            method: 'post',
+            url: '/ventas/reporteVClientes',
+            responseType:'arraybuffer',
+            data: {
+                date: this.date,
+                date2: this.date2,
+                idCliente: this.editedItem.idCliente
+            }
+        }).then(function (response) {
+            let blob = new Blob([response.data], { type:   'application/pdf' } )
+            let link = document.createElement('a')
+            link.href = window.URL.createObjectURL(blob)
+            link.download = 'cotizacion.pdf'
+            link.click()
+        }).catch(function (error) {
+            swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: error.response.data.error,
+            showConfirmButton: true});
+          });*/
+          alert(this.date2);
+      },
     }
   }
 </script>

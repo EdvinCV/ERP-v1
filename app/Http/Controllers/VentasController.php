@@ -164,10 +164,10 @@ class VentasController extends Controller
         $pdf->loadView('reportes.VentasProductos', compact('productos'));
         return $pdf->stream('VentasPorProducto.pdf');
     }
-    public function reporteVentasClientes(){
-        $fechaDe = date('2019-10-7');
-        $fechaA = date('2019-10-8');
-        $idCliente = 7;
+    public function reporteVentasClientes(Request $req){
+        $fechaDe = $req->date;
+        $fechaA = $req->date2;
+        $idCliente = $req->idCliente;
         
         $cliente = DB::table('venta_encabezados')
                     ->select(DB::raw('SUM(total) as Total, nombreCliente'))
@@ -190,5 +190,5 @@ class VentasController extends Controller
                 
         
     }
-    
+
 }

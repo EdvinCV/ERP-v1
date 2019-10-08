@@ -100,5 +100,4 @@ Route::get('/compra/validartotal', 'OrdenCompraController@validarTotal');
 Route::get('/compra/{id}/finalizada','OrdenCompraController@ordenFinalizada');
 //RUTAS REPORTES
 Route::get('/ventas/reporteProductos', 'VentasController@reporteVentasProducto');
-Route::get('/ventas/reporteVClientes', 'VentasController@reporteVentasClientes');
-  
+Route::post('/ventas/reporteVClientes', 'VentasController@reporteVentasClientes');

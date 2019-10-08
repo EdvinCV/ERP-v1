@@ -206,8 +206,7 @@ class OrdenCompraController extends Controller
             return response()->json($response, 500);
         }
     }
-    public function ordenFinalizada(){
-        $id = 1;
+    public function ordenFinalizada($id){
         $clientes = DB::table('compra_detalles')
                     ->select('clientes.nombreCliente', 'clientes.idPersona')
                     ->join('clientes', 'clientes.idPersona', '=', 'compra_detalles.idPersona')
@@ -233,6 +232,7 @@ class OrdenCompraController extends Controller
                             ->get();
         
         $orden = DB::table('compra_encabezados')
+                    ->where('compra_encabezados.id','=',$id)
                     ->get();
 
         
