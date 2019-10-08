@@ -53,37 +53,39 @@
     
         <h1>  </h1>
     
+        
+              </p>
+           
+
      <table style="width: 100%">
           <thead>
             <tr>
               <th>#</th>
               <th>Producto</th>
               <th>Presentacion</th>
-              <th>Proveedor</th>
               <th>Cantidad</th>
               <th>Precio</th>
               <th>Total</th>
             </tr>
           </thead>
           <tbody>
-    
+          @foreach($detalles as $d)
           <tr>
             <td>-</td>
-            <td>-----</td>
-            <td>-----</td>
-            <td>-----</td>
-            <td>-----</td>
-            <td>----- </td>
-            <td>-----</td>
+            <td>{{$d['nombreProducto']}}</td>
+            <td>{{$d['presentacion']}}</td>
+            <td>{{$d['cantidad']}}</td>
+            <td>{{$d['precio']}}</td>
+            <td>{{$d['sub']}}</td>
           </tr>
+          @endforeach
           <tr>
             <td>-</td>
-            <td>-----</td>
             <td>-----</td>
             <td>-----</td>
             <td>-----</td>
             <td>TOTAL </td>
-            <td></td>
+            <td>{{$total}}</td>
           </tr>
           </tbody>
         </table>

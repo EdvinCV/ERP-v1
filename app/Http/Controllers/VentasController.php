@@ -68,10 +68,13 @@ class VentasController extends Controller
     }
     public function cotizacion(Request $req){
 
-        $detalles = $req->carrito;
+        $detalles = $req->input('carrito');
+        $total = 4;  
+
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadView('ventas.cotizacion', compact('detalles'));
-        return $pdf->download('cotizacion.pdf');
+        $pdf->loadView('ventas.cotizacion', compact('detalles',$total));
+        return $pdf->download('factura.pdf');
+        
     }
 
     public function listarVentas(){
@@ -80,7 +83,6 @@ class VentasController extends Controller
                         ->join('personas', 'personas.id', '=', 'venta_encabezados.idPersona')
                         ->join('clientes', 'clientes.idPersona', '=', 'venta_encabezados.idPersona')
                         ->get();   
-
         return $ventas;
     }
 
@@ -174,7 +176,7 @@ class VentasController extends Controller
     public function reporteVentasClientes(){
         $fechaDe = date('2019-10-7');
         $fechaA = date('2019-10-8');
-        $idCliente = 10;
+        $idCliente = 7;
         
         $cliente = DB::table('venta_encabezados')
                     ->select(DB::raw('SUM(total) as Total, nombreCliente'))

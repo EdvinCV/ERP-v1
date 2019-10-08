@@ -1,171 +1,149 @@
 
-      <template>
+<template>
       
  <!-- Widgets -->
  <div>
-        <div class="row clearfix">
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box bg-green hover-expand-effect">
-                    <div class="icon">
-                        <i class="material-icons">playlist_add_check</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">TOTAL VENTAS POR SEMANA</div>
-                        <div class="number count-to" data-from="0" ></div>
-                    </div>
-                </div>
+  <div class="row clearfix">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box bg-green hover-expand-effect">
+        <div class="icon">
+          <i class="material-icons">playlist_add_check</i>
+        </div>
+        <div class="content">
+          <div class="text">TOTAL VENTAS POR SEMANA</div>
+            <div class="number count-to" data-from="0" ></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box bg-cyan hover-expand-effect">
+          <div class="icon">
+            <i class="material-icons">favorite</i>
+          </div>
+          <div class="content">
+            <div class="text">TOTAL VENTAS POR DIA</div>
+              <div class="number count-to" data-from="0" ></div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box bg-cyan hover-expand-effect">
-                    <div class="icon">
-                        <i class="material-icons">favorite</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">TOTAL VENTAS POR DIA</div>
-                        <div class="number count-to" data-from="0" ></div>
-                    </div>
-                </div>
+          </div>
+        </div>
+            
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box bg-red hover-expand-effect">
+            <div class="icon">
+              <i class="material-icons">library_books</i>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box bg-red hover-expand-effect">
-                    <div class="icon">
-                        <i class="material-icons">library_books</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">POST PENDIENTES</div>
-                        <div class="number count-to" data-from="0" ></div>
-                    </div>
-                </div>
+            <div class="content">
+              <div class="text">POST PENDIENTES</div>
+                <div class="number count-to" data-from="0" ></div>
+              </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box bg-orange hover-expand-effect">
-                    <div class="icon">
-                        <i class="material-icons">person_add</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">TOTAL VIEWS</div>
-                        <div class="number count-to" data-from="0" ></div>
-                    </div>
-                </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box bg-orange hover-expand-effect">
+              <div class="icon">
+                <i class="material-icons">person_add</i>
+              </div>
+              <div class="content">
+                  <div class="text">TOTAL VIEWS</div>
+                  <div class="number count-to" data-from="0" ></div>
+              </div>
             </div>
+          </div>
         </div>
         <!-- #END# Widgets -->
 
-
-
-
         <div class="row clearfix">
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-                <div class="info-box bg-pink hover-zoom-effect">
-                    <div class="icon">
-                        <i class="material-icons">apps</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">CATEGORIAS</div>
-                        <div class="number count-to" ></div>
-                    </div>
-                </div>
-                <div class="info-box bg-blue-grey hover-zoom-effect">
-                    <div class="icon">
-                        <i class="material-icons">labels</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">PRODUCTO MENOS VENDIDO</div>
-                        <div class="number count-to" ></div>
-                    </div>
-                </div>
-                <div class="info-box bg-purple hover-zoom-effect">
-                    <div class="icon">
-                        <i class="material-icons">account_circle</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">TOTAL USUARIOS</div>
-                        <div class="number count-to" ></div>
-                    </div>
-                </div>
-                <div class="info-box bg-deep-purple hover-zoom-effect">
-                    <div class="icon">
-                        <i class="material-icons">fiber_new</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">PRODUCTO MAS VENDIDO</div>
-                        <div class="number count-to" data-from="0" ></div>
-                    </div>
-                </div>
+          <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+            <div class="info-box bg-pink hover-zoom-effect">
+              <div class="icon">
+                <i class="material-icons">apps</i>
+              </div>
+              <div class="content">
+                <div class="text">CATEGORIAS</div>
+                <div class="number count-to" ></div>
+              </div>
             </div>
-              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-                <div class="card">
-                    <div class="header">
-                        <center><h2>Ventas Historial</h2></center>
-                        <hr>
-                    </div>
-                    <div class="body">
+            <div class="info-box bg-blue-grey hover-zoom-effect">
+              <div class="icon">
+                <i class="material-icons">labels</i>
+              </div>
+              <div class="content">
+                <div class="text">PRODUCTO MENOS VENDIDO</div>
+                <div class="number count-to" ></div>
+              </div>
+            </div>
+            <div class="info-box bg-purple hover-zoom-effect">
+              <div class="icon">
+                <i class="material-icons">account_circle</i>
+              </div>
+              <div class="content">
+                <div class="text">TOTAL USUARIOS</div>
+                <div class="number count-to" ></div>
+              </div>
+            </div>
+            <div class="info-box bg-deep-purple hover-zoom-effect">
+              <div class="icon">
+                <i class="material-icons">fiber_new</i>
+              </div>
+              <div class="content">
+                <div class="text">PRODUCTO MAS VENDIDO</div>
+                <div class="number count-to" data-from="0" ></div>
+              </div>
+            </div>
+          </div>
 
-   <div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<div class="card ">
-           <center><h3>Cliente</h3></center>
-            	<div class="card-body d-flex justify-content-between align-items-center">
-                
-  <v-text-field color="#668c2d" label="Dirección" justify-center></v-text-field>
-           <center>  <v-btn style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
-           </div>
-					<div class="card-body d-flex justify-content-between align-items-center">
-					
-				<v-layout row>
-   <v-flex lg6 md6 xs6 pa-2>
-      <v-menu
-          ref="menu"
-          v-model="menu"
-          :close-on-content-click="false"
-          :return-value.sync="date"
-          transition="scale-transition"
-          offset-y
-          min-width="100px"
-        >
-      <template v-slot:activator="{ on }">
-				   <v-text-field
-              v-model="date"
-              label="Fecha inicial"
-              prepend-icon="event"
-              readonly
-              v-on="on"
-            ></v-text-field>
-            </template>
-             <v-date-picker v-model="date" no-title scrollable>
-            <div class="flex-grow-1"></div>
-            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
-          </v-date-picker>
-          </v-menu>
-            </v-flex>
+<div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
+  <div class="card">
+    <div class="header">
+      <center><h2>Ventas Historial</h2></center>
+      <hr>
+    </div>
+    
+    <div class="body">
+      <div class="row">
+			  <div class="col-md-8 col-md-offset-2">
+				  <div class="card ">
+            <center><h3>Por Cliente</h3></center>
+            <div class="card-body d-flex justify-content-between align-items-center"> 
+              <v-flex lg6 md6 xs6 pa-2>
+                <multiselect v-model="editedItem.idCliente" :options="clientes" placeholder="Seleccione un cliente"
+                    label="nombreCliente" track-by="nombreCliente"></multiselect>
+              </v-flex>
+              <center> <v-btn style="background-color:#668c2d"  dark class="mb-2">General</v-btn></center>
+            </div>
 
-               <v-flex lg6 md6 xs6 pa-2>
-      <v-menu
-          ref="menu"
-          v-model="menu"
-          :close-on-content-click="false"
-          :return-value.sync="date"
-          transition="scale-transition"
-          offset-y
-          min-width="100px"
-        >
-      <template v-slot:activator="{ on }">
-				   <v-text-field
-              v-model="date"
-              label="Fecha final"
-              prepend-icon="event"
-              readonly
-              v-on="on"
-            ></v-text-field>
-            </template>
-             <v-date-picker v-model="date" no-title scrollable>
-            <div class="flex-grow-1"></div>
-            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+            <div class="card-body d-flex justify-content-between align-items-center">					
+<template>
+    <v-layout row wrap>
+      <v-flex xs11 sm5>
+        <v-dialog ref="dialog" v-model="modal" :return-value.sync="date" width="290px">
+          <template v-slot:activator="{ on }">
+            <v-text-field v-model="date" label="Fecha Inicio" prepend-icon="event"  v-on="on"></v-text-field>
+          </template>
+          <v-date-picker v-model="date" scrollable  locale="gt">
+            <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
+            <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
           </v-date-picker>
-          </v-menu>
-            </v-flex>
+        </v-dialog>     
+    </v-flex>
+  </v-layout>
+
+  <v-layout row wrap>
+      <v-flex xs11 sm5>
+        <v-dialog ref="dialog" v-model="modal" :return-value.sync="date" width="290px">
+          <template v-slot:activator="{ on }">
+            <v-text-field v-model="date" label="Fecha Inicio" prepend-icon="event"  v-on="on"></v-text-field>
+          </template>
+          <v-date-picker v-model="date" scrollable  locale="gt">
+            <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
+            <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+          </v-date-picker>
+        </v-dialog>     
+    </v-flex>
+  </v-layout>
+</template>
+
+
 </v-layout>
         
 					</div>
@@ -175,7 +153,8 @@
 				</div>
 			</div>
 		</div>
-         <hr>
+         
+    <hr>
                  
                     <br>
       <div class="row">
@@ -268,8 +247,47 @@
 
         </div>
         
-        <!-- #END# Widgets --></template>
-      <style scoped>
+</template>
+
+<script>
+  import multiselect from 'vue-multiselect'
+  export default {
+    components:{
+            multiselect
+    },
+    data: () => ({
+      date: new Date().toISOString().substr(0, 10),
+      fechaFinal: new Date().toISOString().substr(0, 10),
+      menu: false,
+      modal: false,
+      clientes: [],
+      editedItem:{
+        idCliente: ''
+      }
+    }),
+  
+    created() {
+            this.cargaClientes()
+        },
+
+    methods: {
+      cargaClientes() {
+                let me = this;
+                axios.get('/clientes')
+                .then(function (response) {
+                    me.clientes = response.data;
+
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+            },
+    }
+  }
+</script>
+
+
+<style scoped>
 .info-box {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   height: 80px;
