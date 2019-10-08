@@ -17,10 +17,7 @@
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
                                     <v-text-field label="Cantidad"  prefix="Q" v-model="editedItem.cantidad"></v-text-field>
-                                     <v-radio-group color="success" v-model="editedItem.tipo" column >
-                                        <v-radio label="Apertura" value="1" color="success"></v-radio>
-                                        <v-radio label="Cierre" value="2" color="success"></v-radio>
-                                    </v-radio-group>
+                                   
                                     <v-text-field label="Observaciones" v-model="editedItem.observacion"></v-text-field>
                                 </v-flex>
                             </v-layout>
@@ -94,6 +91,7 @@
                 
             ],
             caja: [],
+            estados: [],
             editedIndex: -1,
             editedItem: {
                 id: 0,
@@ -122,10 +120,13 @@
             this.initialize();
             this.cargaEntradas();   
             this.cargaSalidas();
+            this.cargaEstados();
         },
         mounted(){
             this.dialog = true
         },
+    
+          
         methods: {
             validate() {
                 this.error = 0;
@@ -136,8 +137,7 @@
                 r = this.resta();
                 if (!this.editedItem.cantidad)
                     this.errorMsj.push('La cantidad no puede estar vacia. ');
-                if (!this.editedItem.tipo)
-                    this.errorMsj.push('Se debe de asignar un tipo. ');
+                
                 if(this.editedItem.cantidad != r)
                     this.errorMsj.push('Las cantidades no coinciden. ')
                 if (this.errorMsj.length)
@@ -185,6 +185,26 @@
                 console.log(total);
                     
             },
+                cargaEstados() {
+                let me = this;
+                axios.get('/caja/estado')
+                .then(function (response) {
+                    me.estados = response.data;
+                    var es = me.estados[1].tipo;
+                    console.log('estado '+ es)
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+            },
+              cierre(){
+                let me = this;
+                me.cargaEstados();
+                if(me.estados[0].tipo == 1)
+                {
+                    me.editedItem.tipo = 2;
+                }
+            },
             editItem(item) {
                 this.editedIndex = this.caja.indexOf(item)
                 this.editedItem = Object.assign({}, item)
@@ -200,6 +220,7 @@
             },
             save() {
                 let me = this;
+                me.cierre();
                 if (this.validate()) {
                         return;
                     }

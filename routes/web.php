@@ -83,6 +83,7 @@ Route::get('/usuario/inicio', 'UsuarioController@inicio');
 Route::get('/usuario/inicios', 'LoginActivityController@inicio');
 // Rutas Caja
 Route::get('/caja', 'CajaController@index');
+Route::get('/caja/estado', 'CajaController@estado');
 Route::post('/caja/registrar', 'CajaController@store');
 //Rutas compras
 Route::post('/compra/nuevo', 'OrdenCompraController@generarOrden');

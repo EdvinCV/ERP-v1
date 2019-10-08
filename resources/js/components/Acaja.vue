@@ -50,6 +50,7 @@
             entradas: [],
             usuarios: [],
             salidas: [],
+            estados: [],
             caja: [],
             editedIndex: -1,
             editedItem: {
@@ -81,6 +82,7 @@
             this.cargaSalidas();
             this.cargaUsuarios();
             this.primeraSesion();
+            this.cargaEstados();
         },
         mounted(){
             let me = this;
@@ -139,7 +141,18 @@
                     console.log(error.response);
                 });
             },
-           
+            cargaEstados() {
+                let me = this;
+                axios.get('/caja/estado')
+                .then(function (response) {
+                    me.estados = response.data;
+                    var es = me.estados[1].tipo;
+                    console.log('estado '+ es)
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+            },
             resta(){
                 let me = this;
                 var total;
@@ -157,9 +170,11 @@
                     me.usuarios = response.data;
                     var f = new Date().toISOString().substr(0, 10);
                     us = me.usuarios[1].Fecha;
+                    me.cargaEstados();
                     console.log('us '+ us);
                     console.log('f '+ f);
-                    if(f != us)
+                    console.log('e '+ me.estados[0].tipo);
+                    if(f != us && me.estados[0].tipo != 1)
                     {
                         me.inicio = true;
                         console.log('bandera '+ me.inicio);
@@ -168,6 +183,7 @@
                     {
                         me.dialog = true;
                         me.editedItem.tipo = 1;
+                        me.editedItem.cantidad = me.estados[0].cantidad;
                     }
                     
                 })
