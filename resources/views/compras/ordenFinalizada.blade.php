@@ -9,12 +9,12 @@
 <style>
 
   table, th, td {
-    border: 1px solid black;
+   
     border-collapse: collapse;
   }
 	.contenedor
 	{
-		border:1px solid;
+	
 		text-align:center;
 	}
 	.contenedor>span {
@@ -41,16 +41,30 @@
         float:left;
     }
 	</style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <html>
       
-       <h5>QUETZALTENANGO, GUATEMALA</h5>
-     <h5>ADAM - INCOFIN</h5>
+<center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
+<hr class="hr">
+     <center> <h5>QUETZALTENANGO, GUATEMALA</h5>
+     <?php 
+          echo "<br>" . "Generado Fecha: ";
+          print_r($hoy["mday"] . '/');
+          print_r($hoy["mon"] . '/');
+          print_r($hoy["year"] . '<br>');
+          echo "Hora: ";
+          print_r($hoy["hours"].':');
+          print_r($hoy["minutes"].':');
+          print_r($hoy["seconds"]);
+     ?>
+  </center>
+  <br>
      <div class="contenedor">
           <h1>Orden de Compra #{{$id}}<?php
      ?></h1>
-     
+     <hr>
      </div>
 
      <table style="width: 100%">
@@ -97,8 +111,9 @@
           </tr>
           </tbody>
         </table>
-
-        <h2>Resumen compra</h2>
+<br>
+       <center> <h1>Resumen compra</h1></center>
+       <hr>
         @foreach($orden as $o)
             <p>Total Compra: {{$o->totalCompra}}</p>
             <p>Gastos Parqueo: {{$o->gastosParqueo}}</p>
@@ -112,8 +127,8 @@
 
         <br>
 
-        <h3>Productos distribuidos</h3>
-
+        <center><h1>Productos distribuidos</h1></center>
+<hr>
         <!-- CLIENTES -->
         @foreach($clientes as $c)
         <div>
@@ -121,7 +136,7 @@
             <h2>{{$c->nombreCliente}}</h2>
           </div>
           <div>
-            <table>
+            <table style="width: 50%">
               <thead>
                 <tr>
                   <th>Producto</th>
@@ -129,7 +144,10 @@
                   <th>Cantidad</th>
                 </tr>
               </thead>
+              <hr>
+              <br>
               <tbody>
+             
               @foreach($prodsClientes as $p)
                 @if($p->idPersona == $c->idPersona)
                 <tr>
@@ -137,6 +155,7 @@
                   <td>{{$p->presentacion}}</td>
                   <td>{{$p->cantidad}}</td>
                 </tr>
+              
                 @endif
               @endforeach
               </tbody>

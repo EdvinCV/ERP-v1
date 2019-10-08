@@ -50,7 +50,7 @@
      ?>
   </center>
 
-
+<br>
 <div class="contenedor">
         <h1>Venta</h1>
         <hr class="hr">
@@ -101,7 +101,8 @@
               <td>{{ $d->subtotal }}</td>
               <td>{{ $d->nombreProveedor }}</td>
             </tr> 
-          @endforeach           
+          @endforeach      
+               
           </tbody>
         </table>
         <hr>

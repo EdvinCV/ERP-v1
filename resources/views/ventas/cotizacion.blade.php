@@ -9,12 +9,11 @@
 <style>
 
   table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
+    
   }
 	.contenedor
 	{
-		border:1px solid;
+	
 		text-align:center;
 	}
 	.contenedor>span {
@@ -27,8 +26,8 @@
         padding-left: 1.2cm;
         padding-right: 0.7cm;
         height: 10.9cm;
-        border:1px solid;
-        border-color: blue;
+      
+     
     }
     .descripcion{
         width: 7.7cm;
@@ -36,20 +35,35 @@
         float:left;
     }
     .columna{
-        width: 2cm;
-        height: 10.4cm;
-        float:left;
+     
     }
 	</style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <html>
-      
-       <h5>QUETZALTENANGO, GUATEMALA</h5>
-     <h5>ADAM - INCOFIN</h5>
+<center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
+<hr class="hr">
+     <center> <h5>QUETZALTENANGO, GUATEMALA</h5> 
+     <?php 
+          echo "<br>" . "Generado Fecha: ";
+          print_r($hoy["mday"] . '/');
+          print_r($hoy["mon"] . '/');
+          print_r($hoy["year"] . '<br>');
+          echo "Hora: ";
+          print_r($hoy["hours"].':');
+          print_r($hoy["minutes"].':');
+          print_r($hoy["seconds"]);
+     ?>
+     
+     </center>
+     <br>
      <div class="contenedor">
-          <h1>Cotizacion</h1>
-     </div>
+     <h1>Cotizacion</h1>
+        <hr class="hr">
+        </div>
+         
+        <br>
     
         <h1>  </h1>
     
