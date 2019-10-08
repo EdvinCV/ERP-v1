@@ -5,7 +5,7 @@
             <v-spacer></v-spacer>
             <v-switch v-model="switch1" label="Ver todo"></v-switch>
             
-            <v-dialog v-model="dialog" max-width="600px">
+            <v-dialog v-model="dialog" max-width="600px" height="50%">
                 
                 <template v-slot:activator="{ on }">
                    <v-btn style="background-color:#668c2d" dark class="mb-2" v-on="on">Nuevo Producto</v-btn>
@@ -32,15 +32,15 @@
                                         </v-flex>
                                     </v-layout>
                                       <v-layout row>
-                                        <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field @change="porcentajes2()" label="Porcentaje de Utilidad" :rules="decimalRules" v-model="editedItem.porcUtilidad" ></v-text-field>
+                                        <v-flex lg6 md6 xs6 pa-2 @change="porcentajes2()" >
+                                            <v-text-field @change="imp()" label="Porcentaje de Utilidad" :rules="decimalRules" v-model="editedItem.porcUtilidad" ></v-text-field>
                                         </v-flex>
                                          <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field label="Utilidad" :rules="decimalRules" prefix="Q" v-model="editedItem.utilidad" ></v-text-field>
+                                            <v-text-field label="Utilidad"  :rules="decimalRules" prefix="Q" v-model="editedItem.utilidad" ></v-text-field>
                                         </v-flex>
                                     </v-layout>
                                     
-                                    <v-text-field label="Impuesto" :rules="decimalRules" prefix="Q" v-model="editedItem.impuesto"></v-text-field>
+                                    <v-text-field  label="Impuesto" :rules="decimalRules" prefix="Q" v-model="editedItem.impuesto"></v-text-field>
                                     <v-text-field label="Precio Maximo" :rules="decimalRules" prefix="Q" v-model="editedItem.maximoprecio"></v-text-field>
                                     <v-text-field label="Precio Minimo" :rules="decimalRules" prefix="Q" v-model="editedItem.minimoprecio"></v-text-field>
                                     
@@ -210,6 +210,10 @@
                     value: 'utilidad'
                 },
                 {
+                    text: 'Utilidad',
+                    value: 'utilidad'
+                },
+                {
                     text: 'Impuesto',
                     value: 'impuesto'
                 },
@@ -353,7 +357,17 @@
                 r = Number(r.toFixed(2));
                 this.editedItem.utilidad = r;
                 return r;
-                console.log(r);
+            },
+            imp(){
+                let me = this;
+                var i = 0.19;
+                var r;
+                r = parseFloat(this.editedItem.preciocompra) + parseFloat(this.editedItem.gastocomercializacion) + parseFloat(this.editedItem.utilidad);
+                r = r * i;
+                r = Number(r.toFixed(2));
+                this.editedItem.impuesto = r;
+                return r;
+                console.log(me.r);
             },
              cargaCategorias() {
                 let me = this;
@@ -573,9 +587,9 @@
             close() {
                 this.dialog = false;
                 this.editar = 0;
-                this.editedItem.idcategoria = 0;
-                this.editedItem.idpresentacion = 0;
-                this.editedItem.idpersona =0;
+                this.editedItem.idcategoria = '';
+                this.editedItem.idpresentacion = '';
+                this.editedItem.idpersona ='';
                 this.editedItem.Producto = '';
                 this.editedItem.precioventa = '';
                 this.editedItem.preciocompra ='';
@@ -589,9 +603,9 @@
                 this.editedItem.existencia='';
                 this.editedItem.porcComercializacion='',
                 this.editedItem.porcUtilidad='';
-                this.categorias = [];
+                /*this.categorias = [];
                 this.presentaciones = [];
-                this.personas = [];
+                this.personas = [];*/
                 this.error = 0;
                 this.errorMsj = [];
             }

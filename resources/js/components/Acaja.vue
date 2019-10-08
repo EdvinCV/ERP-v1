@@ -14,10 +14,7 @@
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
                                     <v-text-field label="Cantidad"  prefix="Q" v-model="editedItem.cantidad"></v-text-field>
-                                     <v-radio-group color="success" v-model="editedItem.tipo" column >
-                                        <v-radio label="Apertura" value="1" color="success"></v-radio>
-                                        <v-radio label="Cierre" value="2" color="success"></v-radio>
-                                    </v-radio-group>
+                                     
                                     <v-text-field label="Observaciones" v-model="editedItem.observacion"></v-text-field>
                                 </v-flex>
                             </v-layout>
@@ -51,8 +48,8 @@
             inicio: false,
             errorMsj: [],
             entradas: [],
+            usuarios: [],
             salidas: [],
-            usuarios: 0,
             caja: [],
             editedIndex: -1,
             editedItem: {
@@ -82,15 +79,17 @@
             this.initialize();
             this.cargaEntradas();   
             this.cargaSalidas();
-           
+            this.cargaUsuarios();
+            this.primeraSesion();
         },
         mounted(){
             let me = this;
-            this.InicioS();
-            if(this.inicio == true)
+            this.cargaUsuarios();
+            /*console.log('mod '+ this.inicio)
+            if(me.inicio == true)
             {
                 this.dialog = true
-            }
+            }*/
         },
         methods: {
             validate() {
@@ -102,8 +101,7 @@
                 r = this.resta();
                 if (!this.editedItem.cantidad)
                     this.errorMsj.push('La cantidad no puede estar vacia. ');
-                if (!this.editedItem.tipo)
-                    this.errorMsj.push('Se debe de asignar un tipo. ');
+                
                 if(this.editedItem.cantidad != r)
                     this.errorMsj.push('Las cantidades no coinciden. ')
                 if (this.errorMsj.length)
@@ -141,18 +139,7 @@
                     console.log(error.response);
                 });
             },
-            cargaUsuarios() {
-                
-                let me = this;
-                axios.get('/usuario/inicio')
-                .then(function (response) {
-                    me.usuarios = response.data;
-                    this.InicioS();
-                })
-                .catch(function (error) {
-                    console.log(error.response);
-                });
-            },
+           
             resta(){
                 let me = this;
                 var total;
@@ -162,13 +149,43 @@
                 return total;
                 console.log(this.entradas[0].Total);
             },
-            InicioS(){
+              cargaUsuarios() {
                 let me = this;
-                this.cargaUsuarios();
-                if(this.usuarios == 0)
+                var us;
+                axios.get('/usuario/inicios')
+                .then(function (response) {
+                    me.usuarios = response.data;
+                    var f = new Date().toISOString().substr(0, 10);
+                    us = me.usuarios[1].Fecha;
+                    console.log('us '+ us);
+                    console.log('f '+ f);
+                    if(f != us)
+                    {
+                        me.inicio = true;
+                        console.log('bandera '+ me.inicio);
+                    }
+                    if(me.inicio == true)
+                    {
+                        me.dialog = true;
+                        me.editedItem.tipo = 1;
+                    }
+                    
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+            },
+            primeraSesion()
+            {
+                let me = this;
+                /*var f = new Date().toISOString().substr(0, 10);
+                var us = me.cargaUsuarios();
+                if(f > us)
                 {
-                    this.inicio = true;
+                    inicio = true;
                 }
+                console.log(us);
+                console.log('prs'+f);*/
             },
             editItem(item) {
                 this.editedIndex = this.caja.indexOf(item)

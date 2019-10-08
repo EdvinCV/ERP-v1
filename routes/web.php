@@ -80,6 +80,7 @@ Route::post('/usuario/registrar', 'UsuarioController@store');
 Route::delete('usuario/{id}/delete', 'UsuarioController@drop');
 Route::put('usuario/actualizar', 'UsuarioController@update');
 Route::get('/usuario/inicio', 'UsuarioController@inicio');
+Route::get('/usuario/inicios', 'LoginActivityController@inicio');
 // Rutas Caja
 Route::get('/caja', 'CajaController@index');
 Route::post('/caja/registrar', 'CajaController@store');
