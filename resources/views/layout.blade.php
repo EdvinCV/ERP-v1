@@ -90,12 +90,14 @@
                                     <img src="assets/images/user/avatar-1.jpg" class="img-radius"
                                         alt="User-Profile-Image">
                                     <span>{{ auth()->user()->name }}</span>
-                                    <a href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
+                                    <a href="{{ route('logout') }} "
+                                    
+                                       onclick="event.preventDefault(); 
                                                      document.getElementById('logout-form').submit();" class="dud-logout" title="Cerrar Sesión">
                                         <i class="feather icon-log-out"></i>
-
+                                       
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    
                                         @csrf
                                     </form>
                                     </a>

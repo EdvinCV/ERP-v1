@@ -52,5 +52,10 @@
     <template v-if="menu==19">
         <chart></chart>
     </template>
-
+    <template v-if="menu==20">
+        <Advertencia></Advertencia>
+    </template>
+    <template v-if="menu==21">
+        <ACaja></ACaja>
+    </template>
 @endsection

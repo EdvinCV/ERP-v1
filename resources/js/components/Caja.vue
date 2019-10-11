@@ -16,7 +16,7 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                    <v-text-field label="Cantidad"  prefix="Q" v-model="editedItem.cantidad"></v-text-field>
+                                    <v-text-field  label="Cantidad"  prefix="Q" v-model="editedItem.cantidad"></v-text-field>
                                    
                                     <v-text-field label="Observaciones" v-model="editedItem.observacion"></v-text-field>
                                 </v-flex>
@@ -70,6 +70,11 @@
             errorMsj: [],
             entradas: [],
             salidas: [],
+            tot: 0,
+            en: 0,
+            sa: 0,
+            cant: 0,
+            bantot: false,
             headers: [
 
                 { 
@@ -121,14 +126,18 @@
             this.cargaEntradas();   
             this.cargaSalidas();
             this.cargaEstados();
+            
+        
         },
         mounted(){
-            this.dialog = true
+            this.dialog = true;
+            
         },
     
           
         methods: {
             validate() {
+                let me = this;
                 this.error = 0;
                 this.errorMsj = [];
                 this.cargaEntradas();
@@ -138,7 +147,7 @@
                 if (!this.editedItem.cantidad)
                     this.errorMsj.push('La cantidad no puede estar vacia. ');
                 
-                if(this.editedItem.cantidad != r)
+                if(this.editedItem.cantidad != r && me.bantot == false)
                     this.errorMsj.push('Las cantidades no coinciden. ')
                 if (this.errorMsj.length)
                     this.error = 1;
@@ -158,6 +167,12 @@
                 axios.get('/ventas/validartotal')
                 .then(function (response) {
                     me.entradas = response.data;
+                    me.en = me.entradas[0].Total;
+                    if(me.entradas[0].Total == null)
+                    {
+                        me.en = 0;
+                    } 
+                    
                    
                 })
                 .catch(function (error) {
@@ -169,6 +184,12 @@
                 axios.get('/compra/validartotal')
                 .then(function (response) {
                     me.salidas = response.data;
+                    me.sa = me.salidas[0].Total;
+                    if(me.salidas[0].Total == null)
+                    {
+                        me.sa = 0;
+                    }
+                    
                    
                 })
                 .catch(function (error) {
@@ -191,11 +212,43 @@
                 .then(function (response) {
                     me.estados = response.data;
                     var es = me.estados[1].tipo;
+                    me.cant = me.estados[0].cantidad;
+
+                    console.log('cant '+me.cant)
                     console.log('estado '+ es)
+                    me.nullo();
                 })
                 .catch(function (error) {
                     console.log(error.response);
                 });
+            },
+            nullo(){
+                let me = this;
+                console.log('CANT '+me.cant)
+                if(me.sa == 0 && me.en == 0)
+                {
+                    me.tot = me.cant;
+                    console.log("si")
+                    me.bantot = true
+                }
+                else if(me.sa !=0 && me.en == 0)
+                {
+                    me.tot = parseFloat(me.cant) - parseFloat(me.sa)
+                    me.bantot = true
+                }
+                else if(me.sa == 0 && me.en != 0)
+                {
+                    me.tot = parseFloat(me.cant) + parseFloat(me.en)
+                    me.bantot = true
+                }
+                else
+                {
+                    me.tot = parseFloat(me.en) - parseFloat(me.sa)
+                }
+                me.tot = Number(me.tot.toFixed(2));
+                console.log("TOTAL "+ me.tot);
+                me.editedItem.cantidad = me.tot;
+                return me.tot;
             },
               cierre(){
                 let me = this;
@@ -203,6 +256,7 @@
                 if(me.estados[0].tipo == 1)
                 {
                     me.editedItem.tipo = 2;
+                    
                 }
             },
             editItem(item) {

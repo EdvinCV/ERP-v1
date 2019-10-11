@@ -83,6 +83,7 @@
             this.cargaUsuarios();
             this.primeraSesion();
             this.cargaEstados();
+            
         },
         mounted(){
             let me = this;
@@ -95,6 +96,7 @@
         },
         methods: {
             validate() {
+                let me = this;
                 this.error = 0;
                 this.errorMsj = [];
                 this.cargaEntradas();
@@ -103,9 +105,12 @@
                 r = this.resta();
                 if (!this.editedItem.cantidad)
                     this.errorMsj.push('La cantidad no puede estar vacia. ');
-                
-                if(this.editedItem.cantidad != r)
-                    this.errorMsj.push('Las cantidades no coinciden. ')
+                this.cargaEstados();
+                if(me.estados[0].tipo ==1)
+                {
+                    if(this.editedItem.cantidad != r)
+                        this.errorMsj.push('Las cantidades no coinciden. ')
+                }
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
@@ -202,6 +207,12 @@
                 }
                 console.log(us);
                 console.log('prs'+f);*/
+            },
+            nullo(){
+                let me = this;
+                var e;
+                e = me.entradas[0].total;
+                console.log('nullo '+ e);
             },
             editItem(item) {
                 this.editedIndex = this.caja.indexOf(item)
