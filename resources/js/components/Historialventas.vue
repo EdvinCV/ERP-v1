@@ -21,16 +21,17 @@
 
         <v-data-table :headers="headers" :items="ventas" class="elevation-1" :search="search">
             <template v-slot:items="props">
+                <td class="text-xs-left">{{ props.item.id }}</td>
                 <td class="text-xs-left">{{ props.item.nombreCliente }}</td>
                 <td class="text-xs-left">Q. {{ props.item.total }}</td>
                 <td class="text-xs-left">{{ props.item.numeroFactura }}</td>
                 <td class="text-xs-left">{{ props.item.created_at }}</td>
                 <td class="text-xs-left"><v-chip :color="getColor(props.item.facturado)" dark>{{ verEstado(props.item.facturado) }}</v-chip></td>
                 <td class="justify-center layout px-0">
-                    <v-icon small @click="verDetalles(props.item.id)">
+                    <v-icon title="Detalles venta" small @click="verDetalles(props.item.id)">
                         fas fa-edit
                     </v-icon>
-                    <v-icon small @click="deleteItem(props.item)">
+                    <v-icon title="Eliminar venta" small @click="deleteItem(props.item)">
                         delete
                     </v-icon>
                 </td>

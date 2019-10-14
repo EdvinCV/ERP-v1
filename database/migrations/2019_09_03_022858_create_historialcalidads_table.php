@@ -17,6 +17,8 @@ class CreateHistorialcalidadsTable extends Migration
             $table->bigIncrements('id');
             $table->tinyInteger('calificacion');
             $table->bigInteger('idproducto')->unsigned();
+            $table->date('fecha');
+            $table->string('descripcion',500);
             $table->timestamps();
             $table->foreign('idproducto')->references('id')->on('productos');
         });

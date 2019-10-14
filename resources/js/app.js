@@ -26,6 +26,10 @@ Vue.component('Caja', require('./components/Caja.vue').default);
 Vue.component('Acaja', require('./components/Acaja.vue').default);
 Vue.component('chart', require('./components/chart.vue').default);
 Vue.component('reportes', require('./components/reportes.vue').default);
+Vue.component('reportes_prov', require('./components/reportesProv.vue').default);
+Vue.component('reportes_clientes', require('./components/reportesClientes.vue').default);
+Vue.component('reportes_compras', require('./components/reportesCompras.vue').default);
+
 
 
 const app = new Vue({

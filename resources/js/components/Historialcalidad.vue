@@ -1,27 +1,15 @@
 <template>
     <div>
-
- <div class="contenedor" style="backgrounhd-color=#668C2D">
-      <center> <h2 style="color:#668C2D">Historial de calidad</h2></center>
-        </div>
-     <hr>
-
         <v-toolbar flat color="white">
-          <v-text-field
-          v-model="search"
-          append-icon="search"
-          label="Buscar"
-          single-line
-          hide-details
-        ></v-text-field>
+            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
-              <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Nuevo historial de calidad</v-btn>
+                    <v-btn color="#668c2d" dark class="mb-2" v-on="on">Nuevo historial de calidad</v-btn>
                 </template>
                 <v-card>
-        <v-card-title style="background-color:#668c2d">
-                        <span class="headline" style="color:#fff">{{ formTitle }}</span>
+                    <v-card-title>
+                        <span class="headline">{{ formTitle }}</span>
                     </v-card-title>
 
                     <v-card-text>
@@ -40,6 +28,9 @@
                                         <v-radio label="Muy Satisfecho" value="4"></v-radio>
                                         <v-radio label="Totalmente Satisfecho" value="5"></v-radio>
                                     </v-radio-group>
+                                    <v-date-picker v-model="editedItem.fecha" locale="es-GT" color="#668c2d"></v-date-picker>
+                                    <v-text-field color="#668c2d" type="text" v-model="editedItem.descripcion" maxlength="500" 
+                                    label="Descripción"></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -54,38 +45,32 @@
                     </template>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
-                        <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
+                        <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
+                        <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
         </v-toolbar>
         
-                  <v-card-title>
-           
-      
-        <div class="flex-grow-1"></div>
-     
-      </v-card-title>
 
         <v-data-table :headers="headers" :items="historialcalidad" class="elevation-1" :search="search">
             <template v-slot:items="props">
-                <td class="text-xs-left">{{ props.item.id }}</td>
+                
                 <td class="text-xs-left">{{ props.item.Producto }}</td>
                 <td class="text-xs-left">{{ props.item.calificacion }}</td>
                 <td class="text-xs-left">{{ props.item.fecha }}</td>
-            
+                <td class="text-xs-left">{{ props.item.descripcion }}</td>
                 <td class="justify-right layout px-0">
                     <v-icon small class="mr-2" @click="editItem(props.item)">
                         edit
                     </v-icon>
-                    <v-icon small  @click="desactivar(props.item)">
+                    <v-icon small  @click="deleteItem(props.item)">
                         delete
                     </v-icon>
                 </td>
             </template>
             <template v-slot:no-data>
-            <v-btn style="background-color:#668c2d" dark class="mb-2"  @click="initialize">Recargar</v-btn>
+                <v-btn color="primary" @click="initialize">Recargar</v-btn>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
@@ -96,7 +81,6 @@
     </div>
 </template>
 <script>
-
     import multiselect from 'vue-multiselect'
     export default {
         components:{
@@ -110,13 +94,8 @@
             errorMsj: [],
             select: [],
             productos: [],
-
+            fecha: new Date().toISOString().substr(0, 10),
             headers: [
-                {
-                    text: 'Id',
-                    align: 'left',
-                    value: 'id'
-                },
               
                 { 
                     text: 'Producto', 
@@ -126,8 +105,14 @@
                     text: 'Calificacion',
                     value: 'calificacion'
                 },
-                
-
+                {
+                    text: 'Fecha',
+                    value: 'fecha'
+                },
+                 {
+                    text: 'Descripción',
+                    value: 'descripcion'
+                },
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
             historialcalidad: [],
@@ -137,11 +122,13 @@
                 id: 0,
                 idproducto: '',
                 calificacion: '',
+                descripcion: '',
             },
             defaultItem: {
                 id: 0,
                 idproducto: '',
                 calificacion: '',
+                descripcion: '',
             }
         }),
         computed: {
@@ -166,7 +153,11 @@
                     this.errorMsj.push('Se debe asignar una calificacón');
                 /*if(!this.editedItem.idcategoria)
                     this.errorMsj.push('Se debe asignar una categoria')*/
-                
+                if(!this.editedItem.fecha)
+                    this.errorMsj.push('Se debe asignar una fecha');
+                if((this.editedItem.fecha)>(new Date().toISOString()))
+                    this.errorMsj.push('Se debe asignar una fecha anterior');
+                //console.log(new Date().toISOString());
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
@@ -194,25 +185,20 @@
                 this.editedIndex = this.historialcalidad.indexOf(item)
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
-            },desactivar(item){
+            },deleteItem(item) {
                 let me=this;
                 swal.fire({
-                    title: '¿Quieres elimiar este historial de calidad?',
+                    title: '¿Quieres eliminar este historial de calidad?',
+                    text: "¡No podras revertir la eliminación!",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, eliminalo!',
+                    confirmButtonText: 'Si, Eliminalo!',
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {
-                       axios({
-                        method: 'put',
-                        url: 'historialcalidad/desactivar',
-                        data: {
-                            id:item.id,
-                            }
-                        }).then(response => {
+                        axios.delete(`/historialcalidad/${item.id}/delete`).then(response => {
                             me.initialize();
                             swal.fire({
                             position: 'top-end',
@@ -253,8 +239,9 @@
                         data: {
                             id: me.editedItem.id,
                             calificacion: me.editedItem.calificacion,
-                            idproducto: me.idproducto.id
-
+                            idproducto: me.idproducto.id,
+                            fecha: me.editedItem.fecha,
+                            descripcion: me.editedItem.descripcion
                         }
                     }).then(function (response) {
                         swal.fire({
@@ -280,7 +267,9 @@
                         url: '/historialcalidad/registrar',
                         data: {
                             calificacion: me.editedItem.calificacion,
-                            idproducto:me.idproducto.id   
+                            idproducto:me.idproducto.id,   
+                            fecha: me.editedItem.fecha,
+                            descripcion: me.editedItem.descripcion
                         }
                     }).then(function (response) {
                         swal.fire({

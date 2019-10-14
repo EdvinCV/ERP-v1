@@ -1,11 +1,7 @@
 <template>
     <div>
-            <div class="contenedor" style="background-color=#668C2D">
-      <center> <h2 style="color:#668C2D">Caja</h2></center>
-        </div>
-     <hr>
         <v-toolbar flat color="white">
-            <v-text-field color="#668c2d" v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" persistent max-width="600px">
                 <template v-slot:activator="{ on }">
@@ -20,12 +16,9 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                    <v-text-field color="#668c2d" label="Cantidad"  prefix="Q" v-model="editedItem.cantidad"></v-text-field>
-                                     <v-radio-group color="success" v-model="editedItem.tipo" column >
-                                        <v-radio label="Apertura" value="1" color="success"></v-radio>
-                                        <v-radio label="Cierre" value="2" color="success"></v-radio>
-                                    </v-radio-group>
-                                    <v-text-field color="#668c2d" label="Observaciones" v-model="editedItem.observacion"></v-text-field>
+                                    <v-text-field label="Cantidad"  prefix="Q" v-model="editedItem.cantidad"></v-text-field>
+                                   
+                                    <v-text-field label="Observaciones" v-model="editedItem.observacion"></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -41,17 +34,12 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         
-                        <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
+                        <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
         </v-toolbar>
-            <v-card-title>
-           
-     
-        <div class="flex-grow-1"></div>
-   
-      </v-card-title>
+        
 
         <v-data-table :headers="headers" :items="caja" class="elevation-1" :search="search">
             <template v-slot:items="props">
@@ -63,7 +51,7 @@
                 
             </template>
             <template v-slot:no-data>
-              <v-btn style="background-color:#668c2d" dark class="mb-2"  @click="initialize">Recargar</v-btn>
+              <v-btn style="background-color:#668c2d"  @click="initialize">Recargar</v-btn>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
@@ -83,7 +71,6 @@
             entradas: [],
             salidas: [],
             headers: [
-
                 { 
                     text: 'Cantidad', 
                     value: 'cantidad' 
@@ -103,6 +90,7 @@
                 
             ],
             caja: [],
+            estados: [],
             editedIndex: -1,
             editedItem: {
                 id: 0,
@@ -131,10 +119,13 @@
             this.initialize();
             this.cargaEntradas();   
             this.cargaSalidas();
+            this.cargaEstados();
         },
         mounted(){
             this.dialog = true
         },
+    
+          
         methods: {
             validate() {
                 this.error = 0;
@@ -145,8 +136,7 @@
                 r = this.resta();
                 if (!this.editedItem.cantidad)
                     this.errorMsj.push('La cantidad no puede estar vacia. ');
-                if (!this.editedItem.tipo)
-                    this.errorMsj.push('Se debe de asignar un tipo. ');
+                
                 if(this.editedItem.cantidad != r)
                     this.errorMsj.push('Las cantidades no coinciden. ')
                 if (this.errorMsj.length)
@@ -194,6 +184,26 @@
                 console.log(total);
                     
             },
+                cargaEstados() {
+                let me = this;
+                axios.get('/caja/estado')
+                .then(function (response) {
+                    me.estados = response.data;
+                    var es = me.estados[1].tipo;
+                    console.log('estado '+ es)
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+            },
+              cierre(){
+                let me = this;
+                me.cargaEstados();
+                if(me.estados[0].tipo == 1)
+                {
+                    me.editedItem.tipo = 2;
+                }
+            },
             editItem(item) {
                 this.editedIndex = this.caja.indexOf(item)
                 this.editedItem = Object.assign({}, item)
@@ -209,6 +219,7 @@
             },
             save() {
                 let me = this;
+                me.cierre();
                 if (this.validate()) {
                         return;
                     }

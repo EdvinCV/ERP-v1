@@ -1,31 +1,32 @@
 <template>
-<div>
+    <div>
         <center><h2 style="color:#668C2D">Venta</h2></center>
         <center><hr class="hrt"></center>
-        <v-switch 
-            v-model="switchFact"
-            :label = "`Facturado`"
+        <v-switch  
+            color="#668c2d"
+            v-model="editedItem.switchFact"
+            :label = "this.editedItem.switchFact ? 'Facturado' : 'No Facturado'"
         ></v-switch>
-        <v-flex lg3 md3 xs3 pa-2>
-            <v-text-field v-model="editedItem.numFact" label="No. Factura"></v-text-field>
+        <v-flex lg3 md3 xs3 pa-2 >
+            <v-text-field color="#668c2d" v-model="editedItem.numFact" label="No. Factura"></v-text-field>
         </v-flex>
         <v-radio-group v-model="radios" row @change="pago()">
-            <v-radio label="Efectivo" value="efectivo"></v-radio>
-            <v-radio label="Cheque" value="cheque"></v-radio>
-            <v-flex lg3 md3 xs3 pa-2>
-                    <v-text-field color="#668c2d" v-model="editedItem.cheque" label="No. Cheque" v-if="bandera"></v-text-field>
+            <v-radio color="#668c2d" label="Efectivo" value="efectivo"></v-radio>
+            <v-radio color="#668c2d" label="Cheque" value="cheque"></v-radio>
+            <v-flex color="#668c2d" lg3 md3 xs3 pa-2>
+                <v-text-field color="#668c2d" v-model="editedItem.cheque" label="No. Cheque" v-if="bandera"></v-text-field>
             </v-flex>
-            <v-flex lg3 md3 xs3 pa-2>
+            <v-flex color="#668c2d" lg3 md3 xs3 pa-2>
                 <v-text-field color="#668c2d" v-model="editedItem.banco" label="Banco" v-if="bandera"></v-text-field>
             </v-flex>
         </v-radio-group>
         <v-container fluid>
-            <!--LAYOUT DE CLIENTE -->
+        <!--LAYOUT DE CLIENTE -->
             <h6>Información cliente</h6>
             <v-layout row>
                 <v-flex lg6 md6 xs6 pa-2>
-                    <multiselect @input="buscarNIT()" v-model="editedItem.idCliente" :options="clientes" placeholder="Seleccione un cliente"
-                        label="nombreCliente" track-by="nombreCliente"></multiselect>
+                    <multiselect title="Seleccione un cliente" @input="buscarNIT()" v-model="editedItem.idCliente" :options="clientes" placeholder="Seleccione un cliente"
+                                label="nombreCliente" track-by="nombreCliente"></multiselect>
                 </v-flex>
                 <v-flex lg3 md3 xs6 pa-2>
                     <v-text-field color="#668c2d" v-model="editedItem.nit" label="NIT" readonly></v-text-field>
@@ -34,13 +35,12 @@
                     <v-text-field color="#668c2d" v-model="editedItem.direccion" label="Dirección"></v-text-field>
                 </v-flex>
             </v-layout>
-            
             <!--LAYOUT DE PRODUCTOS-->
             <h6>Ingrese productos</h6> 
             <v-layout row>
                 <v-flex lg6 md6 xs6 pa-2>
-                    <multiselect @input="buscarProducto()" v-model="editedItem.detProducto" :options="prods" placeholder="Seleccione un producto"
-                        label="mostrar" track-by="Producto" :allowEmpty="true"></multiselect>
+                    <multiselect title="Seleccione producto" @input="buscarProducto()" v-model="editedItem.detProducto" :options="prods" placeholder="Seleccione un producto"
+                                label="mostrar" track-by="Producto" :allowEmpty="true"></multiselect>
                 </v-flex>
                 <v-flex lg2 md2 xs2 pa-2>
                     <v-text-field color="#668c2d" v-model="editedItem.cantProducto" label="Cantidad"></v-text-field>
@@ -49,10 +49,13 @@
                     <v-text-field color="#668c2d" v-model="editedItem.precio" label="Precio"></v-text-field>
                 </v-flex>
                 <v-flex lg2 md2 xs2 pa-2>
+                    <v-text-field color="#668c2d" v-model="editedItem.existencia" label="Stock" readonly></v-text-field>
+                </v-flex>
+                <v-flex lg2 md2 xs2 pa-2>
                     <v-text-field color="#668c2d" v-model="editedItem.descuento" label="Descuento" ></v-text-field>
                 </v-flex>
                 <v-flex xs1 sm1 md1>
-                    <v-btn @click="agregarProducto()" fab dark small color="primary">
+                    <v-btn title="Agregar producto" @click="agregarProducto()" fab dark small color="#668c2d">
                         <v-icon dark>add</v-icon>
                     </v-btn>
                 </v-flex>
@@ -60,23 +63,18 @@
             <!--LAYOUT PRODUCTOS INGRESADOS-->
             <h6>Productos ingresados</h6>
             <template>
-                <v-data-table
-                    :headers="headersAddP"
-                    :items="carrito"
-                    class="elevation-1"
-                    hide-actions
-                >
-                <template v-slot:items="props">
-                    <td class="text-xs-left">{{ props.item.nombreProducto }}</td>
-                    <td class="text-xs-left">{{ props.item.cantidad }}</td>
-                    <td class="text-xs-left">{{ props.item.precio }}</td>
-                    <td class="text-xs-left">{{ props.item.sub }}</td>
-                    <td class="justify-center layout px-0">
-                        <v-icon small @click="eliminarProducto(props)">
-                            delete
-                        </v-icon>
-                    </td>
-                </template>
+                <v-data-table :headers="headersAddP" :items="carrito" class="elevation-1" hide-actions>
+                    <template v-slot:items="props">
+                        <td class="text-xs-left">{{ props.item.nombreProducto }}</td>
+                        <td class="text-xs-left">{{ props.item.cantidad }}</td>
+                        <td class="text-xs-left">{{ props.item.precio }}</td>
+                        <td class="text-xs-left">{{ props.item.sub }}</td>
+                        <td class="justify-center layout px-0">
+                            <v-icon title="Eliminar producto" small @click="eliminarProducto(props)">
+                                delete
+                            </v-icon>
+                        </td>
+                    </template>
                 </v-data-table>
                 <v-layout row>
                     <v-flex lg6 md6 xs2 pa-2>
@@ -86,12 +84,11 @@
                         <v-text-field color="#668c2d" v-model="editedItem.total" label="Total" readonly></v-text-field>
                     </v-flex>
                 </v-layout>
-            </template>      
+            </template>
             <hr>
             <template>
                 <v-btn @click="save" block color="#668c2d" dark>GENERAR VENTA</v-btn>
                 <v-btn @click="cotizacion" block color="#668c2d" dark>Cotización</v-btn>
-              
             </template>                                          
         </v-container>
     </div>
@@ -109,7 +106,6 @@
             dialog: false,
             error: 0,
             radios: '',
-            switchFact: false,
             errorMsj: [],
             headersAddP: [
                 { text: 'Descripcion', value: 'prod' },
@@ -135,7 +131,9 @@
                 cheque: '',
                 banco: '',
                 numFact: 0,
-                detalle: []
+                detalle: [],
+                existencia: 0,
+                switchFact: true,
             },
             defaultItem: {
                 idCliente: '',
@@ -150,25 +148,21 @@
                 detalle: []
             }
         }),
-
         computed: {
             formTitle() {
                 return this.editedIndex === -1 ? 'Nuevo Rol' : 'Editar Rol'
             }
         },
-
         watch: {
             dialog(val) {
                 val || this.close()
             }
         },
-
         created() {
             this.initialize(),
             this.cargaProductos(),
             this.cargaClientes()
         },
-
         methods: {
             validate() {
                 this.error = 0;
@@ -244,28 +238,39 @@
                     return p.id == me.editedItem.detProducto.id;
                 });
                 this.editedItem.precio = producto[0].precioventa;
+                this.editedItem.existencia = producto[0].existencia;
                 this.editedItem.cantProducto = 0;
                 this.editedItem.descuento = 0;
             },
             agregarProducto(){
                 let me = this;
-                if(this.editedItem.cantProducto == 0 || this.editedItem.precio == 0 || !this.editedItem.detProducto || this.editedItem.descuento < 0 || this.editedItem.descuento > 100)
-                    this.mostrarAlert();
-                else{
-                    me.carrito.push({
-                    idProd: me.editedItem.detProducto.id,
-                    nombreProducto: me.editedItem.detProducto.Producto,
-                    presentacion: me.editedItem.detProducto.presentacion,
-                    cantidad: parseInt(me.editedItem.cantProducto),
-                    precio: me.editedItem.detProducto.precioventa,
-                    descuento: me.editedItem.descuento,
-                    sub: ( (parseInt(me.editedItem.cantProducto) * parseFloat(me.editedItem.detProducto.precioventa) * (100 - me.editedItem.descuento)) / 100)
-                    });
-                    me.calcularTotal();
-                    me.editedItem.cantProducto = 0;
-                    me.editedItem.precio = 0;
-                    me.editedItem.descuento = 0;
-                    me.editedItem.detProducto = '';
+                if(this.carrito.length == 27){
+                    swal.fire({
+                            position: 'top-end',
+                            type: 'error',
+                            title: 'No puede ingresar más de 27 productos. Debe generar otra venta.',
+                            showConfirmButton: false,
+                            timer: 1500});
+                }else {
+                    if(this.editedItem.cantProducto == 0 || this.editedItem.precio == 0 || !this.editedItem.detProducto || this.editedItem.descuento < 0 || this.editedItem.descuento > 100) // || this.editedItem.cantProducto > this.editedItem.existencia)
+                        this.mostrarAlert();
+                    else{
+                        me.carrito.push({
+                        idProd: me.editedItem.detProducto.id,
+                        nombreProducto: me.editedItem.detProducto.Producto,
+                        presentacion: me.editedItem.detProducto.presentacion,
+                        cantidad: parseInt(me.editedItem.cantProducto),
+                        precio: me.editedItem.detProducto.precioventa,
+                        descuento: me.editedItem.descuento,
+                        sub: ( (parseInt(me.editedItem.cantProducto) * parseFloat(me.editedItem.detProducto.precioventa) * (100 - me.editedItem.descuento)) / 100)
+                        });
+                        me.calcularTotal();
+                        me.editedItem.cantProducto = 0;
+                        me.editedItem.precio = 0;
+                        me.editedItem.descuento = 0;
+                        me.editedItem.detProducto = '';
+                        me.editedItem.existencia = 0;
+                    }
                 }            
             },
             eliminarProducto(e){
@@ -309,6 +314,14 @@
                             showConfirmButton: false,
                             timer: 1500});
                 }
+               /* if(this.editedItem.cantProducto > this.editedItem.existencia){
+                    swal.fire({
+                            position: 'top-end',
+                            type: 'error',
+                            title: 'No existe producto suficiente en inventario.',
+                            showConfirmButton: false,
+                            timer: 1500});
+                }*/
             },
             cotizacion(){
                 axios({
@@ -371,7 +384,7 @@
                             total: this.editedItem.total,
                             subtotal: this.editedItem.subtotal,
                             idCliente: this.editedItem.idCliente.id,
-                            switchFact: this.switchFact,
+                            switchFact: this.editedItem.switchFact,
                             carrito: this.carrito,
                             cheque: this.editedItem.cheque,
                             banco: this.editedItem.banco,
@@ -386,9 +399,10 @@
                             title: 'Venta realizada',
                             showConfirmButton: false,
                             timer: 1500});
+                        if(me.editedItem.switchFact)
+                            window.open(window.location.origin +'/ventas/'+response.data+'/factura');
                         me.initialize();
                         me.close();
-                        window.open(window.location.origin +'/ventas/'+response.data+'/factura');
                         
                     }).catch(function (error) {
                         swal.fire({

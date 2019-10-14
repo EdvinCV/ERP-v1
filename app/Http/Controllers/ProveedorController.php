@@ -74,5 +74,52 @@ class ProveedorController extends Controller
         }
         
     }
-    
+
+    public function mayorProv(){
+        $prov = DB::table('proveedors')
+                    ->select(DB::raw('proveedors.nombreProveedor, COUNT(productos.id) as total'))
+                    ->join('productos','productos.idpersona','=','proveedors.idPersona')
+                    ->groupBy('productos.idPersona','proveedors.nombreProveedor')
+                    ->orderBy('total','desc')
+                    ->limit(1)
+                    ->get();
+        return $prov;
+    }
+
+    public function reporteGeneral(){
+        $proveedores = DB::table('proveedors')
+                        ->select(DB::raw('COUNT(productos.idPersona) as productos, nombreProveedor, direccion, nit, telefono, proveedors.idPersona'))
+                        ->join('personas','personas.id','=','proveedors.idPersona')
+                        ->join('productos','productos.idpersona','=','proveedors.idPersona')
+                        ->orderBy('productos','desc')
+                        ->groupBy('productos.idPersona','nombreProveedor','direccion','telefono','nit','proveedors.idPersona')
+                        ->get();
+        
+        $prodsProveedores = DB::table('productos')
+                        ->select('productos.nombre as producto', 'presentacions.nombre as presentacion','productos.idPersona')
+                        ->join('presentacions','presentacions.id','=','productos.idpresentacion')
+                        ->get();
+        
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('proveedores.general', compact('proveedores','prodsProveedores'));
+        return $pdf->stream('proveedores.pdf'); 
+    }
+
+    public function reporteEspecifico($id){
+        $proveedor = DB::table('proveedors')
+                        ->where('proveedors.idPersona','=',$id)
+                        ->get();
+        $prodsProveedor = DB::table('productos')
+                        ->select(DB::raw('productos.nombre, presentacions.nombre as presentacion, productos.id'))
+                        ->join('presentacions','presentacions.id','=','productos.idpresentacion')
+                        ->where('productos.idPersona','=',$id)
+                        ->get();
+                    
+        $historial = DB::table('historialcalidads')
+                        ->get();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('proveedores.especifico', compact('proveedor','prodsProveedor','historial'));
+        return $pdf->stream('proveedores.pdf'); 
+    }   
 }

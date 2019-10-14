@@ -64,10 +64,10 @@
             <template v-slot:items="props">
                 <td class="text-xs-left">{{ props.item.nombre }}</td>
                 <td class="justify-right layout px-0">
-                    <v-icon small class="mr-2" @click="editItem(props.item)">
+                    <v-icon title="Editar presentación" small class="mr-2" @click="editItem(props.item)">
                         edit
                     </v-icon>
-                    <v-icon small @click="deleteItem(props.item)">
+                    <v-icon title="Eliminar presentación" small @click="deleteItem(props.item)">
                         delete
                     </v-icon>
                 </td>

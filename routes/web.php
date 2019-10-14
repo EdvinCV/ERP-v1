@@ -27,7 +27,8 @@ Route::delete('/categoria/{categoria}/delete', 'CategoriaController@drop');
 //Rutas roles
 Route::get('/rol', 'RolController@index');
 Route::post('/rol/nuevo', 'RolController@store');
-Route::put('/rol/editar', 'RolController@edit');
+Route::put('/rol/editar', 'RolController@edit');  
+Route::delete('/rol/{rol}/delete','RolController@drop');
 //Rutas permisos
 Route::get('/permisos', 'PermisosController@index');
 Route::get('/listaP', 'PermisosController@listarPermisos');
@@ -47,7 +48,9 @@ Route::get('/proveedores', 'ProveedorController@index');
 Route::post('/proveedores/nuevo', 'ProveedorController@store');
 Route::put('/proveedores/actualizar', 'ProveedorController@update');
 Route::put('/proveedores/eliminar', 'ProveedorController@desactivar');
-
+Route::get('proveedores/mayor','ProveedorController@mayorProv');
+Route::get('/reporteProveedores','ProveedorController@reporteGeneral');
+Route::get('/reporteProveedores/{id}','ProveedorController@reporteEspecifico');
 //Rutas clientes
 Route::get('/clientes', 'ClienteController@index');
 Route::post('/clientes/nuevo', 'ClienteController@store');
@@ -71,10 +74,11 @@ Route::delete('/historialcalidad/{historialcalidad}/delete', 'HistorialcalidadCo
 Route::post('/venta/nuevo', 'VentasController@store');
 Route::get('/ventas/listar', 'VentasController@listarVentas');
 Route::get('/ventas/validartotal', 'VentasController@validarTotal');
-Route::delete('venta/{venta}/delete', 'VentasController@drop');
+Route::delete('/venta/{id}/eliminar', 'VentasController@drop');
 Route::get('/ventas/{id}/detalles','VentasController@detalleVenta');
 Route::get('/ventas/{id}/factura', 'VentasController@generarFactura');
 Route::post('/venta/cotizacion','VentasController@cotizacion');
+Route::get('/venta/validadtotal','VentasController@validarTotal');
 //Rutas usuarios
 Route::get('/usuarios', 'UsuarioController@index');
 Route::get('/rolCompras', 'UsuarioController@listarRolCompras');
@@ -83,9 +87,11 @@ Route::delete('usuario/{id}/delete', 'UsuarioController@drop');
 Route::put('usuario/actualizar', 'UsuarioController@update');
 Route::put('usuario/profile-update','UsuarioController@updateProfile')->name('profile.update');
 Route::put('usuario/password-update','UsuarioController@updatePassword')->name('password.update');
+Route::get('/usuario/inicio','LoginActivityController@inicio');    
 // Rutas Caja
 Route::get('/caja', 'CajaController@index');
 Route::post('/caja/registrar', 'CajaController@store');
+Route::get('/caja/estado', 'CajaController@estado');
 //Rutas compras
 Route::post('/compra/nuevo', 'OrdenCompraController@generarOrden');
 Route::get('/compra/{id}/orden', 'OrdenCompraController@imprimirOrden');
@@ -98,6 +104,7 @@ Route::delete('compra/{id}/eliminar', 'OrdenCompraController@drop');
 //Route::get('/compra/{id}/detalles', 'OrdenCompraController@detalles');
 Route::get('/compra/validartotal', 'OrdenCompraController@validarTotal');
 Route::get('/compra/{id}/finalizada','OrdenCompraController@ordenFinalizada');
+Route::get('/compra/validartotal','OrdenCompraController@validarTotal');
 //RUTAS REPORTES
 Route::get('/ventas/reporteProductos', 'VentasController@reporteVentasProducto');
-Route::post('/ventas/reporteVClientes', 'VentasController@reporteVentasClientes');
+Route::get('/ventas/reporteVClientes', 'VentasController@reporteVentasClientes');

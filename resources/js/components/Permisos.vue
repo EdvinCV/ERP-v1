@@ -1,117 +1,98 @@
 <template>
     <div>
-                            <div class="contenedor" style="backgrounhd-color=#668C2D">
-      <center> <h2 style="color:#668C2D">Gestion de permisos</h2></center>
+        <div class="contenedor" style="backgrounhd-color=#668C2D">
+            <center> <h2 style="color:#668C2D">Gestion de permisos</h2></center>
         </div>
-     <hr>
+        <hr>
         <v-toolbar flat color="white">
-          
-             <v-text-field
-          v-model="search"
-          append-icon="search"
-          label="Buscar"
-          single-line
-          hide-details
-        ></v-text-field>
-             
+            <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Buscar"
+                single-line
+                hide-details
+            ></v-text-field>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on }">
-                <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Asignar Permiso</v-btn>
+                    <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Asignar Permiso</v-btn>
                 </template>
                 <v-card>
-                   <v-card-title style="background-color:#668c2d">
-                        <span class="headline" style="color:#fff">{{ formTitle }}</span>
-                    </v-card-title>
-
-                    <v-card-text>
-                        <v-container grid-list-md>
-                            <v-layout wrap>
-                                <v-flex v-if="this.editedIndex === -1" xs12 sm12 md12>
-                                    <v-select
-                                        v-model="selectRol"
-                                        :hint="`${selectRol.nombreRol}`"
-                                        :items="listaRoles"
-                                        item-text="nombreRol"
-                                        item-value="id"
-                                        label="Seleccionar rol"
-                                        persistent-hint
-                                        return-object
-                                        single-line
-                                    ></v-select>
-                                </v-flex>
-                                <v-flex v-if="this.editedIndex === -1" xs12 sm12 md12>
-                                    <v-select
-                                        v-model="selectPermiso"
-                                        :items="listaPermisos"
-                                        item-text="nombrePermiso"
-                                        item-value="id"
-                                        label="Seleccionar permiso"
-                                        persistent-hint
-                                        return-object
-                                        single-line
-                                    ></v-select>
-                                </v-flex>
-                                <v-flex v-if="this.editedIndex > -1" xs12 sm12 md12 >
-                                    Estado
-                                    <v-switch
-                                        v-model="switch1"
-                                        :label = "switch1 ? 'Activado' : 'Desactivado' "
-                                    ></v-switch>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card-text>
-                    <template v-if="error">
-                        <v-divider></v-divider>
-                        <div class="text-xs-center">
-                            <strong class="red--text text--lighten-1" v-for="e in errorMsj" :key="e" v-text="e"></strong>
-                            <br>
-                        </div>
-                        <v-divider></v-divider>
-                    </template>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
-                      <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
-                    </v-card-actions>
+                <v-card-title style="background-color:#668c2d">
+                    <span class="headline" style="color:#fff">{{ formTitle }}</span>
+                </v-card-title>
+                <v-card-text>
+                    <v-container grid-list-md>
+                        <v-layout wrap>
+                            <v-flex v-if="this.editedIndex === -1" xs12 sm12 md12>
+                                <multiselect v-model="selectRol" :options="listaRoles" placeholder="Seleccione un rol"
+                                            label="nombreRol" track-by="id" :allowEmpty="true">
+                                </multiselect>
+                            </v-flex>
+                            <v-flex v-if="this.editedIndex === -1" xs12 sm12 md12>
+                                <multiselect v-model="selectPermiso" :options="listaPermisos" placeholder="Seleccione un permiso"
+                                            label="nombrePermiso" track-by="id" :allowEmpty="true">
+                                </multiselect>
+                            </v-flex>
+                            <v-flex xs12 sm12 md12>
+                            
+                            </v-flex>
+                            <v-flex v-if="this.editedIndex > -1" xs12 sm12 md12 >
+                                Estado
+                                <v-switch
+                                    v-model="switch1"
+                                    :label = "switch1 ? 'Activado' : 'Desactivado' "
+                                ></v-switch>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                </v-card-text>
+                <template v-if="error">
+                    <v-divider></v-divider>
+                    <div class="text-xs-center">
+                        <strong class="red--text text--lighten-1" v-for="e in errorMsj" :key="e" v-text="e"></strong>
+                        <br>
+                    </div>
+                    <v-divider></v-divider>
+                </template>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
+                    <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
+                </v-card-actions>
                 </v-card>
             </v-dialog>
         </v-toolbar>
-        
-             <v-card-title>
-        
-        <div class="flex-grow-1"></div>
-     
-      </v-card-title>
 
         <v-data-table :headers="headers" :items="permisos" class="elevation-1" :search="search">
             <template v-slot:items="props">
                 <td class="text-xs-left">{{ props.item.nombreRol }}</td>
                 <td class="text-xs-left">{{ props.item.nombrePermiso }}</td>
-                <td class="text-xs-left"><v-chip :color="getColor(props.item.estado)" dark>{{ verEstado(props.item.estado) }}</v-chip></td>
+                <!--<td class="text-xs-left"><v-chip :color="getColor(props.item.estado)" dark>{{ verEstado(props.item.estado) }}</v-chip></td>-->
                 <td class="justify-right layout px-0">
-                    <v-icon small class="mr-2" @click="editItem(props.item)">
-                        edit
-                    </v-icon>
-                    <v-icon small @click="deleteItem(props.item)">
+                    <v-icon title="Eliminar permiso" small @click="deleteItem(props.item)">
                         delete
                     </v-icon>
                 </td>
             </template>
             <template v-slot:no-data>
-           <v-btn style="background-color:#668c2d" dark class="mb-2"  @click="initialize">Recargar</v-btn>
+                <v-btn style="background-color:#668c2d" dark class="mb-2"  @click="initialize">Recargar</v-btn>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
-                  No hay resultados de "{{ search }}".
+                    No hay resultados de "{{ search }}".
                 </v-alert>
             </template>
         </v-data-table>
     </div>
 </template>
+
 <script>
+    import multiselect from 'vue-multiselect'
     export default {
+        components:{
+            multiselect
+        },
         data: () => ({
             search: '',
             dialog: false,
@@ -124,7 +105,6 @@
             headers: [
                 { text: 'Rol', value: 'nombreRol' },
                 { text: 'Permiso', value: 'nombrePermiso' },
-                { text: 'Estado', value: 'estado' },
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
             permisos: [],

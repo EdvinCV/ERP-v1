@@ -19,8 +19,8 @@
                         <v-container grid-list-md>
                             <v-layout>
                                 <v-flex xs1 sm1 md1>
-                                    <v-btn @click="contadorMenos()" fab dark small color="primary">
-                                        <v-icon dark>add</v-icon>
+                                    <v-btn @click="contadorMenos()" fab dark small color="#668c2d">
+                                        <v-icon dark>fas fa-arrow-alt-circle-left</v-icon>
                                     </v-btn>
                                 </v-flex>
                                 <v-flex lg6 md6 xs6 pa-2>
@@ -33,8 +33,8 @@
                                     <v-text-field v-model="editedItem.precioCompra"></v-text-field>
                                 </v-flex>
                                 <v-flex xs1 sm1 md1>
-                                    <v-btn @click="contadorMas()" fab dark small color="primary">
-                                        <v-icon dark>add</v-icon>
+                                    <v-btn @click="contadorMas()" fab dark small color="#668c2d">
+                                        <v-icon dark>fas fa-arrow-alt-circle-right</v-icon>
                                     </v-btn>
                                 </v-flex>
                             </v-layout>
@@ -141,7 +141,7 @@
                     <td class="text-xs-left"><v-chip :color="getColor(props.item.finalizado)" dark>{{ verEstado(props.item.finalizado) }}</v-chip></td>
                     <td class="justify-center layout px-0">
                         <v-icon v-if="!props.item.finalizado" small class="mr-2" title="Imprimir orden" @click="imprimirOrden(props.item.id)">
-                            fas fa-copy
+                            print
                         </v-icon>
                         <v-icon v-if="props.item.finalizado" class="mr-2" small title="Resumen orden" @click="imprimirOrdenFinalizada(props.item.id)">
                             fas fa-copy
@@ -150,7 +150,7 @@
                             fas fa-check-square
                         </v-icon>
                         <v-icon title="Editar orden" small v-if="!props.item.finalizado" @click="editarOrden(props.item.id)">
-                            fas fa-edit
+                            fas fa-tasks
                         </v-icon>
                         <v-icon title="Eliminar orden"  class="mr-2" small @click="deleteItem(props.item)">
                             delete

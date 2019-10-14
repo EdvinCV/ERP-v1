@@ -124,6 +124,7 @@ class OrdenCompraController extends Controller
             foreach($detalles as $d){
                 $prod = Producto::find($d['idp']);
                 $prod->precioCompra = $d['precioCompra'];
+                $prod->existencia = $prod->existencia + $d['cantidad']; 
                 $totalCompra += $d['precioCompra'] * $d['cantidad'];
                 $totalVenta += $prod->precioventa * $d['cantidad'];
                 $prod->save();
@@ -240,5 +241,14 @@ class OrdenCompraController extends Controller
         $pdf->loadView('compras.ordenFinalizada', compact('orden','clientes', 'productos', 'id', 'prodsClientes'));
         return $pdf->stream('ordenCompra.pdf');
 
+    }
+    public function validarTotal()
+    {
+        $total = DB::table('compra_encabezados')
+            ->select(DB::raw('SUM(compra_encabezados.totalCompra) as Total'))
+            ->whereRaw('DATE_FORMAT(compra_encabezados.created_at,"%y-%m-%d") = curdate()')
+            ->where('compra_encabezados.finalizado','=','1')
+            ->get();
+        return $total;
     }
 }

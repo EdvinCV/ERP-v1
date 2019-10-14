@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\VentaEncabezado;
 use Illuminate\Support\Facades\Auth;
 use App\DetalleVenta;
+use App\Producto;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -33,6 +34,9 @@ class VentasController extends Controller
             $detalles = $req->input('carrito');
              
             foreach($detalles as $d){
+                $prod=Producto::find($d['idProd']);
+                $prod->existencia = $prod->existencia - $d['cantidad'];
+                $prod->save(); 
                 $det = new DetalleVenta;
                 $det->subtotal = $d['sub'];
                 $det->cantidad = $d['cantidad'];     
@@ -88,16 +92,13 @@ class VentasController extends Controller
             ->join('tipo_pagos','tipo_pagos.id','=','venta_encabezados.idTipoPago')
             ->whereRaw('DATE_FORMAT(venta_encabezados.created_at,"%y-%m-%d") = curdate()')
             ->where('tipo_pagos.nombreTipo','=','Efectivo')
-            
-            
             ->get();
         return $total;
     }
-    public function drop(VentaEncabezado $venta){
+    public function drop(VentaEncabezado $id){
         try{
-            
-            DB::table('detalle_ventas')->where('idVentaEncabezado','=',$venta->id)->delete();
-            
+            DB::table('detalle_ventas')->where('idVentaEncabezado','=',$id->id)->delete();
+            $id->delete();
             return 'Venta eliminada correctamente';
         }catch(\Exception $e){
             $response['error'] = $e->getMessage();
@@ -164,10 +165,10 @@ class VentasController extends Controller
         $pdf->loadView('reportes.VentasProductos', compact('productos'));
         return $pdf->stream('VentasPorProducto.pdf');
     }
-    public function reporteVentasClientes(Request $req){
-        $fechaDe = $req->date;
-        $fechaA = $req->date2;
-        $idCliente = $req->idCliente;
+    public function reporteVentasClientes(){
+        $fechaDe = '2018/02/02';
+        $fechaA = '2020/02/02';
+        $idCliente = 7;
         
         $cliente = DB::table('venta_encabezados')
                     ->select(DB::raw('SUM(total) as Total, nombreCliente'))

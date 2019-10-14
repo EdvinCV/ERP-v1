@@ -140,10 +140,10 @@
             
 
                 <td class="justify-right layout px-0">
-                    <v-icon small class="mr-2" @click="editItem(props.item)">
+                    <v-icon title="Editar producto" small class="mr-2" @click="editItem(props.item)">
                         edit
                     </v-icon>
-                    <v-icon small  @click="desactivar(props.item)">
+                    <v-icon title="Eliminar producto" small  @click="desactivar(props.item)">
                         delete
                     </v-icon>
                 </td>

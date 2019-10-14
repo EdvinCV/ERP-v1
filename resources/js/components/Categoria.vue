@@ -58,10 +58,10 @@
             <template v-slot:items="props">
                 <td class="text-xs-left">{{ props.item.nombre }}</td>
                 <td class="justify-right layout px-0">
-                    <v-icon small class="mr-2" @click="editItem(props.item)">
+                    <v-icon title="Editar categoría" small class="mr-2" @click="editItem(props.item)">
                         edit
                     </v-icon>
-                    <v-icon small @click="desactivar(props.item)">
+                    <v-icon title="Eliminar categoría" small @click="deleteItem(props.item)">
                         delete
                     </v-icon>
                 </td>
@@ -159,42 +159,6 @@
                 }).then((result) => {
                     if (result.value) {
                         axios.delete(`/categoria/${item.id}/delete`).then(response => {
-                            me.initialize();
-                            swal.fire({
-                            position: 'top-end',
-                            type: 'success',
-                            title: response.data,
-                            showConfirmButton: false,
-                            timer: 1500});
-                        }).catch(error => {
-                            swal.fire({
-                            position: 'top-end',
-                            type: 'error',
-                            title: error.response.data.error,
-                            showConfirmButton: true});
-                        });
-                    }
-                });
-            },
-            desactivar(item){
-                let me=this;
-                swal.fire({
-                    title: 'Quieres elimiara a esta categoria?',
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, eliminala!',
-                    cancelButtonText: "Cancelar"
-                }).then((result) => {
-                    if (result.value) {
-                       axios({
-                        method: 'put',
-                        url: 'categoria/desactivar',
-                        data: {
-                            id:item.id,
-                            }
-                        }).then(response => {
                             me.initialize();
                             swal.fire({
                             position: 'top-end',

@@ -1,5 +1,8 @@
 @extends('layout')
 @section('content')
+    <template v-if="menu==100">
+        <reportes></reportes>
+    </template>
     <!-- MÓDULO USUARIOS -->
     <template v-if="menu==1">
         <Usuarios></Usuarios>
@@ -14,10 +17,17 @@
     <template v-if="menu==4">
         <Cliente></Cliente>
     </template>
+    <template v-if="menu==5">
+        <reportes_clientes></reportes_clientes>
+    </template>
     <!-- MÓDULO PROVEEDORES -->
     <template v-if="menu==6">
         <Proveedor></Proveedor>
     </template>
+    <template v-if="menu==7">
+        <reportes_prov></reportes_prov>
+    </template>
+    
     <!-- MÓDULO PRODUCTOS -->
     <template v-if="menu==8">
         <Producto></Producto>
@@ -52,13 +62,13 @@
         <OrdenesCompra></OrdenesCompra>
     </template>
     <template v-if="menu==19">
-        <chart></chart>
+        <reportes_compras></reportes_compras>
     </template>
     <template v-if="menu==30">
         <perfil></perfil>
     </template>
     <template v-if="menu==31">
-        <reportes></reportes>
+        <reportes_compras></reportes_compras>
     </template>
 
 @endsection

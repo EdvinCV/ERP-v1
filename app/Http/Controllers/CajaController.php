@@ -16,6 +16,17 @@ class CajaController extends Controller
             ->join('users','cajas.idEmpleado','=','users.id')->get();
         return $caja;
     }
+
+    public function estado(Request $request)
+    {
+        $caja = DB::table('cajas')
+            ->select(DB::raw('cajas.cantidad, cajas.tipo'))
+            ->orderby('cajas.id','desc')
+            ->limit(2)
+            ->get();
+        return $caja;
+    }
+    
     public function store(Request $req){
         try {
             $caja = new Caja;

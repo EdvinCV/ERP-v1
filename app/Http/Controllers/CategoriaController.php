@@ -76,7 +76,8 @@ class CategoriaController extends Controller
     }   
     public function drop(Categoria $categoria){
         try{
-            $categoria->delete();
+            $categoria->estado = 0;
+            $categoria->save();
             return 'Categoría eliminada correctamente';
         }catch(\Exception $e){
             $response['error'] = $e->getMessage();

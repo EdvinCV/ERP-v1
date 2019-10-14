@@ -6,6 +6,7 @@ use DateTime;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\LoginActivity;
 
 class SuccessfulLogin
 {
@@ -27,7 +28,9 @@ class SuccessfulLogin
      */
     public function handle(Login $event)
     {
-        $event->user->last_login = new DateTime;
+        LoginActivity :: create([
+            'user_id' => $event->user->id
+        ]);
         $event->user->save();
     }
 }

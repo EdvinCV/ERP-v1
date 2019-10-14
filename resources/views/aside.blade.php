@@ -72,7 +72,7 @@
                                     <li><a @click="menu=11" ><span class="pcoded-micon"><i
                                     class="feather icon-calendar"></i></span><span class="pcoded-mtext">Historial Productos</span></a></li>
                                     <li><a @click="menu=12" ><span class="pcoded-micon"><i
-                                    class="feather icon-layers"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
+                                    class="feather icon-layers"></i></span><span class="pcoded-mtext">Kardex</span></a></li>
                             </ul>
                             
                         </li>

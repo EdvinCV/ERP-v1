@@ -1,105 +1,91 @@
 <template>
     <div>
-                    <div class="contenedor" style="backgrounhd-color=#668C2D">
-      <center> <h2 style="color:#668C2D">Roles</h2></center>
+        <div class="contenedor" style="background-color=#668C2D">
+            <center> <h2 style="color:#668C2D">Control de Roles</h2></center>
         </div>
-     <hr>
-     
-        <v-toolbar flat color="white">
-             <v-text-field
-          v-model="search"
-          append-icon="search"
-          label="Buscar"
-          single-line
-          hide-details
+    <hr>
+
+    <v-toolbar flat color="white">
+        <v-text-field
+            v-model="search"
+            append-icon="search"
+            label="Buscar..."
+            single-line
+            hide-details
         ></v-text-field>
-            <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="600px">
-                <template v-slot:activator="{ on }">
-                <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Nuevo Rol</v-btn>
+        <v-spacer></v-spacer>
+        <v-dialog v-model="dialog" max-width="600px">
+            <template v-slot:activator="{ on }">
+                <v-btn style="background-color:#668c2d" dark class="mb-2" v-on="on">Nuevo Rol</v-btn>
+            </template>
+            <v-card>
+                <v-card-title style="background-color:#668c2d">
+                    <span class="headline" style="color:#fff">{{ formTitle }}</span>
+                </v-card-title>
+                <v-card-text>
+                    <v-container grid-list-md>
+                        <v-layout wrap>
+                            <v-flex xs12 sm12 md12>
+                                <br><br>
+                                <v-text-field color="#668c2d" v-model="editedItem.nombreRol" maxlength="50"  required :rules="nameRules" :counter="50" label="Nombre Rol"></v-text-field>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                </v-card-text>
+                <template v-if="error">
+                    <v-divider></v-divider>
+                    <div class="text-xs-center">
+                        <strong class="red--text text--lighten-1" v-for="e in errorMsj" :key="e" v-text="e"></strong>
+                        <br>
+                    </div>
+                    <v-divider></v-divider>
                 </template>
-                <v-card>
-       <v-card-title style="background-color:#668c2d">
-                        <span class="headline" style="color:#fff">{{ formTitle }}</span>
-                    </v-card-title>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
+                    <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </v-toolbar>
 
-                    <v-card-text>
-                        <v-container grid-list-md>
-                            <v-layout wrap>
-                                <v-flex xs12 sm12 md12>
-                                    <br><br>
-                                    <v-text-field color="#668c2d" v-model="editedItem.nombreRol" maxlength="50"  required :rules="nameRules" :counter="50" label="Nombre Rol"></v-text-field>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card-text>
-                    <template v-if="error">
-                        <v-divider></v-divider>
-                        <div class="text-xs-center">
-                            <strong class="red--text text--lighten-1" v-for="e in errorMsj" :key="e" v-text="e"></strong>
-                            <br>
-                        </div>
-                        <v-divider></v-divider>
-                    </template>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
-                       <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
-        </v-toolbar>
-
-             <v-card-title>
-     
-        <div class="flex-grow-1"></div>
-    
-      </v-card-title>
-        
-
-        <v-data-table :headers="headers" :items="roles" class="elevation-1" :search="search" >
-            <template v-slot:items="props">
-                <td class="text-xs-left">{{ props.item.id }}</td>
-                <td class="text-xs-left">{{ props.item.nombreRol }}</td>
-                <td class="justify-right layout px-0">
-                    <v-icon small class="mr-2" @click="editItem(props.item)">
-                        edit
-                    </v-icon>
-                    <v-icon small @click="deleteItem(props.item)">
-                        delete
-                    </v-icon>
-                </td>
-            </template>
-            <template v-slot:no-data>
-               <v-btn style="background-color:#668c2d" dark class="mb-2"  @click="initialize">Recargar</v-btn>
-            </template>
-            <template v-slot:no-results>
-                <v-alert :value="true" color="error" icon="warning">
-                  No hay resultados de "{{ search }}".
-                </v-alert>
-            </template>
-        </v-data-table>
+    <v-data-table :headers="headers" :items="roles" class="elevation-1" :search="search">
+        <template v-slot:items="props">
+            <td class="text-xs-left">{{ props.item.nombreRol }}</td>
+            <td class="justify-right layout px-0">
+                <v-icon title="Editar rol" small class="mr-2" @click="editItem(props.item)">
+                    edit
+                </v-icon>
+                <v-icon title="Eliminar rol" small @click="deleteItem(props.item)">
+                    delete
+                </v-icon>
+            </td>
+        </template>
+        <template v-slot:no-data>
+            <v-btn style="background-color:#668c2d" dark class="mb-2"  @click="initialize">Recargar</v-btn>
+        </template>
+        <template v-slot:no-results>
+            <v-alert :value="true" color="error" icon="warning">
+                No hay resultados de "{{ search }}".
+            </v-alert>
+        </template>
+    </v-data-table>
     </div>
 </template>
+
 <script>
     export default {
         data: () => ({
             search: '',
             dialog: false,
             error: 0,
-                       nameRules: [
-      v => !!v || 'El rol no puede estar vacio',
-      v => (v && v.length <= 49) || 'El nombre del rol no puede ser mayor a 50',
-       v => /[a-zA-Z]/.test(v) || 'el rol solo puede tener letras',
-      
-    ],
+            nameRules: [
+                v => !!v || 'El rol no puede estar vacio',
+                v => (v && v.length <= 49) || 'El nombre del rol no puede ser mayor a 50',
+                v => /[a-zA-Z]/.test(v) || 'el rol solo puede tener letras',
+            ],
             errorMsj: [],
             headers: [
-                {
-                    text: 'Id',
-                    align: 'left',
-                    value: 'id'
-                },
                 { text: 'Rol', value: 'nombreRol' },
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
@@ -114,23 +100,19 @@
                 nombreRol: '',
             }
         }),
-
         computed: {
             formTitle() {
                 return this.editedIndex === -1 ? 'Nuevo Rol' : 'Editar Rol'
             }
         },
-
         watch: {
             dialog(val) {
                 val || this.close()
             }
         },
-
         created() {
             this.initialize()
         },
-
         methods: {
             validate() {
                 this.error = 0;
@@ -150,17 +132,15 @@
                         console.log(errors);
                     });
             },
-
             editItem(item) {
                 this.editedIndex = this.roles.indexOf(item)
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
             },
-
             deleteItem(item) {
                 let me=this;
                 swal.fire({
-                    title: 'Quieres eliminar este Rol?',
+                    title: 'Quieres eliminar este rol?',
                     text: "No podras revertir la eliminacion!",
                     type: 'warning',
                     showCancelButton: true,
@@ -170,7 +150,7 @@
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {
-                        axios.delete(`/Rol/${item.id}/delete`).then(response => {
+                        axios.delete(`/rol/${item.id}/delete`).then(response => {
                             me.initialize();
                             swal.fire({
                             position: 'top-end',
@@ -188,7 +168,6 @@
                     }
                 });
             },
-
             close() {
                 this.error=0;
                 this.dialog = false;
@@ -197,7 +176,6 @@
                     this.editedIndex = -1
                 }, 300)
             },
-
             save() {
                 let me = this;
                 if (this.validate()) {
