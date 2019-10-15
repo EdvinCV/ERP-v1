@@ -25,6 +25,15 @@ class CajaController extends Controller
             ->get();
         return $caja;
     }
+    public function cierre(Request $req)
+    {
+        $caja =  DB::table('cajas')
+        ->select(DB::raw('cajas.cantidad, cajas.tipo'))
+        ->orderby('cajas.id','desc')
+        ->limit(1)
+        ->get();
+        return view('layout',compact($caja));
+    }
     public function store(Request $req){
         try {
             $caja = new Caja;

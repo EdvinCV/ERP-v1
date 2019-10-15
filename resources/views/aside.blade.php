@@ -54,7 +54,6 @@
                                     <li><a @click="menu=8" ><span class="pcoded-micon"><i
                                     class="feather icon-calendar"></i></span><span class="pcoded-mtext">Historial</span></a></li>
                             </ul>
-                            
                         </li>
                     @endif
                    @if($p->nombrePermiso == "Proveedores" && $p->estado)
@@ -79,10 +78,13 @@
                             </ul>
                         </li>
                     @endif
-                    @if($p->nombrePermiso == "Ventas" && $p->estado)
+                    @if($p->nombrePermiso == "Caja" && $p->estado)
                     <div id="app">
                         <acaja></acaja>
                     </div>
+                    @endif
+                    @if($p->nombrePermiso == "Ventas" && $p->estado)
+                    
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
                             class="nav-item pcoded-hasmenu" id="app">
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i

@@ -21,7 +21,9 @@
     <link rel="stylesheet" href="assets/css/style.css">
 
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
@@ -44,10 +46,8 @@
             <div class="m-header">
                 <a class="mobile-menu" id="mobile-collapse1" href="#!"><span></span></a>
                 <a href="index.html" class="b-brand">
-                    <div class="b-bg">
-                        <i class="feather icon-trending-up"></i>
-                    </div>
-                    <span class="b-title">ADAM</span>
+              
+                    <span class="b-title">INCOFIN</span>
                 </a>
             </div>
             <a class="mobile-menu" id="mobile-header" href="#!">
@@ -58,25 +58,13 @@
                     <li><a href="#!" class="full-screen" onclick="javascript:toggleFullScreen()"><i
                                 class="feather icon-maximize"></i></a></li>
              
-                    <li class="nav-item">
-                        <div class="main-search">
-                            <div class="input-group">
-                                <input type="text" id="m-search" class="form-control" placeholder="Search . . .">
-                                <a href="#!" class="input-group-append search-close">
-                                    <i class="feather icon-x input-group-text"></i>
-                                </a>
-                                <span class="input-group-append search-btn btn btn-primary">
-                                    <i class="feather icon-search input-group-text"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </li>
+           
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li>
                     <img src="assets/images/user/avatar-1.jpg" class="img-radius"
                                         alt="User-Profile-Image" width="35" height="35">
-                    <span>{{ auth()->user()->name }}</span>
+                    <span style="color:#000">{{ auth()->user()->name }}</span>
                   
                
                     </li>
@@ -90,22 +78,39 @@
                                     <img src="assets/images/user/avatar-1.jpg" class="img-radius"
                                         alt="User-Profile-Image">
                                     <span>{{ auth()->user()->name }}</span>
-                                    <a href="{{ route('logout') }} "
-                                    
-                                       onclick="event.preventDefault(); 
+                                    @php
+                                        $c = 0;
+                                    @endphp
+                                    @foreach($permisos as $p)
+                                        @if($p->nombrePermiso == "Caja" && $p->estado)
+                                            @php
+                                                $c = 1;
+                                            @endphp
+                                        @endif
+                                    @endforeach
+                                    @if($c>0 )
+                                    <a href=""
+                                            class="dud-logout" title="Cerrar Sesión" 
+                                            class="dropdown-item" data-toggle="modal" data-target="#myModal2">
+                                            <i class="feather icon-log-out"></i>
+                                        <form  style="display: none;">
+                                        </form>
+                                    </a>
+                                    @else
+                                    <a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();" class="dud-logout" title="Cerrar Sesión">
                                         <i class="feather icon-log-out"></i>
-                                       
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    
                                         @csrf
                                     </form>
                                     </a>
-                                </div>
-                                <ul class="pro-body">
-                                    <li><a href="#!" class="dropdown-item"><i class="feather icon-user"></i> Perfil</a></li>
-                                    <li><a href="#!" class="dropdown-item"><i class="feather icon-settings"></i>Configuraciones</a></li>
+                                    @endif
                                     
+                                </div>
+                
+                                <ul class="pro-body">
+                                <li><a href="#!" class="dropdown-item" data-toggle="modal" data-target="#myModal"><i class="feather icon-user"></i> Perfil</a></li>
                                     
                                 </ul>
                             </div>
@@ -196,27 +201,131 @@
                 <div class="pcoded-content">
                     <div class="pcoded-inner-content">
                         <!-- [ breadcrumb ] start -->
-                        <div class="page-header">
-                            <div class="page-block">
-                                <div class="row align-items-center">
-                                    <div class="col-md-12">
-                                        <div class="page-header-title">
+                   
+                        <div class="page-header-title">
                                             <h3 class="m-b-10" style="color:#668C2D"><a ><i class="feather icon-home"></i></a> Menú</h3>
                                         </div>
-                                        <ul class="breadcrumb">
-                                            <li class="breadcrumb-item"></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                        <v-app style="background: white">
+                  
+                      <!--  <div id="chartdiv" style="width: 100%; height: 500px;"></div> -->
+                        @yield('content')
+
+                        </v-app>
+
+
+<!--ingresar modal-->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <h2>¿Desea cerrar caja?</h2>
+            </div>
+           
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();" class="dud-logout" >
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                No</button>
+                <button type="submit" @click="menu=22" class="btn btn-primary save" data-dismiss="modal" style="background-color:#668C2D" >Si</button>
+            </div>            
+        </div>
+                        
+                       
+    </div>
+</div>
+<!--terminar modal-->
+<!--ingresar modal-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form method="POST"  class="form-horizontal" enctype="multipart/form-data">
+    @csrf
+                                    @method('PUT')
+            <div class="modal-header">
+          <img src="assets/images/user/avatar-1.jpg" class="img-radius"
+                                        alt="User-Profile-Image" width="100" height="100">
+                                     <h2>{{ auth()->user()->name }}</h2>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+
+                </button>
+                
+            </div>
+            <div class="modal-body">
+                <div role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#uploadTab" aria-controls="uploadTab" role="tab" data-toggle="tab" style="color:#668C2D">Perfil</a>
+
+                        </li>
+                        <li role="presentation"><a href="#browseTab" aria-controls="browseTab" role="tab" data-toggle="tab" style="color:#668C2D">Contraseña</a>
+
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="uploadTab">
+                        <div class="form-group">
+    <label for="exampleInputEmail1">Nombre</label>
+    <input type="text" id="name" class="form-control" placeholder="Enter your name" name="name" value="{{ Auth::user()->name }}">
+  </div>
+                        
+  <div class="form-group">
+    <label for="exampleInputEmail1">Correo electronico</label>
+    <input type="text" id="email_address_2" class="form-control" placeholder="Enter your email address" name="email" value="{{ Auth::user()->email }}">
+    
+  </div>
+  <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary save" style="background-color:#668C2D" >Guardar Cambios</button>
+            </div>
+            </form>
+                        
                         </div>
                         
-                        <v-app>
+                        <div role="tabpanel" class="tab-pane" id="browseTab">
+                        <form method="POST"  class="form-horizontal">
+                        @csrf
+                                    @method('PUT')
+                        <div class="form-group">
+    <label for="exampleInputEmail1">Contraseña actual</label>
+    <input type="password" id="old_password" class="form-control" placeholder="Enter your old password" name="old_password">
+    
+  </div>     
+
+  <div class="form-group">
+    <label for="password">Contraseña Nueva</label>
+    <input type="password" id="password" class="form-control" placeholder="Enter your new password" name="password" >
+    
+  </div>     
+
+  <div class="form-group">
+    <label for="confirm_password">Confirmar Contraseña</label>
+    <input type="password" id="confirm_password" class="form-control" placeholder="Enter your new password again" name="password_confirmation" style="color:#668C2D">
+    
+  </div>         
+      
+  <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary save" style="background-color:#668C2D">Guardar Cambios</button>
+            </div>      
                         
-                        @yield('content')
-                      
-                        </v-app>
                         
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       
+           
+        </div>
+    </div>
+</div>
+<!--terminar modal-->
                     </div>
                 </div>
             </div>
@@ -227,64 +336,34 @@
     <script src="{{ asset('assets/js/vendor-all.min.js') }}"></script>
 	<script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/pcoded.min.js') }}"></script>
-    <!-- chartjs js -->
-    <script src="assets/plugins/chart-chartjs/js/Chart.min.js"></script>
-    <script src="assets/js/pages/chart-chart-custom.js"></script>
 
-   
+    <script src="http://www.amcharts.com/lib/3/amcharts.js"></script>
+  <script src="http://www.amcharts.com/lib/3/serial.js"></script>
+  <script src="http://www.amcharts.com/lib/3/plugins/dataloader/dataloader.min.js"></script>
     <script>
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-
-am4core.useTheme(am4themes_animated);
-
-
-export default {
-  name: 'HelloWorld',
-  mounted() {
-    let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
-
-    chart.paddingRight = 20;
-
-    let data = [];
-    let visits = 10;
-    for (let i = 1; i < 366; i++) {
-      visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-      data.push({ date: new Date(2018, 0, i), name: "name" + i, value: visits });
-    }
-
-    chart.data = data;
-
-    let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.grid.template.location = 0;
-
-    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.tooltip.disabled = true;
-    valueAxis.renderer.minWidth = 35;
-
-    let series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.dateX = "date";
-    series.dataFields.valueY = "value";
-
-    series.tooltipText = "{valueY.value}";
-    chart.cursor = new am4charts.XYCursor();
-
-    let scrollbarX = new am4charts.XYChartScrollbar();
-    scrollbarX.series.push(series);
-    chart.scrollbarX = scrollbarX;
-
-    this.chart = chart;
-  },
-
-  beforeDestroy() {
-    if (this.chart) {
-      this.chart.dispose();
-    }
-  }
-}
-</script>
-
+  var chart = AmCharts.makeChart( "chartdiv", {
+    "type": "serial",
+    "dataLoader": {
+      "url": "data.php"
+    },
+    "pathToImages": "http://www.amcharts.com/lib/images/",
+    "categoryField": "created_at",
+    "dataDateFormat": "YYYY-MM-DD",
+    "startDuration": 1,
+    "categoryAxis": {
+      "parseDates": true
+    },
+    "graphs": [ {
+      "valueField": "total",
+      "bullet": "round",
+      "bulletBorderColor": "#FFFFFF",
+      "bulletBorderThickness": 2,
+      "lineThickness ": 2,
+      "lineAlpha": 0.5
+    }]
+  } );
+  </script>
+   
     
 </body>
 

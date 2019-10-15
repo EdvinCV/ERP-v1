@@ -58,4 +58,7 @@
     <template v-if="menu==21">
         <ACaja></ACaja>
     </template>
+    <template v-if="menu==22">
+        <Ccaja></Ccaja>
+    </template>
 @endsection
