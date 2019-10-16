@@ -16,7 +16,6 @@ class ClienteController extends Controller
                         ->get();
         return $proveedores;
     }
-
     public function store(Request $req){
         try {
             $persona = new Persona;
@@ -39,7 +38,6 @@ class ClienteController extends Controller
             return response()->json($response, 500);
         }
     }
-
     public function update(Request $req){
         try {
             $id = $req->id;
@@ -72,5 +70,15 @@ class ClienteController extends Controller
             return response()->json($response, 500);
         }
         
+    }
+    public function reporteGeneral(){
+        $clientes = DB::table('clientes')
+                    ->join('personas','personas.id','=','clientes.idPersona')
+                    ->where('personas.estado','=',true)
+                    ->get();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('clientes.general', compact('clientes'));
+        return $pdf->stream('clientes.pdf');
     }
 }

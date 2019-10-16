@@ -1,6 +1,4 @@
-
-<template>
-      
+<template>    
         <div class="row clearfix">
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
             <div class="info-box bg-cyan hover-zoom-effect">
@@ -9,7 +7,7 @@
               </div>
               <div class="content">
                 <div class="text">CLIENTES</div>
-                <div class="number count-to" >{{this.editedItem.totalProvs}}</div>
+                <div class="number count-to" >{{this.editedItem.totalClientes}}</div>
               </div>
             </div>
             <div class="info-box bg-orange hover-zoom-effect">
@@ -44,15 +42,7 @@
       <div class="row">
 			  <div class="col-md-8 col-md-offset-2">
 				  <div class="card ">
-            <div class="card-body d-flex justify-content-between align-items-center"> 
-              <v-flex lg6 md6 xs6 pa-2>
-                <multiselect v-model="editedItem.idProveedor" :options="proveedores" placeholder="Seleccione un proveedor"
-                    label="nombreProveedor" track-by="nombreProveedor"></multiselect>
-              </v-flex>
-              <center> <v-btn @click="reporteGeneral" style="background-color:#668c2d"  dark class="mb-2">General</v-btn></center>
-            </div>
-
-           				
+             				
 <template>
   
  
@@ -63,7 +53,7 @@
         
 					
           	<div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn @click="reporteEspecifico" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           <center>  <v-btn @click="reporteClientes" style="background-color:#668c2d"  dark class="mb-2">LIstado de Clientes</v-btn></center>
            </div>
 				</div>
 			</div>
@@ -96,72 +86,27 @@
             multiselect
     },
     data: () => ({
-      date: new Date().toISOString().substr(0, 10),
+      date1: new Date().toISOString().substr(0, 10),
       date2: new Date().toISOString().substr(0, 10),
       date3: new Date().toISOString().substr(0, 10),
       date4: new Date().toISOString().substr(0, 10),
       menu: false,
       modal: false,
-      proveedores: [],
+      clientes: [],
       editedItem:{
         idProveedor: '',
-        totalProvs: 0,
+        totalClientes: 0,
         nombreProv: []
       }
     }),
   
     created() {
-            this.cargaProveedores()
-            this.cargaDatosProveedores()
-            this.cargaProv()
+
         },
 
     methods: {
-      cargaDatosProveedores(){
-        let me = this;
-        axios.get('/proveedores')
-        .then(function (response) {
-            me.proveedores = response.data;
-            me.editedItem.totalProvs = me.proveedores.length; 
-        })
-        .catch(function (error) {
-            console.log(error.response);
-        });
-
-      },
-      cargaProv(){
-        axios.get('/proveedores/mayor')
-        .then(function (response) {
-            me.editedItem.nombreProv = response.data; 
-        })
-        .catch(function (error) {
-            console.log(error.response);
-        });
-      },
-      cargaProveedores() {
-                let me = this;
-                axios.get('/proveedores')
-                .then(function (response) {
-                    me.proveedores = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error.response);
-                });
-      },
       reporteGeneral(){
-        window.open(window.location.origin +'/reporteProveedores');
-      },
-      reporteEspecifico(){
-        if(this.editedItem.idProveedor == ''){
-          swal.fire({
-                            position: 'top-end',
-                            type: 'error',
-                            title: 'Seleccione un proveedor.',
-                            showConfirmButton: false,
-                            timer: 1500});
-
-        }else
-          window.open(window.location.origin +'/reporteProveedores/'+this.editedItem.idProveedor.idPersona);
+        window.open(window.location.origin +'/reporteClientes');
       },
     }
   }

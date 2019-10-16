@@ -56,6 +56,7 @@
             error: 0,
             errorMsj: [],
             headers: [
+                { text: 'Id', value: 'id'},
                 { text: 'Cliente', value: 'nombreCliente' },
                 { text: 'Total', value: 'total' },
                 { text: 'No. Factura', value: 'numeroFactura' },

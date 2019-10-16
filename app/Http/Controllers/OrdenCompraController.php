@@ -96,12 +96,11 @@ class OrdenCompraController extends Controller
                             ->where('idCompraEncabezado', '=', $id)
                             ->get();
         
-        $total = DB::table('compra_encabezados')
-                    ->get();
+        $total = "Hola";
 
         
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadView('compras.orden', compact('total','clientes', 'productos', 'id', 'prodsClientes'));
+        $pdf->loadView('compras.orden', compact('clientes', 'productos', 'id', 'prodsClientes','total'));
         return $pdf->stream('ordenCompra.pdf');
     }
     public function finalizarOrden(Request $req){

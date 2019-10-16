@@ -17,7 +17,6 @@ class ProveedorController extends Controller
                         ->get();
         return $proveedores;
     }
-
     public function store(Request $req){
         try {
             $persona = new Persona;
@@ -40,7 +39,6 @@ class ProveedorController extends Controller
             return response()->json($response, 500);
         }
     }
-
     public function update(Request $req){
         try {
             $id = $req->id;
@@ -61,7 +59,6 @@ class ProveedorController extends Controller
             return response()->json($response, 500);
         }
     }
-
     public function desactivar(Request $req){
         try {
             $prov = Proveedor::where('idPersona','=', $req->id)->firstOrFail();
@@ -74,8 +71,7 @@ class ProveedorController extends Controller
         }
         
     }
-
-    public function mayorProv(){
+    public function prov(){
         $prov = DB::table('proveedors')
                     ->select(DB::raw('proveedors.nombreProveedor, COUNT(productos.id) as total'))
                     ->join('productos','productos.idpersona','=','proveedors.idPersona')
@@ -85,7 +81,6 @@ class ProveedorController extends Controller
                     ->get();
         return $prov;
     }
-
     public function reporteGeneral(){
         $proveedores = DB::table('proveedors')
                         ->select(DB::raw('COUNT(productos.idPersona) as productos, nombreProveedor, direccion, nit, telefono, proveedors.idPersona'))
@@ -104,7 +99,6 @@ class ProveedorController extends Controller
         $pdf->loadView('proveedores.general', compact('proveedores','prodsProveedores'));
         return $pdf->stream('proveedores.pdf'); 
     }
-
     public function reporteEspecifico($id){
         $proveedor = DB::table('proveedors')
                         ->where('proveedors.idPersona','=',$id)

@@ -35,7 +35,7 @@ Vue.component('reportes_compras', require('./components/reportesCompras.vue').de
 const app = new Vue({
     el: '#app',
     data:{
-        menu:100,
+        menu:101,
         ruta:''
     },
 });

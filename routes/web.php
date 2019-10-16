@@ -48,9 +48,7 @@ Route::get('/proveedores', 'ProveedorController@index');
 Route::post('/proveedores/nuevo', 'ProveedorController@store');
 Route::put('/proveedores/actualizar', 'ProveedorController@update');
 Route::put('/proveedores/eliminar', 'ProveedorController@desactivar');
-Route::get('proveedores/mayor','ProveedorController@mayorProv');
-Route::get('/reporteProveedores','ProveedorController@reporteGeneral');
-Route::get('/reporteProveedores/{id}','ProveedorController@reporteEspecifico');
+
 //Rutas clientes
 Route::get('/clientes', 'ClienteController@index');
 Route::post('/clientes/nuevo', 'ClienteController@store');
@@ -106,5 +104,17 @@ Route::get('/compra/validartotal', 'OrdenCompraController@validarTotal');
 Route::get('/compra/{id}/finalizada','OrdenCompraController@ordenFinalizada');
 Route::get('/compra/validartotal','OrdenCompraController@validarTotal');
 //RUTAS REPORTES
-Route::get('/ventas/reporteProductos', 'VentasController@reporteVentasProducto');
-Route::get('/ventas/reporteVClientes', 'VentasController@reporteVentasClientes');
+Route::post('/ventas/reporteProductos', 'VentasController@reporteVentasProducto');
+Route::post('/ventas/reporteVClientes', 'VentasController@reporteVentasClientes');
+Route::get('/reporteProveedores','ProveedorController@reporteGeneral');
+Route::get('/reporteProveedores/{id}','ProveedorController@reporteEspecifico');
+Route::get('/reporteClientes','ClienteController@reporteGeneral');
+//RUTAS DATOS
+Route::get('/mayorProv','ProveedorController@prov');
+Route::get('/totalProds','ProductoController@totalProds');
+Route::get('/ventas/totalSemana','VentasController@obtenerVentasSemana');
+Route::get('/ventas/totalDia','VentasController@obtenerVentasDia');
+Route::get('/ventas/productoGanancias','VentasController@productoMasGanancia');
+Route::get('/ventas/productoMasVendido','VentasController@productoMasVendido');
+Route::get('/ventas/productoMenosVendido','VentasController@productoMenosVendido');
+

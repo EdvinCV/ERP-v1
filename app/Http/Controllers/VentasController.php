@@ -147,9 +147,9 @@ class VentasController extends Controller
         $pdf->loadView('ventas.factura', compact('ventas', 'detalles'));
         return $pdf->stream('factura.pdf');
     }
-    public function reporteVentasProducto(){
-        $fechaDe = date('2019-10-7');
-        $fechaA = date('2019-10-8');
+    public function reporteVentasProducto(Request $req){
+        $fechaDe = $req->date3;
+        $fechaA =  $req->date4;
         $productos = DB::table('detalle_ventas')
                     ->select(DB::raw('productos.nombre as producto, presentacions.nombre as presentacion, categorias.nombre as categoria, proveedors.nombreProveedor as proveedor, SUM(subtotal) AS total, SUM(cantidad) AS Cantidad'))
                     ->join('productos','productos.id', '=', 'detalle_ventas.idProducto')
@@ -165,10 +165,10 @@ class VentasController extends Controller
         $pdf->loadView('reportes.VentasProductos', compact('productos'));
         return $pdf->stream('VentasPorProducto.pdf');
     }
-    public function reporteVentasClientes(){
-        $fechaDe = '2018/02/02';
-        $fechaA = '2020/02/02';
-        $idCliente = 7;
+    public function reporteVentasClientes(Request $req){
+        $fechaDe = $req->date1;
+        $fechaA = $req->date2;
+        $idCliente = $req->idCliente;
         
         $cliente = DB::table('venta_encabezados')
                     ->select(DB::raw('SUM(total) as Total, nombreCliente'))
@@ -188,8 +188,75 @@ class VentasController extends Controller
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadView('reportes.VentasPorCliente', compact('detallesVentas','cliente'));
         return $pdf->stream('VentasPorCliente.pdf');
-                
+                  
+    }
+    public function obtenerVentasSemana(){
+        $year = date('Y');
+        $month = date('n');
+        $day = date('j');
+        $semana=date("W",mktime(0,0,0,$month,$day,$year));
+        $diaSemana=date("w",mktime(0,0,0,$month,$day,$year));
+        if($diaSemana==0)
+            $diaSemana=7;
+        $primerDia=date("Y-m-d",mktime(0,0,0,$month,$day-$diaSemana+1,$year));
+        $ultimoDia=date("Y-m-d",mktime(0,0,0,$month,$day+(7-$diaSemana),$year));
         
+        $totalVentas = DB::table('venta_encabezados')
+                        ->select(DB::raw('SUM(totalSinIVA) as total'))
+                        ->whereBetween('venta_encabezados.created_at',[$primerDia, $ultimoDia])
+                        ->get();
+
+        return $totalVentas;
+    }
+    public function obtenerVentasDia(){
+        $dia = date("d");
+        $mes = date("m");
+        $year = date("Y");
+        $fecha1 = '2019/10/15';
+        $fecha2 = '2019/10/16';
+        $ventasDia = DB::table('venta_encabezados')
+                    ->select(DB::raw('SUM(totalSinIVA) as dia'))
+                    ->whereBetween('venta_encabezados.created_at',[$fecha1, $fecha2])
+                    ->get();
+
+        return $ventasDia;
+    }
+    public function productoMasVendido(){
+        $producto = DB::table('productos')
+                    ->select(DB::raw('productos.nombre as producto, presentacions.nombre, nombreProveedor, COUNT(productos.id) as total'))
+                    ->join('presentacions','presentacions.id','=','productos.idpresentacion')
+                    ->join('proveedors','proveedors.idPersona','=','productos.idPersona')
+                    ->join('detalle_ventas','detalle_ventas.idProducto','=','productos.id')
+                    ->groupBy('productos.id','productos.nombre','presentacions.nombre','nombreProveedor')
+                    ->orderBy('total','desc')
+                    ->limit(1)
+                    ->get();
+
+        return $producto;
+    }
+    public function productoMenosVendido(){
+        $producto = DB::table('productos')
+        ->select(DB::raw('productos.nombre as producto, presentacions.nombre, nombreProveedor, COUNT(productos.id) as total'))
+        ->join('presentacions','presentacions.id','=','productos.idpresentacion')
+        ->join('proveedors','proveedors.idPersona','=','productos.idPersona')
+        ->join('detalle_ventas','detalle_ventas.idProducto','=','productos.id')
+        ->groupBy('productos.id','productos.nombre','presentacions.nombre','nombreProveedor')
+        ->orderBy('total','asc')
+        ->limit(1)
+        ->get();
+
+        return $producto;
+    }
+    public function productoMasGanancia(){
+        $producto = DB::table('detalle_ventas')
+                        ->select(DB::raw('productos.nombre, SUM(detalle_ventas.subtotal) as total'))
+                        ->join('productos','productos.id','=','detalle_ventas.idProducto')
+                        ->join('proveedors','proveedors.idPersona','=','productos.id')
+                        ->groupBy('productos.id','productos.nombre')
+                        ->orderBy('total','desc')
+                        ->limit(1)
+                        ->get();
+        return $producto;
     }
 
 }

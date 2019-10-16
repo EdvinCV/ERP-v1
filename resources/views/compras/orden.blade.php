@@ -2,83 +2,84 @@
      $hoy = getdate();
      $total = 0;
 ?>
-
-  
-</script>
+<!doctype html>
+<html lang="en">
 <head>
-<style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Orden de Compra</title>
+    <p>{{$total}}</p>
+    <style type="text/css">
+        @page {
+            margin: 0px;
+        }
+        body {
+            margin: 0px;
+        }
+        * {
+            font-family: Verdana, Arial, sans-serif;
+        }
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+        table {
+            font-size: x-small;
+        }
+        tfoot tr td {
+            font-weight: bold;
+            font-size: x-small;
+        }
+        .invoice table {
+            margin: 25px;
+            border: 1px;
+        }
+        .invoice h3 {
+            margin-left: 15px;
+        }
+        .information {
+            background-color: #fff;
+            color: #000;
+        }
+        .informatio {
+            background-color: #668c2d;
+            color: #fff;
+        }
+        .information .logo {
+            margin: 5px;
+        }
+        .information table {
+         padding: 50px;
+        }
+        .hrt{
+          background-color: #668c2d;
+          width:75%;
+        }
+        .th{
+            color:#fff;
+        }
+    </style>
 
-  table, th, td {
-  
-    border-collapse: collapse;
-  }
-	.contenedor
-	{
-
-		text-align:center;
-	}
-	.contenedor>span {
-		display:inline-block;
-		vertical-align:middle;
-		line-height:normal;
-	}
-    .detalle{
-        padding-top: 1cm;
-        padding-left: 1.2cm;
-        padding-right: 0.7cm;
-        height: 10.9cm;
-        border:1px solid;
-        border-color: blue;
-    }
-    .descripcion{
-        width: 7.7cm;
-        height: 10.4cm;
-        float:left;
-    }
-    .columna{
-        width: 2cm;
-        height: 10.4cm;
-        float:left;
-    }
-	</style>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-
-<html>
-      
-<center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
-<hr class="hr">
-     <center> <h5>QUETZALTENANGO, GUATEMALA</h5>
-     <?php 
-          echo "<br>" . "Generado Fecha: ";
-          print_r($hoy["mday"] . '/');
-          print_r($hoy["mon"] . '/');
-          print_r($hoy["year"] . '<br>');
-          echo "Hora: ";
-          print_r($hoy["hours"].':');
-          print_r($hoy["minutes"].':');
-          print_r($hoy["seconds"]);
-     ?>
-  </center>
+<body>
   <br>
-     <div class="contenedor">
-          <h1>Orden de Compra #{{$id}}<?php
-     ?></h1>
-     <hr>
-     </div>
-    
-        <h1>  </h1>
-    
-     <table style="width: 100%">
-          <thead>
+  <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
+  <hr class="hrt">
+  <div class="information">
+    <center><h4 >Asociación de Desarrollo Agrícola y Microempresarial</h4>
+      <h2 style="color:#668c2d">Orden de Compra #{{$id}}<h2>
+    </center>
+  
+    <table class="table" style="width: 100%">
+          <thead style="background-color:#668c2d">
             <tr>
-              <th>#</th>
-              <th>Producto</th>
-              <th>Presentacion</th>
-              <th>Proveedor</th>
-              <th>Cantidad</th>
-              <th>Precio</th>
-              <th>Total</th>
+              <th class="th">#</th>
+              <th class="th">Producto</th>
+              <th class="th">Presentacion</th>
+              <th class="th">Proveedor</th>
+              <th class="th">Cantidad</th>
+              <th class="th">Precio</th>
+              <th class="th">Total</th>
             </tr>
           </thead>
           <tbody>
@@ -91,6 +92,7 @@
               <td>{{ $p->cantidad}}</td>
               <td>{{ $p->preciocompra}}</td>
               <td id="subtotal">{{ $p->cantidad * $p->preciocompra}}</td>
+              <td><input type="checkbox" name="name1" /></td>
             </tr>
           @endforeach
           <tr>
@@ -109,27 +111,24 @@
             <td>-----</td>
             <td>-----</td>
             <td>TOTAL </td>
-            <td>{{$total}}</td>
+            <td></td>
           </tr>
           </tbody>
         </table>
-        <hr>
-        <br>
-
         <!-- CLIENTES -->
         @foreach($clientes as $c)
         <div>
           <div>
-            <h2>{{$c->nombreCliente}}</h2>
+            <h3 style="color:#668c2d">Cliente: {{$c->nombreCliente}}</h3>
             <hr>
           </div>
           <div>
-            <table style="width: 50%">
-              <thead>
+            <table class="table" style="width: 50%">
+              <thead style="background-color:#668c2d">
                 <tr>
-                  <th>Producto</th>
-                  <th>Presentacion</th>
-                  <th>Cantidad</th>
+                  <th class="th">Producto</th>
+                  <th class="th">Presentacion</th>
+                  <th class="th">Cantidad</th>
                 </tr>
               </thead>
               <tbody>
@@ -151,6 +150,19 @@
           </div>
         </div>
         @endforeach
-        
-    </body>
-</html>
+
+  </div>
+  <div class="informatio" style="position: absolute; bottom: 0;">
+    <table width="100%">
+        <tr>
+            <td align="left" style="width: 60%;">
+                &copy; {{ date('Y') }} - 2019 ADAM · Asociación de Desarrollo Agrícola y Empresarial.
+            </td>
+            <td align="right" style="width: 40%;">
+              Tel. (502) 7767 4672 | info@adam.org.gt
+            </td>
+        </tr>
+
+    </table>
+</div>
+</body>

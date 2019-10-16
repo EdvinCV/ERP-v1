@@ -10,8 +10,8 @@
           <i class="material-icons">playlist_add_check</i>
         </div>
         <div class="content">
-          <div class="text">TOTAL VENTAS POR SEMANA</div>
-            <div class="number count-to" data-from="0" ></div>
+          <div class="text">VENTAS SEMANA</div>
+            <div class="number count-to" data-from="0" >Q. {{this.editedItem.totalSemana[0].total}}</div>
           </div>
         </div>
       </div>
@@ -21,8 +21,8 @@
             <i class="material-icons">favorite</i>
           </div>
           <div class="content">
-            <div class="text">TOTAL VENTAS POR DIA</div>
-              <div class="number count-to" data-from="0" ></div>
+            <div class="text">VENTAS DIA</div>
+              <div class="number count-to" data-from="0" >Q. {{this.editedItem.totalDia[0].dia}}</div>
             </div>
           </div>
         </div>
@@ -33,8 +33,8 @@
               <i class="material-icons">library_books</i>
             </div>
             <div class="content">
-              <div class="text">POST PENDIENTES</div>
-                <div class="number count-to" data-from="0" ></div>
+              <div class="text">GANANCIAS</div>
+                <div class="number count-to" data-from="0" >{{this.editedItem.productoGanancia[0].nombre}}</div>
               </div>
             </div>
           </div>
@@ -44,7 +44,7 @@
                 <i class="material-icons">person_add</i>
               </div>
               <div class="content">
-                  <div class="text">TOTAL VIEWS</div>
+                  <div class="text">TOTAL CLIENTES</div>
                   <div class="number count-to" data-from="0" ></div>
               </div>
             </div>
@@ -59,8 +59,8 @@
                 <i class="material-icons">apps</i>
               </div>
               <div class="content">
-                <div class="text">CATEGORIAS</div>
-                <div class="number count-to" ></div>
+                <div class="text">MÁS VENDIDO</div>
+                <div class="number count-to" >{{this.editedItem.productoMasVendido[0].producto}}</div>
               </div>
             </div>
             <div class="info-box bg-blue-grey hover-zoom-effect">
@@ -68,8 +68,8 @@
                 <i class="material-icons">labels</i>
               </div>
               <div class="content">
-                <div class="text">PRODUCTO MENOS VENDIDO</div>
-                <div class="number count-to" ></div>
+                <div class="text">MENOS VENDIDO</div>
+                <div class="number count-to" >{{this.editedItem.productoMenosVendido[0].producto}}</div>
               </div>
             </div>
             <div class="info-box bg-purple hover-zoom-effect">
@@ -77,17 +77,8 @@
                 <i class="material-icons">account_circle</i>
               </div>
               <div class="content">
-                <div class="text">TOTAL USUARIOS</div>
+                <div class="text">TOTAL PRODUCTOS</div>
                 <div class="number count-to" ></div>
-              </div>
-            </div>
-            <div class="info-box bg-deep-purple hover-zoom-effect">
-              <div class="icon">
-                <i class="material-icons">fiber_new</i>
-              </div>
-              <div class="content">
-                <div class="text">PRODUCTO MAS VENDIDO</div>
-                <div class="number count-to" data-from="0" ></div>
               </div>
             </div>
           </div>
@@ -109,20 +100,20 @@
                 <multiselect v-model="editedItem.idCliente" :options="clientes" placeholder="Seleccione un cliente"
                     label="nombreCliente" track-by="nombreCliente"></multiselect>
               </v-flex>
-              <center> <v-btn style="background-color:#668c2d"  dark class="mb-2">General</v-btn></center>
+              <center> <v-btn @click="generalClientes" style="background-color:#668c2d"  dark class="mb-2">General</v-btn></center>
             </div>
 
             <div class="card-body d-flex justify-content-between align-items-center">					
 <template>
-    <v-layout row wrap>
+   <v-layout row wrap>
       <v-flex xs11 sm5>
-        <v-dialog ref="dialog" v-model="modal" :return-value.sync="date" width="290px">
+        <v-dialog ref="dialog1" v-model="modal1" :return-value.sync="date1" width="290px">
           <template v-slot:activator="{ on }">
-            <v-text-field v-model="date" label="Fecha Inicio" prepend-icon="event"  v-on="on"></v-text-field>
+            <v-text-field v-model="date1" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
-          <v-date-picker v-model="date" scrollable  locale="gt">
-            <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+          <v-date-picker v-model="date1" scrollable  locale="gt">
+            <v-btn flat color="primary" @click="modal1 = false">Cancel</v-btn>
+            <v-btn flat color="primary" @click="$refs.dialog1.save(date1)">OK</v-btn>
           </v-date-picker>
         </v-dialog>     
     </v-flex>
@@ -130,13 +121,13 @@
 
   <v-layout row wrap>
       <v-flex xs11 sm5>
-        <v-dialog ref="dialog" v-model="modal" :return-value.sync="date2" width="290px">
+        <v-dialog ref="dialog2" v-model="modal2" :return-value.sync="date2" width="290px">
           <template v-slot:activator="{ on }">
             <v-text-field v-model="date2" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
           <v-date-picker v-model="date2" scrollable  locale="gt">
             <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.dialog.save(date2)">OK</v-btn>
+            <v-btn flat color="primary" @click="$refs.dialog2.save(date2)">OK</v-btn>
           </v-date-picker>
         </v-dialog>     
     </v-flex>
@@ -148,7 +139,7 @@
         
 					</div>
           	<div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn @click="guardar" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           <center>  <v-btn @click="guardarEspecificoClientes" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
            </div>
 				</div>
 			</div>
@@ -162,74 +153,51 @@
 				<div class="card">
            <center>  <h3>Producto</h3></center>
             	<div class="card-body d-flex justify-content-between align-items-center">
-                
-  <v-text-field color="#668c2d" label="Dirección" justify-center></v-text-field>
-           <center>  <v-btn style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+                <v-flex lg6 md6 xs6 pa-2>
+                <multiselect v-model="editedItem.idProducto" :options="productos" placeholder="Seleccione un producto"
+                    label="mostrar" track-by="id"></multiselect>
+              </v-flex>               
+
+           <center>  <v-btn @click="" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
            </div>
 					<div class="card-body d-flex justify-content-between align-items-center">
-<v-layout row>
-   <v-flex lg6 md6 xs6 pa-2>
-      <v-menu
-          ref="menu"
-          v-model="menu"
-          :close-on-content-click="false"
-          :return-value.sync="date3"
-          transition="scale-transition"
-          offset-y
-          min-width="100px"
-        >
-      <template v-slot:activator="{ on }">
-				   <v-text-field
-              v-model="date3"
-              label="Fecha inicial"
-              prepend-icon="event"
-              readonly
-              v-on="on"
-            ></v-text-field>
-            </template>
-             <v-date-picker v-model="date3" no-title scrollable>
-            <div class="flex-grow-1"></div>
-            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="$refs.menu.save(date3)">OK</v-btn>
-          </v-date-picker>
-          </v-menu>
-            </v-flex>
-
-               <v-flex lg6 md6 xs6 pa-2>
-      <v-menu
-          ref="menu"
-          v-model="menu"
-          :close-on-content-click="false"
-          :return-value.sync="date4"
-          transition="scale-transition"
-          offset-y
-          min-width="100px"
-        >
-      <template v-slot:activator="{ on }">
-				   <v-text-field
-              v-model="date4"
-              label="Fecha final"
-              prepend-icon="event"
-              readonly
-              v-on="on"
-            ></v-text-field>
-            </template>
-             <v-date-picker v-model="date4" no-title scrollable>
-            <div class="flex-grow-1"></div>
-            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="$refs.menu.save(date4)">OK</v-btn>
-          </v-date-picker>
-          </v-menu>
-            </v-flex>
-</v-layout>
 
 					</div>
-    	<div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+
+          <div class="card-body d-flex justify-content-between align-items-center">					
+<template>
+   <v-layout row wrap>
+      <v-flex xs11 sm5>
+        <v-dialog ref="dialog3" v-model="modal3" :return-value.sync="date3" width="290px">
+          <template v-slot:activator="{ on }">
+            <v-text-field v-model="date3" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
+          </template>
+          <v-date-picker v-model="date3" scrollable  locale="gt">
+            <v-btn flat color="primary" @click="modal3 = false">Cancel</v-btn>
+            <v-btn flat color="primary" @click="$refs.dialog3.save(date3)">OK</v-btn>
+          </v-date-picker>
+        </v-dialog>     
+    </v-flex>
+  </v-layout>
+
+  <v-layout row wrap>
+      <v-flex xs11 sm5>
+        <v-dialog ref="dialog4" v-model="modal4" :return-value.sync="date4" width="290px">
+          <template v-slot:activator="{ on }">
+            <v-text-field v-model="date4" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
+          </template>
+          <v-date-picker v-model="date4" scrollable  locale="gt">
+            <v-btn flat color="primary" @click="modal4 = false">Cancel</v-btn>
+            <v-btn flat color="primary" @click="$refs.dialog4.save(date4)">OK</v-btn>
+          </v-date-picker>
+        </v-dialog>     
+    </v-flex>
+  </v-layout>
+</template>          
+  </div>
+  <div class="card-body d-flex justify-content-between align-items-center">
+           <center>  <v-btn @click="guardarEspecificoProducto" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
            </div>
-   	  
-                     
-  
 				</div>
 			</div>
 		</div>
@@ -256,20 +224,32 @@
             multiselect
     },
     data: () => ({
-      date: new Date().toISOString().substr(0, 10),
+      date1: new Date().toISOString().substr(0, 10),
       date2: new Date().toISOString().substr(0, 10),
       date3: new Date().toISOString().substr(0, 10),
       date4: new Date().toISOString().substr(0, 10),
       menu: false,
-      modal: false,
+      modal1: false,
+      modal2: false,
+      modal3: false,
+      modal4: false,
       clientes: [],
+      productos: [],
       editedItem:{
-        idCliente: ''
+        idCliente: '',
+        idProducto: '',
+        totalSemana: 0,
+        totalDia: 0,
+        productoGanancia: '',
+        productoMasVendido: '',
+        productoMenosVendido: ''
       }
     }),
   
     created() {
-            this.cargaClientes()
+            this.cargaClientes();
+            this.cargaProducto();
+            this.totalVentas();
         },
 
     methods: {
@@ -283,21 +263,35 @@
                     console.log(error.response);
                 });
       },
-      guardar(){
-        /*axios({
+      cargaProducto(){
+                let me = this;
+                axios.get('/producto')
+                .then(function (response) {
+                    me.productos = response.data;
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+      },
+      generalClientes(){
+      },
+      generalProductos(){
+      },
+      guardarEspecificoClientes(){
+        axios({
             method: 'post',
             url: '/ventas/reporteVClientes',
             responseType:'arraybuffer',
             data: {
-                date: this.date,
+                date1: this.date1,
                 date2: this.date2,
-                idCliente: this.editedItem.idCliente
+                idCliente: this.editedItem.idCliente.idPersona
             }
         }).then(function (response) {
             let blob = new Blob([response.data], { type:   'application/pdf' } )
             let link = document.createElement('a')
             link.href = window.URL.createObjectURL(blob)
-            link.download = 'cotizacion.pdf'
+            link.download = 'reporteClientes.pdf'
             link.click()
         }).catch(function (error) {
             swal.fire({
@@ -305,8 +299,73 @@
             type: 'error',
             title: error.response.data.error,
             showConfirmButton: true});
-          });*/
-          alert(this.date2);
+          });
+      },
+      guardarEspecificoProducto(){
+        axios({
+            method: 'post',
+            url: '/ventas/reporteProductos',
+            responseType:'arraybuffer',
+            data: {
+                date3: this.date3,
+                date4: this.date4,
+                idProducto: this.editedItem.idProducto.id
+            }
+        }).then(function (response) {
+            let blob = new Blob([response.data], { type:   'application/pdf' } )
+            let link = document.createElement('a')
+            link.href = window.URL.createObjectURL(blob)
+            link.download = 'reporteProductos.pdf'
+            link.click()
+        }).catch(function (error) {
+            swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: error.response.data.error,
+            showConfirmButton: true});
+          });
+      },
+      totalVentas(){
+        let me = this;
+          axios.get('/ventas/totalSemana')
+          .then(function (response) {
+              me.editedItem.totalSemana = response.data;
+          })
+          .catch(function (error) {
+              console.log(error.response);
+          });
+
+          axios.get('/ventas/totalDia')
+          .then(function (response) {
+              me.editedItem.totalDia = response.data;
+          })
+          .catch(function (error) {
+              console.log(error.response);
+          });
+
+          axios.get('/ventas/productoGanancias')
+          .then(function (response) {
+              me.editedItem.productoGanancia = response.data;
+          })
+          .catch(function (error) {
+              console.log(error.response);
+          });
+
+          axios.get('/ventas/productoMasVendido')
+          .then(function (response) {
+              me.editedItem.productoMasVendido = response.data;
+          })
+          .catch(function (error) {
+              console.log(error.response);
+          });
+
+          axios.get('/ventas/productoMenosVendido')
+          .then(function (response) {
+              me.editedItem.productoMenosVendido = response.data;
+          })
+          .catch(function (error) {
+              console.log(error.response);
+          });
       },
     }
   }

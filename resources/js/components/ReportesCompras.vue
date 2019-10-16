@@ -10,7 +10,7 @@
           <i class="material-icons">playlist_add_check</i>
         </div>
         <div class="content">
-          <div class="text">TOTAL COMPRAS POR SEMANA</div>
+          <div class="text">TOTAL VENTAS POR SEMANA</div>
             <div class="number count-to" data-from="0" ></div>
           </div>
         </div>
@@ -21,7 +21,7 @@
             <i class="material-icons">favorite</i>
           </div>
           <div class="content">
-            <div class="text">TOTAL COMPRAS POR DIA</div>
+            <div class="text">TOTAL VENTAS POR DIA</div>
               <div class="number count-to" data-from="0" ></div>
             </div>
           </div>
@@ -33,7 +33,7 @@
               <i class="material-icons">library_books</i>
             </div>
             <div class="content">
-              <div class="text">ORDENES PENDIENTES</div>
+              <div class="text">POST PENDIENTES</div>
                 <div class="number count-to" data-from="0" ></div>
               </div>
             </div>
@@ -68,7 +68,7 @@
                 <i class="material-icons">labels</i>
               </div>
               <div class="content">
-                <div class="text">PRODUCTO MAS VENDIDO</div>
+                <div class="text">PRODUCTO MENOS VENDIDO</div>
                 <div class="number count-to" ></div>
               </div>
             </div>
@@ -77,7 +77,7 @@
                 <i class="material-icons">account_circle</i>
               </div>
               <div class="content">
-                <div class="text">TOTAL PROVEEDORES</div>
+                <div class="text">TOTAL USUARIOS</div>
                 <div class="number count-to" ></div>
               </div>
             </div>
@@ -95,7 +95,7 @@
 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
   <div class="card">
     <div class="header">
-      <center><h2>Historial Compras</h2></center>
+      <center><h2>Historial Ordenes de Compra</h2></center>
       <hr>
     </div>
     
@@ -103,17 +103,20 @@
       <div class="row">
 			  <div class="col-md-8 col-md-offset-2">
 				  <div class="card ">
+            <center><h3>Escoga las fechas:</h3></center>
+          
+
             <div class="card-body d-flex justify-content-between align-items-center">					
 <template>
-    <v-layout row wrap>
+   <v-layout row wrap>
       <v-flex xs11 sm5>
-        <v-dialog ref="dialog" v-model="modal" :return-value.sync="date" width="290px">
+        <v-dialog ref="dialog1" v-model="modal1" :return-value.sync="date1" width="290px">
           <template v-slot:activator="{ on }">
-            <v-text-field v-model="date" label="Fecha Inicio" prepend-icon="event"  v-on="on"></v-text-field>
+            <v-text-field v-model="date1" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
-          <v-date-picker v-model="date" scrollable  locale="gt">
-            <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+          <v-date-picker v-model="date1" scrollable  locale="gt">
+            <v-btn flat color="primary" @click="modal1 = false">Cancel</v-btn>
+            <v-btn flat color="primary" @click="$refs.dialog1.save(date1)">OK</v-btn>
           </v-date-picker>
         </v-dialog>     
     </v-flex>
@@ -121,13 +124,13 @@
 
   <v-layout row wrap>
       <v-flex xs11 sm5>
-        <v-dialog ref="dialog" v-model="modal" :return-value.sync="date2" width="290px">
+        <v-dialog ref="dialog2" v-model="modal2" :return-value.sync="date2" width="290px">
           <template v-slot:activator="{ on }">
             <v-text-field v-model="date2" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
           <v-date-picker v-model="date2" scrollable  locale="gt">
             <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.dialog.save(date2)">OK</v-btn>
+            <v-btn flat color="primary" @click="$refs.dialog2.save(date2)">OK</v-btn>
           </v-date-picker>
         </v-dialog>     
     </v-flex>
@@ -139,15 +142,65 @@
         
 					</div>
           	<div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn @click="guardar" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           <center>  <v-btn @click="guardarEspecificoClientes" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
            </div>
 				</div>
 			</div>
 		</div>
          
-      
-                     
-  
+    <hr>
+                 
+                    <br>
+      <div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<div class="card">
+           <center>  <h3>Producto</h3></center>
+            	<div class="card-body d-flex justify-content-between align-items-center">
+                <v-flex lg6 md6 xs6 pa-2>
+                <multiselect v-model="editedItem.idProducto" :options="productos" placeholder="Seleccione un producto"
+                    label="mostrar" track-by="id"></multiselect>
+              </v-flex>               
+
+           <center>  <v-btn @click="generalProductos" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           </div>
+					<div class="card-body d-flex justify-content-between align-items-center">
+
+					</div>
+
+          <div class="card-body d-flex justify-content-between align-items-center">					
+<template>
+   <v-layout row wrap>
+      <v-flex xs11 sm5>
+        <v-dialog ref="dialog3" v-model="modal3" :return-value.sync="date3" width="290px">
+          <template v-slot:activator="{ on }">
+            <v-text-field v-model="date3" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
+          </template>
+          <v-date-picker v-model="date3" scrollable  locale="gt">
+            <v-btn flat color="primary" @click="modal3 = false">Cancel</v-btn>
+            <v-btn flat color="primary" @click="$refs.dialog3.save(date3)">OK</v-btn>
+          </v-date-picker>
+        </v-dialog>     
+    </v-flex>
+  </v-layout>
+
+  <v-layout row wrap>
+      <v-flex xs11 sm5>
+        <v-dialog ref="dialog4" v-model="modal4" :return-value.sync="date4" width="290px">
+          <template v-slot:activator="{ on }">
+            <v-text-field v-model="date4" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
+          </template>
+          <v-date-picker v-model="date4" scrollable  locale="gt">
+            <v-btn flat color="primary" @click="modal4 = false">Cancel</v-btn>
+            <v-btn flat color="primary" @click="$refs.dialog4.save(date4)">OK</v-btn>
+          </v-date-picker>
+        </v-dialog>     
+    </v-flex>
+  </v-layout>
+</template>          
+  </div>
+  <div class="card-body d-flex justify-content-between align-items-center">
+           <center>  <v-btn @click="guardarEspecificoClientes" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           </div>
 				</div>
 			</div>
 		</div>
@@ -174,20 +227,26 @@
             multiselect
     },
     data: () => ({
-      date: new Date().toISOString().substr(0, 10),
+      date1: new Date().toISOString().substr(0, 10),
       date2: new Date().toISOString().substr(0, 10),
       date3: new Date().toISOString().substr(0, 10),
       date4: new Date().toISOString().substr(0, 10),
       menu: false,
-      modal: false,
+      modal1: false,
+      modal2: false,
+      modal3: false,
+      modal4: false,
       clientes: [],
+      productos: [],
       editedItem:{
-        idCliente: ''
+        idCliente: '',
+        idProducto: ''
       }
     }),
   
     created() {
             this.cargaClientes()
+            this.cargaProducto()
         },
 
     methods: {
@@ -201,15 +260,25 @@
                     console.log(error.response);
                 });
       },
-      guardar(){
-        /*axios({
+      cargaProducto(){
+                        let me = this;
+                axios.get('/producto')
+                .then(function (response) {
+                    me.productos = response.data;
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+      },
+      guardarEspecificoClientes(){
+        axios({
             method: 'post',
             url: '/ventas/reporteVClientes',
             responseType:'arraybuffer',
             data: {
-                date: this.date,
+                date1: this.date1,
                 date2: this.date2,
-                idCliente: this.editedItem.idCliente
+                idCliente: this.editedItem.idCliente.idPersona
             }
         }).then(function (response) {
             let blob = new Blob([response.data], { type:   'application/pdf' } )
@@ -223,8 +292,7 @@
             type: 'error',
             title: error.response.data.error,
             showConfirmButton: true});
-          });*/
-          alert(this.date2);
+          });
       },
     }
   }

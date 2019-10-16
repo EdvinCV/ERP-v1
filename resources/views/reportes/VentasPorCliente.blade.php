@@ -60,7 +60,7 @@
      ?>
   </center>
   <br>
-     <div class="contenedor">
+     <div class="contenedor">   
           <h1>VENTAS    @foreach($cliente as $c) {{$c->nombreCliente}} Total Q. {{$c->Total}} @endforeach</h1>
      </div>
     

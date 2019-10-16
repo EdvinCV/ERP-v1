@@ -126,4 +126,11 @@ class ProductoController extends Controller
             return response()->json($response, 500);
         }
     }
+
+    public function totalProds(){
+        $productos = DB::table('productos')
+                        ->where('productos.estado','=',true)
+                        ->get();
+        return count($productos);
+    }
 }

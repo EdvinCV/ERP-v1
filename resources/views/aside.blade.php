@@ -39,7 +39,7 @@
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
                             class="nav-item pcoded-hasmenu">
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
-                                    class="feather icon-home"></i></span><span class="pcoded-mtext">Clientes</span></a>
+                                    class="feather icon-home"></i></span><span class="pcoded-mtext">Clientes</span></a><hr>
                             <ul class="pcoded-submenu">
                                 <li class=""><a @click="menu=4">Control Clientes</a></li>
                                 <li class=""><a @click="menu=5">Reportes</a></li>
@@ -50,7 +50,7 @@
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
                             class="nav-item pcoded-hasmenu">
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
-                                    class="feather icon-home"></i></span><span class="pcoded-mtext">Proveedores</span></a>
+                                    class="feather icon-home"></i></span><span class="pcoded-mtext">Proveedores</span></a><hr>
                             <ul class="pcoded-submenu">
                                 <li class=""><a @click="menu=6">Control Proveedores</a></li>
                                 <li class=""><a @click="menu=7">Reportes</a></li>
@@ -129,6 +129,7 @@
                         </li>
                     @endif
                     @endforeach
+                
                 </ul>
                
                 

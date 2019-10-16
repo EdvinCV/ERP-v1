@@ -18,7 +18,7 @@
               </div>
               <div class="content">
                 <div class="text">MAYOR PROVEEDOR</div>
-                <div class="number count-to" >{{this.editedItem.nombreProv.nombreProveedor}}</div>
+                <div class="number count-to" >{{this.editedItem.mayorProv[0].nombreProveedor}}</div>
               </div>
             </div>
             <div class="info-box bg-blue-grey hover-zoom-effect">
@@ -27,7 +27,7 @@
               </div>
               <div class="content">
                 <div class="text">TOTAL PRODUCTOS</div>
-                <div class="number count-to" ></div>
+                <div class="number count-to" >{{this.editedItem.totalProds}}</div>
               </div>
             </div>
         </div>
@@ -106,7 +106,8 @@
       editedItem:{
         idProveedor: '',
         totalProvs: 0,
-        nombreProv: []
+        mayorProv: '',
+        totalProds: 0
       }
     }),
   
@@ -128,15 +129,22 @@
             console.log(error.response);
         });
 
-      },
-      cargaProv(){
-        axios.get('/proveedores/mayor')
+        axios.get('/mayorProv')
         .then(function (response) {
-            me.editedItem.nombreProv = response.data; 
+            me.editedItem.mayorProv = response.data;
         })
         .catch(function (error) {
             console.log(error.response);
         });
+
+        axios.get('/totalProds')
+        .then(function (response) {
+            me.editedItem.totalProds = response.data;
+        })
+        .catch(function (error) {
+            console.log(error.response);
+        });
+
       },
       cargaProveedores() {
                 let me = this;
