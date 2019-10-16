@@ -100,8 +100,10 @@
                 this.errorMsj = [];
                 this.cargaEntradas();
                 this.cargaSalidas();
+                this.cargaEstados();
                 var r;
                 r = this.resta();
+                console.log(r);
                 if (!this.editedItem.cantidad)
                     this.errorMsj.push('La cantidad no puede estar vacia. ');
                 
@@ -158,10 +160,12 @@
                 
                 let me = this;
                 var total;
-                total =  parseFloat(this.entradas[0].Total) - parseFloat(this.salidas[0].Total);
-                total = Number(total.toFixed(2));
+                console.log(me.cant)
+                var x = parseFloat(me.cant) + parseFloat(me.entradas[0].Total)
+                total =  parseFloat(x) - parseFloat(me.salidas[0].Total);
+                //total = Number(total.toFixed(2));
                 return total;
-                console.log(total);
+                console.log(me.cant);
                     
             },
                 cargaEstados() {
@@ -175,6 +179,7 @@
                     console.log('cant '+me.cant)
                     console.log('estado '+ es)
                     me.nullo();
+                    me.resta();
                 })
                 .catch(function (error) {
                     console.log(error.response);
