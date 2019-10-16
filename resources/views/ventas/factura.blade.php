@@ -12,7 +12,7 @@
         border-color: red;
 	}
     .nombre{
-        padding-top: 3.2cm;
+        padding-top: 1.5cm;
         padding-left: 2.5cm;
     }
     .direccion{
@@ -44,21 +44,21 @@
         
     }
     .cantidad{
-        width: 2cm;
+        width: 1.7cm;
         height: 9.9cm;
         float:left;
         font-family: calibri;
         font-size: 13px;
     }
     .descripcion{
-        width: 7.7cm;
+        width: 7cm;
         height: 9.9cm;
         float:left;
         font-family: calibri;
         font-size: 13px;
     }
     .valor{
-        width: 2.3cm;
+        width: 2cm;
         height: 9.9cm;
         float:left;
         font-family: calibri;

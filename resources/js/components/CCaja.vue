@@ -200,7 +200,8 @@
                 }
                 else
                 {
-                    me.tot = parseFloat(me.en) - parseFloat(me.sa)
+                    var x = parseFloat(me.en) + parseFloat(me.cant)
+                    me.tot = parseFloat(x)- parseFloat(me.sa)
                 }
                 //me.tot = Number(me.tot.toFixed(2));
                 
