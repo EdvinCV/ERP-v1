@@ -24,7 +24,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
+<script>
+var a = 0;
+function myFunction() {
+    a = a + 1;
+    document.getElementById("demo").textContent = a;
+    return a;
+}
+</script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
@@ -80,6 +87,8 @@
                                     <span>{{ auth()->user()->name }}</span>
                                     @php
                                         $c = 0;
+                                        $val = "<script>document.writeln(a);</script>";
+                                        echo $val;
                                     @endphp
                                     @foreach($permisos as $p)
                                         @if($p->nombrePermiso == "Caja" && $p->estado)
@@ -88,7 +97,7 @@
                                             @endphp
                                         @endif
                                     @endforeach
-                                    @if($c>0 )
+                                    @if($c>0 && $val == 0 )
                                     <a href=""
                                             class="dud-logout" title="Cerrar Sesión" 
                                             class="dropdown-item" data-toggle="modal" data-target="#myModal2">
@@ -105,6 +114,7 @@
                                         @csrf
                                     </form>
                                     </a>
+                                    
                                     @endif
                                     
                                 </div>
@@ -230,8 +240,9 @@
                                         @csrf
                                     </form>
                 No</button>
-                <button type="submit" @click="menu=22" class="btn btn-primary save" data-dismiss="modal" style="background-color:#668C2D" >Si</button>
+                <button type="submit" @onclick="myFunction()" @click="menu=22" class="btn btn-primary save" data-dismiss="modal" style="background-color:#668C2D" >Si</button>
             </div>            
+
         </div>
                         
                        
@@ -311,9 +322,9 @@
       
   <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary save" style="background-color:#668C2D">Guardar Cambios</button>
+                <button type="submit" class="btn btn-primary save"  style="background-color:#668C2D">Guardar Cambios</button>
             </div>      
-                        
+          
                         
                         </form>
                         </div>
@@ -341,6 +352,7 @@
   <script src="http://www.amcharts.com/lib/3/serial.js"></script>
   <script src="http://www.amcharts.com/lib/3/plugins/dataloader/dataloader.min.js"></script>
     <script>
+    
   var chart = AmCharts.makeChart( "chartdiv", {
     "type": "serial",
     "dataLoader": {
@@ -362,6 +374,7 @@
       "lineAlpha": 0.5
     }]
   } );
+    
   </script>
    
     
