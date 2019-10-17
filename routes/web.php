@@ -85,7 +85,7 @@ Route::delete('usuario/{id}/delete', 'UsuarioController@drop');
 Route::put('usuario/actualizar', 'UsuarioController@update');
 Route::put('usuario/profile-update','UsuarioController@updateProfile')->name('profile.update');
 Route::put('usuario/password-update','UsuarioController@updatePassword')->name('password.update');
-Route::get('/usuario/inicio','LoginActivityController@inicio');    
+Route::get('/usuario/inicios','LoginActivityController@inicio');    
 // Rutas Caja
 Route::get('/caja', 'CajaController@index');
 Route::post('/caja/registrar', 'CajaController@store');
@@ -111,6 +111,7 @@ Route::get('/reporteProveedores/{id}','ProveedorController@reporteEspecifico');
 Route::get('/reporteClientes','ClienteController@reporteGeneral');
 //RUTAS DATOS
 Route::get('/mayorProv','ProveedorController@prov');
+Route::get('/totalClientes','ClienteController@total');
 Route::get('/totalProds','ProductoController@totalProds');
 Route::get('/ventas/totalSemana','VentasController@obtenerVentasSemana');
 Route::get('/ventas/totalDia','VentasController@obtenerVentasDia');

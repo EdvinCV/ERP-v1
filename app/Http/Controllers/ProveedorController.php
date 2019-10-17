@@ -86,6 +86,7 @@ class ProveedorController extends Controller
                         ->select(DB::raw('COUNT(productos.idPersona) as productos, nombreProveedor, direccion, nit, telefono, proveedors.idPersona'))
                         ->join('personas','personas.id','=','proveedors.idPersona')
                         ->join('productos','productos.idpersona','=','proveedors.idPersona')
+                        ->where('proveedors.estado','=',true)
                         ->orderBy('productos','desc')
                         ->groupBy('productos.idPersona','nombreProveedor','direccion','telefono','nit','proveedors.idPersona')
                         ->get();

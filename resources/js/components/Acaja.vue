@@ -2,7 +2,7 @@
     <div>
         
             
-            <v-dialog v-model="dialog"  max-width="600px">
+            <v-dialog v-model="dialog" persistent max-width="600px">
                 
                 <v-card>
               <v-card-title style="background-color:#668c2d">
@@ -14,10 +14,7 @@
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
                                     <v-text-field label="Cantidad"  prefix="Q" v-model="editedItem.cantidad"></v-text-field>
-                                     <v-radio-group color="success" v-model="editedItem.tipo" column >
-                                        <v-radio label="Apertura" value="1" color="success"></v-radio>
-                                        <v-radio label="Cierre" value="2" color="success"></v-radio>
-                                    </v-radio-group>
+                                     
                                     <v-text-field label="Observaciones" v-model="editedItem.observacion"></v-text-field>
                                 </v-flex>
                             </v-layout>
@@ -51,8 +48,9 @@
             inicio: false,
             errorMsj: [],
             entradas: [],
+            usuarios: [],
             salidas: [],
-            usuarios: 0,
+            estados: [],
             caja: [],
             editedIndex: -1,
             editedItem: {
@@ -82,18 +80,23 @@
             this.initialize();
             this.cargaEntradas();   
             this.cargaSalidas();
-           
+            this.cargaUsuarios();
+            this.primeraSesion();
+            this.cargaEstados();
+            
         },
         mounted(){
             let me = this;
-            this.InicioS();
-            if(this.inicio == true)
+            this.cargaUsuarios();
+            /*console.log('mod '+ this.inicio)
+            if(me.inicio == true)
             {
                 this.dialog = true
-            }
+            }*/
         },
         methods: {
             validate() {
+                let me = this;
                 this.error = 0;
                 this.errorMsj = [];
                 this.cargaEntradas();
@@ -102,10 +105,12 @@
                 r = this.resta();
                 if (!this.editedItem.cantidad)
                     this.errorMsj.push('La cantidad no puede estar vacia. ');
-                if (!this.editedItem.tipo)
-                    this.errorMsj.push('Se debe de asignar un tipo. ');
-                if(this.editedItem.cantidad != r)
-                    this.errorMsj.push('Las cantidades no coinciden. ')
+                this.cargaEstados();
+                if(me.estados[0].tipo ==1)
+                {
+                    if(this.editedItem.cantidad != r)
+                        this.errorMsj.push('Las cantidades no coinciden. ')
+                }
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
@@ -141,13 +146,13 @@
                     console.log(error.response);
                 });
             },
-            cargaUsuarios() {
-                
+            cargaEstados() {
                 let me = this;
-                axios.get('/usuario/inicio')
+                axios.get('/caja/estado')
                 .then(function (response) {
-                    me.usuarios = response.data;
-                    this.InicioS();
+                    me.estados = response.data;
+                    var es = me.estados[1].tipo;
+                    console.log('estado '+ es)
                 })
                 .catch(function (error) {
                     console.log(error.response);
@@ -162,13 +167,52 @@
                 return total;
                 console.log(this.entradas[0].Total);
             },
-            InicioS(){
+              cargaUsuarios() {
                 let me = this;
-                this.cargaUsuarios();
-                if(this.usuarios == 0)
+                var us;
+                axios.get('/usuario/inicios')
+                .then(function (response) {
+                    me.usuarios = response.data;
+                    var f = new Date().toISOString().substr(0, 10);
+                    us = me.usuarios[1].Fecha;
+                    me.cargaEstados();
+                    console.log('us '+ us);
+                    console.log('f '+ f);
+                    console.log('e '+ me.estados[0].tipo);
+                    if(f != us && me.estados[0].tipo != 1)
+                    {
+                        me.inicio = true;
+                        console.log('bandera '+ me.inicio);
+                    }
+                    if(me.inicio == true)
+                    {
+                        me.dialog = true;
+                        me.editedItem.tipo = 1;
+                        me.editedItem.cantidad = me.estados[0].cantidad;
+                    }
+                    
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+            },
+            primeraSesion()
+            {
+                let me = this;
+                /*var f = new Date().toISOString().substr(0, 10);
+                var us = me.cargaUsuarios();
+                if(f > us)
                 {
-                    this.inicio = true;
+                    inicio = true;
                 }
+                console.log(us);
+                console.log('prs'+f);*/
+            },
+            nullo(){
+                let me = this;
+                var e;
+                e = me.entradas[0].total;
+                console.log('nullo '+ e);
             },
             editItem(item) {
                 this.editedIndex = this.caja.indexOf(item)

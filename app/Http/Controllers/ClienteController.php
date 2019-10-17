@@ -74,11 +74,17 @@ class ClienteController extends Controller
     public function reporteGeneral(){
         $clientes = DB::table('clientes')
                     ->join('personas','personas.id','=','clientes.idPersona')
-                    ->where('personas.estado','=',true)
+                    ->where('clientes.estado','=',true)
                     ->get();
 
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadView('clientes.general', compact('clientes'));
         return $pdf->stream('clientes.pdf');
+    }
+    public function total(){
+        $total = DB::table('clientes')
+                ->select(DB::raw('COUNT(clientes.id) as total'))
+                ->get();
+        return $total;
     }
 }

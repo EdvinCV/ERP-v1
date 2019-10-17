@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="contenedor" style="backgrounhd-color=#668C2D">
-            <center> <h2 style="color:#668C2D">Gestion de permisos</h2></center>
+            <center> <h2 style="color:#668C2D">Gestión de permisos</h2></center>
         </div>
         <hr>
         <v-toolbar flat color="white">

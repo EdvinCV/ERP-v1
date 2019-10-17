@@ -42,4 +42,14 @@ class CajaController extends Controller
             return response()->json($response, 500);
         }
     }
+
+    public function cierre(Request $req)
+    {
+        $caja =  DB::table('cajas')
+        ->select(DB::raw('cajas.cantidad, cajas.tipo'))
+        ->orderby('cajas.id','desc')
+        ->limit(1)
+        ->get();
+        return view('layout',compact($caja));
+    }
 }

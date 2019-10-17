@@ -80,9 +80,9 @@
             dialog: false,
             error: 0,
             nameRules: [
-                v => !!v || 'El rol no puede estar vacio',
-                v => (v && v.length <= 49) || 'El nombre del rol no puede ser mayor a 50',
-                v => /[a-zA-Z]/.test(v) || 'el rol solo puede tener letras',
+                v => !!v || 'El rol no puede estar vacío.',
+                v => (v && v.length <= 49) || 'El nombre del rol no puede ser mayor a 50.',
+                v => /[a-zA-Z]/.test(v) || 'el rol solo puede tener letras.',
             ],
             errorMsj: [],
             headers: [

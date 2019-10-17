@@ -146,7 +146,7 @@
                     text: 'Email', value: 'email',
                 },
                 {
-                    text: 'Rol', value: 'rol'
+                    text: 'Rol', value: 'nombreRol'
                 },
                 {
                     text: 'Estado', value: 'estado'

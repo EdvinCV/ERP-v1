@@ -61,8 +61,8 @@
   <br>
   <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
   <hr class="hrt">
-  <center><h5 >Asociación de Desarrollo Agrícola y Microempresarial</h5>
-    <h2 style="color:#668c2d">Reporte Clientes</h2>
+  <center>
+    <h2 style="color:#668c2d">Listado de Clientes</h2>
   </center>
      
      <table class="table" style="width: 100%">
@@ -89,6 +89,21 @@
         </table>
         <hr>
         <br>
+
+
+        <div class="informatio" style="position: absolute; bottom: 0;">
+    <table width="100%">
+        <tr>
+            <td align="left" style="width: 60%;">
+                &copy; {{ date('Y') }} - 2019 INCOFIN.
+            </td>
+            <td align="right" style="width: 40%;">
+              Tel. (502) 7767 4672 |  INFO@INCOFIN.COM.GT
+            </td>
+        </tr>
+
+    </table>
+</div>
 
   </body>
 </html>

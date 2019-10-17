@@ -7,7 +7,7 @@
               </div>
               <div class="content">
                 <div class="text">CLIENTES</div>
-                <div class="number count-to" >{{this.editedItem.totalClientes}}</div>
+                <div class="number count-to" >{{this.totalClientes}}</div>
               </div>
             </div>
             <div class="info-box bg-orange hover-zoom-effect">
@@ -16,7 +16,7 @@
               </div>
               <div class="content">
                 <div class="text">MAYOR CLIENTE</div>
-                <div class="number count-to" >{{this.editedItem.nombreProv.nombreProveedor}}</div>
+                <div class="number count-to" ></div>
               </div>
             </div>
             <div class="info-box bg-blue-grey hover-zoom-effect">
@@ -25,7 +25,7 @@
               </div>
               <div class="content">
                 <div class="text">TOTAL PRODUCTOS</div>
-                <div class="number count-to" ></div>
+                <div class="number count-to" >{{this.totalProds}}</div>
               </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
         
 					
           	<div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn @click="reporteClientes" style="background-color:#668c2d"  dark class="mb-2">LIstado de Clientes</v-btn></center>
+           <center>  <v-btn @click="reporteGeneral" style="background-color:#668c2d"  dark class="mb-2">LIstado de Clientes</v-btn></center>
            </div>
 				</div>
 			</div>
@@ -92,21 +92,42 @@
       date4: new Date().toISOString().substr(0, 10),
       menu: false,
       modal: false,
+      totalClientes: 0,
+      totalProds: 0,
       clientes: [],
       editedItem:{
         idProveedor: '',
-        totalClientes: 0,
         nombreProv: []
       }
     }),
   
     created() {
-
+          this.cargarDatos()
         },
 
     methods: {
       reporteGeneral(){
         window.open(window.location.origin +'/reporteClientes');
+      },
+      cargarDatos(){
+        axios.get('/totalClientes')
+        .then(function(response) {
+            this.totalClientes = response.data;
+            console.log(this.totalClientes[0]);  
+        })
+        .catch(function (error) {
+            console.log(error.response);
+        });
+
+        axios.get('/totalProds')
+        .then(function (response) {
+            this.totalProds = response.data;
+        })
+        .catch(function (error) {
+            console.log(error.response);
+        });
+
+
       },
     }
   }

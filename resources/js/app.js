@@ -29,7 +29,7 @@ Vue.component('reportes', require('./components/reportes.vue').default);
 Vue.component('reportes_prov', require('./components/reportesProv.vue').default);
 Vue.component('reportes_clientes', require('./components/reportesClientes.vue').default);
 Vue.component('reportes_compras', require('./components/reportesCompras.vue').default);
-
+Vue.component('Ccaja', require('./components/Ccaja.vue').default);
 
 
 const app = new Vue({

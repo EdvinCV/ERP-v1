@@ -78,6 +78,35 @@
                                     <img src="assets/images/user/avatar-1.jpg" class="img-radius"
                                         alt="User-Profile-Image">
                                     <span>{{ auth()->user()->name }}</span>
+                                    @php
+                                        $c = 0;
+                                    @endphp
+                                    
+                                    @foreach($permisos as $p)
+                                        @if($p->nombrePermiso == "Caja" && $p->estado)
+                                            @php
+                                                $c = 1;
+                                            @endphp
+                                        @endif
+                                    @endforeach
+                                    @if($c>0 )
+                                    <a href=""
+                                            class="dud-logout" title="Cerrar Sesión" 
+                                            class="dropdown-item" data-toggle="modal" data-target="#myModal2">
+                                            <i class="feather icon-log-out"></i>
+                                        <form  style="display: none;">
+                                        </form>
+                                    </a>
+                                    @else
+                                    <a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();" class="dud-logout" title="Cerrar Sesión">
+                                        <i class="feather icon-log-out"></i>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                    </a>
+                                    @endif
                                     <a href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();" class="dud-logout" title="Cerrar Sesión">
@@ -87,6 +116,7 @@
                                         @csrf
                                     </form>
                                     </a>
+                                    
                                 </div>
                 
                                 <ul class="pro-body">
@@ -192,6 +222,32 @@
                         @yield('content')
 
                         </v-app>
+
+                        <!--ingresar modal-->
+                        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2>¿Desea cerrar caja?</h2>
+                                    </div>
+                                
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" href="{{ route('logout') }}"
+                                                            onclick="event.preventDefault();
+                                                                            document.getElementById('logout-form').submit();" class="dud-logout" >
+
+                                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                                @csrf
+                                                            </form>
+                                        No</button>
+                                        <button type="submit" @click="menu=22" class="btn btn-primary save" data-dismiss="modal" style="background-color:#668C2D" >Si</button>
+                                    </div>            
+                                </div>
+                                                
+                                            
+                            </div>
+                        </div>
+                        <!--terminar modal-->
 
 
 <!--ingresar modal-->

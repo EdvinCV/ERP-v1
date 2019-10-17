@@ -346,7 +346,6 @@
         }   
     }
 }
-
 </script>
 <style lang="scss">
 @import '~vuetify/dist/vuetify.min.css';

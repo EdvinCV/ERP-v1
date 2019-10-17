@@ -14,7 +14,7 @@
                 <ul class="nav pcoded-inner-navbar ">
               
                     <li class="nav-item pcoded-menu-caption">
-                       <center> <h6 style="color:#668C2D">GESTION DE VENTAS</h6></center>
+                       <center> <h6 style="color:#668C2D">GESTIÓN DE VENTAS</h6></center>
                        
                     </li><center><hr class="hrt"></center>
                    
@@ -26,11 +26,11 @@
                                     class="feather icon-user feather-lg"></i></span><span class="pcoded-mtext">Usuarios</span></a><hr>
                             <ul class="pcoded-submenu">
                             <li><a @click="menu=1" ><span class="pcoded-micon"><i
-                                    class="feather icon-users"></i></span><span class="pcoded-mtext">Control usuarios</span></a></li>
+                                    class="feather icon-users"></i></span><span class="pcoded-mtext">Control Usuarios</span></a></li>
                                     <li><a @click="menu=2" ><span class="pcoded-micon"><i
                                     class="feather icon-user-check"></i></span><span class="pcoded-mtext">Control Roles</span></a></li>
                                     <li><a @click="menu=3" ><span class="pcoded-micon"><i
-                                    class="feather icon-folder"></i></span><span class="pcoded-mtext">Gestion Permisos</span></a></li>
+                                    class="fas fa-lock"></i></span><span class="pcoded-mtext">Gestión Permisos</span></a></li>
                            
                             </ul>
                         </li>
@@ -39,10 +39,12 @@
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
                             class="nav-item pcoded-hasmenu">
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
-                                    class="feather icon-home"></i></span><span class="pcoded-mtext">Clientes</span></a><hr>
+                                    class="fas fa-users"></i></span><span class="pcoded-mtext">Clientes</span></a><hr>
                             <ul class="pcoded-submenu">
-                                <li class=""><a @click="menu=4">Control Clientes</a></li>
-                                <li class=""><a @click="menu=5">Reportes</a></li>
+                            <li><a @click="menu=4" ><span class="pcoded-micon"><i
+                                    class="feather icon-users"></i></span><span class="pcoded-mtext">Control Clientes</span></a></li>
+                                    <li><a @click="menu=5" ><span class="pcoded-micon"><i
+                                    class="fas fa-file-alt"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
                             </ul>
                         </li>
                     @endif
@@ -50,10 +52,12 @@
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
                             class="nav-item pcoded-hasmenu">
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
-                                    class="feather icon-home"></i></span><span class="pcoded-mtext">Proveedores</span></a><hr>
+                                    class="fas fa-user-cog"></i></span><span class="pcoded-mtext">Proveedores</span></a><hr>
                             <ul class="pcoded-submenu">
-                                <li class=""><a @click="menu=6">Control Proveedores</a></li>
-                                <li class=""><a @click="menu=7">Reportes</a></li>
+                                <li><a @click="menu=6" ><span class="pcoded-micon"><i
+                                    class="feather icon-users"></i></span><span class="pcoded-mtext">Control Proveedores</span></a></li>
+                                <li><a @click="menu=7" ><span class="pcoded-micon"><i
+                                    class="fas fa-file-alt"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
                             </ul>
                         </li>
                     @endif
@@ -77,11 +81,12 @@
                             
                         </li>
                     @endif
-                   
+                    @if($p->nombrePermiso == "Caja" && $p->estado)
+                            <div id="app">
+                                <acaja></acaja>
+                            </div>
+                    @endif
                     @if($p->nombrePermiso == "Ventas" && $p->estado)
-                    <div id="app">
-                        <acaja></acaja>
-                    </div>
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
                             class="nav-item pcoded-hasmenu" id="app">
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
@@ -102,7 +107,7 @@
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
                             class="nav-item pcoded-hasmenu">
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
-                                    class="feather icon-briefcase"></i></span><span class="pcoded-mtext">Compras</span></a><hr>
+                                    class="fas fa-shopping-basket"></i></span><span class="pcoded-mtext">Compras</span></a><hr>
                             <ul class="pcoded-submenu">
                             <li><a @click="menu=17" ><span class="pcoded-micon"><i
                                     class="feather icon-shopping-cart"></i></span><span class="pcoded-mtext">Nueva Compra</span></a></li>
