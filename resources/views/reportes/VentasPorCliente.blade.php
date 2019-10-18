@@ -1,91 +1,93 @@
 <?php 
-     $hoy = getdate();
-     $total = 0;
+     $i = 1;
 ?>
-
-  
-</script>
+<!doctype html>
+<html lang="en">
 <head>
-<style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Reporte proveedores</title>
 
-  table, th, td {
-  
-    border-collapse: collapse;
-  }
-	.contenedor
-	{
-	
-		text-align:center;
-	}
-	.contenedor>span {
-		display:inline-block;
-		vertical-align:middle;
-		line-height:normal;
-	}
-    .detalle{
-        padding-top: 1cm;
-        padding-left: 1.2cm;
-        padding-right: 0.7cm;
-        height: 10.9cm;
-        border:1px solid;
-        border-color: blue;
-    }
-    .descripcion{
-        width: 7.7cm;
-        height: 10.4cm;
-        float:left;
-    }
-    .columna{
-        width: 2cm;
-        height: 10.4cm;
-        float:left;
-    }
-	</style>
+    <style type="text/css">
+        @page {
+            margin: 0px;
+        }
+        body {
+            margin: 0px;
+        }
+        * {
+            font-family: Verdana, Arial, sans-serif;
+        }
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+        table {
+            font-size: x-small;
+        }
+        tfoot tr td {
+            font-weight: bold;
+            font-size: x-small;
+        }
+        .invoice table {
+            margin: 25px;
+            border: 1px;
+        }
+        .invoice h3 {
+            margin-left: 15px;
+        }
+        .information {
+            background-color: #fff;
+            color: #000;
+        }
+        .informatio {
+            background-color: #668c2d;
+            color: #fff;
+        }
+        .information .logo {
+            margin: 5px;
+        }
+        .information table {
+         padding: 50px;
+        }
+        .hrt{
+          background-color: #668c2d;
+          width:75%;
+        }
+        .th{
+            color:#fff;
+        }
+    </style>
+
 </head>
-
-<html>
-      
-<center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
-<hr class="hr">
-     <center> <h5>QUETZALTENANGO, GUATEMALA</h5>
-     <?php 
-          echo "<br>" . "Generado Fecha: ";
-          print_r($hoy["mday"] . '/');
-          print_r($hoy["mon"] . '/');
-          print_r($hoy["year"] . '<br>');
-          echo "Hora: ";
-          print_r($hoy["hours"].':');
-          print_r($hoy["minutes"].':');
-          print_r($hoy["seconds"]);
-     ?>
+<body>      
+  <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
+  <hr class="hrt">
+  <center>
+    <h2 style="color:#668c2d">Ventas: @foreach($cliente as $c) {{$c->nombreCliente}}@endforeach</h2>
   </center>
-  <br>
-     <div class="contenedor">   
-          <h1>VENTAS    @foreach($cliente as $c) {{$c->nombreCliente}} Total Q. {{$c->Total}} @endforeach</h1>
-     </div>
-    
-        <h1>  </h1>
-    <hr>
-     <table style="width: 100%">
-          <thead>
+  
+     <h3 style="color:#668c2d">Detalles de ventas</h3>
+     <table class="table" style="width: 100%">
+          <thead style="background-color:#668c2d">
             <tr>
-              <th>#</th>
-              <th>Subtotal</th>
-              <th>IVA</th>
-              <th>Total</th>
-              <th>Factura</th>
-              <th>Forma Pago</th>
-              <th>Cheque</th>
-              <th>Banco</th>
-              <th>Fecha</th>
+              <th class="th">#</th>
+              <th class="th">Total</th>
+              <th class="th">Subtotal</th>
+              <th class="th">IVA</th>
+              <th class="th">Factura</th>
+              <th class="th">Forma Pago</th>
+              <th class="th">Cheque</th>
+              <th class="th">Banco</th>
+              <th class="th">Fecha</th>
             </tr>
           </thead>
           <tbody>
           @foreach($detallesVentas as $p)
             <tr>
-              <td></td>
-              <td>{{ $p->totalSinIVA}}</td>
+              <td><?php echo $i; $i++;?></td>
               <td>{{ $p->total}}</td>
+              <td>{{ $p->totalSinIVA}}</td>
               <td>{{ $p->iva}}</td>
               <td>{{ $p->numeroFactura}}</td>
               <td>{{ $p->nombreTipo}}</td>
@@ -102,23 +104,25 @@
             <td>-----</td>
             <td>----- </td>
             <td>----- </td>
-            <td>----- </td>
-            <td>-----</td>
-          </tr>
-          <tr>
-            <td>-</td>
-            <td>-----</td>
-            <td>-----</td>
-            <td>-----</td>
-            <td>-----</td>
-            <td>----- </td>
-            <td>----- </td>
             <td>TOTAL </td>
-            <td></td>
+            <td>@foreach($cliente as $c) {{$c->Total}}@endforeach</td>
           </tr>
           </tbody>
         </table>
 
+        <div class="informatio" style="position: absolute; bottom: 0;">
+    <table width="100%">
+        <tr>
+            <td align="left" style="width: 60%;">
+                &copy; {{ date('Y') }} - 2019 INCOFIN.
+            </td>
+            <td align="right" style="width: 40%;">
+              Tel. (502) 7767 4672 |  INFO@INCOFIN.COM.GT
+            </td>
+        </tr>
+
+    </table>
+</div>
         
     </body>
 </html>

@@ -12,6 +12,9 @@ use Carbon\Carbon;
 
 class VentasController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    } 
     public function store(Request $req){
         try {
             $encabezado = new VentaEncabezado;
@@ -41,6 +44,7 @@ class VentasController extends Controller
                 $det->subtotal = $d['sub'];
                 $det->cantidad = $d['cantidad'];     
                 $det->idProducto = $d['idProd'];
+                $det->precioventa = $d['precio'];
                 $det->descuento = $d['descuento'];
                 $det->idVentaEncabezado = $encabezado->id;
                 $det->save();
@@ -73,9 +77,9 @@ class VentasController extends Controller
     public function cotizacion(Request $req){
 
         $detalles = $req->input('carrito');
-        $total = 4;  
+        $total = $req->total;  
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadView('ventas.cotizacion', compact('detalles',$total));
+        $pdf->loadView('ventas.cotizacion', compact('detalles','total'));
         return $pdf->download('factura.pdf');
     }
     public function listarVentas(){
@@ -129,6 +133,7 @@ class VentasController extends Controller
     public function generarFactura($id){
 
         $ventas = DB::table('venta_encabezados')
+                    ->select(DB::raw('clientes.nombreCliente ,personas.direccion , personas.nit, DATE_FORMAT(venta_encabezados.created_at, "%d-%m-%Y") as fecha, venta_encabezados.total'))
                     ->join('tipo_pagos','tipo_pagos.id','=','venta_encabezados.idTipoPago')
                     ->join('clientes', 'clientes.idPersona', '=', 'venta_encabezados.idPersona')
                     ->join('personas', 'personas.id', '=', 'venta_encabezados.idPersona')
@@ -136,15 +141,21 @@ class VentasController extends Controller
                     ->get();
     
         $detalles = DB::table('detalle_ventas')
-                    ->select('productos.nombre as producto', 'presentacions.nombre as presentacion', 'detalle_ventas.cantidad', 'productos.precioventa as precio', 'detalle_ventas.subtotal', 'proveedors.nombreProveedor')
+                    ->select('productos.nombre as producto', 'presentacions.nombre as presentacion', 'detalle_ventas.cantidad', 'productos.precioventa as precio', 'detalle_ventas.subtotal', 'detalle_ventas.precioventa', 'proveedors.nombreProveedor')
                     ->join('productos', 'productos.id', '=', 'detalle_ventas.idProducto')
                     ->join('presentacions', 'presentacions.id', '=', 'productos.idpresentacion')
                     ->join('proveedors', 'proveedors.idPersona', '=', 'productos.idPersona')
                     ->where('detalle_ventas.idVentaEncabezado', '=', $id)
                     ->get();
+
+        $total = DB::table('venta_encabezados')
+                    ->select('venta_encabezados.total')
+                    ->where('venta_encabezados.id', '=', $id)
+                    ->get();
+        $totalLetras = $this->convertir($total[0]->total);
                 
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadView('ventas.factura', compact('ventas', 'detalles'));
+        $pdf->loadView('ventas.factura', compact('ventas', 'detalles','totalLetras'));
         return $pdf->stream('factura.pdf');
     }
     public function reporteVentasProducto(Request $req){
@@ -209,11 +220,10 @@ class VentasController extends Controller
         return $totalVentas;
     }
     public function obtenerVentasDia(){
-        $dia = date("d");
-        $mes = date("m");
-        $year = date("Y");
-        $fecha1 = '2019/10/15';
-        $fecha2 = '2019/10/16';
+        $hoy = getDate();
+ 
+        $fecha1 = strval($hoy['year']).'/'.strval($hoy['mon']).'/'.strval($hoy['mday']);
+        $fecha2 = $hoy['year'].'/'.$hoy['mon'].'/'.strval($hoy['mday']+1);
         $ventasDia = DB::table('venta_encabezados')
                     ->select(DB::raw('SUM(totalSinIVA) as dia'))
                     ->whereBetween('venta_encabezados.created_at',[$fecha1, $fecha2])
@@ -223,7 +233,7 @@ class VentasController extends Controller
     }
     public function productoMasVendido(){
         $producto = DB::table('productos')
-                    ->select(DB::raw('productos.nombre as producto, presentacions.nombre, nombreProveedor, COUNT(productos.id) as total'))
+                    ->select(DB::raw('productos.nombre as producto, presentacions.nombre, nombreProveedor, SUM(cantidad) as total'))
                     ->join('presentacions','presentacions.id','=','productos.idpresentacion')
                     ->join('proveedors','proveedors.idPersona','=','productos.idPersona')
                     ->join('detalle_ventas','detalle_ventas.idProducto','=','productos.id')
@@ -236,7 +246,7 @@ class VentasController extends Controller
     }
     public function productoMenosVendido(){
         $producto = DB::table('productos')
-        ->select(DB::raw('productos.nombre as producto, presentacions.nombre, nombreProveedor, COUNT(productos.id) as total'))
+        ->select(DB::raw('productos.nombre as producto, presentacions.nombre, nombreProveedor, SUM(cantidad) as total'))
         ->join('presentacions','presentacions.id','=','productos.idpresentacion')
         ->join('proveedors','proveedors.idPersona','=','productos.idPersona')
         ->join('detalle_ventas','detalle_ventas.idProducto','=','productos.id')
@@ -257,6 +267,333 @@ class VentasController extends Controller
                         ->limit(1)
                         ->get();
         return $producto;
+    }
+
+    function unidad($numuero){
+        switch ($numuero)
+        {
+            case 9:
+            {
+                $numu = "NUEVE";
+                break;
+            }
+            case 8:
+            {
+                $numu = "OCHO";
+                break;
+            }
+            case 7:
+            {
+                $numu = "SIETE";
+                break;
+            }
+            case 6:
+            {
+                $numu = "SEIS";
+                break;
+            }
+            case 5:
+            {
+                $numu = "CINCO";
+                break;
+            }
+            case 4:
+            {
+                $numu = "CUATRO";
+                break;
+            }
+            case 3:
+            {
+                $numu = "TRES";
+                break;
+            }
+            case 2:
+            {
+                $numu = "DOS";
+                break;
+            }
+            case 1:
+            {
+                $numu = "UNO";
+                break;
+            }
+            case 0:
+            {
+                $numu = "";
+                break;
+            }
+        }
+                return $numu;
+            }
+    
+    function decena($numdero){
+    
+        if ($numdero >= 90 && $numdero <= 99)
+        {
+            $numd = "NOVENTA ";
+        
+            if ($numdero > 90)
+                $numd = $numd."Y ".($this->unidad($numdero - 90));
+        }
+        else if ($numdero >= 80 && $numdero <= 89)
+        {
+            $numd = "OCHENTA ";
+            if ($numdero > 80)
+                $numd = $numd."Y ".($this->unidad($numdero - 80));
+        }
+        else if ($numdero >= 70 && $numdero <= 79)
+        {
+            $numd = "SETENTA ";
+            if ($numdero > 70)
+                $numd = $numd."Y ".($this->unidad($numdero - 70));
+        }
+        else if ($numdero >= 60 && $numdero <= 69)
+        {
+            $numd = "SESENTA ";
+            if ($numdero > 60)
+                $numd = $numd."Y ".($this->unidad($numdero - 60));
+        }
+        else if ($numdero >= 50 && $numdero <= 59)
+        {
+            $numd = "CINCUENTA ";
+            if ($numdero > 50)
+                $numd = $numd."Y ".($this->unidad($numdero - 50));
+        }
+        else if ($numdero >= 40 && $numdero <= 49)
+        {
+            $numd = "CUARENTA ";
+            if ($numdero > 40)
+                $numd = $numd."Y ".($this->unidad($numdero - 40));
+        }
+        else if ($numdero >= 30 && $numdero <= 39)
+        {
+            $numd = "TREINTA ";
+            if ($numdero > 30)
+                $numd = $numd."Y ".($this->unidad($numdero - 30));
+        }
+        else if ($numdero >= 20 && $numdero <= 29)
+        {
+            if ($numdero == 20)
+                $numd = "VEINTE ";
+            else
+                $numd = "VEINTI".($this->unidad($numdero - 20));
+        }
+        else if ($numdero >= 10 && $numdero <= 19)
+        {
+            switch ($numdero){
+                case 10:
+                {
+                    $numd = "DIEZ ";
+                    break;
+                }
+                case 11:
+                {
+                    $numd = "ONCE ";
+                    break;
+                }
+                case 12:
+                {
+                    $numd = "DOCE ";
+                    break;
+                }
+                case 13:
+                {
+                    $numd = "TRECE ";
+                    break;
+                }
+                case 14:
+                {
+                    $numd = "CATORCE ";
+                    break;
+                }
+                case 15:
+                {
+                    $numd = "QUINCE ";
+                    break;
+                }
+                case 16:
+                {
+                    $numd = "DIECISEIS ";
+                    break;
+                }
+                case 17:
+                {
+                    $numd = "DIECISIETE ";
+                    break;
+                }
+                case 18:
+                {
+                    $numd = "DIECIOCHO ";
+                    break;
+                }
+                case 19:
+                {
+                    $numd = "DIECINUEVE ";
+                    break;
+                }
+            }
+        }else
+            $numd = unidad($numdero);
+            
+            return $numd;
+    }
+    function centena($numc){
+        if ($numc >= 100)
+        {
+        if ($numc >= 900 && $numc <= 999)
+        {
+        $numce = "NOVECIENTOS ";
+        if ($numc > 900)
+        $numce = $numce.($this->decena($numc - 900));
+        }
+        else if ($numc >= 800 && $numc <= 899)
+        {
+        $numce = "OCHOCIENTOS ";
+        if ($numc > 800)
+        $numce = $numce.($this->decena($numc - 800));
+        }
+        else if ($numc >= 700 && $numc <= 799)
+        {
+        $numce = "SETECIENTOS ";
+        if ($numc > 700)
+        $numce = $numce.($this->decena($numc - 700));
+        }
+        else if ($numc >= 600 && $numc <= 699)
+        {
+        $numce = "SEISCIENTOS ";
+        if ($numc > 600)
+        $numce = $numce.($this->decena($numc - 600));
+        }
+        else if ($numc >= 500 && $numc <= 599)
+        {
+        $numce = "QUINIENTOS ";
+        if ($numc > 500)
+        $numce = $numce.($this->decena($numc - 500));
+        }
+        else if ($numc >= 400 && $numc <= 499)
+        {
+        $numce = "CUATROCIENTOS ";
+        if ($numc > 400)
+        $numce = $numce.($this->decena($numc - 400));
+        }
+        else if ($numc >= 300 && $numc <= 399)
+        {
+        $numce = "TRESCIENTOS ";
+        if ($numc > 300)
+        $numce = $numce.($this->decena($numc - 300));
+        }
+        else if ($numc >= 200 && $numc <= 299)
+        {
+        $numce = "DOSCIENTOS ";
+        if ($numc > 200)
+        $numce = $numce.($this->decena($numc - 200));
+        }
+        else if ($numc >= 100 && $numc <= 199)
+        {
+        if ($numc == 100)
+        $numce = "CIEN ";
+        else
+        $numce = "CIENTO ".($this->decena($numc - 100));
+        }
+        }
+        else
+        $numce = $this->decena($numc);
+        
+        return $numce;
+    }
+    function miles($nummero){
+        if ($nummero >= 1000 && $nummero < 2000){
+        $numm = "MIL ".($this->centena($nummero%1000));
+        }
+        if ($nummero >= 2000 && $nummero <10000){
+        $numm = $this->unidad(Floor($nummero/1000))." MIL ".($this->centena($nummero%1000));
+        }
+        if ($nummero < 1000)
+        $numm = $this->centena($nummero);
+        
+        return $numm;
+    }
+    function decmiles($numdmero){
+        if ($numdmero == 10000)
+        $numde = "DIEZ MIL";
+        if ($numdmero > 10000 && $numdmero <20000){
+        $numde = $this->decena(Floor($numdmero/1000))."MIL ".($this->centena($numdmero%1000));
+        }
+        if ($numdmero >= 20000 && $numdmero <100000){
+        $numde = $this->decena(Floor($numdmero/1000))." MIL ".($this->miles($numdmero%1000));
+        }
+        if ($numdmero < 10000)
+        $numde = $this->miles($numdmero);
+        
+        return $numde;
+    }
+    function cienmiles($numcmero){
+        if ($numcmero == 100000)
+        $num_letracm = "CIEN MIL";
+        if ($numcmero >= 100000 && $numcmero <1000000){
+        $num_letracm = $this->centena(Floor($numcmero/1000))." MIL ".($this->centena($numcmero%1000));
+        }
+        if ($numcmero < 100000)
+        $num_letracm = $this->decmiles($numcmero);
+        return $num_letracm;
+    }
+    function millon($nummiero){
+        if ($nummiero >= 1000000 && $nummiero <2000000){
+        $num_letramm = "UN MILLON ".($this->cienmiles($nummiero%1000000));
+        }
+        if ($nummiero >= 2000000 && $nummiero <10000000){
+        $num_letramm = $this->unidad(Floor($nummiero/1000000))." MILLONES ".($this->cienmiles($nummiero%1000000));
+        }
+        if ($nummiero < 1000000)
+        $num_letramm = $this->cienmiles($nummiero);
+        
+        return $num_letramm;
+    }
+    function decmillon($numerodm){
+        if ($numerodm == 10000000)
+        $num_letradmm = "DIEZ MILLONES";
+        if ($numerodm > 10000000 && $numerodm <20000000){
+        $num_letradmm = $this->decena(Floor($numerodm/1000000))."MILLONES ".($this->cienmiles($numerodm%1000000));
+        }
+        if ($numerodm >= 20000000 && $numerodm <100000000){
+        $num_letradmm = $this->decena(Floor($numerodm/1000000))." MILLONES ".($this->millon($numerodm%1000000));
+        }
+        if ($numerodm < 10000000)
+        $num_letradmm = $this->millon($numerodm);
+        
+        return $num_letradmm;
+    }
+    function cienmillon($numcmeros){
+        if ($numcmeros == 100000000)
+        $num_letracms = "CIEN MILLONES";
+        if ($numcmeros >= 100000000 && $numcmeros <1000000000){
+        $num_letracms = $this->centena(Floor($numcmeros/1000000))." MILLONES ".($this->millon($numcmeros%1000000));
+        }
+        if ($numcmeros < 100000000)
+        $num_letracms = $this->decmillon($numcmeros);
+        return $num_letracms;
+    }  
+    function milmillon($nummierod){
+        if ($nummierod >= 1000000000 && $nummierod <2000000000){
+        $num_letrammd = "MIL ".($this->cienmillon($nummierod%1000000000));
+        }
+        if ($nummierod >= 2000000000 && $nummierod <10000000000){
+        $num_letrammd = $this->unidad(Floor($nummierod/1000000000))." MIL ".($this->cienmillon($nummierod%1000000000));
+        }
+        if ($nummierod < 1000000000)
+        $num_letrammd = $this->cienmillon($nummierod);
+        
+        return $num_letrammd;
+    }
+    function convertir($numero){
+        $num = str_replace(",","",$numero);
+        $num = number_format($num,2,'.','');
+        $cents = substr($num,strlen($num)-2,strlen($num)-1);
+        $num = (int)$num;
+        
+        $numf = $this->milmillon($num);
+        
+        return $numf." QUETZALES CON ".$cents."/100";
     }
 
 }

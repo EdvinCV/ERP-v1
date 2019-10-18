@@ -17,8 +17,8 @@
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
                                      <v-flex xs12>
-                                        <multiselect v-model="idproducto" :options="productos" placeholder="Seleccione un producto"
-                                            label="Producto" track-by="Producto"></multiselect>
+                                        <multiselect v-model="this.editedItem.idproducto" :options="productos" placeholder="Seleccione un producto"
+                                            label="mostrar" track-by="Producto"></multiselect>
                                     </v-flex>
                                     
                                     <v-radio-group color="#668c2d" v-model="editedItem.calificacion" column >
@@ -56,7 +56,7 @@
         <v-data-table :headers="headers" :items="historialcalidad" class="elevation-1" :search="search">
             <template v-slot:items="props">
                 
-                <td class="text-xs-left">{{ props.item.Producto }}</td>
+                <td class="text-xs-left">{{ props.item.mostrar }}</td>
                 <td class="text-xs-left">{{ props.item.calificacion }}</td>
                 <td class="text-xs-left">{{ props.item.fecha }}</td>
                 <td class="text-xs-left">{{ props.item.descripcion }}</td>
@@ -99,7 +99,7 @@
               
                 { 
                     text: 'Producto', 
-                    value: 'idproducto' 
+                    value: 'mostrar' 
                 },
                 {
                     text: 'Calificacion',
@@ -150,14 +150,13 @@
                 this.error = 0;
                 this.errorMsj = [];
                 if (!this.editedItem.calificacion)
-                    this.errorMsj.push('Se debe asignar una calificacón');
-                /*if(!this.editedItem.idcategoria)
-                    this.errorMsj.push('Se debe asignar una categoria')*/
+                    this.errorMsj.push('Se debe asignar una calificación. ');
                 if(!this.editedItem.fecha)
-                    this.errorMsj.push('Se debe asignar una fecha');
+                    this.errorMsj.push('Se debe asignar una fecha. ');
                 if((this.editedItem.fecha)>(new Date().toISOString()))
-                    this.errorMsj.push('Se debe asignar una fecha anterior');
-                //console.log(new Date().toISOString());
+                    this.errorMsj.push('Se debe asignar una fecha anterior. ');
+                if(!this.editedItem.descripcion)
+                    this.errorMsj.push('Se debe asignar una descripción. ');
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;

@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginActivityController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    } 
     //
     public function inicio(){
         $usuarios = DB::table('login_activities')

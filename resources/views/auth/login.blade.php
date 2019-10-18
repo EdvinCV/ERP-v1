@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <title>ADAM - INCOFIN</title>
+    <title>INCOFIN</title>
     <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 10]>
@@ -33,16 +33,13 @@
         <div class="row align-items-center w-100 align-items-stretch bg-white">
             <div class="d-none d-lg-flex col-lg-8 aut-bg-img align-items-center d-flex justify-content-center">
                 <div class="col-md-8">
-               <center> <FONT FACE="verdana" SIZE=30 COLOR="white">ADAM - INCOFIN</FONT>
-              <!-- <img src="assets/images/incofin.jpg"> -->
-                    <h4 class="text-white">Asociación de Desarrollo Agrícola y Microempresarial</h4></center>
-                   
+           
                 </div>
             </div>
             <div class="col-lg-4 align-items-stret h-100 align-items-center d-flex justify-content-center">
                 <div class=" auth-content text-center">
                     <div class="mb-4">
-                    <img src="assets/images/descarga.jpg">
+                    <img src="assets/images/descarga.jpg" width="350" height="100">
                     </div>
                     <hr>
                     <div class="mb-4">
@@ -52,7 +49,7 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="input-group mb-3">
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Correo Electrónico">
+                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Correo electrónico">
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -68,14 +65,6 @@
                                     </span>
                                 @enderror
                         </div>
-
-
-                    <div class="form-group text-left">
-                        <div class="checkbox checkbox-fill d-inline">
-                            <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="" >
-                            <label for="checkbox-fill-a1" class="cr"> Recordar</label>
-                        </div>
-                    </div>
                     <button type="submit" class="btn btn-success" style="background-color:#668c2d">
                                     {{ __('Ingresar') }}
                     </button>

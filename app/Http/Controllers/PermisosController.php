@@ -10,6 +10,9 @@ use App\Rol;
 class PermisosController extends Controller
 {  
     //
+    public function __construct(){
+        $this->middleware('auth');
+    } 
     public function index(){
         $permisos = DB::table('rol_permisos')
                         ->select(DB::raw('rol_permisos.id,rol_permisos.estado, permisos.nombrePermiso, rols.nombreRol'))

@@ -11,6 +11,9 @@ use App\Rol;
 class RolController extends Controller
 {
     //
+    public function __construct(){
+        $this->middleware('auth');
+    } 
     public function index(){
         return Rol::orderBy('created_at', 'desc')
                     ->where('estado','=',1)

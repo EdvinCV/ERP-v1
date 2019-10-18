@@ -11,8 +11,12 @@ use App\Persona;
 use Carbon\Carbon;
 class ProductoController extends Controller
 {
-    
+   public function __construct(){
+       $this->middleware('auth');
+   } 
+
    public function index(Request $request){
+       if($request->ajax()){
        $producto = DB::table('productos')
                        ->select(DB::raw('productos.id,productos.nombre as Producto,productos.precioventa, productos.preciocompra, productos.gastocomercializacion, productos.existencia, 
                        productos.utilidad, productos.impuesto, productos.maximoprecio, productos.minimoprecio, productos.estado, productos.codigo, productos.cantidadapartado, productos.existencia,
@@ -21,8 +25,10 @@ class ProductoController extends Controller
                        ->join('presentacions','productos.idpresentacion','=','presentacions.id')
                        ->join('personas','productos.idpersona','=','personas.id')
                        ->join('proveedors', 'proveedors.idpersona', '=', 'personas.id')
-                       ->where('productos.estado','=','1')->get();
+                       ->where('productos.estado','=','1')
+                       ->get();
        return $producto;
+       }
        
    }
    public function store(Request $request)

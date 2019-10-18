@@ -7598,10 +7598,12 @@ table.footable-paging-center > tfoot > tr.footable-paging > td {
 
 /* image varient start */
 .aut-bg-img {
-  background-image: url("../images/pr.jpg");
+  background-image: url("../images/login.jpg");
   background-size: cover;
+  background-repeat: no-repeat;
   background-attachment: fixed;
-  background-position: center; 
+  background-position: center;
+   
   /*background-color: #558B2F ;*/
 }
 

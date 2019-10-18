@@ -16,12 +16,12 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                    <v-text-field  label="Cantidad"  prefix="Q" v-model="editedItem.cantidad"></v-text-field>
+                                    <v-text-field  color:="#668c2d" label="Cantidad"  prefix="Q" v-model="editedItem.cantidad"></v-text-field>
                                     <v-radio-group color="success" v-model="editedItem.tipo" column >
                                         <v-radio label="Apertura" value="1" color="success"></v-radio>
                                         <v-radio label="Cierre" value="2" color="success"></v-radio>
                                     </v-radio-group>
-                                    <v-text-field label="Observaciones" v-model="editedItem.observacion"></v-text-field>
+                                    <v-text-field label="Observaciones" color:="#668c2d" v-model="editedItem.observacion"></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </v-container>

@@ -10,6 +10,9 @@ use App\Persona;
 
 class ProveedorController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    } 
     public function index(){
         $proveedores = DB::table('proveedors')
                         ->join('personas','personas.id','=','proveedors.idPersona')
@@ -116,5 +119,11 @@ class ProveedorController extends Controller
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadView('proveedores.especifico', compact('proveedor','prodsProveedor','historial'));
         return $pdf->stream('proveedores.pdf'); 
+    }
+    public function totalProvs(){
+        $proveedores = DB::table('proveedors')
+                    ->where('proveedors.estado','=',true)
+                    ->get();
+        return count($proveedores);
     }   
 }

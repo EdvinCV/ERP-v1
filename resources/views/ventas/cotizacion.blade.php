@@ -1,9 +1,12 @@
+<?php 
+  $i = 1;
+?> 
 <!doctype html>
 <html lang="en">
 <head>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <title>Reporte por proyecto</title>
+    <title>Cotización</title>
 
     <style type="text/css">
         @page {
@@ -62,8 +65,8 @@
   <center><img src="assets/images/descarga.jpg" width="230" height="70"></center> 
   <hr class="hrt">
   <div class="information">
-    <center><h5 >Asociación de Desarrollo Agrícola y Microempresarial</h5>
-      <h2 style="color:#668c2d">Cotización</h2>  
+    <center>
+        <h2 style="color:#668c2d">Cotización</h2>  
     </center>     
      <table class="table" style="width: 100%">
           <thead style="background-color:#668c2d">
@@ -79,7 +82,7 @@
           <tbody>
           @foreach($detalles as $d)
           <tr>
-            <td>-</td>
+            <td><?php echo $i; $i++;?></td>
             <td>{{$d['nombreProducto']}}</td>
             <td>{{$d['presentacion']}}</td>
             <td>{{$d['cantidad']}}</td>
@@ -93,7 +96,7 @@
             <td>-----</td>
             <td>-----</td>
             <td>TOTAL </td>
-            <td></td>
+            <td>{{$total}}</td>
           </tr>
           </tbody>
         </table>
@@ -102,10 +105,10 @@
     <table width="100%">
         <tr>
             <td align="left" style="width: 60%;">
-                &copy; {{ date('Y') }} - 2019 ADAM · Asociación de Desarrollo Agrícola y Empresarial.
+                &copy; {{ date('Y') }} - 2019 INCOFIN.
             </td>
             <td align="right" style="width: 40%;">
-              Tel. (502) 7767 4672 | info@adam.org.gt
+              Tel. (502) 7767 4672 |  INFO@INCOFIN.COM.GT
             </td>
         </tr>
 

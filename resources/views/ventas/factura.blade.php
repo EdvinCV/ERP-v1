@@ -6,45 +6,45 @@
 <head>
 <style>
 	.contenedor{
-        border:1px solid;
+        
 		width: 13.5cm;
         height: 19.9cm;
-        border-color: red;
+        
 	}
     .nombre{
-        padding-top: 3.2cm;
-        padding-left: 2.5cm;
+        padding-top: 2cm;
+        padding-left: 1.6cm;
     }
     .direccion{
         padding-top: 0.3cm;
-        padding-left: 2.5cm;
+        padding-left: 1.6cm;
     }
     .fecha{
-        width: 6.5cm;
+        width: 6.1cm;
         padding-top: 0.3cm;
-        padding-left: 2.5cm;
+        padding-left: 1.6cm;
         float: left;
     }
     .nit{
         padding-top: 0.3cm;
-        padding-left: 0.8cm;
+        padding-left: 0.2cm;
     }
     .encabezado{
         padding-top: 0.3cm;
-        border:1px solid;
-        border-color: green;
+    
+        
     }
     .detalle{
-        padding-top: 1cm;
-        padding-left: 1.2cm;
+        padding-top: 0.7cm;
+        padding-left: 1cm;
         padding-right: 0.7cm;
         height: 9.9cm;
-        border:1px solid;
-        border-color: blue;
+        
+        
         
     }
     .cantidad{
-        width: 2cm;
+        width: 1.2cm;
         height: 9.9cm;
         float:left;
         font-family: calibri;
@@ -67,21 +67,20 @@
     .final{
         width: 13.5cm;
         height: 3.3cm;
-        border:1px solid;
-        border-color: black;
+        
+        
     }
     .letras{
-        padding-top: 0.15cm;
+        padding-top: 0.5cm;
         margin-left: 1.4cm;
     }
     .info{
         padding-top: 0.3cm;
     }
     .total{
-        padding-top: 1.2cm;
-        margin-left: 10.8cm;
+        padding-top: 2.2cm;
+        margin-left: 10cm;
     }
-
 	</style>
 </head>
 
@@ -102,7 +101,7 @@
         </div>
         <div class="fecha">
             @foreach($ventas as $v)
-                {{$v->created_at}}
+                {{$v->fecha}}
                 <br>
             @endforeach
         </div>
@@ -122,7 +121,7 @@
             </div>
             <div class="descripcion">
                 @foreach($detalles as $d)
-                    {{$d->producto}}   -   {{$d->presentacion}}
+                    {{$d->producto}}   -   {{$d->presentacion}}  -  {{$d->precioventa}}
                     <br>
                 @endforeach
             </div>
@@ -135,10 +134,10 @@
         </div>
         <div class="final">
             <div class="letras">
-                Mil quinientos ochenta y cuatro quetzaltes
+                {{$totalLetras}}
             </div>
             <div class="info">
-                Info
+                
             </div>
             <div class="total">
                 @foreach($ventas as $v)

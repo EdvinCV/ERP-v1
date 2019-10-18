@@ -1,7 +1,7 @@
 <template>
     <div>
          <div class="contenedor" style="backgrounhd-color=#668C2D">
-      <center> <h2 style="color:#668C2D">Usuarios</h2></center>
+      <center> <h2 style="color:#668C2D">Ordenes de Compra</h2></center>
         </div>
      <hr>
         <!-- FINALIZAR ORDEN DE COMPRA --> 
@@ -159,7 +159,7 @@
                 </template>
             
                 <template v-slot:no-data>
-                    <v-btn color="primary" @click="initialize">Recargar</v-btn>
+                    <v-btn color="#668c2d"  @click="initialize">Recargar</v-btn>
                 </template>
             
                 <template v-slot:no-results>

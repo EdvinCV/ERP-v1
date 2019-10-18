@@ -1,3 +1,6 @@
+<?php
+  $i = 1;
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -78,7 +81,7 @@
           <tbody>
           @foreach($clientes as $c)
             <tr>
-              <td></td>
+              <td><?php echo $i; $i++;?></td>
               <td>{{ $c->nombre}}</td>
               <td>{{ $c->apellido}}</td>
               <td>{{ $c->nombreCliente}}</td>

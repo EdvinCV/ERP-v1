@@ -64,11 +64,11 @@
     <template v-if="menu==19">
         <reportes_compras></reportes_compras>
     </template>
-    <template v-if="menu==19">
-        <reportes_compras></reportes_compras>
-    </template>
     <template v-if="menu==21">
         <ACaja></ACaja>
+    </template>
+    <template v-if="menu==22">
+        <Ccaja></Ccaja>
     </template>
     <template v-if="menu==30">
         <perfil></perfil>

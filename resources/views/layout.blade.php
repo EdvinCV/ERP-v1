@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <title>ADAM - INCOFIN</title>
+    <title>INCOFIN</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -81,7 +81,6 @@
                                     @php
                                         $c = 0;
                                     @endphp
-                                    
                                     @foreach($permisos as $p)
                                         @if($p->nombrePermiso == "Caja" && $p->estado)
                                             @php
@@ -89,7 +88,7 @@
                                             @endphp
                                         @endif
                                     @endforeach
-                                    @if($c>0 )
+                                    @if($c>0)
                                     <a href=""
                                             class="dud-logout" title="Cerrar Sesión" 
                                             class="dropdown-item" data-toggle="modal" data-target="#myModal2">
@@ -107,7 +106,7 @@
                                     </form>
                                     </a>
                                     @endif
-                                    <a href="{{ route('logout') }}"
+                                    <!--<a href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();" class="dud-logout" title="Cerrar Sesión">
                                         <i class="feather icon-log-out"></i>
@@ -115,7 +114,7 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
-                                    </a>
+                                    </a> -->
                                     
                                 </div>
                 

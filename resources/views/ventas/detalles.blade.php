@@ -1,9 +1,13 @@
+<?php
+  $i = 1;
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <title>Reporte por proyecto</title>
+    <title>Reporte proveedores</title>
 
     <style type="text/css">
         @page {
@@ -55,15 +59,13 @@
             color:#fff;
         }
     </style>
-
 </head>
-
 <body>
   <br>
   <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
   <hr class="hrt">
   <div class="information">
-    <center><h4 >Asociación de Desarrollo Agrícola y Microempresarial</h4>
+    <center>
       <h2 style="color:#668c2d">Detalles de venta</h2>
     </center>
 
@@ -79,7 +81,7 @@
     <center> <h3 style="color:#668c2d">Productos vendidos</h3></center>
     <hr class="hrt">
       <table class="table" width="100%" >
-          <thead style="background-color:#668c2d" class="thead-dark">
+          <thead style="background-color:#668c2d">
             <!--style="background-color:#668C2D" -->
             <tr>
               <th class="th">#</th>
@@ -98,7 +100,7 @@
             style="background-color:#DCEDC8"
           -->
           <tr>
-              <td>1</td>
+              <td><?php echo $i;  $i++;?></td>
               <td>{{ $d->producto }}</td>
               <td>{{ $d->presentacion }}</td>
               <td>{{ $d->cantidad }}</td>
@@ -118,17 +120,19 @@
           <h5>Total: {{ $v->total }}</h5>
         @endforeach
 
+      
         <div class="informatio" style="position: absolute; bottom: 0;">
-          <table width="100%">
-            <tr>
-              <td align="left" style="width: 60%;">
-                &copy; {{ date('Y') }} - 2019 ADAM · Asociación de Desarrollo Agrícola y Empresarial.
-              </td>
-              <td align="right" style="width: 40%;">
-                Tel. (502) 7767 4672 | info@adam.org.gt
-              </td>
-            </tr>
-          </table>
-        </div>
+    <table width="100%">
+        <tr>
+            <td align="left" style="width: 60%;">
+                &copy; {{ date('Y') }} - 2019 INCOFIN.
+            </td>
+            <td align="right" style="width: 40%;">
+              Tel. (502) 7767 4672 |  INFO@INCOFIN.COM.GT
+            </td>
+        </tr>
+
+    </table>
+</div>
   </body>
 </html>

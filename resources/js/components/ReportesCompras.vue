@@ -10,8 +10,8 @@
           <i class="material-icons">playlist_add_check</i>
         </div>
         <div class="content">
-          <div class="text">TOTAL VENTAS POR SEMANA</div>
-            <div class="number count-to" data-from="0" ></div>
+          <div class="text">COMPRAS SEMANA</div>
+            <div class="number count-to" data-from="0" data-speed="1000" data-fresh-interval="20">{{this.editedItem.comprasSemana}}</div>
           </div>
         </div>
       </div>
@@ -21,8 +21,8 @@
             <i class="material-icons">favorite</i>
           </div>
           <div class="content">
-            <div class="text">TOTAL VENTAS POR DIA</div>
-              <div class="number count-to" data-from="0" ></div>
+            <div class="text">COMPRAS DIA</div>
+              <div class="number count-to" data-from="0" >Q. {{this.editedItem.comprasDia}}</div>
             </div>
           </div>
         </div>
@@ -33,8 +33,8 @@
               <i class="material-icons">library_books</i>
             </div>
             <div class="content">
-              <div class="text">POST PENDIENTES</div>
-                <div class="number count-to" data-from="0" ></div>
+              <div class="text">ORDENES PENDIENTES</div>
+                <div class="number count-to" data-from="0" >{{this.editedItem.ordenesPendientes}}</div>
               </div>
             </div>
           </div>
@@ -44,8 +44,8 @@
                 <i class="material-icons">person_add</i>
               </div>
               <div class="content">
-                  <div class="text">TOTAL VIEWS</div>
-                  <div class="number count-to" data-from="0" ></div>
+                  <div class="text">TOTAL PROVEEDORES</div>
+                  <div class="number count-to" data-from="0" >{{this.editedItem.totalProvs}}</div>
               </div>
             </div>
           </div>
@@ -59,37 +59,12 @@
                 <i class="material-icons">apps</i>
               </div>
               <div class="content">
-                <div class="text">CATEGORIAS</div>
+                <div class="text">TOTAL ORDENES MES</div>
                 <div class="number count-to" ></div>
               </div>
             </div>
-            <div class="info-box bg-blue-grey hover-zoom-effect">
-              <div class="icon">
-                <i class="material-icons">labels</i>
-              </div>
-              <div class="content">
-                <div class="text">PRODUCTO MENOS VENDIDO</div>
-                <div class="number count-to" ></div>
-              </div>
-            </div>
-            <div class="info-box bg-purple hover-zoom-effect">
-              <div class="icon">
-                <i class="material-icons">account_circle</i>
-              </div>
-              <div class="content">
-                <div class="text">TOTAL USUARIOS</div>
-                <div class="number count-to" ></div>
-              </div>
-            </div>
-            <div class="info-box bg-deep-purple hover-zoom-effect">
-              <div class="icon">
-                <i class="material-icons">fiber_new</i>
-              </div>
-              <div class="content">
-                <div class="text">PRODUCTO MAS VENDIDO</div>
-                <div class="number count-to" data-from="0" ></div>
-              </div>
-            </div>
+            
+    
           </div>
 
 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
@@ -103,7 +78,7 @@
       <div class="row">
 			  <div class="col-md-8 col-md-offset-2">
 				  <div class="card ">
-            <center><h3>Escoga las fechas:</h3></center>
+            <center><h3>Elija las fechas:</h3></center>
           
 
             <div class="card-body d-flex justify-content-between align-items-center">					
@@ -142,7 +117,7 @@
         
 					</div>
           	<div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn @click="guardarEspecificoClientes" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           <center>  <v-btn @click="guardarEspecificoCompras" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
            </div>
 				</div>
 			</div>
@@ -151,58 +126,7 @@
     <hr>
                  
                     <br>
-      <div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<div class="card">
-           <center>  <h3>Producto</h3></center>
-            	<div class="card-body d-flex justify-content-between align-items-center">
-                <v-flex lg6 md6 xs6 pa-2>
-                <multiselect v-model="editedItem.idProducto" :options="productos" placeholder="Seleccione un producto"
-                    label="mostrar" track-by="id"></multiselect>
-              </v-flex>               
-
-           <center>  <v-btn @click="generalProductos" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
-           </div>
-					<div class="card-body d-flex justify-content-between align-items-center">
-
-					</div>
-
-          <div class="card-body d-flex justify-content-between align-items-center">					
-<template>
-   <v-layout row wrap>
-      <v-flex xs11 sm5>
-        <v-dialog ref="dialog3" v-model="modal3" :return-value.sync="date3" width="290px">
-          <template v-slot:activator="{ on }">
-            <v-text-field v-model="date3" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
-          </template>
-          <v-date-picker v-model="date3" scrollable  locale="gt">
-            <v-btn flat color="primary" @click="modal3 = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.dialog3.save(date3)">OK</v-btn>
-          </v-date-picker>
-        </v-dialog>     
-    </v-flex>
-  </v-layout>
-
-  <v-layout row wrap>
-      <v-flex xs11 sm5>
-        <v-dialog ref="dialog4" v-model="modal4" :return-value.sync="date4" width="290px">
-          <template v-slot:activator="{ on }">
-            <v-text-field v-model="date4" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
-          </template>
-          <v-date-picker v-model="date4" scrollable  locale="gt">
-            <v-btn flat color="primary" @click="modal4 = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.dialog4.save(date4)">OK</v-btn>
-          </v-date-picker>
-        </v-dialog>     
-    </v-flex>
-  </v-layout>
-</template>          
-  </div>
-  <div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn @click="guardarEspecificoClientes" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
-           </div>
-				</div>
-			</div>
+  
 		</div>
 
                 
@@ -240,25 +164,79 @@
       productos: [],
       editedItem:{
         idCliente: '',
-        idProducto: ''
+        idProducto: '',
+        comprasSemana: 0,
+        comprasDia: 0,
+        ordenesPendientes: 0,
+        totalProvs: 0,
       }
     }),
   
     created() {
             this.cargaClientes()
             this.cargaProducto()
+            this.cargaDatos()
         },
 
     methods: {
       cargaClientes() {
-                let me = this;
-                axios.get('/clientes')
-                .then(function (response) {
-                    me.clientes = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error.response);
-                });
+        let me = this;
+        axios.get('/clientes')
+        .then(function (response) {
+            me.clientes = response.data;
+        })
+        .catch(function (error) {
+            console.log(error.response);
+        });
+      },
+      cargaDatos(){
+        let me = this;
+        axios.get('/compra/comprassemana')
+        .then(function (response) {
+            me.editedItem.comprasSemana = response.data;
+            if(me.editedItem.comprasSemana[0].total > 0)
+                me.editedItem.comprasSemana = me.editedItem.comprasSemana[0].total;
+              else
+                me.editedItem.comprasSemana = 0;
+        })
+        .catch(function (error) {
+            console.log(error.response);
+        });
+
+        axios.get('/compra/comprasdia')
+        .then(function (response) {
+            me.editedItem.comprasDia = response.data;
+            if(me.editedItem.comprasDia[0].total > 0)
+                me.editedItem.comprasDia = me.editedItem.comprasDia[0].total;
+              else
+                me.editedItem.comprasDia = 0;
+        })
+        .catch(function (error) {
+            console.log(error.response);
+        });
+
+        axios.get('/compra/compraspendientes')
+        .then(function (response) {
+            me.editedItem.ordenesPendientes = response.data;
+            if(me.editedItem.ordenesPendientes[0].pendientes > 0)
+                me.editedItem.ordenesPendientes = me.editedItem.ordenesPendientes[0].pendientes;
+              else
+                me.editedItem.ordenesPendientes = 0;
+        })
+        .catch(function (error) {
+            console.log(error.response);
+        });
+
+        axios.get('/totalProvs')
+        .then(function (response) {
+            me.editedItem.totalProvs = response.data;
+        })
+        .catch(function (error) {
+            console.log(error.response);
+        });
+
+        
+        
       },
       cargaProducto(){
                         let me = this;
@@ -270,21 +248,20 @@
                     console.log(error.response);
                 });
       },
-      guardarEspecificoClientes(){
+      guardarEspecificoCompras(){
         axios({
             method: 'post',
-            url: '/ventas/reporteVClientes',
+            url: '/compra/reportegeneral',
             responseType:'arraybuffer',
             data: {
                 date1: this.date1,
                 date2: this.date2,
-                idCliente: this.editedItem.idCliente.idPersona
             }
         }).then(function (response) {
             let blob = new Blob([response.data], { type:   'application/pdf' } )
             let link = document.createElement('a')
             link.href = window.URL.createObjectURL(blob)
-            link.download = 'cotizacion.pdf'
+            link.download = 'ordenes.pdf'
             link.click()
         }).catch(function (error) {
             swal.fire({
@@ -302,7 +279,7 @@
 <style scoped>
 .info-box {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  height: 80px;
+  height: 90px;
   display: flex;
   cursor: default;
   background-color: #fff;

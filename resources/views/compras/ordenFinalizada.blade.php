@@ -1,14 +1,9 @@
-<?php 
-     $hoy = getdate();
-     $total = 0;
-?>
 <!doctype html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <meta charset="UTF-8">
-    <title>Reporte por proyecto</title>
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Orden de Compra</title>
     <style type="text/css">
         @page {
             margin: 0px;
@@ -61,15 +56,12 @@
     </style>
 
 </head>
-
 <body>
   <br>    
   <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
   <hr class="hrt">
   <div class="information">
-    <center><h5 >Asociación de Desarrollo Agrícola y Microempresarial</h5>
-      <h2 style="color:#668c2d">Orden de Compra #{{$id}}</h2>
-    </center>
+    <center><h2 style="color:#668c2d">Orden de Compra #{{$id}}</h2></center>
 
     <table style="width: 100%" class="table">
           <thead style="background-color:#668c2d">
@@ -102,7 +94,9 @@
             <td>-----</td>
             <td>-----</td>
             <td>TOTAL </td>
-            <td></td>
+            @foreach($total as $t)
+              <td>{{$t->totalCompra}}</td>
+            @endforeach
           </tr>
           </tbody>
         </table>
@@ -121,22 +115,22 @@
         @endforeach
 
         <br>
-
+        <hr>
         <center><h3>Productos distribuidos</h3></center>
-<hr>
+
         <!-- CLIENTES -->
         @foreach($clientes as $c)
         <div>
           <div>
-            <h6>{{$c->nombreCliente}}</h6>
+            <h3 style="color:#668c2d">{{$c->nombreCliente}}</h3>
           </div>
           <div>
             <table style="width: 100%" class="table">
               <thead style="background-color:#668c2d">
                 <tr>
-                  <th>Producto</th>
-                  <th>Presentacion</th>
-                  <th>Cantidad</th>
+                  <th class="th">Producto</th>
+                  <th class="th">Presentacion</th>
+                  <th class="th">Cantidad</th>
                 </tr>
               </thead>
               <hr>
@@ -160,19 +154,23 @@
           </div>
         </div>
         @endforeach
+        <br>
+        <br>
+        <br>
 
-  <div class="informatio" style="position: absolute; bottom: 0;">
+        <div class="informatio" style="position: absolute; bottom: 0;">
     <table width="100%">
         <tr>
             <td align="left" style="width: 60%;">
-                &copy; {{ date('Y') }} - 2019 ADAM · Asociación de Desarrollo Agrícola y Empresarial.
+                &copy; {{ date('Y') }} - 2019 INCOFIN.
             </td>
             <td align="right" style="width: 40%;">
-              Tel. (502) 7767 4672 | info@adam.org.gt
+              Tel. (502) 7767 4672 |  INFO@INCOFIN.COM.GT
             </td>
         </tr>
 
     </table>
-  </div>
+    
+</div>
 </body>
 </html>

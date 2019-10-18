@@ -5,6 +5,9 @@ use App\Presentacion;
 class PresentacionController extends Controller
 {
         
+    public function __construct(){
+        $this->middleware('auth');
+    } 
   /**
      * Display a listing of the resource.
      *
@@ -12,7 +15,9 @@ class PresentacionController extends Controller
      */
     public function index(Request $request)
     {
-        return Presentacion::orderBy('created_at', 'desc')->get();
+        return Presentacion::orderBy('created_at', 'desc')
+                            ->where('estado','=',true)
+                            ->get();
     }
     
     /**
@@ -63,7 +68,8 @@ class PresentacionController extends Controller
     }   
     public function drop(Presentacion $presentacion){
         try{
-            $presentacion->delete();
+            $presentacion->estado= 0;
+            $presentacion->save();
             return 'Presentación eliminada correctamente';
         }catch(\Exception $e){
             $response['error'] = $e->getMessage();

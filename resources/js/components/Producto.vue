@@ -36,15 +36,15 @@
                                      </v-layout>
                                     <v-layout row>
                                         <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field color="#668c2d" @change="porcentajes()" label="Porcentaje de Comercializacion" :rules="decimalRules" v-model="editedItem.porcComercializacion"></v-text-field>
+                                            <v-text-field color="#668c2d" @change="porcentajes()" label="Porcentaje de Comercialización" :rules="decimalRules" v-model="editedItem.porcComercializacion"></v-text-field>
                                         </v-flex>
                                          <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field color="#668c2d" label="Gasto de Comercializacion" :rules="decimalRules" prefix="Q" v-model="editedItem.gastocomercializacion"></v-text-field>
+                                            <v-text-field color="#668c2d" label="Gasto de Comercialización" :rules="decimalRules" prefix="Q" v-model="editedItem.gastocomercializacion"></v-text-field>
                                         </v-flex>
                                     </v-layout>
                                       <v-layout row>
-                                        <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field color="#668c2d" @change="porcentajes2()" label="Porcentaje de Utilidad" :rules="decimalRules" v-model="editedItem.porcUtilidad" ></v-text-field>
+                                        <v-flex lg6 md6 xs6 pa-2 @change="porcentajes2()">
+                                            <v-text-field color="#668c2d" @change="imp()" label="Porcentaje de Utilidad" :rules="decimalRules" v-model="editedItem.porcUtilidad" ></v-text-field>
                                         </v-flex>
                                          <v-flex lg6 md6 xs6 pa-2>
                                             <v-text-field color="#668c2d" label="Utilidad" :rules="decimalRules" prefix="Q" v-model="editedItem.utilidad" ></v-text-field>
@@ -55,15 +55,15 @@
                                     <v-text-field color="#668c2d" label="Impuesto" :rules="decimalRules" prefix="Q" v-model="editedItem.impuesto"></v-text-field>
                                      </v-flex>
                                        <v-flex lg6 md6 xs6 pa-2>
-                                    <v-text-field color="#668c2d" label="Precio Maximo" :rules="decimalRules" prefix="Q" v-model="editedItem.maximoprecio"></v-text-field>
+                                    <v-text-field color="#668c2d" label="Precio Máximo" :rules="decimalRules" prefix="Q" v-model="editedItem.maximoprecio"></v-text-field>
                                      </v-flex>
                                      </v-layout>
                                       <v-layout row>
                                        <v-flex lg6 md6 xs6 pa-2>
-                                    <v-text-field color="#668c2d" label="Precio Minimo" :rules="decimalRules" prefix="Q" v-model="editedItem.minimoprecio"></v-text-field>
+                                    <v-text-field color="#668c2d" label="Precio Mínimo" :rules="decimalRules" prefix="Q" v-model="editedItem.minimoprecio"></v-text-field>
                                      </v-flex>
                                      <v-flex lg6 md6 xs6 pa-2>
-                                    <v-text-field color="#668c2d" v-model="editedItem.codigo" label="Codigo"></v-text-field>
+                                    <v-text-field color="#668c2d" v-model="editedItem.codigo" label="Código"></v-text-field>
                                     </v-flex>
                                     </v-layout>
                                     <v-text-field color="#668c2d" v-model="editedItem.cantidadapartado" label="Cantidad Apartado" :rules="numberRules"></v-text-field>
@@ -105,7 +105,7 @@
         
            <v-card-title>
            
-      <v-switch v-model="switch1" label="Ver todo"></v-switch>
+      <v-switch v-model="switch1" label="Ver todo" color="success"></v-switch>
         <div class="flex-grow-1"></div>
         <v-text-field
           v-model="search"
@@ -126,12 +126,13 @@
                 <td class="text-xs-left">{{ props.item.precioventa }}</td>
                 <td class="text-xs-left">{{ props.item.preciocompra }}</td>
                 <template v-if="switch1 == true">
+                    <td class="text-xs-left">{{ props.item.porcComercializacion }}</td>
                     <td class="text-xs-left">{{ props.item.gastocomercializacion }}</td>
+                    <td class="text-xs-left">{{ props.item.porcUtilidad }}</td>
                     <td class="text-xs-left">{{ props.item.utilidad }}</td>
                     <td class="text-xs-left">{{ props.item.impuesto }}</td>
                     <td class="text-xs-left">{{ props.item.maximoprecio }}</td>
                     <td class="text-xs-left">{{ props.item.minimoprecio }}</td>
-                    <td class="text-xs-left">{{ props.item.estado }}</td>
                     <td class="text-xs-left">{{ props.item.codigo }}</td>
                     <td class="text-xs-left">{{ props.item.cantidadapartado }}</td>
                     <td class="text-xs-left">{{ props.item.existencia }}</td>
@@ -197,7 +198,7 @@
                     value: 'Producto' 
                 }, 
                 {
-                    text: 'Presentacion',
+                    text: 'Presentación',
                     value: 'presentacion'
                 },
                 {
@@ -219,7 +220,7 @@
                     value: 'Producto' 
                 }, 
                 {
-                    text: 'Presentacion',
+                    text: 'Presentación',
                     value: 'presentacion'
                 },
                 {
@@ -234,10 +235,17 @@
                     text: 'Precio Compra',
                     value: 'preciocompra'
                 },
-                
                 {
-                    text: 'Gasto Comercializacion',
+                    text: 'Porcentaje Comercialización',
+                    value: 'porcComercializacion'
+                },
+                {
+                    text: 'Gasto Comercialización',
                     value: 'gastocomercializacion'
+                },
+                {
+                    text: 'Porcentaje Utilidad',
+                    value: 'porcUtilidad'
                 },
                 {
                     text: 'Utilidad',
@@ -248,19 +256,15 @@
                     value: 'impuesto'
                 },
                 {
-                    text: 'Precio Maximo',
+                    text: 'Precio Máximo',
                     value: 'maximoprecio'
                 },
                 {
-                    text: 'Precio Minimo',
+                    text: 'Precio Mínimo',
                     value: 'minimoprecio'
                 },
                 {
-                    text: 'Estado',
-                    value: 'estado',
-                },
-                {
-                    text: 'Codigo',
+                    text: 'Código',
                     value: 'codigo'
                 },
                 {
@@ -272,12 +276,13 @@
                     value: 'existencia'
                 },
                 {
-                    text: 'Categoria',
+                    text: 'Categoría',
                     value: 'categoria'
                 },
                
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
+            bandera:false,
             producto: [],
             idcategoria: -1,
             idpresentacion: -1,
@@ -349,22 +354,28 @@
                 this.error = 0;
                 var x = true;
                 this.errorMsj = [];
+                let me = this;
+                var s = me.vercodigo();
                 if (!this.editedItem.Producto)
-                    this.errorMsj.push('El nombre del producto no puede estar vacio. ');
-                /*if(!this.editedItem.idcategoria)
-                    this.errorMsj.push('Se debe asignar una categoria')
+                    this.errorMsj.push('El nombre del producto no puede estar vacio.');
+                    
+                if(!this.editedItem.idcategoria)
+                    this.errorMsj.push('Se debe asignar una categoría.')
                 if(!this.editedItem.idpresentacion)
-                    this.errorMsj.push('Se debe asignar una presentacion')
+                    this.errorMsj.push('Se debe asignar una presentación. ')
                 if(!this.editedItem.idpersona)
-                    this.errorMsj.push('Se debe asignar un proveedor')*/
+                    this.errorMsj.push('Se debe asignar un proveedor. ')
                 if(!this.editedItem.precioventa)
                     this.errorMsj.push('Se debe asignar un precio de venta. ')
                 if(!this.editedItem.preciocompra)
                     this.errorMsj.push('Se debe asignar una precio de compra. ')
                 if(!this.editedItem.utilidad)
                     this.errorMsj.push('Se debe asignar un valor de utilidad. ')
-                
-            
+                if(!this.editedItem.codigo)
+                    this.errorMsj.push('Se debe asignar un código. ')
+                console.log('s '+ s);
+                if(this.bandera==false)
+                    this.errorMsj.push('El código ya existe. ')
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
@@ -388,6 +399,41 @@
                 this.editedItem.utilidad = r;
                 return r;
                 console.log(r);
+            },
+            imp(){
+                let me = this;
+                var i = 0.19;
+                var r;
+                r = parseFloat(this.editedItem.preciocompra) + parseFloat(this.editedItem.gastocomercializacion) + parseFloat(this.editedItem.utilidad);
+                r = r * i;
+                r = Number(r.toFixed(2));
+                this.editedItem.impuesto = r;
+                return r;
+                console.log(me.r);
+            },
+            vercodigo()
+            {
+                let me = this;
+                var si = 0;
+                var cod = this.editedItem.codigo;
+                console.log(me.producto[0].codigo);
+                for(var x =0; x< me.producto.length; x++)
+                {
+                    console.log(me.producto[x].codigo);
+                    
+                    if(me.producto[x].codigo.toUpperCase() == cod.toUpperCase()&&me.editedItem.id==me.producto[x].id)
+                    {
+                        me.bandera=true;
+                        break;                                            
+                    }else if(me.producto[x].codigo.toUpperCase() == cod.toUpperCase()&&me.editedItem.id!=me.producto[x].id){
+                        me.bandera=false;
+                        break;
+                    }else{
+                        me.bandera=true;
+                    }
+                    
+                };
+                return me.bandera;
             },
              cargaCategorias() {
                 let me = this;
@@ -438,12 +484,12 @@
             },desactivar(item){
                 let me=this;
                 swal.fire({
-                    title: 'Quieres elimiara a este producto?',
+                    title: '¿Quieres eliminar este producto?',
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, eliminala!',
+                    confirmButtonText: 'Si, eliminar',
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {

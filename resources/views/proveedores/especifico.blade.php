@@ -3,7 +3,7 @@
 <head>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <title>Reporte por proyecto</title>
+    <title>Reporte proveedor</title>
 
     <style type="text/css">
         @page {
@@ -61,12 +61,13 @@
   <br>      
   <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
   <hr class="hrt">
-  <center><h5 >Asociación de Desarrollo Agrícola y Microempresarial</h5>
+  <center>
     @foreach($proveedor as $p)
       <h2 style="color:#668c2d">Proveedor: {{$p->nombreProveedor}}</h2>
     @endforeach
   </center>
-  
+
+        <h3 style="color:#668c2d">Lista de productos</h3>
         <!-- PROVEEDORES -->
         @foreach($prodsProveedor as $prod)
         <div>
@@ -102,6 +103,21 @@
           </div>
         </div>
         @endforeach
+
+
+        <div class="informatio" style="position: absolute; bottom: 0;">
+    <table width="100%">
+        <tr>
+            <td align="left" style="width: 60%;">
+                &copy; {{ date('Y') }} - 2019 INCOFIN.
+            </td>
+            <td align="right" style="width: 40%;">
+              Tel. (502) 7767 4672 |  INFO@INCOFIN.COM.GT
+            </td>
+        </tr>
+
+    </table>
+</div>
         
     </body>
 </html>

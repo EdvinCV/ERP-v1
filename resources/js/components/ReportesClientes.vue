@@ -25,7 +25,7 @@
               </div>
               <div class="content">
                 <div class="text">TOTAL PRODUCTOS</div>
-                <div class="number count-to" >{{this.totalProds}}</div>
+                <div class="number count-to" ></div>
               </div>
             </div>
         </div>
@@ -61,12 +61,7 @@
          
     <hr>
                  
-                    <br>
-  
-
-                
-            
-                  
+                    <br>    
                      </div>
                 </div>
             </div>        
@@ -112,20 +107,22 @@
       cargarDatos(){
         axios.get('/totalClientes')
         .then(function(response) {
+            //this.totalClientes = response.data;
+            console.log(response.data);
             this.totalClientes = response.data;
-            console.log(this.totalClientes[0]);  
+            console.log("Prueba" + this.totalClientes);
         })
         .catch(function (error) {
             console.log(error.response);
         });
 
-        axios.get('/totalProds')
+        /*axios.get('/totalProds')
         .then(function (response) {
             this.totalProds = response.data;
         })
         .catch(function (error) {
             console.log(error.response);
-        });
+        });*/
 
 
       },

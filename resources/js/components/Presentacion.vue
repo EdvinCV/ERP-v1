@@ -154,8 +154,8 @@
             deleteItem(item) {
                 let me=this;
                 swal.fire({
-                    title: 'Quieres eliminar esta Presentacion?',
-                    text: "No podras revertir la eliminacion!",
+                    title: 'Quieres eliminar esta presentación?',
+                    text: "No podras revertir la eliminación!",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

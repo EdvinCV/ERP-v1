@@ -242,31 +242,7 @@
                         return;
                     }
                 if (this.editedIndex > -1) {
-                    axios({
-                        method: 'put',
-                        url: '/caja/actualizar',
-                        data: {
-                            id: this.editedItem.id,
-                            nombre: this.editedItem.nombre
-                        }
-                    }).then(function (response) {
-                        swal.fire({
-                            position: 'top-end',
-                            type: 'success',
-                            title: response.data,
-                            showConfirmButton: false,
-                            timer: 1500});
-                        me.initialize();
-                        me.close();
-                    }).catch(function (error) {
-                        swal.fire({
-                            position: 'top-end',
-                            type: 'error',
-                            title: error.response.data.error,
-                            showConfirmButton: true});
-                        me.initialize();
-                        me.close();
-                    });                    
+                                
                 } else {
                     axios({
                         method: 'post',
@@ -277,14 +253,11 @@
                             observacion: me.editedItem.observacion
                         }
                     }).then(function (response) {
-                        swal.fire({
-                            position: 'top-end',
-                            type: 'success',
-                            title: response.data,
-                            showConfirmButton: false,
-                            timer: 1500});
-                        me.initialize();
-                        me.close();
+                        axios.post('/logout').then(function (response){
+                            location.reload();
+                        }).catch(function (error) {
+                            
+                        });                          
                     }).catch(function (error) {
                         swal.fire({
                             position: 'top-end',
@@ -295,6 +268,7 @@
                         me.close();
                     }); 
                 }
+
             }
         }
     }

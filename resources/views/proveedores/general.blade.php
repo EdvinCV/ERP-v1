@@ -1,9 +1,12 @@
+<?php 
+  $i = 1;
+?> 
 <!doctype html>
 <html lang="en">
 <head>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <title>Reporte por proyecto</title>
+    <title>Reporte proveedores</title>
 
     <style type="text/css">
         @page {
@@ -61,10 +64,11 @@
   <br>
   <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
   <hr class="hrt">
-  <center><h5 >Asociación de Desarrollo Agrícola y Microempresarial</h5>
-    <h6 style="color:#668c2d">Reporte Proveedores</h6>
+  <center>
+    <h2 style="color:#668c2d">Reporte Proveedores</h2>
   </center>
      
+     <h3 style="color:#668c2d">Listado de proveedores</h3>
      <table class="table" style="width: 100%">
           <thead style="background-color:#668c2d">
             <tr>
@@ -79,7 +83,7 @@
           <tbody>
           @foreach($proveedores as $p)
             <tr>
-              <td></td>
+              <td><?php echo $i; $i++;?></td>
               <td>{{ $p->nombreProveedor}}</td>
               <td>{{ $p->direccion}}</td>
               <td>{{ $p->telefono}}</td>
@@ -92,11 +96,12 @@
         <hr>
         <br>
 
-        <!-- CLIENTES -->
+        <h3 style="color:#668c2d">Listado de productos por proveedor</h3>
+        <!-- PROVEEDORES -->
         @foreach($proveedores as $prov)
         <div>
           <div>
-            <h2>{{$prov->nombreProveedor}}</h2>
+            <h3 style="color:#668c2d">{{$prov->nombreProveedor}}</h3>
             <hr>
           </div>
           <div>
@@ -128,18 +133,18 @@
         
         
 
-    <div class="informatio" style="position: absolute; bottom: 0;">
+        <div class="informatio" style="position: absolute; bottom: 0;">
     <table width="100%">
         <tr>
             <td align="left" style="width: 60%;">
-                &copy; {{ date('Y') }} - 2019 ADAM · Asociación de Desarrollo Agrícola y Empresarial.
+                &copy; {{ date('Y') }} - 2019 INCOFIN.
             </td>
             <td align="right" style="width: 40%;">
-              Tel. (502) 7767 4672 | info@adam.org.gt
+              Tel. (502) 7767 4672 |  INFO@INCOFIN.COM.GT
             </td>
         </tr>
 
     </table>
-  </div>
+</div>
   </body>
 </html>

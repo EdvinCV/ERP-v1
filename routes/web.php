@@ -103,6 +103,10 @@ Route::delete('compra/{id}/eliminar', 'OrdenCompraController@drop');
 Route::get('/compra/validartotal', 'OrdenCompraController@validarTotal');
 Route::get('/compra/{id}/finalizada','OrdenCompraController@ordenFinalizada');
 Route::get('/compra/validartotal','OrdenCompraController@validarTotal');
+Route::post('/compra/reportegeneral','OrdenCompraController@reporteGeneral');
+Route::get('/compra/comprassemana','OrdenCompraController@obtenerComprasSemana');
+Route::get('/compra/comprasdia','OrdenCompraController@obtenerComprasDia');
+Route::get('/compra/compraspendientes','OrdenCompraController@pendientes');
 //RUTAS REPORTES
 Route::post('/ventas/reporteProductos', 'VentasController@reporteVentasProducto');
 Route::post('/ventas/reporteVClientes', 'VentasController@reporteVentasClientes');
@@ -111,6 +115,7 @@ Route::get('/reporteProveedores/{id}','ProveedorController@reporteEspecifico');
 Route::get('/reporteClientes','ClienteController@reporteGeneral');
 //RUTAS DATOS
 Route::get('/mayorProv','ProveedorController@prov');
+Route::get('/totalProvs','ProveedorController@totalProvs');
 Route::get('/totalClientes','ClienteController@total');
 Route::get('/totalProds','ProductoController@totalProds');
 Route::get('/ventas/totalSemana','VentasController@obtenerVentasSemana');

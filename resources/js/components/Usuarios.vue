@@ -64,8 +64,8 @@
                                             v-if="this.editedIndex === -1"
                                 ></v-text-field>
                                 <br>
-                                <multiselect v-model="editedItem.rol" :options="listaRoles" placeholder="Seleccione un rol"
-                                            label="nombreRol" track-by="id" :allowEmpty="true" >
+                                <multiselect v-model="this.editedItem.rol" :options="listaRoles" placeholder="Seleccione un rol"
+                                            label="nombreRol" track-by="id">
                                 </multiselect>
                                 <v-switch 
                                     v-model="switch1"

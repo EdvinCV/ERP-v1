@@ -9,6 +9,10 @@ use App\Persona;
 
 class ClienteController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    } 
+    
     public function index(){
         $proveedores = DB::table('clientes')
                         ->join('personas','personas.id','=','clientes.idPersona')
@@ -84,6 +88,7 @@ class ClienteController extends Controller
     public function total(){
         $total = DB::table('clientes')
                 ->select(DB::raw('COUNT(clientes.id) as total'))
+                ->where('clientes.estado','=',true)
                 ->get();
         return $total;
     }

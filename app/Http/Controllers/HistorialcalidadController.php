@@ -6,11 +6,18 @@ use App\Historialcalidad;
 use App\Producto;
 class HistorialcalidadController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    } 
     public function index(Request $request){
             $historialcalidad = DB::table('historialcalidads')
             ->select(DB::raw('historialcalidads.id, productos.nombre as Producto,historialcalidads.calificacion,
-            DATE_FORMAT(historialcalidads.fecha,"%d-%m-%Y") as fecha, descripcion'))
-            ->join('productos','historialcalidads.idproducto','=','productos.id')->get();
+            DATE_FORMAT(historialcalidads.fecha,"%d-%m-%Y") as fecha, descripcion, CONCAT(productos.nombre, " - " ,presentacions.nombre,  " - ",proveedors.nombreProveedor) as mostrar'))
+            ->join('productos','historialcalidads.idproducto','=','productos.id')
+            ->join('presentacions','productos.idpresentacion','=','presentacions.id')
+            ->join('personas','productos.idpersona','=','personas.id')
+            ->join('proveedors', 'proveedors.idpersona', '=', 'personas.id')
+            ->get();
         return $historialcalidad;
     }
     public function store(Request $request)

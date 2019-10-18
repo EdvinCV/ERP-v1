@@ -1,16 +1,39 @@
+<style>
+.containers{
+
+  margin: auto;
+  border: 3px solid #73AD21;
+}
+.hr{
+    background-color:#668C2D;
+}
+</style>
 <template>
     <div>
         <center><h2 style="color:#668C2D">Venta</h2></center>
-        <center><hr class="hrt"></center>
-        <v-switch  
+        <center><hr class="hrt" color="#668c2d"></center>
+ 
+          <v-container >
+         
+      <h5 style="color:#668c2d">Factura</h5>
+ <v-layout row>
+          <v-switch  
             color="#668c2d"
             v-model="editedItem.switchFact"
             :label = "this.editedItem.switchFact ? 'Facturado' : 'No Facturado'"
         ></v-switch>
-        <v-flex lg3 md3 xs3 pa-2 >
+      
+       
+
+       
+      <v-flex lg3 md3 xs3 pa-2 >
             <v-text-field color="#668c2d" v-model="editedItem.numFact" label="No. Factura"></v-text-field>
         </v-flex>
-        <v-radio-group v-model="radios" row @change="pago()">
+         </v-layout>
+                <h5 style="color:#668c2d">Metodo de pago</h5>
+              <v-layout row>
+               
+           <v-radio-group v-model="radios" row @change="pago()">
             <v-radio color="#668c2d" label="Efectivo" value="efectivo"></v-radio>
             <v-radio color="#668c2d" label="Cheque" value="cheque"></v-radio>
             <v-flex color="#668c2d" lg3 md3 xs3 pa-2>
@@ -20,14 +43,29 @@
                 <v-text-field color="#668c2d" v-model="editedItem.banco" label="Banco" v-if="bandera"></v-text-field>
             </v-flex>
         </v-radio-group>
-        <v-container fluid>
+    
+              </v-layout>
+       <hr>
+        
+</v-container>
+       
+       
+       
+        <v-container>
+           
         <!--LAYOUT DE CLIENTE -->
-            <h6>Información cliente</h6>
+   
+        <h5 style="color:#668c2d">Información cliente <v-btn @click="abrirModal"  style="background-color:#668c2d"  dark class="mb-2" v-on="on">Ingresar Cliente</v-btn></h5>
+      
+             
+           
             <v-layout row>
                 <v-flex lg6 md6 xs6 pa-2>
                     <multiselect title="Seleccione un cliente" @input="buscarNIT()" v-model="editedItem.idCliente" :options="clientes" placeholder="Seleccione un cliente"
                                 label="nombreCliente" track-by="nombreCliente"></multiselect>
                 </v-flex>
+                
+                
                 <v-flex lg3 md3 xs6 pa-2>
                     <v-text-field color="#668c2d" v-model="editedItem.nit" label="NIT" readonly></v-text-field>
                 </v-flex>
@@ -35,8 +73,12 @@
                     <v-text-field color="#668c2d" v-model="editedItem.direccion" label="Dirección"></v-text-field>
                 </v-flex>
             </v-layout>
+            
+          
             <!--LAYOUT DE PRODUCTOS-->
-            <h6>Ingrese productos</h6> 
+                <hr>
+            <h5 style="color:#668c2d">Ingrese productos</h5> 
+        
             <v-layout row>
                 <v-flex lg6 md6 xs6 pa-2>
                     <multiselect title="Seleccione producto" @input="buscarProducto()" v-model="editedItem.detProducto" :options="prods" placeholder="Seleccione un producto"
@@ -61,7 +103,9 @@
                 </v-flex>
             </v-layout>
             <!--LAYOUT PRODUCTOS INGRESADOS-->
-            <h6>Productos ingresados</h6>
+             <hr  color="#668c2d">
+            <h5 style="color:#668c2d">Productos ingresados</h5>
+           
             <template>
                 <v-data-table :headers="headersAddP" :items="carrito" class="elevation-1" hide-actions>
                     <template v-slot:items="props">
@@ -89,9 +133,48 @@
             <template>
                 <v-btn @click="save" block color="#668c2d" dark>GENERAR VENTA</v-btn>
                 <v-btn @click="cotizacion" block color="#668c2d" dark>Cotización</v-btn>
-            </template>                                          
+            </template>  
+                                                    
         </v-container>
+
+        <div class="text-center">
+            <v-dialog v-model="dialogModal" width="600px">
+      <v-card>
+        <v-card-title style="background-color:#668c2d">
+          <span class="headline" style="color:#fff">Ingresar Cliente</span>
+        </v-card-title>
+
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+                <v-flex xs12 sm12 md12>
+                    <v-text-field color="#668c2d" maxlength="50"  required :counter="50" :rules="nameRules" v-model="editedItem.nombre" label="Nombres"></v-text-field>
+                    <v-text-field color="#668c2d" maxlength="50"  required :counter="50" :rules="apellidoRules" v-model="editedItem.apellido" label="Apellidos"></v-text-field>
+                    <v-text-field color="#668c2d" maxlength="100"  required :counter="100" :rules="direccion" v-model="editedItem.direccionCliente" label="Direccion"></v-text-field>
+                    <v-text-field  color="#668c2d" maxlength="20"  required :counter="20" :rules="telefono" v-model="editedItem.telefono" label="Telefono"></v-text-field>
+                    <v-text-field color="#668c2d" :rules="nitRules" v-model="editedItem.nitCliente" label="NIT"></v-text-field>
+                    <v-text-field color="#668c2d" type="email" :rules="correoRules" v-model="editedItem.correo" label="Correo"></v-text-field>
+                    <v-text-field color="#668c2d" type="text" :rules="dpirules" v-model="editedItem.dpi" label="DPI"></v-text-field>
+                    <v-text-field  color="#668c2d" maxlength="50"  required :counter="50" :rules="nameRules" v-model="editedItem.nombreCliente" label="Cliente"></v-text-field>
+                </v-flex> 
+            </v-layout>
+            </v-container>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
+            <v-btn color="#668c2d" flat @click="closeModal">Cancelar</v-btn>
+            <v-btn color="#668c2d" flat @click="guardarCliente">Guardar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
     </div>
+
+    
 </template>
 
 <script>
@@ -102,8 +185,38 @@
         },
         data: () => ({
             search: '',
+            nitRules:[
+                v => !!v || 'El campo de Nit no puede estar vacio',
+            ],
+            nameRules: [
+                v => !!v || 'El nombre del cliente no puede estar vacio',
+                v => (v && v.length <= 49) || 'El nombre del proveedor no puede ser mayor a 50',
+                v => /[a-zA-Z]/.test(v) || 'El nombre del proveedor solo puede tener letras',
+            ],
+            apellidoRules: [
+                v => !!v || 'El apellido del cliente no puede estar vacio',
+                v => (v && v.length <= 49) || 'El apellido del proveedor no puede ser mayor a 50',
+                v => /[a-zA-Z]/.test(v) || 'El apellido del proveedor solo puede tener letras',
+            ],
+            direccion: [
+                v => !!v || 'La direccion del cliente no puede estar vacia',
+                v => (v && v.length <= 99) || 'El apellido del proveedor no puede ser mayor a 100',
+            ],
+            telefono: [
+                v => !!v || 'El telefono del cliente no puede estar vacio',
+                v => (v && v.length <= 13) || 'El telefono del proveedor no puede ser mayor a 20',
+                v => /^[0-9]+$/.test(v) || 'El telefono del proveedor solo puede tener numeros',
+            ],
+            correoRules: [
+                v => !!v || 'El campo de correo no puede estar vacio',
+                v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(v)|| 'El correo ingresado no existe',
+            ],
+            dpirules: [
+                v => !!v || 'El campo de dpi no puede estar vacio',
+            ],
             bandera: false,
             dialog: false,
+            dialogModal: false,
             error: 0,
             radios: '',
             errorMsj: [],
@@ -134,6 +247,15 @@
                 detalle: [],
                 existencia: 0,
                 switchFact: true,
+                nombre: '',
+                apellido: '',
+                direccionCliente: '',
+                telefono: '',
+                nitCliente: '',
+                correo: '',
+                nombreCliente: '',
+                dpi: '',
+                estado: true,
             },
             defaultItem: {
                 idCliente: '',
@@ -223,6 +345,58 @@
                     console.log(error.response);
                 });
             },
+            abrirModal(){
+                this.dialogModal = true;
+            },
+            guardarCliente(){
+            let me = this;
+            //if (this.validate()) {
+            //    return;
+            //}
+            axios({
+                method: 'post',
+                url: '/clientes/nuevo',
+                data: {
+                    nombre: me.editedItem.nombre,
+                    apellido: me.editedItem.apellido,
+                    direccion: me.editedItem.direccionCliente,
+                    telefono: me.editedItem.telefono,
+                    nit: me.editedItem.nitCliente,
+                    correo: me.editedItem.correo,
+                    dpi: me.editedItem.dpi,
+                    nombreCliente: me.editedItem.nombreCliente
+                }
+            }).then(function (response) {
+                swal.fire({
+                    position: 'top-end',
+                    type: 'success',
+                    title: response.data,
+                    showConfirmButton: false,
+                    timer: 1500});
+                me.cargaClientes()
+                me.closeModal();
+            }).catch(function (error) {
+                swal.fire({
+                    position: 'top-end',
+                    type: 'error',
+                    title: error.response.data.error,
+                    showConfirmButton: true});
+                    me.initialize();
+                    me.close();
+                }); 
+            },
+            valNit(nit){
+                var nd, add=0;
+                if(nd =  /^(\d+)\-?([\dk])$/i.exec(nit)){
+                    nd[2] = (nd[2].toLowerCase()=='k')?10:parseInt(nd[2]);
+                    for (var i = 0; i < nd[1].length; i++) {
+                        add += ( (((i-nd[1].length)*-1)+1) * nd[1][i] );
+                    }
+                    return ((11 - (add % 11)) % 11) == nd[2];
+                }else{
+                    return false;
+                }
+            },
             buscarNIT(){
                 let me = this;
                 var cliente = this.clientes.filter(function(c){
@@ -252,7 +426,7 @@
                             showConfirmButton: false,
                             timer: 1500});
                 }else {
-                    if(this.editedItem.cantProducto == 0 || this.editedItem.precio == 0 || !this.editedItem.detProducto || this.editedItem.descuento < 0 || this.editedItem.descuento > 100) // || this.editedItem.cantProducto > this.editedItem.existencia)
+                    if(this.editedItem.cantProducto == 0 || this.editedItem.precio == 0 || !this.editedItem.detProducto || this.editedItem.descuento < 0 || this.editedItem.descuento > 100 || this.editedItem.cantProducto > this.editedItem.existencia)
                         this.mostrarAlert();
                     else{
                         me.carrito.push({
@@ -262,7 +436,7 @@
                         cantidad: parseInt(me.editedItem.cantProducto),
                         precio: me.editedItem.detProducto.precioventa,
                         descuento: me.editedItem.descuento,
-                        sub: ( (parseInt(me.editedItem.cantProducto) * parseFloat(me.editedItem.detProducto.precioventa) * (100 - me.editedItem.descuento)) / 100)
+                        sub: parseFloat((((parseInt(me.editedItem.cantProducto) * parseFloat(me.editedItem.detProducto.precioventa) * (100 - me.editedItem.descuento)) / 100)))
                         });
                         me.calcularTotal();
                         me.editedItem.cantProducto = 0;
@@ -314,14 +488,14 @@
                             showConfirmButton: false,
                             timer: 1500});
                 }
-               /* if(this.editedItem.cantProducto > this.editedItem.existencia){
+               if(this.editedItem.cantProducto > this.editedItem.existencia){
                     swal.fire({
                             position: 'top-end',
                             type: 'error',
                             title: 'No existe producto suficiente en inventario.',
                             showConfirmButton: false,
                             timer: 1500});
-                }*/
+                }
             },
             cotizacion(){
                 axios({
@@ -330,7 +504,7 @@
                         responseType:'arraybuffer',
                         data: {
                             carrito: this.carrito,
-                            total: this.editedItem.precio
+                            total: this.editedItem.total
                         }
                     }).then(function (response) {
                         let blob = new Blob([response.data], { type:   'application/pdf' } )
@@ -352,9 +526,8 @@
                 me.carrito.forEach(function(e){
                     t += e.sub;
                 })
-                me.editedItem.subtotal = t;
-                var iva = t*0.12;
-                me.editedItem.total = t + iva ;
+                me.editedItem.subtotal = Math.round(t/1.12,2);
+                me.editedItem.total = t;
             },
             close() {
                 this.error=0;
@@ -363,6 +536,9 @@
                     this.editedItem = Object.assign({}, this.defaultItem)
                     this.editedIndex = -1
                 }, 300)
+            },
+            closeModal(){
+                this.dialogModal = false;
             },
             save() {
                 let me = this;

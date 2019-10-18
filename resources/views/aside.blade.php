@@ -90,16 +90,16 @@
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
                             class="nav-item pcoded-hasmenu" id="app">
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
-                                    class="feather icon-tag"></i></span><span class="pcoded-mtext">Ventas</span></a><hr>
+                                    class="fas fa-shopping-cart"></i></span><span class="pcoded-mtext">Ventas</span></a><hr>
                             <ul class="pcoded-submenu">
                             <li><a @click="menu=13" ><span class="pcoded-micon"><i
-                                    class="feather icon-credit-card"></i></span><span class="pcoded-mtext">Nueva Venta</span></a></li>
+                                    class="fas fa-shopping-basket"></i></span><span class="pcoded-mtext">Nueva Venta</span></a></li>
                                     <li><a @click="menu=14" ><span class="pcoded-micon"><i
-                                    class="feather icon-share"></i></span><span class="pcoded-mtext">Historial ventas</span></a></li>
+                                    class="fas fa-list-ul"></i></span><span class="pcoded-mtext">Historial ventas</span></a></li>
                                 <li><a @click="menu=15" ><span class="pcoded-micon"><i
                                     class="feather icon-box"></i></span><span class="pcoded-mtext">Control Caja</span></a></li>
                                     <li><a @click="menu=16" ><span class="pcoded-micon"><i
-                                    class="feather icon-box"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
+                                    class="fas fa-file-alt"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
                             </ul>
                         </li>
                     @endif
@@ -107,29 +107,14 @@
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
                             class="nav-item pcoded-hasmenu">
                             <a href="#!" class="nav-link"><span class="pcoded-micon"><i
-                                    class="fas fa-shopping-basket"></i></span><span class="pcoded-mtext">Compras</span></a><hr>
+                                    class="fas fa-truck-moving"></i></span><span class="pcoded-mtext">Compras</span></a><hr>
                             <ul class="pcoded-submenu">
                             <li><a @click="menu=17" ><span class="pcoded-micon"><i
-                                    class="feather icon-shopping-cart"></i></span><span class="pcoded-mtext">Nueva Compra</span></a></li>
+                                    class="fas fa-truck-loading"></i></span><span class="pcoded-mtext">Nueva Compra</span></a></li>
                                     <li><a @click="menu=18" ><span class="pcoded-micon"><i
-                                    class="feather icon-share"></i></span><span class="pcoded-mtext">Historial Compras</span></a></li>
+                                    class="fas fa-list-ul"></i></span><span class="pcoded-mtext">Historial Compras</span></a></li>
                                 <li><a @click="menu=19" ><span class="pcoded-micon"><i
-                                    class="feather icon-box"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
-                            </ul>
-                        </li>
-                    @endif
-                    @if($p->nombrePermiso == "Reportes" && $p->estado)
-                        <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project"
-                            class="nav-item pcoded-hasmenu">
-                            <a href="#!" class="nav-link"><span class="pcoded-micon"><i
-                                    class="feather icon-file"></i></span><span class="pcoded-mtext">Reportes</span></a><hr>
-                            <ul class="pcoded-submenu">
-                            <li><a @click="menu=10" ><span class="pcoded-micon"><i
-                                    class="feather icon-user-plus"></i></span><span class="pcoded-mtext">Nuevo Usuario</span></a></li>
-                                <li><a @click="menu=19" ><span class="pcoded-micon"><i
-                                    class="feather icon-bar-chart"></i></span><span class="pcoded-mtext">Graficas</span></a></li>
-                                    <li><a @click="menu=31" ><span class="pcoded-micon"><i
-                                    class="feather icon-file"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
+                                    class="fas fa-file-alt"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
                             </ul>
                         </li>
                     @endif

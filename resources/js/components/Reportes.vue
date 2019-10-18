@@ -11,7 +11,7 @@
         </div>
         <div class="content">
           <div class="text">VENTAS SEMANA</div>
-            <div class="number count-to" data-from="0" >Q. {{this.editedItem.totalSemana[0].total}}</div>
+            <div class="number count-to" data-from="0" >Q. {{this.editedItem.totalSemana}}</div>
           </div>
         </div>
       </div>
@@ -22,7 +22,7 @@
           </div>
           <div class="content">
             <div class="text">VENTAS DIA</div>
-              <div class="number count-to" data-from="0" >Q. {{this.editedItem.totalDia[0].dia}}</div>
+              <div class="number count-to" data-from="0" >Q. {{this.editedItem.totalDia}}</div>
             </div>
           </div>
         </div>
@@ -34,7 +34,7 @@
             </div>
             <div class="content">
               <div class="text">GANANCIAS</div>
-                <div class="number count-to" data-from="0" >{{this.editedItem.productoGanancia[0].nombre}}</div>
+                <div class="number count-to" data-from="0" ><h6>{{this.editedItem.productoGanancia}}</h6></div>
               </div>
             </div>
           </div>
@@ -45,7 +45,7 @@
               </div>
               <div class="content">
                   <div class="text">TOTAL CLIENTES</div>
-                  <div class="number count-to" data-from="0" ></div>
+                  <div class="number count-to" data-from="0" >{{this.editedItem.totalClientes}}</div>
               </div>
             </div>
           </div>
@@ -60,7 +60,7 @@
               </div>
               <div class="content">
                 <div class="text">MÁS VENDIDO</div>
-                <div class="number count-to" >{{this.editedItem.productoMasVendido[0].producto}}</div>
+                <div class="number count-to" ><h6>{{this.editedItem.productoMasVendido}}</h6></div>
               </div>
             </div>
             <div class="info-box bg-blue-grey hover-zoom-effect">
@@ -69,7 +69,7 @@
               </div>
               <div class="content">
                 <div class="text">MENOS VENDIDO</div>
-                <div class="number count-to" >{{this.editedItem.productoMenosVendido[0].producto}}</div>
+                <div class="number count-to" ><h6>{{this.editedItem.productoMenosVendido}}</h6></div>
               </div>
             </div>
             <div class="info-box bg-purple hover-zoom-effect">
@@ -78,7 +78,7 @@
               </div>
               <div class="content">
                 <div class="text">TOTAL PRODUCTOS</div>
-                <div class="number count-to" ></div>
+                <div class="number count-to" >{{this.editedItem.totalProds}}</div>
               </div>
             </div>
           </div>
@@ -100,7 +100,6 @@
                 <multiselect v-model="editedItem.idCliente" :options="clientes" placeholder="Seleccione un cliente"
                     label="nombreCliente" track-by="nombreCliente"></multiselect>
               </v-flex>
-              <center> <v-btn @click="generalClientes" style="background-color:#668c2d"  dark class="mb-2">General</v-btn></center>
             </div>
 
             <div class="card-body d-flex justify-content-between align-items-center">					
@@ -109,7 +108,7 @@
       <v-flex xs11 sm5>
         <v-dialog ref="dialog1" v-model="modal1" :return-value.sync="date1" width="290px">
           <template v-slot:activator="{ on }">
-            <v-text-field v-model="date1" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
+            <v-text-field v-model="date1" label="Fecha Inicial" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
           <v-date-picker v-model="date1" scrollable  locale="gt">
             <v-btn flat color="primary" @click="modal1 = false">Cancel</v-btn>
@@ -139,7 +138,7 @@
         
 					</div>
           	<div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn @click="guardarEspecificoClientes" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           <center>  <v-btn @click="guardarGeneralClientes" style="background-color:#668c2d"  dark class="mb-2">VENTAS GENERAL</v-btn><v-btn @click="guardarEspecificoClientes" style="background-color:#668c2d"  dark class="mb-2">CLIENTE</v-btn></center>
            </div>
 				</div>
 			</div>
@@ -235,6 +234,7 @@
       modal4: false,
       clientes: [],
       productos: [],
+      rangos: [{"nombre": "Semana"}, {"nombre": "Mes"}, {"nombre": "Año"}],
       editedItem:{
         idCliente: '',
         idProducto: '',
@@ -242,7 +242,9 @@
         totalDia: 0,
         productoGanancia: '',
         productoMasVendido: '',
-        productoMenosVendido: ''
+        productoMenosVendido: '',
+        totalProds: 0,
+        totalClientes: 0,
       }
     }),
   
@@ -274,6 +276,7 @@
                 });
       },
       generalClientes(){
+        
       },
       generalProductos(){
       },
@@ -330,6 +333,10 @@
           axios.get('/ventas/totalSemana')
           .then(function (response) {
               me.editedItem.totalSemana = response.data;
+              if(me.editedItem.totalSemana[0].total > 0)
+                me.editedItem.totalSemana = me.editedItem.totalSemana[0].total;
+              else
+                me.editedItem.totalSemana = 0;
           })
           .catch(function (error) {
               console.log(error.response);
@@ -338,6 +345,10 @@
           axios.get('/ventas/totalDia')
           .then(function (response) {
               me.editedItem.totalDia = response.data;
+              if(me.editedItem.totalDia[0].dia > 0)
+                me.editedItem.totalDia = me.editedItem.totalDia[0].dia;
+              else
+                me.editedItem.totalDia = 0;
           })
           .catch(function (error) {
               console.log(error.response);
@@ -346,6 +357,7 @@
           axios.get('/ventas/productoGanancias')
           .then(function (response) {
               me.editedItem.productoGanancia = response.data;
+              me.editedItem.productoGanancia = me.editedItem.productoGanancia[0].nombre;
           })
           .catch(function (error) {
               console.log(error.response);
@@ -354,6 +366,7 @@
           axios.get('/ventas/productoMasVendido')
           .then(function (response) {
               me.editedItem.productoMasVendido = response.data;
+              me.editedItem.productoMasVendido = me.editedItem.productoMasVendido[0].producto;
           })
           .catch(function (error) {
               console.log(error.response);
@@ -362,10 +375,35 @@
           axios.get('/ventas/productoMenosVendido')
           .then(function (response) {
               me.editedItem.productoMenosVendido = response.data;
+              me.editedItem.productoMenosVendido = me.editedItem.productoMenosVendido[0].producto;
           })
           .catch(function (error) {
               console.log(error.response);
           });
+
+          axios.get('/totalClientes')
+          .then(function (response) {
+              me.editedItem.totalClientes = response.data;
+              me.editedItem.totalClientes = me.editedItem.totalClientes[0].total;
+          })
+          .catch(function (error) {
+              console.log(error.response);
+          });
+
+          axios.get('/totalProds')
+          .then(function (response) {
+              me.editedItem.totalProds = response.data;
+            
+          })
+          .catch(function (error) {
+              console.log(error.response);
+          });
+
+
+          //Verificar si no son nulo.
+          
+
+
       },
     }
   }

@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\DB;
 
 class OrdenCompraController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    } 
     //
     public function index(){
         $finalizadas = DB::table('compra_encabezados')
@@ -96,7 +99,10 @@ class OrdenCompraController extends Controller
                             ->where('idCompraEncabezado', '=', $id)
                             ->get();
         
-        $total = "Hola";
+        $total = DB::table('compra_encabezados')
+                    ->select('totalCompra')
+                    ->where('id','=',$id)
+                    ->get();
 
         
         $pdf = \App::make('dompdf.wrapper');
@@ -235,19 +241,101 @@ class OrdenCompraController extends Controller
                     ->where('compra_encabezados.id','=',$id)
                     ->get();
 
+        $total = DB::table('compra_encabezados')
+                    ->select('totalCompra')
+                    ->where('id','=',$id)
+                    ->get();
+
+        
         
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadView('compras.ordenFinalizada', compact('orden','clientes', 'productos', 'id', 'prodsClientes'));
+        $pdf->loadView('compras.ordenFinalizada', compact('orden','clientes', 'productos', 'id', 'prodsClientes','total'));
         return $pdf->stream('ordenCompra.pdf');
 
     }
-    public function validarTotal()
-    {
+    public function validarTotal(){
         $total = DB::table('compra_encabezados')
             ->select(DB::raw('SUM(compra_encabezados.totalCompra) as Total'))
             ->whereRaw('DATE_FORMAT(compra_encabezados.created_at,"%y-%m-%d") = curdate()')
             ->where('compra_encabezados.finalizado','=','1')
             ->get();
         return $total;
+    }
+    public function reporteGeneral(Request $req){
+        $fechaDe = $req->date1;
+        $fechaA = $req->date2;
+        $encabezados = DB::table('compra_encabezados')
+                        ->select('compra_encabezados.totalCompra', 'compra_encabezados.gastosParqueo', 'compra_encabezados.combustible',
+                        'compra_encabezados.gastosVarios', 'compra_encabezados.impuestos', 'compra_encabezados.totalVenta', 'compra_encabezados.utilidadVenta')
+                        ->whereBetween('compra_encabezados.created_at',[$fechaDe, $fechaA])
+                        ->where('compra_encabezados.finalizado','=','1')
+                        ->get();
+        $total = DB::table('compra_encabezados')
+                    ->select(DB::raw('SUM(compra_encabezados.TotalCompra) as total'))
+                    ->whereBetween('compra_encabezados.created_at',[$fechaDe, $fechaA])
+                    ->where('compra_encabezados.finalizado','=','1')
+                    ->get();
+        $parqueo = DB::table('compra_encabezados')
+                    ->select(DB::raw('SUM(compra_encabezados.gastosParqueo) as parqueo'))
+                    ->whereBetween('compra_encabezados.created_at',[$fechaDe, $fechaA])
+                    ->where('compra_encabezados.finalizado','=','1')
+                    ->get();
+        $combustible = DB::table('compra_encabezados')
+                    ->select(DB::raw('SUM(compra_encabezados.combustible) as combustible'))
+                    ->whereBetween('compra_encabezados.created_at',[$fechaDe, $fechaA])
+                    ->where('compra_encabezados.finalizado','=','1')
+                    ->get();
+        $varios = DB::table('compra_encabezados')
+                    ->select(DB::raw('SUM(compra_encabezados.gastosVarios) as varios'))
+                    ->whereBetween('compra_encabezados.created_at',[$fechaDe, $fechaA])
+                    ->where('compra_encabezados.finalizado','=','1')
+                    ->get();    
+        $impuestos = DB::table('compra_encabezados')
+                    ->select(DB::raw('SUM(compra_encabezados.impuestos) as impuestos'))
+                    ->whereBetween('compra_encabezados.created_at',[$fechaDe, $fechaA])
+                    ->where('compra_encabezados.finalizado','=','1')
+                    ->get();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('compras.comprasgeneral', compact('encabezados','total', 'parqueo', 'combustible', 'varios','impuestos'));
+        return $pdf->stream('ComprasGeneral.pdf');                    
+
+    }
+    public function obtenerComprasSemana(){
+        $year = date('Y');
+        $month = date('n');
+        $day = date('j');
+        $semana=date("W",mktime(0,0,0,$month,$day,$year));
+        $diaSemana=date("w",mktime(0,0,0,$month,$day,$year));
+        if($diaSemana==0)
+            $diaSemana=7;
+        $primerDia=date("Y-m-d",mktime(0,0,0,$month,$day-$diaSemana+1,$year));
+        $ultimoDia=date("Y-m-d",mktime(0,0,0,$month,$day+(7-$diaSemana),$year));
+        
+        $totalVentas = DB::table('compra_encabezados')
+                        ->select(DB::raw('SUM(compra_encabezados.totalCompra) as total'))
+                        ->whereBetween('compra_encabezados.created_at',[$primerDia, $ultimoDia])
+                        ->where('compra_encabezados.finalizado','=','1')
+                        ->get();
+        return $totalVentas;
+    }
+    public function obtenerComprasDia(){
+        $hoy = getDate();
+        $fecha1 = strval($hoy['year']).'/'.strval($hoy['mon']).'/'.strval($hoy['mday']);
+        $fecha2 = $hoy['year'].'/'.$hoy['mon'].'/'.strval($hoy['mday']+1);
+        $ventasDia = DB::table('compra_encabezados')
+                    ->select(DB::raw('sum(compra_encabezados.totalCompra) as dia'))
+                    ->whereBetween('compra_encabezados.created_at',[$fecha1, $fecha2])
+                    ->where('compra_encabezados.finalizado','=','1')
+                    ->get();
+
+        return $ventasDia;
+    }
+    public function pendientes(){
+        $ventasDia = DB::table('compra_encabezados')
+                    ->select(DB::raw('COUNT(compra_encabezados.id) as pendientes'))
+                    ->where('compra_encabezados.finalizado','!=','1')
+                    ->get();
+        return $ventasDia;
+
     }
 }

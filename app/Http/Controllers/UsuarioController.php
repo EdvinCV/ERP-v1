@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Hash;
 class UsuarioController extends Controller
 {
     //
+    public function __construct(){
+        $this->middleware('auth');
+    } 
     public function index(){
         $usuarios = DB::table('users')
                         ->select('users.id', 'users.name', 'users.email', 'rols.nombreRol','users.estado')
