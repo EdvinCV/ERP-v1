@@ -263,6 +263,7 @@
                 direccion: '',
                 detProducto: '',
                 cantProducto: '',
+                numFact: 0,
                 precio: '',
                 subtotal: '',
                 descuento: '',
@@ -300,7 +301,7 @@
                 }
                 if(!this.editedItem.idCliente)
                     this.errorMsj.push('Elija un cliente');
-                if(!this.editedItem.numFact)
+                if(this.editedItem.numFact == 0 && this.facturado == true)
                     this.errorMsj.push('Ingrese número de factura');
                 if(this.carrito == '')
                         this.errorMsj.push('No ha elejido ningún producto');
