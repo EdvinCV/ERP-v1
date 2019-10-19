@@ -17,8 +17,8 @@
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
                                      <v-flex xs12>
-                                        <multiselect v-model="this.editedItem.idproducto" :options="productos" placeholder="Seleccione un producto"
-                                            label="mostrar" track-by="Producto"></multiselect>
+                                        <multiselect v-model="editedItem.idproducto" :options="productos" placeholder="Seleccione un producto"
+                                            label="mostrar" track-by="id"></multiselect> 
                                     </v-flex>
                                     
                                     <v-radio-group color="#668c2d" v-model="editedItem.calificacion" column >
