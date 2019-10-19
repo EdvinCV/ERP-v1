@@ -2,8 +2,12 @@
 
 @include('vendor/autoload.php')
 
+@setup
+    $branch = isset($branch) ? $branch : "pruebaMaster";
+@endsetup
+
 @task('test')
-    echo "tarea ejecutada"
+    echo {{ $branch }}
 @endtask
 @task('ls',['on'=> 'aws'])
     cd /var/www/html
