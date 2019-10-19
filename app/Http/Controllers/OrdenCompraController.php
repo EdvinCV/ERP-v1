@@ -184,13 +184,12 @@ class OrdenCompraController extends Controller
                             ->get();
             foreach($detallesCompra as $d){
                 $totalCompra += $d->precioCompra * $d->cantidad;
-                $totalVenta += $d->precioVenta * $d->cantidad;
+                
             }
             $impuestos = ($totalVenta / 1.12) *0.19;
             $utilidadVenta = $totalVenta - $totalCompra - $impuestos;
             $encabezado = CompraEncabezado::find($req->orden);
             $encabezado->totalCompra = $totalCompra;
-            $encabezado->totalVenta = $totalVenta;
             $encabezado->impuestos = $impuestos;
             $encabezado->utilidadVenta = $utilidadVenta;
             $encabezado->save();

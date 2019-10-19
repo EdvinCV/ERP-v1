@@ -18,7 +18,7 @@
                                 <v-flex xs12 sm12 md12>
                                      <v-flex xs12>
                                         <multiselect v-model="editedItem.idproducto" :options="productos" placeholder="Seleccione un producto"
-                                            label="mostrar" track-by="id"></multiselect> 
+                                            label="mostrar" track-by="mostrar"></multiselect> 
                                     </v-flex>
                                     
                                     <v-radio-group color="#668c2d" v-model="editedItem.calificacion" column >
@@ -116,7 +116,6 @@
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
             historialcalidad: [],
-            idproducto: -1,
             editedIndex: -1,
             editedItem: {
                 id: 0,
@@ -266,7 +265,7 @@
                         url: '/historialcalidad/registrar',
                         data: {
                             calificacion: me.editedItem.calificacion,
-                            idproducto:me.idproducto.id,   
+                            idproducto:me.editedItem.idproducto.id,   
                             fecha: me.editedItem.fecha,
                             descripcion: me.editedItem.descripcion
                         }
