@@ -25,11 +25,11 @@ Vue.component('Orden', require('./components/Orden.vue').default);
 Vue.component('Caja', require('./components/Caja.vue').default);
 Vue.component('Acaja', require('./components/Acaja.vue').default);
 Vue.component('chart', require('./components/chart.vue').default);
-Vue.component('reportes', require('./components/reportes.vue').default);
-Vue.component('reportes_prov', require('./components/reportesProv.vue').default);
-Vue.component('reportes_clientes', require('./components/reportesClientes.vue').default);
-Vue.component('reportes_compras', require('./components/reportesCompras.vue').default);
-Vue.component('Ccaja', require('./components/Ccaja.vue').default);
+Vue.component('reportes', require('./components/Reportes.vue').default);
+Vue.component('reportes_prov', require('./components/ReportesProv.vue').default);
+Vue.component('reportes_clientes', require('./components/ReportesClientes.vue').default);
+Vue.component('reportes_compras', require('./components/ReportesCompras.vue').default);
+Vue.component('Ccaja', require('./components/CCaja.vue').default);
 
 
 const app = new Vue({
