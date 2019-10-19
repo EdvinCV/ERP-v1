@@ -52,8 +52,17 @@
                                     <v-text-field label="Observaciones" v-model="editedItem.observaciones"></v-text-field>
                                 </v-flex>
                         </v-container>
+                <template v-if="error">
+                        <v-divider></v-divider>
+                        <div class="text-xs-center">
+                            <strong class="red--text text--lighten-1" v-for="e in errorMsj" :key="e" v-text="e"></strong>
+                            <br>
+                        </div>
+                        <v-divider></v-divider>
+                    </template>
                     </v-card-text>
         
+            
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="green darken-1" flat @click="close">Cerrar</v-btn>
@@ -124,7 +133,6 @@
                     </v-card-actions>
 
                 </v-card>
-
             </v-dialog>
            <v-card-title>
         
@@ -336,6 +344,20 @@
             validate() {
                 this.error = 0;
                 this.errorMsj = [];
+                if(this.editedItem.observaciones == '')
+                    this.errorMsj.push('Debe ingresar una observación.');
+                if(this.editedItem.parqueo = '' || this.editedItem.parqueo < 0){
+                    this.errorMsj.push('Debe ingresar una cantidad de parqueo correcta.');
+                    this.editedItem.parqueo = 0;
+                }
+                if(this.editedItem.combustible = '' || this.editedItem.combustible < 0){
+                    this.errorMsj.push('Debe ingresar una cantidad de combustible correcta.');
+                    this.editedItem.combustible = 0;
+                }
+                if(this.editedItem.gastosVarios = '' || this.editedItem.gastosVarios < 0){
+                    this.errorMsj.push('Debe ingresar una cantidad de gastos correcta.');
+                    this.editedItem.gastosVarios = 0;
+                }
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
@@ -452,6 +474,10 @@
                     }
                 if (this.editedIndex > -1) {                   
                 } else {
+                    if(this.detalles.length == 1)
+                    {
+                        this.detalles[0].precioCompra = this.editedItem.precioCompra;
+                    }
                     axios({
                         method: 'post',
                         url: '/compra/editar',

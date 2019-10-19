@@ -398,12 +398,7 @@
           .catch(function (error) {
               console.log(error.response);
           });
-
-
           //Verificar si no son nulo.
-          
-
-
       },
     }
   }

@@ -201,7 +201,7 @@
                 if(estado) return "Activo";
                 else return "Inactivo";
             },
-   validate() {
+   validate() { 
                 this.error = 0;
                 this.errorMsj = [];
                 if (!this.editedItem.nombre, !this.editedItem.apellido,  !this.editedItem.nit, !this.editedItem.telefono, !this.editedItem.direccion,!this.editedItem.nombreProveedor,!this.editedItem.correo)
@@ -216,7 +216,7 @@
                     this.errorMsj.push('NIT no valido. ');
                 }
                 if (this.errorMsj.length)
-                    this.error = 1;
+                    this.xerror = 1;
                 return this.error;
             },
             valNit(nit){

@@ -63,7 +63,7 @@
         
 					
           	<div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn @click="reporteEspecifico" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           <center>  <v-btn :loading="loading" :disabled="loading" @click="reporteEspecifico" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
            </div>
 				</div>
 			</div>
@@ -102,6 +102,8 @@
       date4: new Date().toISOString().substr(0, 10),
       menu: false,
       modal: false,
+      loader: null,
+      loading: false,
       proveedores: [],
       editedItem:{
         idProveedor: '',
@@ -136,7 +138,6 @@
         .catch(function (error) {
             console.log(error.response);
         });
-
         axios.get('/totalProds')
         .then(function (response) {
             me.editedItem.totalProds = response.data;
@@ -144,7 +145,6 @@
         .catch(function (error) {
             console.log(error.response);
         });
-
       },
       cargaProveedores() {
                 let me = this;
