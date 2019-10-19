@@ -6,12 +6,19 @@
     $origin = "git@github:EdvinCV/ERP-v1";
     $branch = isset($branch) ? $branch : "pruebaMaster";
     $app_dir = '/var/www/html';
+
+    if(!isset($on)){
+        throw new Exception('La variable --on no esta definida');
+    }
 @endsetup
 
-@task('test')
-    echo {{ $branch }}
+@task('git:clone', ['on' => $on])
+    cd {{ $app_dir }}
+    echo "hemos entrado al directorio /var/www/html";
+    git clone $origin;
+    echo "repositorio clonado";
 @endtask
-@task('ls',['on'=> 'aws'])
+@task('ls',['on'=> '$on'])
     cd {{ $app_dir }}
     ls -la
 @endtask
