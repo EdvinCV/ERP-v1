@@ -19,8 +19,7 @@ class UsuarioController extends Controller
                         ->select('users.id', 'users.name', 'users.email', 'rols.nombreRol','users.estado')
                         ->join('rols', 'rols.id', '=', 'users.rolId')
                         ->get();
-        return $usuarios;
-      
+        return $usuarios; 
     }
 
     public function inicio(){
@@ -84,6 +83,7 @@ class UsuarioController extends Controller
             $user = User::findOrFail($request->id);
             $user->name = $request->name;
             $user->email = $request->email;
+            $user->rolId = $request->rol;
             $user->estado = $request->switch1;
             $user->save();
             return 'Usuario actualizado correctamente';
