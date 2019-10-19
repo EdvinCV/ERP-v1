@@ -18,6 +18,12 @@
     git clone {{ $origin }};
     echo "repositorio clonado";
 @endtask
+@task('git:pull', ['on' => $on])
+    cd {{ $app_dir }}
+    echo "hemos entrado al directorio {{ $app_dir }}";
+    git pull origin {{ $branch }}
+    echo "codigo actualizado";
+@endtask
 @task('ls',['on'=> $on])
     cd {{ $app_dir }}
     ls -la
