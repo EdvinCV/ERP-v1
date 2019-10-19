@@ -3,6 +3,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 import Vuetify from 'vuetify';
+import es from 'vuetify/es5/locale/es';
 Vue.use(Vuetify);
 
 import swal from 'sweetalert2';
@@ -30,6 +31,13 @@ Vue.component('reportes_prov', require('./components/ReportesProv.vue').default)
 Vue.component('reportes_clientes', require('./components/ReportesClientes.vue').default);
 Vue.component('reportes_compras', require('./components/ReportesCompras.vue').default);
 Vue.component('Ccaja', require('./components/CCaja.vue').default);
+
+Vue.use(Vuetify, {
+    lang: {
+        locale: {es},
+        current: 'es'
+    }
+})
 
 
 const app = new Vue({

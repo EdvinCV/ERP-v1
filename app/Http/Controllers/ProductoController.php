@@ -16,7 +16,8 @@ class ProductoController extends Controller
    } 
 
    public function index(Request $request){
-       if($request->ajax()){
+       if(!$request->ajax())
+            return redirect('/home');
        $producto = DB::table('productos')
                        ->select(DB::raw('productos.id,productos.nombre as Producto,productos.precioventa, productos.preciocompra, productos.gastocomercializacion, productos.existencia, 
                        productos.utilidad, productos.impuesto, productos.maximoprecio, productos.minimoprecio, productos.estado, productos.codigo, productos.cantidadapartado, productos.existencia,
@@ -28,7 +29,7 @@ class ProductoController extends Controller
                        ->where('productos.estado','=','1')
                        ->get();
        return $producto;
-       }
+       
        
    }
    public function store(Request $request)

@@ -138,7 +138,7 @@
         
 					</div>
           	<div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn @click="guardarGeneralClientes" style="background-color:#668c2d"  dark class="mb-2">VENTAS GENERAL</v-btn><v-btn @click="guardarEspecificoClientes" style="background-color:#668c2d"  dark class="mb-2">CLIENTE</v-btn></center>
+           <center>  <v-btn @click="generalVentas" style="background-color:#668c2d"  dark class="mb-2">VENTAS GENERAL</v-btn><v-btn @click="guardarEspecificoClientes" style="background-color:#668c2d"  dark class="mb-2">CLIENTE</v-btn></center>
            </div>
 				</div>
 			</div>
@@ -275,7 +275,7 @@
                     console.log(error.response);
                 });
       },
-      generalClientes(){
+      generalVentas(){
         
       },
       generalProductos(){

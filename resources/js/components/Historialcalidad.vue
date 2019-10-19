@@ -16,7 +16,7 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                     <v-flex xs12>}
+                                     <v-flex xs12>
                                         <multiselect v-model="editedItem.idproducto" :options="productos" placeholder="Seleccione un producto"
                                             label="mostrar" track-by="id"></multiselect> 
                                     </v-flex>
@@ -70,7 +70,7 @@
                 </td>
             </template>
             <template v-slot:no-data>
-                <v-btn color="primary" @click="initialize">Recargar</v-btn>
+                <v-btn color="#668c2d" @click="initialize">Recargar</v-btn>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
