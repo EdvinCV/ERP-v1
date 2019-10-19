@@ -15,7 +15,7 @@
 @task('git:clone', ['on' => $on])
     cd {{ $app_dir }}
     echo "hemos entrado al directorio /var/www/html";
-    git clone $origin;
+    git clone {{ $origin }};
     echo "repositorio clonado";
 @endtask
 @task('ls',['on'=> '$on'])
