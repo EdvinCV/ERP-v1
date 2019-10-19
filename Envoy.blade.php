@@ -5,3 +5,7 @@
 @task('test')
     echo "tarea ejecutada"
 @endtask
+@task('ls',{'on'=> 'aws'})
+    cd /var/www/html
+    ls -la
+@endtask
