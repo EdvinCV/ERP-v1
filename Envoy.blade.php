@@ -3,9 +3,9 @@
 @include('vendor/autoload.php')
 
 @setup
-    $origin = "git@github:EdvinCV/ERP-v1";
+    $origin = 'git@github.com:EdvinCV/ERP-v1';
     $branch = isset($branch) ? $branch : "pruebaMaster";
-    $app_dir = '/var/www/html';
+    $app_dir = '/var/www/html/ERP-v1';
 
     if(!isset($on)){
         throw new Exception('La variable --on no esta definida');
@@ -18,7 +18,15 @@
     git clone {{ $origin }};
     echo "repositorio clonado";
 @endtask
-@task('ls',['on'=> '$on'])
+@task('ls',['on'=> $on])
     cd {{ $app_dir }}
     ls -la
+@endtask
+@task('composer:install',['on'=> $on])
+    cd {{ $app_dir }}
+    composer install
+@endtask
+@task('key:generate',['on'=> $on])
+    cd {{ $app_dir }}
+    php artisan key:generate
 @endtask

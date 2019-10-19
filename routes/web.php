@@ -124,3 +124,6 @@ Route::get('/ventas/productoGanancias','VentasController@productoMasGanancia');
 Route::get('/ventas/productoMasVendido','VentasController@productoMasVendido');
 Route::get('/ventas/productoMenosVendido','VentasController@productoMenosVendido');
 
+Route::get(uri,'/test', function(){
+    return 'HOLA';
+});
