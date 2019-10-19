@@ -241,7 +241,7 @@
                 },
                 {
                     text: 'Gasto Comercialización',
-                    value: 'gastocomercializacion'
+                    value: 'gastoComercializacion'
                 },
                 {
                     text: 'Porcentaje Utilidad',
@@ -374,8 +374,10 @@
                 if(!this.editedItem.codigo)
                     this.errorMsj.push('Se debe asignar un código. ')
                 console.log('s '+ s);
+                
                 if(this.bandera==false)
                     this.errorMsj.push('El código ya existe. ')
+                
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
@@ -416,23 +418,26 @@
                 let me = this;
                 var si = 0;
                 var cod = this.editedItem.codigo;
-                console.log(me.producto[0].codigo);
-                for(var x =0; x< me.producto.length; x++)
+                if(me.producto.length>0)
                 {
-                    console.log(me.producto[x].codigo);
-                    
-                    if(me.producto[x].codigo.toUpperCase() == cod.toUpperCase()&&me.editedItem.id==me.producto[x].id)
+                    for(var x =0; x< me.producto.length; x++)
                     {
-                        me.bandera=true;
-                        break;                                            
-                    }else if(me.producto[x].codigo.toUpperCase() == cod.toUpperCase()&&me.editedItem.id!=me.producto[x].id){
-                        me.bandera=false;
-                        break;
-                    }else{
-                        me.bandera=true;
-                    }
+                        console.log(me.producto[x].codigo);
                     
-                };
+                        if(me.producto[x].codigo.toUpperCase() == cod.toUpperCase()&&me.editedItem.id==me.producto[x].id)
+                        {
+                            me.bandera=true;
+                            break;                                            
+                        }else if(me.producto[x].codigo.toUpperCase() == cod.toUpperCase()&&me.editedItem.id!=me.producto[x].id){
+                            me.bandera=false;
+                            break;
+                        }else{
+                            me.bandera=true;
+                        }
+                    }
+                }else {
+                    me.bandera = true;
+                }
                 return me.bandera;
             },
              cargaCategorias() {
