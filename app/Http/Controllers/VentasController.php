@@ -75,14 +75,17 @@ class VentasController extends Controller
         }
     }
     public function cotizacion(Request $req){
-
+        if(!$request->ajax())
+            return redirect('/home');
         $detalles = $req->input('carrito');
         $total = $req->total;  
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadView('ventas.cotizacion', compact('detalles','total'));
         return $pdf->download('factura.pdf');
     }
-    public function listarVentas(){
+    public function listarVentas(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $ventas = DB::table('venta_encabezados')
                         ->select('venta_encabezados.id', 'clientes.nombreCliente', 'venta_encabezados.total', 'venta_encabezados.created_at', 'facturado', 'numeroFactura')
                         ->join('personas', 'personas.id', '=', 'venta_encabezados.idPersona')
@@ -90,7 +93,9 @@ class VentasController extends Controller
                         ->get();   
         return $ventas;
     }
-    public function validarTotal(){
+    public function validarTotal(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $total = DB::table('venta_encabezados')
             ->select(DB::raw('SUM(venta_encabezados.total) as Total'))
             ->join('tipo_pagos','tipo_pagos.id','=','venta_encabezados.idTipoPago')
@@ -109,8 +114,9 @@ class VentasController extends Controller
             return response()->json($response, 500);
         }
     }
-    public function detalleVenta($id){
-
+    public function detalleVenta($id, Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $ventas = DB::table('venta_encabezados')
                     ->join('tipo_pagos','tipo_pagos.id','=','venta_encabezados.idTipoPago')
                     ->join('clientes', 'clientes.idPersona', '=', 'venta_encabezados.idPersona')
@@ -131,7 +137,6 @@ class VentasController extends Controller
         return $pdf->stream('detallesVenta.pdf');
     }
     public function generarFactura($id){
-
         $ventas = DB::table('venta_encabezados')
                     ->select(DB::raw('clientes.nombreCliente ,personas.direccion , personas.nit, DATE_FORMAT(venta_encabezados.created_at, "%d-%m-%Y") as fecha, venta_encabezados.total'))
                     ->join('tipo_pagos','tipo_pagos.id','=','venta_encabezados.idTipoPago')
@@ -159,6 +164,8 @@ class VentasController extends Controller
         return $pdf->stream('factura.pdf');
     }
     public function reporteVentasProducto(Request $req){
+        if(!$req->ajax())
+            return redirect('/home');
         $fechaDe = $req->date3;
         $fechaA =  $req->date4;
         $productos = DB::table('detalle_ventas')
@@ -177,6 +184,8 @@ class VentasController extends Controller
         return $pdf->stream('VentasPorProducto.pdf');
     }
     public function reporteVentasClientes(Request $req){
+        if(!$req->ajax())
+            return redirect('/home');
         $fechaDe = $req->date1;
         $fechaA = $req->date2;
         $idCliente = $req->idCliente;
@@ -201,7 +210,9 @@ class VentasController extends Controller
         return $pdf->stream('VentasPorCliente.pdf');
                   
     }
-    public function obtenerVentasSemana(){
+    public function obtenerVentasSemana(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $year = date('Y');
         $month = date('n');
         $day = date('j');
@@ -219,7 +230,9 @@ class VentasController extends Controller
 
         return $totalVentas;
     }
-    public function obtenerVentasDia(){
+    public function obtenerVentasDia(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $hoy = getDate();
  
         $fecha1 = strval($hoy['year']).'/'.strval($hoy['mon']).'/'.strval($hoy['mday']);
@@ -231,7 +244,9 @@ class VentasController extends Controller
 
         return $ventasDia;
     }
-    public function productoMasVendido(){
+    public function productoMasVendido(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $producto = DB::table('productos')
                     ->select(DB::raw('productos.nombre as producto, presentacions.nombre, nombreProveedor, SUM(cantidad) as total'))
                     ->join('presentacions','presentacions.id','=','productos.idpresentacion')
@@ -244,7 +259,9 @@ class VentasController extends Controller
 
         return $producto;
     }
-    public function productoMenosVendido(){
+    public function productoMenosVendido(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $producto = DB::table('productos')
         ->select(DB::raw('productos.nombre as producto, presentacions.nombre, nombreProveedor, SUM(cantidad) as total'))
         ->join('presentacions','presentacions.id','=','productos.idpresentacion')
@@ -257,7 +274,9 @@ class VentasController extends Controller
 
         return $producto;
     }
-    public function productoMasGanancia(){
+    public function productoMasGanancia(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $producto = DB::table('detalle_ventas')
                         ->select(DB::raw('productos.nombre, SUM(detalle_ventas.subtotal) as total'))
                         ->join('productos','productos.id','=','detalle_ventas.idProducto')
@@ -268,7 +287,6 @@ class VentasController extends Controller
                         ->get();
         return $producto;
     }
-
     function unidad($numuero){
         switch ($numuero)
         {

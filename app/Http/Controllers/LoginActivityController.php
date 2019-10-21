@@ -13,7 +13,9 @@ class LoginActivityController extends Controller
         $this->middleware('auth');
     } 
     //
-    public function inicio(){
+    public function inicio(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $usuarios = DB::table('login_activities')
                     ->select(DB::raw('DATE_FORMAT(login_activities.created_at, "%Y-%m-%d") as Fecha'))
                     ->where('user_id','=',Auth::user()->id)

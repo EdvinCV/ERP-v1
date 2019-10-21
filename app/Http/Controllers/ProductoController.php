@@ -134,7 +134,9 @@ class ProductoController extends Controller
         }
     }
 
-    public function totalProds(){
+    public function totalProds(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $productos = DB::table('productos')
                         ->where('productos.estado','=',true)
                         ->get();

@@ -13,16 +13,18 @@ class CajaController extends Controller
         $this->middleware('auth');
     } 
     
-    public function index(Request $request)
-    {
+    public function index(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $caja = DB::table('cajas')
             ->select(DB::raw('cajas.id, cajas.cantidad, cajas.created_at,users.name,cajas.tipo, cajas.observacion'))
             ->join('users','cajas.idEmpleado','=','users.id')->get();
         return $caja;
     }
 
-    public function estado(Request $request)
-    {
+    public function estado(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $caja = DB::table('cajas')
             ->select(DB::raw('cajas.cantidad, cajas.tipo'))
             ->orderby('cajas.id','desc')
@@ -47,8 +49,7 @@ class CajaController extends Controller
         }
     }
 
-    public function cierre(Request $req)
-    {
+    public function cierre(Request $req){
         $caja =  DB::table('cajas')
         ->select(DB::raw('cajas.cantidad, cajas.tipo'))
         ->orderby('cajas.id','desc')

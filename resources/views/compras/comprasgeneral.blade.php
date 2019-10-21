@@ -72,10 +72,11 @@
           <thead style="background-color:#668c2d">
             <tr>
               <th class="th">#</th>
+              <th class="th">Fecha</th>
               <th class="th">Parqueo</th>
               <th class="th">Combustible</th>
               <th class="th">Varios</th>
-              <th class="th">impuestos</th>
+              <th class="th">Impuestos</th>
               <th class="th">Total</th>
               
             </tr>
@@ -83,7 +84,8 @@
           <tbody>
           @foreach($encabezados as $p)
             <tr>
-              <td></td>
+              <td>{{ $p->id}}</td>
+              <td>{{ $p->fecha}}</td>
               <td>{{ $p->gastosParqueo}}</td>
               <td>{{ $p->combustible}}</td>
               <td>{{ $p->gastosVarios}}</td>
@@ -128,18 +130,18 @@
         </div>
         
 
-  <div class="informatio" style="position: absolute; bottom: 0;">
+        <div class="informatio" style="position: absolute; bottom: 0;">
     <table width="100%">
         <tr>
             <td align="left" style="width: 60%;">
-                &copy; {{ date('Y') }} - 2019 ADAM · Asociación de Desarrollo Agrícola y Empresarial.
+                &copy; {{ date('Y') }} - 2019 INCOFIN.
             </td>
             <td align="right" style="width: 40%;">
-              Tel. (502) 7767 4672 | info@adam.org.gt
+              Tel. (502) 7767 4672 |  INFO@INCOFIN.COM.GT
             </td>
         </tr>
 
     </table>
-  </div>
+</div>
 </body>
 </html>

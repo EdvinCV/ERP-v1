@@ -148,20 +148,24 @@
           <v-container grid-list-md>
             <v-layout wrap>
                 <v-flex xs12 sm12 md12>
-                    <v-text-field color="#668c2d" maxlength="50"  required :counter="50" :rules="nameRules" v-model="editedItem.nombre" label="Nombres"></v-text-field>
-                    <v-text-field color="#668c2d" maxlength="50"  required :counter="50" :rules="apellidoRules" v-model="editedItem.apellido" label="Apellidos"></v-text-field>
-                    <v-text-field color="#668c2d" maxlength="100"  required :counter="100" :rules="direccion" v-model="editedItem.direccionCliente" label="Direccion"></v-text-field>
-                    <v-text-field  color="#668c2d" maxlength="20"  required :counter="20" :rules="telefono" v-model="editedItem.telefono" label="Telefono"></v-text-field>
+                    <v-text-field color="#668c2d" maxlength="50"  required :counter="50" v-model="editedItem.nombre" label="Nombres"></v-text-field>
+                    <v-text-field color="#668c2d" maxlength="50"  required :counter="50" v-model="editedItem.apellido" label="Apellidos"></v-text-field>
+                    <v-text-field color="#668c2d" maxlength="100"  required :counter="100" v-model="editedItem.direccionCliente" label="Direccion"></v-text-field>
+                    <v-text-field  color="#668c2d" maxlength="20"  required :counter="20" v-model="editedItem.telefono" label="Telefono"></v-text-field>
                     <v-text-field color="#668c2d" :rules="nitRules" v-model="editedItem.nitCliente" label="NIT"></v-text-field>
-                    <v-text-field color="#668c2d" type="email" :rules="correoRules" v-model="editedItem.correo" label="Correo"></v-text-field>
-                    <v-text-field color="#668c2d" type="text" :rules="dpirules" v-model="editedItem.dpi" label="DPI"></v-text-field>
-                    <v-text-field  color="#668c2d" maxlength="50"  required :counter="50" :rules="nameRules" v-model="editedItem.nombreCliente" label="Cliente"></v-text-field>
+                    <v-text-field color="#668c2d" type="email" v-model="editedItem.correo" label="Correo"></v-text-field>
+                    <v-text-field color="#668c2d" type="text" v-model="editedItem.dpi" label="DPI"></v-text-field>
+                    <v-text-field  color="#668c2d" maxlength="50"  required :counter="50" v-model="editedItem.nombreCliente" label="Cliente"></v-text-field>
                 </v-flex> 
             </v-layout>
             </v-container>
         </v-card-text>
 
         <v-divider></v-divider>
+        <div class="text-xs-center">
+            <strong class="red--text text--lighten-1" v-for="e in errorMsj2" :key="e" v-text="e"></strong>
+            <br>
+        </div>
 
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -188,38 +192,13 @@
             nitRules:[
                 v => !!v || 'El campo de Nit no puede estar vacio',
             ],
-            nameRules: [
-                v => !!v || 'El nombre del cliente no puede estar vacio',
-                v => (v && v.length <= 49) || 'El nombre del proveedor no puede ser mayor a 50',
-                v => /[a-zA-Z]/.test(v) || 'El nombre del proveedor solo puede tener letras',
-            ],
-            apellidoRules: [
-                v => !!v || 'El apellido del cliente no puede estar vacio',
-                v => (v && v.length <= 49) || 'El apellido del proveedor no puede ser mayor a 50',
-                v => /[a-zA-Z]/.test(v) || 'El apellido del proveedor solo puede tener letras',
-            ],
-            direccion: [
-                v => !!v || 'La direccion del cliente no puede estar vacia',
-                v => (v && v.length <= 99) || 'El apellido del proveedor no puede ser mayor a 100',
-            ],
-            telefono: [
-                v => !!v || 'El telefono del cliente no puede estar vacio',
-                v => (v && v.length <= 13) || 'El telefono del proveedor no puede ser mayor a 20',
-                v => /^[0-9]+$/.test(v) || 'El telefono del proveedor solo puede tener numeros',
-            ],
-            correoRules: [
-                v => !!v || 'El campo de correo no puede estar vacio',
-                v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(v)|| 'El correo ingresado no existe',
-            ],
-            dpirules: [
-                v => !!v || 'El campo de dpi no puede estar vacio',
-            ],
             bandera: false,
             dialog: false,
             dialogModal: false,
             error: 0,
             radios: '',
             errorMsj: [],
+            errorMsj2: [],
             headersAddP: [
                 { text: 'Descripcion', value: 'prod' },
                 { text: 'Cantidad', value: 'action'},
@@ -310,6 +289,26 @@
                 this.editedIndex = -1;
                 return this.error;
             },
+            validateCliente() {
+                this.error = 0;
+                this.errorMsj2 = [];
+                if(!this.editedItem.nombre)
+                    this.errorMsj2.push('Ingrese un nombre.  ');
+                if(!this.editedItem.direccionCliente)
+                    this.errorMsj2.push('Ingrese una dirección.  ');
+                if(!this.editedItem.nombreCliente)
+                    this.errorMsj2.push('Ingrese un nombre de cliente.  ');
+                if(!this.editedItem.nit)
+                    this.editedItem.nit = "CF";
+                if(this.editedItem.nit){
+                    if((this.valNit(this.editedItem.nit))==false && this.editedItem.nit != 'CF')
+                    this.errorMsj2.push('NIT no valido. ');
+                }
+                if (this.errorMsj2.length)
+                    this.error = 1;
+                this.editedIndex = -1;
+                return this.error;
+            },
             initialize() {
                 axios.get('/producto')
                     .then(response => {
@@ -318,6 +317,18 @@
                     .catch(errors => {
                         console.log(errors);
                     });
+            },
+            valNit(nit){
+                var nd, add=0;
+                if(nd =  /^(\d+)\-?([\dk])$/i.exec(nit)){
+                    nd[2] = (nd[2].toLowerCase()=='k')?10:parseInt(nd[2]);
+                    for (var i = 0; i < nd[1].length; i++) {
+                        add += ( (((i-nd[1].length)*-1)+1) * nd[1][i] );
+                    }
+                    return ((11 - (add % 11)) % 11) == nd[2];
+                }else{
+                    return false;
+                }
             },
             cargaProductos() {
                 let me = this;
@@ -351,9 +362,9 @@
             },
             guardarCliente(){
             let me = this;
-            //if (this.validate()) {
-            //    return;
-            //}
+            if (this.validateCliente()) {
+                return;
+            }
             axios({
                 method: 'post',
                 url: '/clientes/nuevo',

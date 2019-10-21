@@ -16,25 +16,22 @@ class CategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         //return Categoria::orderBy('created_at', 'desc')->get();
         $categoria = DB::table('categorias')
             ->select(DB::raw('categorias.id, categorias.nombre'))
             ->where('categorias.estado','=','1')->get();
         return $categoria;
     }
-
-    
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         try{
             $categoria = new Categoria();
             $categoria->nombre = $request->nombre;
@@ -55,13 +52,7 @@ class CategoriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
-    {
-        /*$categoria = Categoria::findOrFail($request->Categoriaid);
-        $categoria->nombre = $request->nombre;
-        $categoria->estado = '1';
-        $categoria->save();*/
-
+    public function update(Request $request){
         $id=$request->id;
         $nombre=$request->nombre;
         try{
@@ -101,8 +92,7 @@ class CategoriaController extends Controller
             return response()->json($response, 500);
         }
     }
-    public function activar(Request $request)
-    {
+    public function activar(Request $request){
         $categoria = Categoria::findOrFail($request->id);
         $categoria->estado = '1';
         $categoria->save();

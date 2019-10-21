@@ -16,12 +16,16 @@ class OrdenCompraController extends Controller
         $this->middleware('auth');
     } 
     //
-    public function index(){
+    public function index(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $finalizadas = DB::table('compra_encabezados')
                         ->get();
         return $finalizadas;
     }
-    public function detalles(){
+    public function detalles(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $detalles = DB::table('compra_detalles')
                     ->select('compra_detalles.id','productos.id as idp','productos.nombre as producto', 'presentacions.nombre as presentacion', 'proveedors.nombreProveedor', 'productos.precioCompra', DB::raw('SUM(compra_detalles.cantidad) as cantidad'), 'proveedors.idPersona', 'compra_detalles.idCompraEncabezado', 'clientes.nombreCliente', 'compra_detalles.id as idC')
                     ->join('productos', 'productos.id', '=', 'compra_detalles.idProducto')
@@ -261,11 +265,13 @@ class OrdenCompraController extends Controller
         return $total;
     }
     public function reporteGeneral(Request $req){
+        if(!$req->ajax())
+            return redirect('/home');
         $fechaDe = $req->date1;
         $fechaA = $req->date2;
         $encabezados = DB::table('compra_encabezados')
-                        ->select('compra_encabezados.totalCompra', 'compra_encabezados.gastosParqueo', 'compra_encabezados.combustible',
-                        'compra_encabezados.gastosVarios', 'compra_encabezados.impuestos', 'compra_encabezados.totalVenta', 'compra_encabezados.utilidadVenta')
+                        ->select(DB::raw('compra_encabezados.id , compra_encabezados.totalCompra , compra_encabezados.gastosParqueo, compra_encabezados.combustible,
+                        compra_encabezados.gastosVarios,compra_encabezados.impuestos, compra_encabezados.totalVenta, compra_encabezados.utilidadVenta, DATE_FORMAT(compra_encabezados.updated_at, "%d-%m-%Y") as fecha'))
                         ->whereBetween('compra_encabezados.created_at',[$fechaDe, $fechaA])
                         ->where('compra_encabezados.finalizado','=','1')
                         ->get();

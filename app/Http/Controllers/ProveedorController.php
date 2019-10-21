@@ -13,7 +13,9 @@ class ProveedorController extends Controller
     public function __construct(){
         $this->middleware('auth');
     } 
-    public function index(){
+    public function index(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $proveedores = DB::table('proveedors')
                         ->join('personas','personas.id','=','proveedors.idPersona')
                         ->where('proveedors.estado','=',true)
@@ -74,7 +76,9 @@ class ProveedorController extends Controller
         }
         
     }
-    public function prov(){
+    public function prov(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $prov = DB::table('proveedors')
                     ->select(DB::raw('proveedors.nombreProveedor, COUNT(productos.id) as total'))
                     ->join('productos','productos.idpersona','=','proveedors.idPersona')
@@ -120,7 +124,9 @@ class ProveedorController extends Controller
         $pdf->loadView('proveedores.especifico', compact('proveedor','prodsProveedor','historial'));
         return $pdf->stream('proveedores.pdf'); 
     }
-    public function totalProvs(){
+    public function totalProvs(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $proveedores = DB::table('proveedors')
                     ->where('proveedors.estado','=',true)
                     ->get();

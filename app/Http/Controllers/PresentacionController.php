@@ -15,6 +15,8 @@ class PresentacionController extends Controller
      */
     public function index(Request $request)
     {
+        if(!$request->ajax())
+            return redirect('/home');
         return Presentacion::orderBy('created_at', 'desc')
                             ->where('estado','=',true)
                             ->get();

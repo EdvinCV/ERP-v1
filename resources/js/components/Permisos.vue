@@ -24,25 +24,15 @@
                 <v-card-text>
                     <v-container grid-list-md>
                         <v-layout wrap>
-                            <v-flex v-if="this.editedIndex === -1" xs12 sm12 md12>
+                            <v-flex xs12 sm12 md12>
                                 <multiselect v-model="selectRol" :options="listaRoles" placeholder="Seleccione un rol"
-                                            label="nombreRol" track-by="id" :allowEmpty="true">
-                                </multiselect>
-                            </v-flex>
-                            <v-flex v-if="this.editedIndex === -1" xs12 sm12 md12>
-                                <multiselect v-model="selectPermiso" :options="listaPermisos" placeholder="Seleccione un permiso"
-                                            label="nombrePermiso" track-by="id" :allowEmpty="true">
+                                            label="nombreRol" track-by="nombreRol" :allowEmpty="true">
                                 </multiselect>
                             </v-flex>
                             <v-flex xs12 sm12 md12>
-                            
-                            </v-flex>
-                            <v-flex v-if="this.editedIndex > -1" xs12 sm12 md12 >
-                                Estado
-                                <v-switch
-                                    v-model="switch1"
-                                    :label = "switch1 ? 'Activado' : 'Desactivado' "
-                                ></v-switch>
+                                <multiselect v-model="selectPermiso" :options="listaPermisos" placeholder="Seleccione un permiso"
+                                            label="nombrePermiso" track-by="nombrePermiso" :allowEmpty="true">
+                                </multiselect>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -68,7 +58,6 @@
             <template v-slot:items="props">
                 <td class="text-xs-left">{{ props.item.nombreRol }}</td>
                 <td class="text-xs-left">{{ props.item.nombrePermiso }}</td>
-                <!--<td class="text-xs-left"><v-chip :color="getColor(props.item.estado)" dark>{{ verEstado(props.item.estado) }}</v-chip></td>-->
                 <td class="justify-right layout px-0">
                     <v-icon title="Eliminar permiso" small @click="deleteItem(props.item)">
                         delete
@@ -158,6 +147,10 @@
             validate() {
                 this.error = 0;
                 this.errorMsj = [];
+                if(this.selectRol == '')
+                    this.errorMsj.push("Seleccione un rol.  ");
+                if(this.selectPermiso == '')
+                    this.errorMsj.push("Seleccione un permiso.  ");
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
@@ -245,31 +238,7 @@
                         return;
                     }
                 if (this.editedIndex > -1) {
-                    axios({
-                        method: 'put',
-                        url: '/permisos/editar',
-                        data: {
-                            id:this.editedItem.id,
-                            estado:this.switch1
-                        }
-                    }).then(function (response) {
-                        swal.fire({
-                            position: 'top-end',
-                            type: 'success',
-                            title: response.data,
-                            showConfirmButton: false,
-                            timer: 1500});
-                        me.initialize();
-                        me.close();
-                    }).catch(function (error) {
-                        swal.fire({
-                            position: 'top-end',
-                            type: 'error',
-                            title: error.response.data.error,
-                            showConfirmButton: true});
-                        me.initialize();
-                        me.close();
-                    });                    
+                                        
                 } else {
                     axios({
                         method: 'post',

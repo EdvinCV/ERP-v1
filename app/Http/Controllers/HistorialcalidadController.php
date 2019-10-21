@@ -10,6 +10,8 @@ class HistorialcalidadController extends Controller
         $this->middleware('auth');
     } 
     public function index(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
             $historialcalidad = DB::table('historialcalidads')
             ->select(DB::raw('historialcalidads.id, productos.nombre as Producto,historialcalidads.calificacion,
             DATE_FORMAT(historialcalidads.fecha,"%d-%m-%Y") as fecha, descripcion, CONCAT(productos.nombre, " - " ,presentacions.nombre,  " - ",proveedors.nombreProveedor) as mostrar'))

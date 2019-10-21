@@ -118,7 +118,7 @@
                 this.error = 0;
                 this.errorMsj = [];
                 if (!this.editedItem.nombreRol)
-                    this.errorMsj.push('El nombre del rol no puede estar vacio');
+                    this.errorMsj.push('El nombre del rol no puede estar vacío.');
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;

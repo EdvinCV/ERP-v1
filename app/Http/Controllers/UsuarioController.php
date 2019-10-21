@@ -14,15 +14,18 @@ class UsuarioController extends Controller
     public function __construct(){
         $this->middleware('auth');
     } 
-    public function index(){
+    public function index(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $usuarios = DB::table('users')
                         ->select('users.id', 'users.name', 'users.email', 'rols.nombreRol','users.estado')
                         ->join('rols', 'rols.id', '=', 'users.rolId')
                         ->get();
         return $usuarios; 
     }
-
-    public function inicio(){
+    public function inicio(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $usuarios = DB::table('users')
             ->select(DB::raw('users.id' ))
             ->whereRaw('DATE_FORMAT(users.last_login,"%y-%m-%d") < curdate()')
@@ -33,7 +36,9 @@ class UsuarioController extends Controller
         return $usuarios;
     }
 
-    public function listarRolCompras(){
+    public function listarRolCompras(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $users = DB::table('users')
         ->select('users.id', 'users.name', 'users.email', 'rols.nombreRol','users.estado')
         ->join('rols', 'rols.id', '=', 'users.rolId')
@@ -65,7 +70,6 @@ class UsuarioController extends Controller
         }
 
     }
-
     public function drop($id){
         try{
             $user = User::find($id);
@@ -77,7 +81,6 @@ class UsuarioController extends Controller
             return response()->json($response, 500);
         }
     }
-
     public function update(Request $request){
         try {
             $user = User::findOrFail($request->id);
@@ -91,10 +94,7 @@ class UsuarioController extends Controller
             //throw $th;
         }
     }
-  
-
-    public function updateProfile(Request $request)
-    {
+    public function updateProfile(Request $request){
         $user = User::findOrFail(Auth::id());
             $user->name = $request->name;
             $user->email = $request->email;
@@ -106,10 +106,6 @@ class UsuarioController extends Controller
        
       
     }
-
-
-
-
 public function updatePassword(Request $request)
     {
        

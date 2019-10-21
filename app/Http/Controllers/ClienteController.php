@@ -13,7 +13,9 @@ class ClienteController extends Controller
         $this->middleware('auth');
     } 
     
-    public function index(){
+    public function index(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $proveedores = DB::table('clientes')
                         ->join('personas','personas.id','=','clientes.idPersona')
                         ->where('clientes.estado','=',true)

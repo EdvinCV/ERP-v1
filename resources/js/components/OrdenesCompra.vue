@@ -474,10 +474,6 @@
                     }
                 if (this.editedIndex > -1) {                   
                 } else {
-                    if(this.detalles.length == 1)
-                    {
-                        this.detalles[0].precioCompra = this.editedItem.precioCompra;
-                    }
                     axios({
                         method: 'post',
                         url: '/compra/editar',

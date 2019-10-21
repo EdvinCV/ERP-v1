@@ -13,7 +13,9 @@ class PermisosController extends Controller
     public function __construct(){
         $this->middleware('auth');
     } 
-    public function index(){
+    public function index(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $permisos = DB::table('rol_permisos')
                         ->select(DB::raw('rol_permisos.id,rol_permisos.estado, permisos.nombrePermiso, rols.nombreRol'))
                         ->join('permisos','rol_permisos.permisoId','=','permisos.id')
@@ -49,7 +51,9 @@ class PermisosController extends Controller
         }
     }
 
-    public function listarPermisos(){
+    public function listarPermisos(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $listaP = DB::table('permisos')->get();
         return $listaP;        
     }
