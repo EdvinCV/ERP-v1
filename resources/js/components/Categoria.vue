@@ -42,7 +42,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
-                        <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
+                        <v-btn color="#668c2d" flat :loading="loading" :disabled="loading" @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -81,6 +81,8 @@
     export default {
         data: () => ({
             search: '',
+            loader: null,
+            loading: false,
             dialog: false,
                 nameRules: [
       v => !!v || 'El nombre de la categoria no puede estar vacio',
@@ -187,9 +189,13 @@
             save() {
                 let me = this;
                 if (this.validate()) {
-                        return;
-                    }
+                    me.loader=null;
+                    me.loading=false;
+                    return;
+                }
                 if (this.editedIndex > -1) {
+                    me.loader='loading';
+                    me.loading=true;
                     axios({
                         method: 'put',
                         url: '/categoria/actualizar',
@@ -204,6 +210,8 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -212,10 +220,14 @@
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     });                    
                 } else {
+                    me.loader='loading';
+                    me.loading=true;
                     axios({
                         method: 'post',
                         url: '/categoria/registrar',
@@ -229,6 +241,8 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -237,6 +251,8 @@
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }); 

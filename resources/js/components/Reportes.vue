@@ -110,8 +110,8 @@
           <template v-slot:activator="{ on }">
             <v-text-field v-model="date1" label="Fecha Inicial" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
-          <v-date-picker v-model="date1" scrollable  locale="gt">
-            <v-btn flat color="primary" @click="modal1 = false">Cancel</v-btn>
+          <v-date-picker v-model="date1" scrollable  color="#668c2d" locale="gt">
+            <v-btn flat color="primary" @click="modal1 = false">Cancelar</v-btn>
             <v-btn flat color="primary" @click="$refs.dialog1.save(date1)">OK</v-btn>
           </v-date-picker>
         </v-dialog>     
@@ -124,8 +124,8 @@
           <template v-slot:activator="{ on }">
             <v-text-field v-model="date2" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
-          <v-date-picker v-model="date2" scrollable  locale="gt">
-            <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
+          <v-date-picker v-model="date2" scrollable color="#668c2d" locale="gt">
+            <v-btn flat color="primary" @click="modal = false">Cancelar</v-btn>
             <v-btn flat color="primary" @click="$refs.dialog2.save(date2)">OK</v-btn>
           </v-date-picker>
         </v-dialog>     
@@ -150,29 +150,18 @@
       <div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				<div class="card">
-           <center>  <h3>Producto</h3></center>
-            	<div class="card-body d-flex justify-content-between align-items-center">
-                <v-flex lg6 md6 xs6 pa-2>
-                <multiselect v-model="editedItem.idProducto" :options="productos" placeholder="Seleccione un producto"
-                    label="mostrar" track-by="id"></multiselect>
-              </v-flex>               
-
-           <center>  <v-btn @click="" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
-           </div>
-					<div class="card-body d-flex justify-content-between align-items-center">
-
-					</div>
-
+           <center>  <h3>Productos</h3></center>
+    
           <div class="card-body d-flex justify-content-between align-items-center">					
 <template>
    <v-layout row wrap>
       <v-flex xs11 sm5>
         <v-dialog ref="dialog3" v-model="modal3" :return-value.sync="date3" width="290px">
           <template v-slot:activator="{ on }">
-            <v-text-field v-model="date3" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
+            <v-text-field v-model="date3" label="Fecha Inicial" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
-          <v-date-picker v-model="date3" scrollable  locale="gt">
-            <v-btn flat color="primary" @click="modal3 = false">Cancel</v-btn>
+          <v-date-picker v-model="date3" color="#668c2d" scrollable  locale="gt">
+            <v-btn flat color="primary" @click="modal3 = false">Cancelar</v-btn>
             <v-btn flat color="primary" @click="$refs.dialog3.save(date3)">OK</v-btn>
           </v-date-picker>
         </v-dialog>     
@@ -185,8 +174,8 @@
           <template v-slot:activator="{ on }">
             <v-text-field v-model="date4" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
-          <v-date-picker v-model="date4" scrollable  locale="gt">
-            <v-btn flat color="primary" @click="modal4 = false">Cancel</v-btn>
+          <v-date-picker v-model="date4" color="#668c2d" scrollable  locale="gt">
+            <v-btn flat color="primary" @click="modal4 = false">Cancelar</v-btn>
             <v-btn flat color="primary" @click="$refs.dialog4.save(date4)">OK</v-btn>
           </v-date-picker>
         </v-dialog>     

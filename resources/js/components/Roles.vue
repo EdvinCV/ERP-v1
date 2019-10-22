@@ -43,7 +43,7 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
-                    <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
+                    <v-btn color="#668c2d" flat :loading="loading" :disabled="loading" @click="save">Guardar</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -77,6 +77,8 @@
     export default {
         data: () => ({
             search: '',
+            loader: null,
+            loading: false,
             dialog: false,
             error: 0,
             nameRules: [
@@ -178,7 +180,11 @@
             },
             save() {
                 let me = this;
+                me.loader='loading';
+                me.loading=true;
                 if (this.validate()) {
+                        me.loader=null;
+                        me.loading=false;
                         return;
                     }
                 if (this.editedIndex > -1) {
@@ -196,6 +202,8 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -222,6 +230,8 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {

@@ -89,7 +89,7 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
-                    <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
+                    <v-btn color="#668c2d" :loading="loading" :disabled="loading" flat @click="save">Guardar</v-btn>
                 </v-card-actions>
             </v-card>
             </v-dialog>
@@ -136,6 +136,8 @@
             mostrar: false,
             error: 0,
             switch1: false,
+            loader: null,
+            loading: false,
             errorMsj: [],
             listaRoles: [],
             headers: [
@@ -290,6 +292,8 @@
                         return;
                     }
                 if (this.editedIndex > -1) {
+                    me.loader='loading';
+                    me.loading=true;
                     axios({
                         method: 'put',
                         url: '/usuario/actualizar',
@@ -307,9 +311,13 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
+                        me.loader=null;
+                        me.loading=false;
                         swal.fire({
                             position: 'top-end',
                             type: 'error',
@@ -319,6 +327,8 @@
                         me.close();
                     });                    
                 } else {
+                    me.loader='loading';
+                    me.loading=true;
                     axios({
                         method: 'post',
                         url: '/usuario/registrar',
@@ -335,6 +345,8 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -343,6 +355,8 @@
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }); 

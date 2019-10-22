@@ -115,7 +115,28 @@
                     });
             },
             verDetalles(item) {
-                window.open(window.location.origin +'/ventas/'+item+'/detalles');
+                axios({
+                    method: 'post',
+                    url: '/ventas/detalles',
+                    responseType:'arraybuffer',
+                    data: {
+                        ventaEncabezado: item
+                    }
+                }).then(function (response) {
+                    let blob = new Blob([response.data], { type:'application/pdf' } )
+                    let link = document.createElement('a')
+                    link.href = window.URL.createObjectURL(blob)
+                    link.download = 'detalles.pdf'
+                    link.click()
+                    }).catch(function (error) {
+                        swal.fire({
+                            position: 'top-end',
+                            type: 'error',
+                            title: error.response.data.error,
+                            showConfirmButton: true});
+                        me.initialize();
+                        me.close();
+                    });
             },
             deleteItem(item) {
                 let me=this;

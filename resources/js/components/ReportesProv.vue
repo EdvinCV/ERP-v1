@@ -18,7 +18,7 @@
               </div>
               <div class="content">
                 <div class="text">MAYOR PROVEEDOR</div>
-                <div class="number count-to" >{{this.editedItem.mayorProv[0].nombreProveedor}}</div>
+                <div class="number count-to" >{{this.editedItem.mayorProv}}</div>
               </div>
             </div>
             <div class="info-box bg-blue-grey hover-zoom-effect">
@@ -116,7 +116,6 @@
     created() {
             this.cargaProveedores()
             this.cargaDatosProveedores()
-            this.cargaProv()
         },
 
     methods: {
@@ -134,6 +133,11 @@
         axios.get('/mayorProv')
         .then(function (response) {
             me.editedItem.mayorProv = response.data;
+            if(me.editedItem.mayorProv[0].nombreProveedor == '')
+              me.editedItem.mayorProv = '';
+            else{
+              me.editedItem.mayorProv = me.editedItem.mayorProv[0].nombreProveedor; 
+            }
         })
         .catch(function (error) {
             console.log(error.response);
@@ -168,8 +172,10 @@
                             showConfirmButton: false,
                             timer: 1500});
 
-        }else
+        }else{
           window.open(window.location.origin +'/reporteProveedores/'+this.editedItem.idProveedor.idPersona);
+        }
+          
       },
     }
   }

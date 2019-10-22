@@ -8,63 +8,43 @@
     background-color:#668C2D;
 }
 </style>
+
 <template>
     <div>
-        <center><h2 style="color:#668C2D">Venta</h2></center>
+        <center><h2 style="color:#668C2D">Nueva Venta</h2></center>
         <center><hr class="hrt" color="#668c2d"></center>
- 
-          <v-container >
-         
-      <h5 style="color:#668c2d">Factura</h5>
- <v-layout row>
-          <v-switch  
-            color="#668c2d"
-            v-model="editedItem.switchFact"
-            :label = "this.editedItem.switchFact ? 'Facturado' : 'No Facturado'"
-        ></v-switch>
-      
-       
-
-       
-      <v-flex lg3 md3 xs3 pa-2 >
-            <v-text-field color="#668c2d" v-model="editedItem.numFact" label="No. Factura"></v-text-field>
-        </v-flex>
-         </v-layout>
+            <v-container >
+                <h5 style="color:#668c2d">Factura</h5>
+                <v-layout row>
+                    <v-switch color="#668c2d" v-model="editedItem.switchFact" :label = "this.editedItem.switchFact ? 'Facturado' : 'No Facturado'"></v-switch>
+                    <v-flex lg3 md3 xs3 pa-2 >
+                        <v-text-field color="#668c2d" v-model="editedItem.numFact" label="No. Factura"></v-text-field>
+                    </v-flex>
+                </v-layout>
                 <h5 style="color:#668c2d">Metodo de pago</h5>
-              <v-layout row>
-               
-           <v-radio-group v-model="radios" row @change="pago()">
-            <v-radio color="#668c2d" label="Efectivo" value="efectivo"></v-radio>
-            <v-radio color="#668c2d" label="Cheque" value="cheque"></v-radio>
-            <v-flex color="#668c2d" lg3 md3 xs3 pa-2>
-                <v-text-field color="#668c2d" v-model="editedItem.cheque" label="No. Cheque" v-if="bandera"></v-text-field>
-            </v-flex>
-            <v-flex color="#668c2d" lg3 md3 xs3 pa-2>
-                <v-text-field color="#668c2d" v-model="editedItem.banco" label="Banco" v-if="bandera"></v-text-field>
-            </v-flex>
-        </v-radio-group>
-    
+                <v-layout row>
+                    <v-radio-group v-model="radios" row @change="pago()">
+                        <v-radio color="#668c2d" label="Efectivo" value="efectivo"></v-radio>
+                        <v-radio color="#668c2d" label="Cheque" value="cheque"></v-radio>
+                        <v-flex color="#668c2d" lg3 md3 xs3 pa-2>
+                            <v-text-field color="#668c2d" v-model="editedItem.cheque" label="No. Cheque" v-if="bandera"></v-text-field>
+                        </v-flex>
+                        <v-flex color="#668c2d" lg3 md3 xs3 pa-2>
+                            <v-text-field color="#668c2d" v-model="editedItem.banco" label="Banco" v-if="bandera"></v-text-field>
+                        </v-flex>
+                    </v-radio-group>
               </v-layout>
-       <hr>
-        
-</v-container>
+              <hr>
+            </v-container>
        
-       
-       
-        <v-container>
-           
-        <!--LAYOUT DE CLIENTE -->
-   
-        <h5 style="color:#668c2d">Información cliente <v-btn @click="abrirModal"  style="background-color:#668c2d"  dark class="mb-2" v-on="on">Ingresar Cliente</v-btn></h5>
-      
-             
-           
+            <v-container>
+            <!--LAYOUT DE CLIENTE -->
+            <h5 style="color:#668c2d">Información cliente <v-btn @click="abrirModal"  style="background-color:#668c2d"  dark class="mb-2">Ingresar Cliente</v-btn></h5>     
             <v-layout row>
                 <v-flex lg6 md6 xs6 pa-2>
                     <multiselect title="Seleccione un cliente" @input="buscarNIT()" v-model="editedItem.idCliente" :options="clientes" placeholder="Seleccione un cliente"
                                 label="nombreCliente" track-by="nombreCliente"></multiselect>
                 </v-flex>
-                
                 
                 <v-flex lg3 md3 xs6 pa-2>
                     <v-text-field color="#668c2d" v-model="editedItem.nit" label="NIT" readonly></v-text-field>
@@ -76,13 +56,12 @@
             
           
             <!--LAYOUT DE PRODUCTOS-->
-                <hr>
+            <hr>
             <h5 style="color:#668c2d">Ingrese productos</h5> 
-        
             <v-layout row>
                 <v-flex lg6 md6 xs6 pa-2>
-                    <multiselect title="Seleccione producto" @input="buscarProducto()" v-model="editedItem.detProducto" :options="prods" placeholder="Seleccione un producto"
-                                label="mostrar" track-by="Producto" :allowEmpty="true"></multiselect>
+                    <multiselect title="Seleccione producto" @remove="limpiarCampos()" @input="buscarProducto()" v-model="editedItem.detProducto" :options="prods" placeholder="Seleccione un producto"
+                                label="mostrar" track-by="mostrar" :allowEmpty="true"></multiselect>
                 </v-flex>
                 <v-flex lg2 md2 xs2 pa-2>
                     <v-text-field color="#668c2d" v-model="editedItem.cantProducto" label="Cantidad"></v-text-field>
@@ -222,7 +201,7 @@
                 total: '',
                 cheque: '',
                 banco: '',
-                numFact: 0,
+                numFact: '',
                 detalle: [],
                 existencia: 0,
                 switchFact: true,
@@ -242,8 +221,9 @@
                 direccion: '',
                 detProducto: '',
                 cantProducto: '',
-                numFact: 0,
+                numFact: '',
                 precio: '',
+                switchFact: true,
                 subtotal: '',
                 descuento: '',
                 total: '',
@@ -251,9 +231,6 @@
             }
         }),
         computed: {
-            formTitle() {
-                return this.editedIndex === -1 ? 'Nuevo Rol' : 'Editar Rol'
-            }
         },
         watch: {
             dialog(val) {
@@ -261,8 +238,7 @@
             }
         },
         created() {
-            this.initialize(),
-            this.cargaProductos(),
+            this.initialize()
             this.cargaClientes()
         },
         methods: {
@@ -280,8 +256,10 @@
                 }
                 if(!this.editedItem.idCliente)
                     this.errorMsj.push('Elija un cliente');
-                if(this.editedItem.numFact == 0 && this.facturado == true)
-                    this.errorMsj.push('Ingrese número de factura');
+                if(this.editedItem.switchFact == true){
+                    if(this.editedItem.numFact == '' || this.editedItem.numFact <= 0)
+                        this.errorMsj.push('Ingrese número de factura.');
+                }
                 if(this.carrito == '')
                         this.errorMsj.push('No ha elejido ningún producto');
                 if (this.errorMsj.length)
@@ -330,16 +308,6 @@
                     return false;
                 }
             },
-            cargaProductos() {
-                let me = this;
-                axios.get('/producto')
-                .then(function (response) {
-                    me.prods = response.data;
-                })
-                .catch(function (error) {
-                    console.log(error.response);
-                });
-            },
             pago(){
                if(this.radios == "cheque")
                    this.bandera = true;
@@ -361,41 +329,41 @@
                 this.dialogModal = true;
             },
             guardarCliente(){
-            let me = this;
-            if (this.validateCliente()) {
-                return;
-            }
-            axios({
-                method: 'post',
-                url: '/clientes/nuevo',
-                data: {
-                    nombre: me.editedItem.nombre,
-                    apellido: me.editedItem.apellido,
-                    direccion: me.editedItem.direccionCliente,
-                    telefono: me.editedItem.telefono,
-                    nit: me.editedItem.nitCliente,
-                    correo: me.editedItem.correo,
-                    dpi: me.editedItem.dpi,
-                    nombreCliente: me.editedItem.nombreCliente
+                let me = this;
+                if (this.validateCliente()) {
+                    return;
                 }
-            }).then(function (response) {
-                swal.fire({
-                    position: 'top-end',
-                    type: 'success',
-                    title: response.data,
-                    showConfirmButton: false,
-                    timer: 1500});
-                me.cargaClientes()
-                me.closeModal();
-            }).catch(function (error) {
-                swal.fire({
-                    position: 'top-end',
-                    type: 'error',
-                    title: error.response.data.error,
-                    showConfirmButton: true});
-                    me.initialize();
-                    me.close();
-                }); 
+                axios({
+                    method: 'post',
+                    url: '/clientes/nuevo',
+                    data: {
+                        nombre: me.editedItem.nombre,
+                        apellido: me.editedItem.apellido,
+                        direccion: me.editedItem.direccionCliente,
+                        telefono: me.editedItem.telefono,
+                        nit: me.editedItem.nitCliente,
+                        correo: me.editedItem.correo,
+                        dpi: me.editedItem.dpi,
+                        nombreCliente: me.editedItem.nombreCliente
+                    }
+                }).then(function (response) {
+                    swal.fire({
+                        position: 'top-end',
+                        type: 'success',
+                        title: response.data,
+                        showConfirmButton: false,
+                        timer: 1500});
+                    me.cargaClientes()
+                    me.closeModal();
+                }).catch(function (error) {
+                    swal.fire({
+                        position: 'top-end',
+                        type: 'error',
+                        title: error.response.data.error,
+                        showConfirmButton: true});
+                        me.initialize();
+                        me.close();
+                    }); 
             },
             valNit(nit){
                 var nd, add=0;
@@ -411,20 +379,28 @@
             },
             buscarNIT(){
                 let me = this;
+                this.editedItem.nit = 0;
+                this.editedItem.direccion = '';
                 var cliente = this.clientes.filter(function(c){
                     return c.id == me.editedItem.idCliente.id;
                 });
-                console.log(cliente[0].nit);
                 this.editedItem.nit = cliente[0].nit;
                 this.editedItem.direccion = cliente[0].direccion;
             },
             buscarProducto(){
                 let me = this;
+              
                 var producto = this.prods.filter(function(p){
                     return p.id == me.editedItem.detProducto.id;
                 });
                 this.editedItem.precio = producto[0].precioventa;
                 this.editedItem.existencia = producto[0].existencia;
+                this.editedItem.cantProducto = 0;
+                this.editedItem.descuento = 0;
+            },
+            limpiarCampos(){
+                this.editedItem.precio = 0;
+                this.editedItem.existencia = 0;
                 this.editedItem.cantProducto = 0;
                 this.editedItem.descuento = 0;
             },
@@ -555,7 +531,7 @@
             save() {
                 let me = this;
                 if (this.validate()) {
-                        this.errorMsj.forEach(function(element){
+                    this.errorMsj.forEach(function(element){
                             swal.fire({
                             position: 'top-end',
                             type: 'error',
@@ -588,7 +564,28 @@
                             showConfirmButton: false,
                             timer: 1500});
                         if(me.editedItem.switchFact)
-                            window.open(window.location.origin +'/ventas/'+response.data+'/factura');
+                        {
+                            axios({
+                                method: 'post',
+                                url: '/ventas/factura',
+                                responseType:'arraybuffer',
+                                data: {
+                                    venta: response.data
+                                }
+                            }).then(function (response) {
+                                let blob = new Blob([response.data], { type:   'application/pdf' } )
+                                let link = document.createElement('a')
+                                link.href = window.URL.createObjectURL(blob)
+                                link.download = 'factura.pdf'
+                                link.click()
+                    }).catch(function (error) {
+                        swal.fire({
+                            position: 'top-end',
+                            type: 'error',
+                            title: error.response.data.error,
+                            showConfirmButton: true});
+                    });
+                            }
                         me.initialize();
                         me.close();
                         

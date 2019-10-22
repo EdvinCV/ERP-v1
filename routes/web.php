@@ -73,8 +73,8 @@ Route::post('/venta/nuevo', 'VentasController@store');
 Route::get('/ventas/listar', 'VentasController@listarVentas');
 Route::get('/ventas/validartotal', 'VentasController@validarTotal');
 Route::delete('/venta/{id}/eliminar', 'VentasController@drop');
-Route::get('/ventas/{id}/detalles','VentasController@detalleVenta');
-Route::get('/ventas/{id}/factura', 'VentasController@generarFactura');
+Route::post('/ventas/detalles','VentasController@detalleVenta');
+Route::post('/ventas/factura', 'VentasController@generarFactura');
 Route::post('/venta/cotizacion','VentasController@cotizacion');
 Route::get('/venta/validadtotal','VentasController@validarTotal');
 //Rutas usuarios
@@ -92,7 +92,7 @@ Route::post('/caja/registrar', 'CajaController@store');
 Route::get('/caja/estado', 'CajaController@estado');    
 //Rutas compras
 Route::post('/compra/nuevo', 'OrdenCompraController@generarOrden');
-Route::get('/compra/{id}/orden', 'OrdenCompraController@imprimirOrden');
+Route::post('/compra/orden', 'OrdenCompraController@imprimirOrden');
 Route::get('/compra/ordenes', 'OrdenCompraController@index');
 Route::get('/compra/detalles', 'OrdenCompraController@detalles');
 Route::get('/compra/detallesGenerales', 'OrdenCompraController@indexGenerales');
@@ -101,7 +101,7 @@ Route::post('/compra/editar','OrdenCompraController@editarOrden');
 Route::delete('compra/{id}/eliminar', 'OrdenCompraController@drop');
 //Route::get('/compra/{id}/detalles', 'OrdenCompraController@detalles');
 Route::get('/compra/validartotal', 'OrdenCompraController@validarTotal');
-Route::get('/compra/{id}/finalizada','OrdenCompraController@ordenFinalizada');
+Route::post('/compra/finalizada','OrdenCompraController@ordenFinalizada');
 Route::get('/compra/validartotal','OrdenCompraController@validarTotal');
 Route::post('/compra/reportegeneral','OrdenCompraController@reporteGeneral');
 Route::get('/compra/comprassemana','OrdenCompraController@obtenerComprasSemana');
@@ -117,12 +117,14 @@ Route::get('/reporteClientes','ClienteController@reporteGeneral');
 Route::get('/mayorProv','ProveedorController@prov');
 Route::get('/totalProvs','ProveedorController@totalProvs');
 Route::get('/totalClientes','ClienteController@total');
+Route::get('/mayorComprador','ClienteController@mayorComprador');
 Route::get('/totalProds','ProductoController@totalProds');
 Route::get('/ventas/totalSemana','VentasController@obtenerVentasSemana');
 Route::get('/ventas/totalDia','VentasController@obtenerVentasDia');
 Route::get('/ventas/productoGanancias','VentasController@productoMasGanancia');
 Route::get('/ventas/productoMasVendido','VentasController@productoMasVendido');
 Route::get('/ventas/productoMenosVendido','VentasController@productoMenosVendido');
+
 
 Route::get('/test', function(){
     return 'HOLA';

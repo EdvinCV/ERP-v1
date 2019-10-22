@@ -263,6 +263,28 @@
                     this.editedIndex = -1
                 }, 300)
             },
+            imprimirOrden(item){
+                axios({
+                        method: 'post',
+                        url: '/compra/orden',
+                        responseType:'arraybuffer',
+                        data: {
+                          compraEncabezado: item
+                        }
+                    }).then(function (response) {
+                        let blob = new Blob([response.data], { type:   'application/pdf' } )
+                        let link = document.createElement('a')
+                        link.href = window.URL.createObjectURL(blob)
+                        link.download = 'ordenCompra.pdf'
+                        link.click()
+                    }).catch(function (error) {
+                        swal.fire({
+                            position: 'top-end',
+                            type: 'error',
+                            title: error.response.data.error,
+                            showConfirmButton: true});
+                    });
+            },
             save() {
                 let me = this;
                 if (this.validate()) {
@@ -293,8 +315,7 @@
                             timer: 1500});
                         me.initialize();
                         me.close();
-                        window.open(window.location.origin +'/compra/'+response.data+'/orden');
-                        
+                        me.imprimirOrden(response.data);            
                     }).catch(function (error) {
                         swal.fire({
                             position: 'top-end',

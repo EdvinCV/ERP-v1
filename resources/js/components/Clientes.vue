@@ -49,7 +49,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
-                        <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
+                        <v-btn color="#668c2d" flat :loading="loading" :disabled="loading" @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -91,6 +91,8 @@
         search: '',
         dialog: false,
         error: 0,
+        loader: null,
+        loading: false,
         nitRules:[
             v => !!v || 'El campo de Nit no puede estar vacio',
         ],
@@ -124,8 +126,8 @@
         headers: [
             { text: 'Nombre', value: 'nombre' },
             { text: 'Apellido', value: 'apellido' },
-            { text: 'Direccion', value: 'direccion' },
-            { text: 'Telefono', value: 'telefono' },
+            { text: 'Dirección', value: 'direccion' },
+            { text: 'Teléfono', value: 'telefono' },
             { text: 'Nit', value: 'nit' },
             { text: 'Correo', value: 'correo' },
             { text: 'Cliente', value: 'nombreCliente' },
@@ -275,9 +277,13 @@
         save() {
             let me = this;
             if (this.validate()) {
+                me.loader=null;
+                me.loading=false;
                 return;
             }
             if (this.editedIndex > -1) {
+                me.loader='loading';
+                me.loading=true;
                 axios({
                     method: 'put',
                     url: '/clientes/actualizar',
@@ -299,6 +305,8 @@
                         title: response.data,
                         showConfirmButton: false,
                         timer: 1500});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -307,10 +315,14 @@
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
+                            me.loader=null;
+                            me.loading=false;
                             me.initialize();
                             me.close();
                         });                    
             } else {
+                me.loader='loading';
+                me.loading=true;
                 axios({
                     method: 'post',
                     url: '/clientes/nuevo',
@@ -331,6 +343,8 @@
                         title: response.data,
                         showConfirmButton: false,
                         timer: 1500});
+                    me.loader=null;
+                    me.loading=false;
                     me.initialize();
                     me.close();
                 }).catch(function (error) {
@@ -339,6 +353,8 @@
                         type: 'error',
                         title: error.response.data.error,
                         showConfirmButton: true});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }); 

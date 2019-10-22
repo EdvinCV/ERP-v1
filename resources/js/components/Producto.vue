@@ -97,7 +97,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
-                      <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
+                      <v-btn color="#668c2d" :loading="loading" :disabled="loading" flat @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -188,6 +188,8 @@
             errorMsj: [],
             select: [],
             categorias: [],
+            loader: null,
+            loading: false,
             presentaciones: [],
             personas: [],
             switch1: false,
@@ -565,10 +567,13 @@
                 let me = this;
                 
                 if (this.validate()) {
-                        return;
-                    }
+                    me.loader=null;
+                    me.loading=false;
+                    return;
+                }
                 if (this.editedIndex > -1) {
-                    
+                    me.loader='loading';
+                    me.loading=true;
                     axios({
                         
                         method: 'put',
@@ -600,6 +605,8 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
+                            me.loader=null;
+                            me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -608,10 +615,14 @@
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
+                            me.loader=null;
+                            me.loading=false;
                         me.initialize();
                         me.close();
                     });                    
                 } else {
+                    me.loader='loading';
+                    me.loading=true;
                     axios({
                         method: 'post',
                         url: '/producto/registrar',
@@ -642,6 +653,8 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
+                            me.loader=null;
+                            me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -650,6 +663,8 @@
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
+                            me.loader=null;
+                            me.loading=false;
                         me.initialize();
                         me.close();
                     }); 

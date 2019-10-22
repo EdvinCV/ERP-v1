@@ -72,7 +72,7 @@
           <thead style="background-color:#668c2d">
             <tr>
               <th class="th">#</th>
-              <th class="th">Fecha</th>
+              <th class="th">Finalizado</th>
               <th class="th">Parqueo</th>
               <th class="th">Combustible</th>
               <th class="th">Varios</th>
@@ -98,12 +98,12 @@
             <td>-----</td>
             <td>-----</td>
             <td>-----</td>
-            
+            <td>-----</td>
             <td>TOTAL </td>
             @foreach($total as $p)
                 <td>{{$p->total}}</td>
              @endforeach
-            <td></td>
+           
           </tr>
           </tbody>
         </table>

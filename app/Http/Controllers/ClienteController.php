@@ -87,11 +87,25 @@ class ClienteController extends Controller
         $pdf->loadView('clientes.general', compact('clientes'));
         return $pdf->stream('clientes.pdf');
     }
-    public function total(){
+    public function total(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $total = DB::table('clientes')
                 ->select(DB::raw('COUNT(clientes.id) as total'))
                 ->where('clientes.estado','=',true)
                 ->get();
         return $total;
+    }
+    public function mayorComprador(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
+        $cliente = DB::table('venta_encabezados')
+                    ->select(DB::raw('clientes.nombreCliente, COUNT(venta_encabezados.idPersona) as total'))
+                    ->join('clientes','clientes.idPersona','=','venta_encabezados.idPersona')
+                    ->groupBy('venta_encabezados.idPersona','clientes.nombreCliente')
+                    ->orderBy('total','desc')
+                    ->limit(1)
+                    ->get();
+        return $cliente;
     }
 }

@@ -48,7 +48,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
-                     <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
+                     <v-btn color="#668c2d" flat :loading="loading" :disabled="loading" @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -130,13 +130,15 @@
                     value: 'nombre' 
                 },
                 { text: 'Apellido', value: 'apellido' },
-                { text: 'Direccion', value: 'direccion' },
-                { text: 'Telefono', value: 'telefono' },
+                { text: 'Dirección', value: 'direccion' },
+                { text: 'Teléfono', value: 'telefono' },
                 { text: 'Nit', value: 'nit' },
                 { text: 'Correo', value: 'correo' },
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
             proveedores: [],
+            loader: null,
+            loading: false,
             editedIndex: -1,
             editedItem: {
                 id: 0,
@@ -283,10 +285,14 @@
             save() {
                 let me = this;
                 if (this.validate()) {
-                        return;
+                    me.loader=null;
+                    me.loading=false;
+                    return;
                 }
                 if (this.editedIndex > -1) {
-                    axios({
+                    me.loader='loading';
+                    me.loading=true;
+                    axios({    
                         method: 'put',
                         url: '/proveedores/actualizar',
                         data: {
@@ -306,6 +312,8 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -314,10 +322,14 @@
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     });                    
                 } else {
+                    me.loader='loading';
+                    me.loading=true;
                     axios({
                         method: 'post',
                         url: '/proveedores/nuevo',
@@ -331,6 +343,8 @@
                             nombreProveedor: me.editedItem.nombreProveedor
                         }
                     }).then(function (response) {
+                        me.loader=null;
+                        me.loading=false;
                         swal.fire({
                             position: 'top-end',
                             type: 'success',
@@ -340,6 +354,8 @@
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
+                        me.loader=null;
+                        me.loading=false;
                         swal.fire({
                             position: 'top-end',
                             type: 'error',

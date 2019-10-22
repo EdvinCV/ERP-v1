@@ -15,8 +15,8 @@
                 <i class="material-icons">person_add</i>
               </div>
               <div class="content">
-                <div class="text">MAYOR CLIENTE</div>
-                <div class="number count-to" ></div>
+                <div class="text">MAYOR COMPRADOR</div>
+                <div class="number count-to" ><h4>{{this.mayorComprador}}</h4></div>
               </div>
             </div>
             <div class="info-box bg-blue-grey hover-zoom-effect">
@@ -25,7 +25,7 @@
               </div>
               <div class="content">
                 <div class="text">TOTAL PRODUCTOS</div>
-                <div class="number count-to" ></div>
+                <div class="number count-to" >{{this.totalProds}}</div>
               </div>
             </div>
         </div>
@@ -91,6 +91,7 @@
       modal: false,
       totalClientes: 0,
       totalProds: 0,
+      mayorComprador: '',
       clientes: [],
       editedItem:{
         idProveedor: '',
@@ -104,26 +105,47 @@
     methods: {
       reporteGeneral(){
         window.open(window.location.origin +'/reporteClientes');
+        me.loader=null;
+        me.loading=false;
       },
       cargarDatos(){
+        let me = this;
         axios.get('/totalClientes')
         .then(function(response) {
             //this.totalClientes = response.data;
-            console.log(response.data);
-            this.totalClientes = response.data;
-            console.log("Prueba" + this.totalClientes);
+            me.totalClientes = response.data;
+            if(me.totalClientes[0].total > 0)
+              me.totalClientes = me.totalClientes[0].total;
+            else
+              me.totalClientes = 0;
         })
         .catch(function (error) {
             console.log(error.response);
         });
 
-        /*axios.get('/totalProds')
+        axios.get('/totalProds')
         .then(function (response) {
-            this.totalProds = response.data;
+            me.totalProds = response.data;
+            if(me.totalProds[0].total > 0)
+              me.totalProds = me.totalProds[0].total;
+            else
+              me.totalProds = 0;
         })
         .catch(function (error) {
             console.log(error.response);
-        });*/
+        });
+
+        axios.get('/mayorComprador')
+        .then(function (response) {
+            me.mayorComprador = response.data;
+            if(me.mayorComprador[0].nombreCliente)
+              me.mayorComprador = me.mayorComprador[0].nombreCliente;
+            else
+              me.mayorComprador = '';
+        })
+        .catch(function (error) {
+            console.log(error.response);
+        });
 
 
       },
@@ -135,7 +157,7 @@
 <style scoped>
 .info-box {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  height: 80px;
+  height: 90px;
   display: flex;
   cursor: default;
   background-color: #fff;

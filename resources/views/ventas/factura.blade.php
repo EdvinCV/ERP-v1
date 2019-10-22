@@ -121,13 +121,13 @@
             </div>
             <div class="descripcion">
                 @foreach($detalles as $d)
-                    {{$d->producto}}   -   {{$d->presentacion}}  -  {{$d->precioventa}}
+                    {{$d->producto}}   -   {{$d->presentacion}}  -  {{ number_format((float)$d->precioventa,2,'.','')   }}
                     <br>
                 @endforeach
             </div>
             <div class="valor">
                 @foreach($detalles as $d)
-                    {{$d->subtotal}}
+                    {{ number_format((float)$d->subtotal,2,'.','') }}
                     <br>
                 @endforeach
             </div>
@@ -141,7 +141,7 @@
             </div>
             <div class="total">
                 @foreach($ventas as $v)
-                    {{$v->total}}
+                    {{ number_format((float)$v->total,2,'.','') }}
                 @endforeach
             </div>
         </div>

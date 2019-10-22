@@ -24,13 +24,13 @@
                                     </v-btn>
                                 </v-flex>
                                 <v-flex lg6 md6 xs6 pa-2>
-                                    <v-text-field readonly v-model="editedItem.producto"></v-text-field>
+                                    <v-text-field color="#668c2d" readonly v-model="editedItem.producto"></v-text-field>
                                 </v-flex>
                                 <v-flex lg6 md6 xs6 pa-2>
-                                    <v-text-field readonly v-model="editedItem.nombreProveedor"></v-text-field>
+                                    <v-text-field color="#668c2d" readonly v-model="editedItem.nombreProveedor"></v-text-field>
                                 </v-flex>
                                 <v-flex lg6 md6 xs6 pa-2>
-                                    <v-text-field v-model="editedItem.precioCompra"></v-text-field>
+                                    <v-text-field color="#668c2d" v-model="editedItem.precioCompra"></v-text-field>
                                 </v-flex>
                                 <v-flex xs1 sm1 md1>
                                     <v-btn @click="contadorMas()" fab dark small color="#668c2d">
@@ -40,16 +40,16 @@
                             </v-layout>
                                 
                             <v-flex lg12 md12 xs12 pa-2>
-                                    <v-text-field label="Gastos parqueo" v-model="editedItem.parqueo"></v-text-field>
+                                    <v-text-field color="#668c2d" label="Gastos parqueo" v-model="editedItem.parqueo"></v-text-field>
                                 </v-flex>
                                 <v-flex lg12 md12 xs12 pa-2>
-                                    <v-text-field label="Gastos Combustible" v-model="editedItem.combustible"></v-text-field>
+                                    <v-text-field color="#668c2d" label="Gastos Combustible" v-model="editedItem.combustible"></v-text-field>
                                 </v-flex>
                                 <v-flex lg12 md12 xs12 pa-2>
-                                    <v-text-field label="Gastos varios" v-model="editedItem.gastosVarios"></v-text-field>
+                                    <v-text-field color="#668c2d" label="Gastos varios" v-model="editedItem.gastosVarios"></v-text-field>
                                 </v-flex>
                                 <v-flex lg12 md12 xs12 pa-2>
-                                    <v-text-field label="Observaciones" v-model="editedItem.observaciones"></v-text-field>
+                                    <v-text-field color="#668c2d" label="Observaciones" v-model="editedItem.observaciones"></v-text-field>
                                 </v-flex>
                         </v-container>
                 <template v-if="error">
@@ -66,7 +66,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="green darken-1" flat @click="close">Cerrar</v-btn>
-                        <v-btn color="green darken-1" flat @click="save">Guardar</v-btn>
+                        <v-btn color="green darken-1" :loading="loading" :disabled="loading" flat @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -99,15 +99,12 @@
                                 <v-text-field v-model="editedItem.cantProducto" label="Cantidad"></v-text-field>
                             </v-flex>
                             <v-flex xs1 sm1 md1>
-                                <v-btn @click="agregarProducto()" fab dark small color="primary">
+                                <v-btn @click="agregarProducto()" fab dark small color="#668c2d">
                                     <v-icon dark>add</v-icon>
                                 </v-btn>
                             </v-flex>
                         </v-layout>
-                           
-                        <v-alert :value="this.editedItem.bandera" type="error">
-                           {{this.editedItem.errorMsj}}
-                        </v-alert>
+        
                         <v-data-table :headers="headersApp" :items="detalles" class="elevation-1" hide-actions>
                             
                             <template v-slot:items="props">
@@ -128,8 +125,8 @@
                     </v-card-text>
 
                     <v-card-actions>
-                        <v-btn color="blue darken-1" flat @click="close">Cerrar</v-btn>
-                        <v-btn color="blue darken-1" flat @click="editarCompra">Guardar</v-btn>
+                        <v-btn color="#668c2d" flat @click="close">Cerrar</v-btn>
+                        <v-btn color="#668c2d" flat :loading="loading" :disabled="loading" @click="editarCompra">Guardar</v-btn>
                     </v-card-actions>
 
                 </v-card>
@@ -194,6 +191,8 @@
             prods: [],
             clientes: [],
             ordenes: [],
+            loader: null,
+            loading: false,
             detalles: [],
             detallesGenerales: [],
             detallesEliminados: [],
@@ -346,15 +345,15 @@
                 this.errorMsj = [];
                 if(this.editedItem.observaciones == '')
                     this.errorMsj.push('Debe ingresar una observación.');
-                if(this.editedItem.parqueo = '' || this.editedItem.parqueo < 0){
+                if(this.editedItem.parqueo == '' || this.editedItem.parqueo < 0){
                     this.errorMsj.push('Debe ingresar una cantidad de parqueo correcta.');
                     this.editedItem.parqueo = 0;
                 }
-                if(this.editedItem.combustible = '' || this.editedItem.combustible < 0){
+                if(this.editedItem.combustible == '' || this.editedItem.combustible < 0){
                     this.errorMsj.push('Debe ingresar una cantidad de combustible correcta.');
                     this.editedItem.combustible = 0;
                 }
-                if(this.editedItem.gastosVarios = '' || this.editedItem.gastosVarios < 0){
+                if(this.editedItem.gastosVarios == '' || this.editedItem.gastosVarios < 0){
                     this.errorMsj.push('Debe ingresar una cantidad de gastos correcta.');
                     this.editedItem.gastosVarios = 0;
                 }
@@ -469,11 +468,14 @@
             },
             editarCompra(){
                 let me = this;
-                if (this.validate()) {
-                        return;
-                    }
+                //if (this.validate()) {
+
+                       // return;
+                 //   }
                 if (this.editedIndex > -1) {                   
                 } else {
+                    me.loader='loading'
+                    me.loading=true
                     axios({
                         method: 'post',
                         url: '/compra/editar',
@@ -489,6 +491,8 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -497,6 +501,8 @@
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }); 
@@ -507,8 +513,11 @@
                 if (this.validate()) {
                         return;
                     }
-                if (this.editedIndex > -1) {                   
+                if (this.editedIndex > -1) {  
+                    me.loader='loading';
+                    me.loading=true;            
                 } else {
+                    this.detalles[this.editedItem.contador].precioCompra = this.editedItem.precioCompra;
                     axios({
                         method: 'post',
                         url: '/compra/guardar',
@@ -529,6 +538,7 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
+             
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -537,6 +547,8 @@
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }); 
@@ -552,10 +564,48 @@
                 this.detalles.splice(index,1);
             },
             imprimirOrden(item){
-                window.open(window.location.origin +'/compra/'+item+'/orden');
+                axios({
+                        method: 'post',
+                        url: '/compra/orden',
+                        responseType:'arraybuffer',
+                        data: {
+                          compraEncabezado: item
+                        }
+                    }).then(function (response) {
+                        let blob = new Blob([response.data], { type:   'application/pdf' } )
+                        let link = document.createElement('a')
+                        link.href = window.URL.createObjectURL(blob)
+                        link.download = 'ordenCompra.pdf'
+                        link.click()
+                    }).catch(function (error) {
+                        swal.fire({
+                            position: 'top-end',
+                            type: 'error',
+                            title: error.response.data.error,
+                            showConfirmButton: true});
+                    });
             },
             imprimirOrdenFinalizada(item){
-                window.open(window.location.origin +'/compra/'+item+'/finalizada');
+                axios({
+                        method: 'post',
+                        url: '/compra/finalizada',
+                        responseType:'arraybuffer',
+                        data: {
+                          compraEncabezado: item
+                        }
+                    }).then(function (response) {
+                        let blob = new Blob([response.data], { type:   'application/pdf' } )
+                        let link = document.createElement('a')
+                        link.href = window.URL.createObjectURL(blob)
+                        link.download = 'ordenFinalizada.pdf'
+                        link.click()
+                    }).catch(function (error) {
+                        swal.fire({
+                            position: 'top-end',
+                            type: 'error',
+                            title: error.response.data.error,
+                            showConfirmButton: true});
+                    });
             }
         }
     }

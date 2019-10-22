@@ -22,7 +22,7 @@
           </div>
           <div class="content">
             <div class="text">COMPRAS DIA</div>
-              <div class="number count-to" data-from="0" >Q. {{this.editedItem.comprasDia}}</div>
+              <div class="number count-to" data-from="0" >Q. {{editedItem.comprasDia}}</div>
             </div>
           </div>
         </div>
@@ -52,20 +52,8 @@
         </div>
         <!-- #END# Widgets -->
 
-        <div class="row clearfix">
-          <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-            <div class="info-box bg-pink hover-zoom-effect">
-              <div class="icon">
-                <i class="material-icons">apps</i>
-              </div>
-              <div class="content">
-                <div class="text">TOTAL ORDENES MES</div>
-                <div class="number count-to" ></div>
-              </div>
-            </div>
-            
-    
-          </div>
+        
+      
 
 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
   <div class="card">
@@ -89,7 +77,7 @@
           <template v-slot:activator="{ on }">
             <v-text-field v-model="date1" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
-          <v-date-picker v-model="date1" scrollable  locale="gt">
+          <v-date-picker color="#668c2d" v-model="date1" scrollable  locale="gt">
             <v-btn flat color="primary" @click="modal1 = false">Cancel</v-btn>
             <v-btn flat color="primary" @click="$refs.dialog1.save(date1)">OK</v-btn>
           </v-date-picker>
@@ -103,7 +91,7 @@
           <template v-slot:activator="{ on }">
             <v-text-field v-model="date2" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
-          <v-date-picker v-model="date2" scrollable  locale="gt">
+          <v-date-picker color="#668c2d" v-model="date2" scrollable  locale="gt">
             <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
             <v-btn flat color="primary" @click="$refs.dialog2.save(date2)">OK</v-btn>
           </v-date-picker>
@@ -117,7 +105,7 @@
         
 					</div>
           	<div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn @click="guardarEspecificoCompras" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           <center>  <v-btn @click="guardarEspecificoCompras" style="background-color:#668c2d"  :loading="loading" :disabled="loading" dark class="mb-2">Generar</v-btn></center>
            </div>
 				</div>
 			</div>
@@ -158,6 +146,8 @@
       menu: false,
       modal1: false,
       modal2: false,
+      loader: null,
+      loading: false,
       modal3: false,
       modal4: false,
       clientes: [],
@@ -206,8 +196,8 @@
         axios.get('/compra/comprasdia')
         .then(function (response) {
             me.editedItem.comprasDia = response.data;
-            if(me.editedItem.comprasDia[0].total > 0)
-                me.editedItem.comprasDia = me.editedItem.comprasDia[0].total;
+            if(me.editedItem.comprasDia[0].dia > 0)
+                me.editedItem.comprasDia = me.editedItem.comprasDia[0].dia;
               else
                 me.editedItem.comprasDia = 0;
         })
@@ -249,6 +239,9 @@
                 });
       },
       guardarEspecificoCompras(){
+        let me = this;
+        me.loader='loading';
+        me.loading=true;
         axios({
             method: 'post',
             url: '/compra/reportegeneral',
@@ -263,6 +256,8 @@
             link.href = window.URL.createObjectURL(blob)
             link.download = 'ordenes.pdf'
             link.click()
+            me.loader=null;
+            me.loading=false;       
         }).catch(function (error) {
             swal.fire({
             position: 'top-end',
@@ -270,6 +265,8 @@
             title: error.response.data.error,
             showConfirmButton: true});
           });
+          me.loader=null;
+          me.loading=false;
       },
     }
   }

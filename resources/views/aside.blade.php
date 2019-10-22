@@ -70,13 +70,11 @@
                             <li><a @click="menu=8" ><span class="pcoded-micon"><i
                                     class="feather icon-clipboard"></i></span><span class="pcoded-mtext">Control Productos</span></a></li>
                                     <li><a @click="menu=9" ><span class="pcoded-micon"><i
-                                    class="feather icon-layers"></i></span><span class="pcoded-mtext">Categorias</span></a></li>
+                                    class="feather icon-layers"></i></span><span class="pcoded-mtext">Categorías</span></a></li>
                                     <li><a @click="menu=10" ><span class="pcoded-micon"><i
-                                    class="feather icon-file"></i></span><span class="pcoded-mtext">Presentacion</span></a></li>
+                                    class="feather icon-file"></i></span><span class="pcoded-mtext">Presentación</span></a></li>
                                     <li><a @click="menu=11" ><span class="pcoded-micon"><i
                                     class="feather icon-calendar"></i></span><span class="pcoded-mtext">Historial Productos</span></a></li>
-                                    <li><a @click="menu=12" ><span class="pcoded-micon"><i
-                                    class="feather icon-layers"></i></span><span class="pcoded-mtext">Kardex</span></a></li>
                             </ul>
                             
                         </li>

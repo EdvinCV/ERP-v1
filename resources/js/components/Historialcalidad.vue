@@ -45,8 +45,8 @@
                     </template>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
-                        <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
+                        <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
+                        <v-btn :loading="loading" :disabled="loading" color="#668c2d" flat @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -92,6 +92,8 @@
             dialog: false,
             error: 0,
             errorMsj: [],
+            loader: null,
+            loading: false,
             select: [],
             productos: [],
             fecha: new Date().toISOString().substr(0, 10),
@@ -102,7 +104,7 @@
                     value: 'mostrar' 
                 },
                 {
-                    text: 'Calificacion',
+                    text: 'Calificación',
                     value: 'calificacion'
                 },
                 {
@@ -226,12 +228,14 @@
                 let me = this;
                 
                 if (this.validate()) {
-                        return;
+                    me.loader=null;
+                    me.loading=false;
+                    return;
                     }
                 if (this.editedIndex > -1) {
-                    
-                    axios({
-                        
+                    me.loader='loading';
+                    me.loading=true;
+                    axios({  
                         method: 'put',
                         url: '/historialcalidad/actualizar',
                         data: {
@@ -248,6 +252,8 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -256,10 +262,14 @@
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     });                    
                 } else {
+                    me.loader='loading';
+                    me.loading=true;
                     axios({
                         method: 'post',
                         url: '/historialcalidad/registrar',
@@ -276,6 +286,8 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -284,6 +296,8 @@
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }); 

@@ -77,8 +77,8 @@ class OrdenCompraController extends Controller
             return response()->json($response, 500);
         }
     }
-    public function imprimirOrden($id){  
-        
+    public function imprimirOrden(Request $request){  
+        $id = $request->compraEncabezado;
         $clientes = DB::table('compra_detalles')
                     ->select('clientes.nombreCliente', 'clientes.idPersona')
                     ->join('clientes', 'clientes.idPersona', '=', 'compra_detalles.idPersona')
@@ -215,7 +215,10 @@ class OrdenCompraController extends Controller
             return response()->json($response, 500);
         }
     }
-    public function ordenFinalizada($id){
+    public function ordenFinalizada(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
+        $id = $request->compraEncabezado;
         $clientes = DB::table('compra_detalles')
                     ->select('clientes.nombreCliente', 'clientes.idPersona')
                     ->join('clientes', 'clientes.idPersona', '=', 'compra_detalles.idPersona')
@@ -305,7 +308,9 @@ class OrdenCompraController extends Controller
         return $pdf->stream('ComprasGeneral.pdf');                    
 
     }
-    public function obtenerComprasSemana(){
+    public function obtenerComprasSemana(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $year = date('Y');
         $month = date('n');
         $day = date('j');
@@ -323,7 +328,9 @@ class OrdenCompraController extends Controller
                         ->get();
         return $totalVentas;
     }
-    public function obtenerComprasDia(){
+    public function obtenerComprasDia(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $hoy = getDate();
         $fecha1 = strval($hoy['year']).'/'.strval($hoy['mon']).'/'.strval($hoy['mday']);
         $fecha2 = $hoy['year'].'/'.$hoy['mon'].'/'.strval($hoy['mday']+1);
@@ -335,7 +342,9 @@ class OrdenCompraController extends Controller
 
         return $ventasDia;
     }
-    public function pendientes(){
+    public function pendientes(Request $request){
+        if(!$request->ajax())
+            return redirect('/home');
         $ventasDia = DB::table('compra_encabezados')
                     ->select(DB::raw('COUNT(compra_encabezados.id) as pendientes'))
                     ->where('compra_encabezados.finalizado','!=','1')
