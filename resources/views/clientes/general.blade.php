@@ -67,7 +67,6 @@
   <center>
     <h2 style="color:#668c2d">Listado de Clientes</h2>
   </center>
-     
      <table class="table" style="width: 100%">
           <thead style="background-color:#668c2d">
             <tr>
@@ -92,8 +91,6 @@
         </table>
         <hr>
         <br>
-
-
         <div class="informatio" style="position: absolute; bottom: 0;">
     <table width="100%">
         <tr>

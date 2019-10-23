@@ -79,7 +79,6 @@
                     <v-card-title style="background-color:#668c2d">
                         <span style="color:#fff" class="headline">Editar Orden Compra #{{this.editedItem.orden}}</span>
                     </v-card-title>
-                   
                     <v-card-text>
                         <h6>Seleccione cliente</h6>
                         <v-layout row>
@@ -120,8 +119,7 @@
                                 </td>
                             </template>
                         </v-data-table> 
-                        <br>
-                                 
+                        <br>         
                     </v-card-text>
 
                     <v-card-actions>
