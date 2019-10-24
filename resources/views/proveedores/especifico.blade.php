@@ -6,12 +6,7 @@
     <title>Reporte proveedor</title>
 
     <style type="text/css">
-        @page {
-            margin: 0px;
-        }
-        body {
-            margin: 0px;
-        }
+      
         * {
             font-family: Verdana, Arial, sans-serif;
         }
@@ -58,25 +53,29 @@
 
 </head>
 <body>
-  <br>      
+  <br>    
+  <br>  
   <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
-  <hr class="hrt">
   <center>
     @foreach($proveedor as $p)
       <h2 style="color:#668c2d">Proveedor: {{$p->nombreProveedor}}</h2>
     @endforeach
   </center>
+  <center><h3 style="color:#668c2d">Lista de productos</h3></center>
+  <hr class="hrt">
+  
 
-        <h3 style="color:#668c2d">Lista de productos</h3>
+        
         <!-- PROVEEDORES -->
         @foreach($prodsProveedor as $prod)
         <div>
           <div>
-            <h3 style="color:#668c2d">{{$prod->nombre}} - {{$prod->presentacion}}</h3>
-            <hr>
+           <center> <h3 style="color:#668c2d">{{$prod->nombre}} - {{$prod->presentacion}}</h3></center>
+            
           </div>
           <div>
-            <table class="table" style="width: 50%">
+          <div>
+            <table class="table" style="margin: 0 auto" width="55%" >
               <thead style="background-color:#668c2d">
                 <tr>
                   <th class="th">Calificación</th>
@@ -98,26 +97,18 @@
             
 
             </table>
+            <br>
             <hr>
             <br>
+            </div>
+            
+           
           </div>
         </div>
         @endforeach
 
-
-        <div class="informatio" style="position: absolute; bottom: 0;">
-    <table width="100%">
-        <tr>
-            <td align="left" style="width: 60%;">
-                &copy; {{ date('Y') }} - 2019 INCOFIN.
-            </td>
-            <td align="right" style="width: 40%;">
-              Tel. (502) 7767 4672 |  INFO@INCOFIN.COM.GT
-            </td>
-        </tr>
-
-    </table>
-</div>
+        <br>
+      
         
     </body>
 </html>

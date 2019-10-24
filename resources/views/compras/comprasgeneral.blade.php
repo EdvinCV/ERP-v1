@@ -7,12 +7,7 @@
     <title>Reporte de Compras</title>
 
     <style type="text/css">
-        @page {
-            margin: 0px;
-        }
-        body {
-            margin: 0px;
-        }
+
         * {
             font-family: Verdana, Arial, sans-serif;
         }
@@ -63,7 +58,7 @@
   <br>    
   <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
   <hr class="hrt">
-  <div class="information">
+  <div>
     <center>
       <h2 style="color:#668c2d">Reporte de Compras</h2>
     </center>
@@ -107,12 +102,23 @@
           </tr>
           </tbody>
         </table>
+        <hr>
       <br>
        
-       <div class="container">
-        <center> <h3 style="color:#668c2d">Gastos</h3></center>
+     
+        <center> <h2 style="color:#668c2d">Gastos</h2></center>
         <hr>
-        @foreach($parqueo as $p)
+        <div class="container">
+       <table width="50%" style="margin: 0 auto">
+       <thead>
+       <tr>
+       <th class="th" style="background-color:#668c2d" ><center>Datos</center></th>
+       </tr>
+       </thead>
+       <tbody>
+       <tr>
+       <th>
+       @foreach($parqueo as $p)
               <p>Gastos Parqueo: {{$p->parqueo}}</p>
           @endforeach
           @foreach($combustible as $c)
@@ -124,24 +130,17 @@
           @foreach($impuestos as $i)
               <p>Impuestos: {{$i->impuestos}}</p>
           @endforeach
+       </th>
+       </tr>
+       </tbody>
+       </table>
+       
         </div>
          
           </div>
         </div>
         
 
-        <div class="informatio" style="position: absolute; bottom: 0;">
-    <table width="100%">
-        <tr>
-            <td align="left" style="width: 60%;">
-                &copy; {{ date('Y') }} - 2019 INCOFIN.
-            </td>
-            <td align="right" style="width: 40%;">
-              Tel. (502) 7767 4672 |  INFO@INCOFIN.COM.GT
-            </td>
-        </tr>
-
-    </table>
-</div>
+      
 </body>
 </html>

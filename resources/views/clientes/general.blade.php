@@ -62,12 +62,16 @@
 </head>
 <body>
   <br>
+
+
+  <br>
   <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
   <hr class="hrt">
   <center>
     <h2 style="color:#668c2d">Listado de Clientes</h2>
   </center>
-     <table class="table" style="width: 100%">
+  <div class="information">
+     <table style="width: 100%">
           <thead style="background-color:#668c2d">
             <tr>
               <th class="th">#</th>
@@ -89,7 +93,8 @@
           @endforeach
           </tbody>
         </table>
-        <hr>
+        </div>
+        
         <br>
         <div class="informatio" style="position: absolute; bottom: 0;">
     <table width="100%">

@@ -9,12 +9,7 @@
     <title>Reporte proveedores</title>
 
     <style type="text/css">
-        @page {
-            margin: 0px;
-        }
-        body {
-            margin: 0px;
-        }
+    
         * {
             font-family: Verdana, Arial, sans-serif;
         }
@@ -54,6 +49,9 @@
           background-color: #668c2d;
           width:75%;
         }
+        .hrts{
+          width:90%;
+        }
         .th{
             color:#fff;
         }
@@ -62,13 +60,16 @@
 </head>
 <body>
   <br>
+  <br>
   <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
-  <hr class="hrt">
   <center>
     <h2 style="color:#668c2d">Reporte Proveedores</h2>
   </center>
-     
-     <h3 style="color:#668c2d">Listado de proveedores</h3>
+  <hr class="hrt">
+ 
+  <div class="information">
+    <center> <h3 style="color:#668c2d">Listado de proveedores</h3></center>
+     </div>
      <table class="table" style="width: 100%">
           <thead style="background-color:#668c2d">
             <tr>
@@ -93,23 +94,25 @@
           @endforeach
           </tbody>
         </table>
-        <hr>
+        
+      
         <br>
 
-        <h3 style="color:#668c2d">Listado de productos por proveedor</h3>
+        <center><h3 style="color:#668c2d">Listado de productos por proveedor</h3></center>
+        <hr class="hrt">
         <!-- PROVEEDORES -->
         @foreach($proveedores as $prov)
         <div>
           <div>
-            <h3 style="color:#668c2d">{{$prov->nombreProveedor}}</h3>
-            <hr>
+            <center><h3 style="color:#668c2d">{{$prov->nombreProveedor}}</h3></center>
+          
           </div>
           <div>
-            <table style="width: 50%">
+            <table style="margin: 0 auto" width="50%">
               <thead>
                 <tr>
-                  <th>Producto</th>
-                  <th>Presentacion</th>
+                  <th style="background-color:#668c2d" class="th">Producto</th>
+                  <th style="background-color:#668c2d" class="th">Presentacion</th>
                 </tr>
               </thead>
               <tbody>
@@ -125,26 +128,16 @@
             
 
             </table>
-            <hr>
+            </div>
             <br>
+            <hr class="hrts">
+          
           </div>
         </div>
         @endforeach
         
         
 
-        <div class="informatio" style="position: absolute; bottom: 0;">
-    <table width="100%">
-        <tr>
-            <td align="left" style="width: 60%;">
-                &copy; {{ date('Y') }} - 2019 INCOFIN.
-            </td>
-            <td align="right" style="width: 40%;">
-              Tel. (502) 7767 4672 |  INFO@INCOFIN.COM.GT
-            </td>
-        </tr>
-
-    </table>
-</div>
+    
   </body>
 </html>

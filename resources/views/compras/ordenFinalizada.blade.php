@@ -5,12 +5,7 @@
     <meta charset="UTF-8">
     <title>Orden de Compra</title>
     <style type="text/css">
-        @page {
-            margin: 0px;
-        }
-        body {
-            margin: 0px;
-        }
+    
         * {
             font-family: Verdana, Arial, sans-serif;
         }
@@ -60,7 +55,7 @@
   <br>    
   <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
   <hr class="hrt">
-  <div class="information">
+  <div >
     <center><h2 style="color:#668c2d">Orden de Compra #{{$id}}</h2></center>
 
     <table style="width: 100%" class="table">
@@ -100,10 +95,19 @@
           </tr>
           </tbody>
         </table>
+        
       <br>
        <center> <h3 style="color:#668c2d">Resumen compra</h3></center>
-       <hr>
-        @foreach($orden as $o)
+       <table width="50%" style="margin: 0 auto">
+       <thead>
+       <tr>
+       <th class="th" style="background-color:#668c2d" ><center>Datos</center></th>
+       </tr>
+       </thead>
+       <tbody>
+       <tr>
+       <th>
+       @foreach($orden as $o)
             <p>Total Compra: {{$o->totalCompra}}</p>
             <p>Gastos Parqueo: {{$o->gastosParqueo}}</p>
             <p>Combustible: {{$o->combustible}}</p>
@@ -113,10 +117,21 @@
             <p>Utilidad Venta: {{$o->utilidadVenta}}</p>
             <p>Observaciones: {{$o->observaciones}}</p>
         @endforeach
+       </th>
+       </tr>
+       </tbody>
+       </table>
+
+
+
+
+
+       <hr>
+     
 
         <br>
-        <hr>
-        <center><h3>Productos distribuidos</h3></center>
+       
+        <center><h2 style="color:#668c2d">Productos distribuidos</h2></center>
 
         <!-- CLIENTES -->
         @foreach($clientes as $c)
@@ -158,19 +173,5 @@
         <br>
         <br>
 
-        <div class="informatio" style="position: absolute; bottom: 0;">
-    <table width="100%">
-        <tr>
-            <td align="left" style="width: 60%;">
-                &copy; {{ date('Y') }} - 2019 INCOFIN.
-            </td>
-            <td align="right" style="width: 40%;">
-              Tel. (502) 7767 4672 |  INFO@INCOFIN.COM.GT
-            </td>
-        </tr>
-
-    </table>
-    
-</div>
 </body>
 </html>

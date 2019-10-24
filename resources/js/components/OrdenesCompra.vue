@@ -162,7 +162,7 @@
                 </template>
             
                 <template v-slot:no-data>
-                    <v-btn color="#668c2d"  @click="initialize">Recargar</v-btn>
+                    <v-btn color="#668c2d" dark class="mb-2" @click="initialize">Recargar</v-btn>
                 </template>
             
                 <template v-slot:no-results>

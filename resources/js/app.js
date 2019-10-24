@@ -3,7 +3,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 import Vuetify from 'vuetify';
-import es from 'vuetify/es5/locale/es';
+import es from "vuetify/es5/locale/es";
 Vue.use(Vuetify);
 
 import swal from 'sweetalert2';
@@ -34,7 +34,7 @@ Vue.component('Ccaja', require('./components/CCaja.vue').default);
 
 Vue.use(Vuetify, {
     lang: {
-        locale: {es},
+        locale: { es },
         current: 'es'
     }
 })

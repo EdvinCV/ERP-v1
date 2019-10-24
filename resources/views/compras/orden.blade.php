@@ -5,12 +5,7 @@
     <meta charset="UTF-8">
     <title>Orden de Compra</title>
     <style type="text/css">
-        @page {
-            margin: 0px;
-        }
-        body {
-            margin: 0px;
-        }
+     
         * {
             font-family: Verdana, Arial, sans-serif;
         }
@@ -140,24 +135,12 @@
             
 
             </table>
-            <hr>
+          
             <br>
           </div>
         </div>
         @endforeach
 
   </div>
-  <div class="informatio" style="position: absolute; bottom: 0;">
-    <table width="100%">
-        <tr>
-            <td align="left" style="width: 60%;">
-              &copy; {{ date('Y') }} - 2019 INCOFIN.
-            </td>
-            <td align="right" style="width: 40%;">
-              Tel. (502) 7767 4672 |  INFO@INCOFIN.COM.GT
-            </td>
-        </tr>
-
-    </table>
-</div>
+  
 </body>
