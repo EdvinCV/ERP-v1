@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Orden de Compra</title>
     <style type="text/css">
-     
+       
         * {
             font-family: Verdana, Arial, sans-serif;
         }
@@ -55,7 +55,7 @@
   <br>
   <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
   <hr class="hrt">
-  <div class="information">
+  <div>
     <center><h2 style="color:#668c2d">Orden de Compra #{{$id}}<h2></center>
   
     <table class="table" style="width: 100%">
