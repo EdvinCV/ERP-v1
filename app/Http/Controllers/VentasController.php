@@ -41,7 +41,7 @@ class VentasController extends Controller
                 $prod->existencia = $prod->existencia - $d['cantidad'];
                 $prod->save(); 
                 $det = new DetalleVenta;
-                $det->subtotal = bcdiv($d['sub'],'1','2');
+                $det->subtotal = $d['sub'];
                 $det->cantidad = $d['cantidad'];     
                 $det->idProducto = $d['idProd'];
                 $det->precioventa = $d['precio'];
