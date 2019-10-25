@@ -10,12 +10,7 @@
     <title>Reporte proveedores</title>
 
     <style type="text/css">
-        @page {
-            margin: 0px;
-        }
-        body {
-            margin: 0px;
-        }
+
         * {
             font-family: Verdana, Arial, sans-serif;
         }
@@ -64,18 +59,32 @@
   <br>
   <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
   <hr class="hrt">
-  <div class="information">
+  <div>
     <center>
       <h2 style="color:#668c2d">Detalles de venta</h2>
     </center>
-
-      @foreach($ventas as $v)
+    <table width="50%" style="margin: 0 auto">
+       <thead>
+       <tr>
+       <th class="th" style="background-color:#668c2d" ><center>Datos</center></th>
+       </tr>
+       </thead>
+       <tbody>
+       <tr>
+       <th>
+       @foreach($ventas as $v)
         <h5>Fecha Venta: {{ $v->created_at }}</h5>
         <h5>Forma pago: {{ $v->nombreTipo }}</h5>
         <h5>Cliente: {{ $v->nombreCliente }}</h5>
         <h5>Direccion: {{ $v->direccion }}</h5>
         <h5>NIT: {{ $v->nit }}</h5>
       @endforeach
+       </th>
+       </tr>
+       </tbody>
+       </table>
+
+    
     
     <br>
     <center> <h3 style="color:#668c2d">Productos vendidos</h3></center>
@@ -121,18 +130,6 @@
         @endforeach
 
       
-        <div class="informatio" style="position: absolute; bottom: 0;">
-    <table width="100%">
-        <tr>
-            <td align="left" style="width: 60%;">
-                &copy; {{ date('Y') }} - 2019 INCOFIN.
-            </td>
-            <td align="right" style="width: 40%;">
-              Tel. (502) 7767 4672 |  INFO@INCOFIN.COM.GT
-            </td>
-        </tr>
-
-    </table>
-</div>
+     
   </body>
 </html>

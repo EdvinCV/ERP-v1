@@ -137,7 +137,7 @@
                 if(!this.editedItem.idEncargado)
                     this.errorMsj.push('Elija un encargado');
                 if(this.carrito == '')
-                        this.errorMsj.push('No ha elejido ningún producto');
+                        this.errorMsj.push('No ha seleccionado ningún producto');
                 if (this.errorMsj.length)
                     this.error = 1;
                 this.editedIndex = -1;
