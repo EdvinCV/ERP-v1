@@ -26,11 +26,11 @@
                                     class="feather icon-user feather-lg"></i></span><span class="pcoded-mtext">Usuarios</span></a><hr>
                             <ul class="pcoded-submenu">
                             <li><a @click="menu=1" ><span class="pcoded-micon"><i
-                                    class="feather icon-users"></i></span><span class="pcoded-mtext">Control Usuarios</span></a></li>
+                                    class="feather icon-users"></i></span><span class="pcoded-mtext">Control usuarios</span></a></li>
                                     <li><a @click="menu=2" ><span class="pcoded-micon"><i
-                                    class="feather icon-user-check"></i></span><span class="pcoded-mtext">Control Roles</span></a></li>
+                                    class="feather icon-user-check"></i></span><span class="pcoded-mtext">Control roles</span></a></li>
                                     <li><a @click="menu=3" ><span class="pcoded-micon"><i
-                                    class="fas fa-lock"></i></span><span class="pcoded-mtext">Gestión Permisos</span></a></li>
+                                    class="fas fa-lock"></i></span><span class="pcoded-mtext">Gestión permisos</span></a></li>
                            
                             </ul>
                         </li>
@@ -42,7 +42,7 @@
                                     class="fas fa-users"></i></span><span class="pcoded-mtext">Clientes</span></a><hr>
                             <ul class="pcoded-submenu">
                             <li><a @click="menu=4" ><span class="pcoded-micon"><i
-                                    class="feather icon-users"></i></span><span class="pcoded-mtext">Control Clientes</span></a></li>
+                                    class="feather icon-users"></i></span><span class="pcoded-mtext">Control clientes</span></a></li>
                                     <li><a @click="menu=5" ><span class="pcoded-micon"><i
                                     class="fas fa-file-alt"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
                             </ul>
@@ -55,7 +55,7 @@
                                     class="fas fa-user-cog"></i></span><span class="pcoded-mtext">Proveedores</span></a><hr>
                             <ul class="pcoded-submenu">
                                 <li><a @click="menu=6" ><span class="pcoded-micon"><i
-                                    class="feather icon-users"></i></span><span class="pcoded-mtext">Control Proveedores</span></a></li>
+                                    class="feather icon-users"></i></span><span class="pcoded-mtext">Control proveedores</span></a></li>
                                 <li><a @click="menu=7" ><span class="pcoded-micon"><i
                                     class="fas fa-file-alt"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
                             </ul>
@@ -68,13 +68,13 @@
                                     class="feather icon-package"></i></span><span class="pcoded-mtext">Productos</span></a> <hr>
                             <ul class="pcoded-submenu">
                             <li><a @click="menu=8" ><span class="pcoded-micon"><i
-                                    class="feather icon-clipboard"></i></span><span class="pcoded-mtext">Control Productos</span></a></li>
+                                    class="feather icon-clipboard"></i></span><span class="pcoded-mtext">Control productos</span></a></li>
                                     <li><a @click="menu=9" ><span class="pcoded-micon"><i
                                     class="feather icon-layers"></i></span><span class="pcoded-mtext">Categorías</span></a></li>
                                     <li><a @click="menu=10" ><span class="pcoded-micon"><i
                                     class="feather icon-file"></i></span><span class="pcoded-mtext">Presentación</span></a></li>
                                     <li><a @click="menu=11" ><span class="pcoded-micon"><i
-                                    class="feather icon-calendar"></i></span><span class="pcoded-mtext">Historial Productos</span></a></li>
+                                    class="feather icon-calendar"></i></span><span class="pcoded-mtext">Historial productos</span></a></li>
                             </ul>
                             
                         </li>
@@ -91,11 +91,11 @@
                                     class="fas fa-shopping-cart"></i></span><span class="pcoded-mtext">Ventas</span></a><hr>
                             <ul class="pcoded-submenu">
                             <li><a @click="menu=13" ><span class="pcoded-micon"><i
-                                    class="fas fa-shopping-basket"></i></span><span class="pcoded-mtext">Nueva Venta</span></a></li>
+                                    class="fas fa-shopping-basket"></i></span><span class="pcoded-mtext">Nueva venta</span></a></li>
                                     <li><a @click="menu=14" ><span class="pcoded-micon"><i
                                     class="fas fa-list-ul"></i></span><span class="pcoded-mtext">Historial ventas</span></a></li>
                                 <li><a @click="menu=15" ><span class="pcoded-micon"><i
-                                    class="feather icon-box"></i></span><span class="pcoded-mtext">Control Caja</span></a></li>
+                                    class="feather icon-box"></i></span><span class="pcoded-mtext">Control caja</span></a></li>
                                     <li><a @click="menu=16" ><span class="pcoded-micon"><i
                                     class="fas fa-file-alt"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
                             </ul>
@@ -108,9 +108,9 @@
                                     class="fas fa-truck-moving"></i></span><span class="pcoded-mtext">Compras</span></a><hr>
                             <ul class="pcoded-submenu">
                             <li><a @click="menu=17" ><span class="pcoded-micon"><i
-                                    class="fas fa-truck-loading"></i></span><span class="pcoded-mtext">Nueva Compra</span></a></li>
+                                    class="fas fa-truck-loading"></i></span><span class="pcoded-mtext">Nueva compra</span></a></li>
                                     <li><a @click="menu=18" ><span class="pcoded-micon"><i
-                                    class="fas fa-list-ul"></i></span><span class="pcoded-mtext">Historial Compras</span></a></li>
+                                    class="fas fa-list-ul"></i></span><span class="pcoded-mtext">Historial compras</span></a></li>
                                 <li><a @click="menu=19" ><span class="pcoded-micon"><i
                                     class="fas fa-file-alt"></i></span><span class="pcoded-mtext">Reportes</span></a></li>
                             </ul>

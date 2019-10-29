@@ -1,15 +1,19 @@
 <template>
     <div>
+        <div class="contenedor" style="background-color=#668C2D">
+      <center> <h2 style="color:#668C2D">Historial calidad de productos</h2></center>
+        </div>
+     <hr>
         <v-toolbar flat color="white">
-            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+            <v-text-field v-model="search" append-icon="search" label="Buscar..." single-line hide-details></v-text-field>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
                     <v-btn color="#668c2d" dark class="mb-2" v-on="on">Nuevo historial de calidad</v-btn>
                 </template>
                 <v-card>
-                    <v-card-title>
-                        <span class="headline">{{ formTitle }}</span>
+                    <v-card-title style="background-color:#668c2d">
+                        <span class="headline" style="color:#fff">{{ formTitle }}</span>
                     </v-card-title>
 
                     <v-card-text>
@@ -22,11 +26,11 @@
                                     </v-flex>
                                     
                                     <v-radio-group color="#668c2d" v-model="editedItem.calificacion" column >
-                                        <v-radio label="Nada Satisfecho" value="1" color="success"></v-radio>
-                                        <v-radio label="Poco Satisfecho" value="2"></v-radio>
+                                        <v-radio label="Nada satisfecho" value="1" color="success"></v-radio>
+                                        <v-radio label="Poco satisfecho" value="2"></v-radio>
                                         <v-radio label="Neutral" value="3"></v-radio>
-                                        <v-radio label="Muy Satisfecho" value="4"></v-radio>
-                                        <v-radio label="Totalmente Satisfecho" value="5"></v-radio>
+                                        <v-radio label="Muy satisfecho" value="4"></v-radio>
+                                        <v-radio label="Totalmente satisfecho" value="5"></v-radio>
                                     </v-radio-group>
                                     <v-date-picker v-model="editedItem.fecha" locale="es-GT" color="#668c2d"></v-date-picker>
                                     <v-text-field color="#668c2d" type="text" v-model="editedItem.descripcion" maxlength="500" 
@@ -61,10 +65,7 @@
                 <td class="text-xs-left">{{ props.item.fecha }}</td>
                 <td class="text-xs-left">{{ props.item.descripcion }}</td>
                 <td class="justify-right layout px-0">
-                    <v-icon small class="mr-2" @click="editItem(props.item)">
-                        edit
-                    </v-icon>
-                    <v-icon small  @click="deleteItem(props.item)">
+                    <v-icon small title="Eliminar historial" @click="deleteItem(props.item)">
                         delete
                     </v-icon>
                 </td>
@@ -134,7 +135,7 @@
         }),
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'Nuevo Historial de calidad' : 'Editar Historial de calidad'
+                return this.editedIndex === -1 ? 'Nuevo historial de calidad' : 'Editar historial de calidad'
             }
         },
         watch: {
@@ -189,12 +190,12 @@
                 let me=this;
                 swal.fire({
                     title: '¿Quieres eliminar este historial de calidad?',
-                    text: "¡No podras revertir la eliminación!",
+                    text: "Esta acción no se podrá revertir.",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, Eliminalo!',
+                    confirmButtonText: 'Eliminar',
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {

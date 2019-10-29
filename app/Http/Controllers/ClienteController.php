@@ -102,6 +102,7 @@ class ClienteController extends Controller
         $cliente = DB::table('venta_encabezados')
                     ->select(DB::raw('clientes.nombreCliente, COUNT(venta_encabezados.idPersona) as total'))
                     ->join('clientes','clientes.idPersona','=','venta_encabezados.idPersona')
+                    ->where('clientes.estado','=',1)
                     ->groupBy('venta_encabezados.idPersona','clientes.nombreCliente')
                     ->orderBy('total','desc')
                     ->limit(1)

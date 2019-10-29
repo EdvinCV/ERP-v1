@@ -11,17 +11,17 @@
 
 <template>
     <div>
-        <center><h2 style="color:#668C2D">Nueva Venta</h2></center>
+        <center><h2 style="color:#668C2D">Nueva venta</h2></center>
         <center><hr class="hrt" color="#668c2d"></center>
             <v-container >
-                <h5 style="color:#668c2d">Factura</h5>
+                <h5 style="color:#668c2d">Información factura</h5>
                 <v-layout row>
                     <v-switch color="#668c2d" v-model="editedItem.switchFact" :label = "this.editedItem.switchFact ? 'Facturado' : 'No Facturado'"></v-switch>
                     <v-flex lg3 md3 xs3 pa-2 >
                         <v-text-field color="#668c2d" v-model="editedItem.numFact" label="No. Factura"></v-text-field>
                     </v-flex>
                 </v-layout>
-                <h5 style="color:#668c2d">Metodo de pago</h5>
+                <h5 style="color:#668c2d">Método de pago</h5>
                 <v-layout row>
                     <v-radio-group v-model="radios" row @change="pago()">
                         <v-radio color="#668c2d" label="Efectivo" value="efectivo"></v-radio>
@@ -110,8 +110,8 @@
             </template>
             <hr>
             <template>
-                <v-btn @click="save" block color="#668c2d" dark>GENERAR VENTA</v-btn>
-                <v-btn @click="cotizacion" block color="#668c2d" dark>Cotización</v-btn>
+                <v-btn @click="save" block color="#668c2d" :loading="loading" :disabled="loading" class="white--text mb-2">GENERAR VENTA</v-btn>
+                <v-btn @click="cotizacion" :loading="loading2" :disabled="loading2" block color="#668c2d" class="white--text mb-2">Cotización</v-btn>
             </template>  
                                                     
         </v-container>
@@ -129,12 +129,12 @@
                 <v-flex xs12 sm12 md12>
                     <v-text-field color="#668c2d" maxlength="50"  required :counter="50" v-model="editedItem.nombre" label="Nombres"></v-text-field>
                     <v-text-field color="#668c2d" maxlength="50"  required :counter="50" v-model="editedItem.apellido" label="Apellidos"></v-text-field>
-                    <v-text-field color="#668c2d" maxlength="100"  required :counter="100" v-model="editedItem.direccionCliente" label="Direccion"></v-text-field>
-                    <v-text-field  color="#668c2d" maxlength="20"  required :counter="20" v-model="editedItem.telefono" label="Telefono"></v-text-field>
+                    <v-text-field color="#668c2d" maxlength="100"  required :counter="100" v-model="editedItem.direccionCliente" label="Dirección"></v-text-field>
+                    <v-text-field  color="#668c2d" maxlength="20"  required :counter="20" v-model="editedItem.telefono" label="Teléfono"></v-text-field>
                     <v-text-field color="#668c2d" :rules="nitRules" v-model="editedItem.nitCliente" label="NIT"></v-text-field>
-                    <v-text-field color="#668c2d" type="email" v-model="editedItem.correo" label="Correo"></v-text-field>
+                    <v-text-field color="#668c2d" type="email" v-model="editedItem.correo" label="Correo electrónico"></v-text-field>
                     <v-text-field color="#668c2d" type="text" v-model="editedItem.dpi" label="DPI"></v-text-field>
-                    <v-text-field  color="#668c2d" maxlength="50"  required :counter="50" v-model="editedItem.nombreCliente" label="Cliente"></v-text-field>
+                    <v-text-field  color="#668c2d" maxlength="50"  required :counter="50" v-model="editedItem.nombreCliente" label="Empresa / Organización"></v-text-field>
                 </v-flex> 
             </v-layout>
             </v-container>
@@ -169,9 +169,13 @@
         data: () => ({
             search: '',
             nitRules:[
-                v => !!v || 'El campo de Nit no puede estar vacio',
+                v => !!v || 'El campo de NIT no puede estar vacio',
             ],
             bandera: false,
+            loader: null,
+            loading: false,
+            loader2: null,
+            loading2: false,
             dialog: false,
             dialogModal: false,
             error: 0,
@@ -179,7 +183,7 @@
             errorMsj: [],
             errorMsj2: [],
             headersAddP: [
-                { text: 'Descripcion', value: 'prod' },
+                { text: 'Descripción', value: 'prod' },
                 { text: 'Cantidad', value: 'action'},
                 { text: 'Precio', value: 'pu'},
                 { text: 'Subtotal', value: 'prod' },
@@ -246,22 +250,22 @@
                 this.error = 0;
                 this.errorMsj = [];
                 if (!this.radios)
-                    this.errorMsj.push('Elija un método de pago');
+                    this.errorMsj.push('Seleccione un método de pago.');
                 if (this.bandera)
                 {
                     if(!this.editedItem.cheque)
-                        this.errorMsj.push('Ingrese número de cheque');
+                        this.errorMsj.push('Ingrese número de cheque.');
                     if(!this.editedItem.banco)
-                        this.errorMsj.push('Ingrese nombre de banco');
+                        this.errorMsj.push('Ingrese nombre de banco.');
                 }
                 if(!this.editedItem.idCliente)
-                    this.errorMsj.push('Elija un cliente');
+                    this.errorMsj.push('Seleccione un cliente');
                 if(this.editedItem.switchFact == true){
                     if(this.editedItem.numFact == '' || this.editedItem.numFact <= 0)
                         this.errorMsj.push('Ingrese número de factura.');
                 }
                 if(this.carrito == '')
-                        this.errorMsj.push('No ha elejido ningún producto');
+                        this.errorMsj.push('No ha seleccionado ningún producto.');
                 if (this.errorMsj.length)
                     this.error = 1;
                 this.editedIndex = -1;
@@ -280,7 +284,7 @@
                     this.editedItem.nit = "CF";
                 if(this.editedItem.nit){
                     if((this.valNit(this.editedItem.nit))==false && this.editedItem.nit != 'CF')
-                    this.errorMsj2.push('NIT no valido. ');
+                    this.errorMsj2.push('NIT no válido. ');
                 }
                 if (this.errorMsj2.length)
                     this.error = 1;
@@ -406,11 +410,11 @@
             },
             agregarProducto(){
                 let me = this;
-                if(this.carrito.length == 27){
+                if(this.carrito.length == 25){
                     swal.fire({
                             position: 'top-end',
                             type: 'error',
-                            title: 'No puede ingresar más de 27 productos. Debe generar otra venta.',
+                            title: 'No puede ingresar más de 25 productos. Debe generar otra venta.',
                             showConfirmButton: false,
                             timer: 1500});
                 }else {
@@ -486,6 +490,15 @@
                 }
             },
             cotizacion(){
+                let me = this;
+                me.loader2='loading';
+                me.loading2=true;
+                swal.fire({
+                    position: 'center',
+                    type: 'success',
+                    title: 'Generando cotización, por favor espere...',
+                    showConfirmButton: false,
+                    timer: 2000});
                 axios({
                         method: 'post',
                         url: '/venta/cotizacion',
@@ -500,12 +513,16 @@
                         link.href = window.URL.createObjectURL(blob)
                         link.download = 'cotizacion.pdf'
                         link.click()
+                        me.loader2=null;
+                        me.loading2=false;
                     }).catch(function (error) {
                         swal.fire({
                             position: 'top-end',
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
+                        me.loader2=null;
+                        me.loading2=false;
                     });  
             },
             calcularTotal(){
@@ -541,7 +558,19 @@
                         })
                         return;
                     }
-                axios({
+                swal.fire({
+                    title: '¿Está seguro de realizar esta venta?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonText: "Cancelar"
+                }).then((result) => {
+                if (result.value) {
+                    me.loader='loading';
+                    me.loading = true;
+                    axios({
                         method: 'post',
                         url: '/venta/nuevo',
                         data: {
@@ -578,12 +607,16 @@
                                 link.href = window.URL.createObjectURL(blob)
                                 link.download = 'factura.pdf'
                                 link.click()
+                                me.loader=null;
+                                me.loading = false;
                     }).catch(function (error) {
                         swal.fire({
                             position: 'top-end',
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
+                        me.loader=null;
+                        me.loading = false;
                     });
                             }
                         me.initialize();
@@ -597,8 +630,14 @@
                             showConfirmButton: true});
                         me.initialize();
                         me.close();
+                        me.loader=null;
+                        me.loading = false;
                     });      
                     this.carrito = [];
+
+                }
+                });
+                
             }
         }
     }

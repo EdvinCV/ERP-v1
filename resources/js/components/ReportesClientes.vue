@@ -34,7 +34,7 @@
 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
   <div class="card">
     <div class="header">
-      <center><h2>Historial Clientes</h2></center>
+      <center><h2>Historial clientes</h2></center>
       <hr>
     </div>
     

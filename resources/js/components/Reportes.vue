@@ -21,7 +21,7 @@
             <i class="material-icons">favorite</i>
           </div>
           <div class="content">
-            <div class="text">VENTAS DIA</div>
+            <div class="text">VENTAS DÍA</div>
               <div class="number count-to" data-from="0" >Q. {{this.editedItem.totalDia}}</div>
             </div>
           </div>
@@ -86,7 +86,7 @@
 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
   <div class="card">
     <div class="header">
-      <center><h2>Ventas Historial</h2></center>
+      <center><h2>Historial de ventas</h2></center>
       <hr>
     </div>
     
@@ -94,7 +94,7 @@
       <div class="row">
 			  <div class="col-md-8 col-md-offset-2">
 				  <div class="card ">
-            <center><h3>Por Cliente</h3></center>
+            <center><h3>Ventas clientes</h3></center>
             <div class="card-body d-flex justify-content-between align-items-center"> 
               <v-flex lg6 md6 xs6 pa-2>
                 <multiselect v-model="editedItem.idCliente" :options="clientes" placeholder="Seleccione un cliente"
@@ -111,8 +111,8 @@
             <v-text-field v-model="date1" label="Fecha Inicial" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
           <v-date-picker v-model="date1" scrollable  color="#668c2d" locale="gt">
-            <v-btn flat color="primary" @click="modal1 = false">Cancelar</v-btn>
-            <v-btn flat color="primary" @click="$refs.dialog1.save(date1)">OK</v-btn>
+            <v-btn flat color="#668c2d" @click="modal1 = false">Cancelar</v-btn>
+            <v-btn flat color="#668c2d" @click="$refs.dialog1.save(date1)">OK</v-btn>
           </v-date-picker>
         </v-dialog>     
     </v-flex>
@@ -125,8 +125,8 @@
             <v-text-field v-model="date2" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
           <v-date-picker v-model="date2" scrollable color="#668c2d" locale="gt">
-            <v-btn flat color="primary" @click="modal = false">Cancelar</v-btn>
-            <v-btn flat color="primary" @click="$refs.dialog2.save(date2)">OK</v-btn>
+            <v-btn flat color="#668c2d" @click="modal = false">Cancelar</v-btn>
+            <v-btn flat color="#668c2d" @click="$refs.dialog2.save(date2)">OK</v-btn>
           </v-date-picker>
         </v-dialog>     
     </v-flex>
@@ -138,7 +138,7 @@
         
 					</div>
           	<div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn @click="generalVentas" style="background-color:#668c2d"  dark class="mb-2">VENTAS GENERAL</v-btn><v-btn @click="guardarEspecificoClientes" style="background-color:#668c2d"  dark class="mb-2">CLIENTE</v-btn></center>
+           <center>  <v-btn :loading="loading3" :disabled="loading3" @click="generalVentas" style="background-color:#668c2d"  class="white--text mb-2">VENTAS GENERAL</v-btn><v-btn @click="guardarEspecificoClientes" style="background-color:#668c2d"  :loading="loading" :disabled="loading" class="white--text mb-2">CLIENTE</v-btn></center>
            </div>
 				</div>
 			</div>
@@ -150,7 +150,7 @@
       <div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				<div class="card">
-           <center>  <h3>Productos</h3></center>
+           <center>  <h3>Ventas de productos</h3></center>
     
           <div class="card-body d-flex justify-content-between align-items-center">					
 <template>
@@ -161,8 +161,8 @@
             <v-text-field v-model="date3" label="Fecha Inicial" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
           <v-date-picker v-model="date3" color="#668c2d" scrollable  locale="gt">
-            <v-btn flat color="primary" @click="modal3 = false">Cancelar</v-btn>
-            <v-btn flat color="primary" @click="$refs.dialog3.save(date3)">OK</v-btn>
+            <v-btn flat color="#668c2d" @click="modal3 = false">Cancelar</v-btn>
+            <v-btn flat color="#668c2d" @click="$refs.dialog3.save(date3)">OK</v-btn>
           </v-date-picker>
         </v-dialog>     
     </v-flex>
@@ -175,8 +175,8 @@
             <v-text-field v-model="date4" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
           <v-date-picker v-model="date4" color="#668c2d" scrollable  locale="gt">
-            <v-btn flat color="primary" @click="modal4 = false">Cancelar</v-btn>
-            <v-btn flat color="primary" @click="$refs.dialog4.save(date4)">OK</v-btn>
+            <v-btn flat color="#668c2d" @click="modal4 = false">Cancelar</v-btn>
+            <v-btn flat color="#668c2d" @click="$refs.dialog4.save(date4)">OK</v-btn>
           </v-date-picker>
         </v-dialog>     
     </v-flex>
@@ -184,7 +184,7 @@
 </template>          
   </div>
   <div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn @click="guardarEspecificoProducto" style="background-color:#668c2d"  dark class="mb-2">Generar</v-btn></center>
+           <center>  <v-btn @click="guardarEspecificoProducto" style="background-color:#668c2d"  :loading="loading2" :disabled="loading2" class="white--text mb-2">Generar</v-btn></center>
            </div>
 				</div>
 			</div>
@@ -221,6 +221,12 @@
       modal2: false,
       modal3: false,
       modal4: false,
+      loader: null,
+      loading: false,
+      loader2: null,
+      loading2: false,
+      loader3: null,
+      loading3: false,
       clientes: [],
       productos: [],
       rangos: [{"nombre": "Semana"}, {"nombre": "Mes"}, {"nombre": "Año"}],
@@ -265,11 +271,51 @@
                 });
       },
       generalVentas(){
-        
-      },
-      generalProductos(){
+        let me = this;
+        me.loader3='loading';
+        me.loading3=true;
+        swal.fire({
+          position: 'center',
+          type: 'success',
+          title: 'Generando reporte, por favor espere...',
+          showConfirmButton: false,
+          timer: 2000});
+        axios({
+            method: 'post',
+            url: '/ventas/general',
+            responseType:'arraybuffer',
+            data: {
+                date1: this.date1,
+                date2: this.date2,
+            }
+        }).then(function (response) {
+            let blob = new Blob([response.data], { type:   'application/pdf' } )
+            let link = document.createElement('a')
+            link.href = window.URL.createObjectURL(blob)
+            link.download = 'ventasGeneral.pdf'
+            link.click()
+            me.loader3=null;
+            me.loading3=false;
+        }).catch(function (error) {
+            swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: error.response.data.error,
+            showConfirmButton: true});
+            me.loader3=null;
+            me.loading3=false;
+          });
       },
       guardarEspecificoClientes(){
+        let me = this;
+        me.loader='loading';
+        me.loading=true;
+        swal.fire({
+          position: 'center',
+          type: 'success',
+          title: 'Generando reporte, por favor espere...',
+          showConfirmButton: false,
+          timer: 2000});
         axios({
             method: 'post',
             url: '/ventas/reporteVClientes',
@@ -285,6 +331,8 @@
             link.href = window.URL.createObjectURL(blob)
             link.download = 'reporteClientes.pdf'
             link.click()
+            me.loader=null;
+            me.loading=false;
         }).catch(function (error) {
             swal.fire({
             position: 'top-end',
@@ -294,6 +342,15 @@
           });
       },
       guardarEspecificoProducto(){
+        let me = this;
+        me.loader2='loading';
+        me.loading2=true;
+        swal.fire({
+          position: 'center',
+          type: 'success',
+          title: 'Generando reporte, por favor espere...',
+          showConfirmButton: false,
+          timer: 2000});
         axios({
             method: 'post',
             url: '/ventas/reporteProductos',
@@ -309,12 +366,16 @@
             link.href = window.URL.createObjectURL(blob)
             link.download = 'reporteProductos.pdf'
             link.click()
+            me.loader2=null;
+            me.loading2=false;
         }).catch(function (error) {
             swal.fire({
             position: 'top-end',
             type: 'error',
             title: error.response.data.error,
             showConfirmButton: true});
+            me.loader2=null;
+            me.loading2=false;
           });
       },
       totalVentas(){

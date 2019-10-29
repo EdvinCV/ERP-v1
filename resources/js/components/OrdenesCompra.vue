@@ -1,18 +1,18 @@
 <template>
     <div>
          <div class="contenedor" style="backgrounhd-color=#668C2D">
-      <center> <h2 style="color:#668C2D">Ordenes de Compra</h2></center>
+      <center> <h2 style="color:#668C2D">Ordenes de compra</h2></center>
         </div>
      <hr>
         <!-- FINALIZAR ORDEN DE COMPRA --> 
         <v-toolbar flat color="white">
-            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+            <v-text-field v-model="search" append-icon="search" label="Buscar..." single-line hide-details></v-text-field>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <v-card>
                     
                     <v-card-title style="background-color:#668c2d">
-                        <span class="headline" style="color:#fff">Finalizar Orden Compra #{{this.editedItem.orden}}</span>
+                        <span class="headline" style="color:#fff">Finalizar orden compra #{{this.editedItem.orden}}</span>
                     </v-card-title>
 
                     <v-card-text>
@@ -43,7 +43,7 @@
                                     <v-text-field color="#668c2d" label="Gastos parqueo" v-model="editedItem.parqueo"></v-text-field>
                                 </v-flex>
                                 <v-flex lg12 md12 xs12 pa-2>
-                                    <v-text-field color="#668c2d" label="Gastos Combustible" v-model="editedItem.combustible"></v-text-field>
+                                    <v-text-field color="#668c2d" label="Gastos combustible" v-model="editedItem.combustible"></v-text-field>
                                 </v-flex>
                                 <v-flex lg12 md12 xs12 pa-2>
                                     <v-text-field color="#668c2d" label="Gastos varios" v-model="editedItem.gastosVarios"></v-text-field>
@@ -80,7 +80,7 @@
                         <span style="color:#fff" class="headline">Editar Orden Compra #{{this.editedItem.orden}}</span>
                     </v-card-title>
                     <v-card-text>
-                        <h6>Seleccione cliente</h6>
+                        <h5 color="#668c2d">Seleccione cliente</h5>
                         <v-layout row>
                             <v-flex lg6 md6 xs6 pa-2>
                                 <multiselect  v-model="editedItem.idCliente" :options="clientes" placeholder="Seleccione un cliente"
@@ -88,7 +88,7 @@
                             </v-flex>
                         </v-layout>
                         
-                        <h6>Seleccione productos</h6> 
+                        <h5 color="#668c2d">Seleccione productos</h5> 
                         <v-layout row>
                             <v-flex lg6 md6 xs6 pa-2>
                                 <multiselect v-model="editedItem.detProducto" :options="prods" placeholder="Seleccione un producto"
@@ -196,15 +196,15 @@
             detallesEliminados: [],
             headers: [
                 { text: 'Orden', value: 'id' },
-                { text: 'TotalCompra', value: 'totalCompra' },
-                { text: 'TotalVenta', value: 'totalVenta' },
+                { text: 'Total compra', value: 'totalCompra' },
+                { text: 'Total venta', value: 'totalVenta' },
                 { text: 'Fecha', value: 'created_at' },
                 { text: 'Estado', value: 'estado' },
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
             headersApp: [
                 { text: 'Producto', value: 'producto' },
-                { text: 'Presentacion', value: 'presentacion' },
+                { text: 'Presentación', value: 'presentacion' },
                 { text: 'Cantidad', value: 'cantidad' },
                 { text: 'Cliente', value: 'cliente' },
                 { text: 'Eliminar Producto', value: 'acciones'}
@@ -406,13 +406,13 @@
             deleteItem(item) {
                 let me=this;
                 swal.fire({
-                    title: 'Quieres eliminar esta orden de compra?',
-                    text: "No podras revertir la eliminacion!",
+                    title: '¿Quieres eliminar esta orden de compra?',
+                    text: "Esta acción no se podrá revertir.",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, Eliminalo!',
+                    confirmButtonText: 'Eliminar',
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {
@@ -515,6 +515,8 @@
                     me.loader='loading';
                     me.loading=true;            
                 } else {
+                    me.loader='loading';
+                    me.loading=true;   
                     this.detalles[this.editedItem.contador].precioCompra = this.editedItem.precioCompra;
                     axios({
                         method: 'post',
@@ -536,7 +538,8 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
-             
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -562,6 +565,12 @@
                 this.detalles.splice(index,1);
             },
             imprimirOrden(item){
+                 swal.fire({
+                    position: 'center',
+                    type: 'success',
+                    title: 'Generando orden, por favor espere...',
+                    showConfirmButton: false,
+                    timer: 3000});
                 axios({
                         method: 'post',
                         url: '/compra/orden',
@@ -584,6 +593,12 @@
                     });
             },
             imprimirOrdenFinalizada(item){
+                 swal.fire({
+                    position: 'center',
+                    type: 'success',
+                    title: 'Generando orden, por favor espere...',
+                    showConfirmButton: false,
+                    timer: 3000});
                 axios({
                         method: 'post',
                         url: '/compra/finalizada',

@@ -81,9 +81,9 @@
           @foreach($detallesVentas as $p)
             <tr>
               <td><?php echo $i; $i++;?></td>
-              <td>{{ $p->total}}</td>
-              <td>{{ $p->totalSinIVA}}</td>
-              <td>{{ $p->iva}}</td>
+              <td>{{ number_format((float)$p->total,2,'.','')}}</td>
+              <td>{{ number_format((float)$p->totalSinIVA,2,'.','')}}</td>
+              <td>{{ number_format((float)$p->iva,2,'.','')}}</td>
               <td>{{ $p->numeroFactura}}</td>
               <td>{{ $p->nombreTipo}}</td>
               <td>{{ $p->cheque}}</td>
@@ -100,7 +100,7 @@
             <td>----- </td>
             <td>----- </td>
             <td>TOTAL </td>
-            <td>@foreach($cliente as $c) {{$c->Total}}@endforeach</td>
+            <td>@foreach($cliente as $c){{number_format((float)$c->Total,2,'.','')}}@endforeach</td>
           </tr>
           </tbody>
         </table>

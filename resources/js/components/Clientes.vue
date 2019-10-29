@@ -1,21 +1,21 @@
 <template>
     <div>
         <div class="contenedor" style="backgrounhd-color=#668C2D">
-            <center> <h2 style="color:#668C2D">Clientes</h2></center>
+            <center> <h2 style="color:#668C2D">Control de clientes</h2></center>
         </div>
         <hr>
         <v-toolbar flat color="white">
             <v-text-field
                 v-model="search"
                 append-icon="search"
-                label="Buscar"
+                label="Buscar..."
                 single-line
                 hide-details
             ></v-text-field>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
-                    <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Nuevo Cliente</v-btn>
+                    <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Nuevo cliente</v-btn>
                 </template>
                 <v-card>
                     <v-card-title style="background-color:#668c2d">
@@ -28,12 +28,12 @@
                                 <v-flex xs12 sm12 md12>
                                     <v-text-field color="#668c2d" maxlength="50"  required :counter="50" :rules="nameRules" v-model="editedItem.nombre" label="Nombres"></v-text-field>
                                     <v-text-field color="#668c2d" maxlength="50"  required :counter="50" :rules="apellidoRules" v-model="editedItem.apellido" label="Apellidos"></v-text-field>
-                                    <v-text-field color="#668c2d" maxlength="100"  required :counter="100" :rules="direccion" v-model="editedItem.direccion" label="Direccion"></v-text-field>
-                                    <v-text-field  color="#668c2d" maxlength="20"  required :counter="20" :rules="telefono" v-model="editedItem.telefono" label="Telefono"></v-text-field>
+                                    <v-text-field color="#668c2d" maxlength="100"  required :counter="100" v-model="editedItem.direccion" label="Dirección"></v-text-field>
+                                    <v-text-field  color="#668c2d" maxlength="20"  required :counter="20" v-model="editedItem.telefono" label="Teléfono"></v-text-field>
                                     <v-text-field color="#668c2d" :rules="nitRules" v-model="editedItem.nit" label="NIT"></v-text-field>
-                                    <v-text-field color="#668c2d" type="email" :rules="correoRules" v-model="editedItem.correo" label="Correo"></v-text-field>
-                                    <v-text-field color="#668c2d" type="text" :rules="dpirules" v-model="editedItem.dpi" label="DPI"></v-text-field>
-                                    <v-text-field  color="#668c2d" maxlength="50"  required :counter="50" :rules="nameRules" v-model="editedItem.nombreCliente" label="Cliente"></v-text-field>
+                                    <v-text-field color="#668c2d" type="email" v-model="editedItem.correo" label="Correo electrónico"></v-text-field>
+                                    <v-text-field color="#668c2d" type="text" v-model="editedItem.dpi" label="DPI"></v-text-field>
+                                    <v-text-field  color="#668c2d" maxlength="50"  required :counter="50" v-model="editedItem.nombreCliente" label="Empresa / Organización"></v-text-field>
                                 </v-flex> 
                             </v-layout>
                         </v-container>
@@ -94,7 +94,7 @@
         loader: null,
         loading: false,
         nitRules:[
-            v => !!v || 'El campo de Nit no puede estar vacio',
+            v => !!v || 'El campo de NIT no puede estar vacio',
         ],
         nameRules: [
             v => !!v || 'El nombre del cliente no puede estar vacio',
@@ -162,7 +162,7 @@
     }),
     computed: {
         formTitle() {
-            return this.editedIndex === -1 ? 'Nuevo Cliente' : 'Editar Cliente'
+            return this.editedIndex === -1 ? 'Nuevo cliente' : 'Editar cliente'
         }
     },
     watch: {
@@ -186,8 +186,12 @@
         validate() {
             this.error = 0;
             this.errorMsj = [];
-            if (!this.editedItem.nombre, !this.editedItem.apellido,  !this.editedItem.nit,  !this.editedItem.dpi, !this.editedItem.telefono, !this.editedItem.direccion,!this.editedItem.nombreCliente,!this.editedItem.correo)
-                this.errorMsj.push('Los campos de clientes no pueden estar vacios. ');
+            if (!this.editedItem.nombre)
+                this.errorMsj.push('Ingrese un nombre. ');
+            if (!this.editedItem.apellido)
+                this.errorMsj.push('Ingrese un apellido. ');
+            if (!this.editedItem.nombreCliente)
+                this.errorMsj.push('Ingrese nombre de empresa/organización. ');
             if(!this.editedItem.nit){
                 this.editedItem.nit = 'CF';
                 x = true;
@@ -229,13 +233,13 @@
         deleteItem(item) {
             let me=this;
             swal.fire({
-                title: 'Quieres eliminar este cliente?',
-                text: "No podras revertir la eliminacion!",
+                title: '¿Quieres eliminar este cliente?',
+                text: "Esta acción no se podrá revertir.",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, Eliminalo!',
+                confirmButtonText: 'Eliminar',
                 cancelButtonText: "Cancelar"
             }).then((result) => {
                 if (result.value) {

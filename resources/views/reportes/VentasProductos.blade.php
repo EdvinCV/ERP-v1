@@ -83,7 +83,7 @@
               <td>{{ $p->categoria}}</td>
               <td>{{ $p->proveedor}}</td>
               <td>{{ $p->Cantidad}}</td>
-              <td>{{ $p->total}}</td>
+              <td>{{ number_format((float)$p->total,2,'.','')}}</td>
             </tr>
           @endforeach
           <tr>
@@ -93,7 +93,7 @@
             <td>-----</td>
             <td>-----</td>
             <td>TOTAL </td>
-            <td>@foreach($total as $t) {{$t->total}} @endforeach</td>
+            <td>@foreach($total as $t) {{number_format((float)$t->total,2,'.','')}} @endforeach</td>
           </tr>
           </tbody>
         </table>

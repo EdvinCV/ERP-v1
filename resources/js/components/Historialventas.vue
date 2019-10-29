@@ -7,7 +7,7 @@
              <v-text-field color="#668c2d"
           v-model="search"
           append-icon="search"
-          label="Search"
+          label="Buscar..."
           single-line
           hide-details
         ></v-text-field>
@@ -60,7 +60,7 @@
                 { text: 'Cliente', value: 'nombreCliente' },
                 { text: 'Total', value: 'total' },
                 { text: 'No. Factura', value: 'numeroFactura' },
-                { text: 'Fecha', value: 'created_at' },
+                { text: 'Fecha Realización', value: 'created_at' },
                 { text: 'Facturado', value: 'facturado' },
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
@@ -115,6 +115,12 @@
                     });
             },
             verDetalles(item) {
+                swal.fire({
+                    position: 'center',
+                    type: 'success',
+                    title: 'Generando reporte, por favor espere...',
+                    showConfirmButton: false,
+                    timer: 3000});
                 axios({
                     method: 'post',
                     url: '/ventas/detalles',
@@ -141,13 +147,13 @@
             deleteItem(item) {
                 let me=this;
                 swal.fire({
-                    title: 'Quieres eliminar esta venta?',
-                    text: "No podras revertir la eliminacion!",
+                    title: '¿Quieres eliminar esta venta?',
+                    text: "Esta acción no se podrá revertir.",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, Eliminalo!',
+                    confirmButtonText: 'Eliminar',
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {

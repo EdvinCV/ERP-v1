@@ -1,7 +1,10 @@
 <template>
     <div>
+            <div class="contenedor" style="backgrounhd-color=#668C2D">
+      <center> <h2 style="color:#668C2D">Control de caja</h2></center>
+        </div>
         <v-toolbar flat color="white">
-            <v-text-field v-model="search" append-icon="search" label="Buscar" single-line hide-details></v-text-field>
+            <v-text-field v-model="search" append-icon="search" label="Buscar..." single-line hide-details></v-text-field>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog"  max-width="600px">
                 <template v-slot:activator="{ on }">
@@ -36,8 +39,8 @@
                     </template>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        
-                        <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
+                        <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
+                        <v-btn color="#668c2d" flat :loading="loading" :disabled="loading" @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -92,6 +95,8 @@
             ],
             caja: [],
             estados: [],
+            loader: null,
+            loading: false,
             editedIndex: -1,
             editedItem: {
                 id: 0,
@@ -108,7 +113,7 @@
         }),
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'Registrar Caja' : 'Editar Categoria'
+                return this.editedIndex === -1 ? 'Registrar caja' : 'Editar Categoria'
             }
         },
         watch: {
@@ -126,7 +131,7 @@
                 this.error = 0;
                 this.errorMsj = [];
                 if (!this.editedItem.cantidad)
-                    this.errorMsj.push('La cantidad no puede estar vacia. ');
+                    this.errorMsj.push('La cantidad no puede estar vacía. ');
                 if (!this.editedItem.tipo)
                     this.errorMsj.push('Se debe de asignar un tipo. ');
                 if (this.errorMsj.length)
@@ -159,6 +164,8 @@
                 let me = this;
                 
                 if (this.validate()) {
+                        me.loader=null;
+                        me.loading=false;
                         return;
                     }
                 if (this.editedIndex > -1) {
@@ -188,6 +195,8 @@
                         me.close();
                     });                    
                 } else {
+                    me.loader='loading';
+                    me.loading=true;
                     axios({
                         method: 'post',
                         url: '/caja/registrar',
@@ -203,6 +212,8 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -211,6 +222,8 @@
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
+                        me.loader=null;
+                        me.loading=false;
                         me.initialize();
                         me.close();
                     });  

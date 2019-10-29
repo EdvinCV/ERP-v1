@@ -219,6 +219,28 @@ class VentasController extends Controller
         return $pdf->stream('VentasPorCliente.pdf');
                   
     }
+    public function reporteGeneral(Request $req){
+        if(!$req->ajax())
+            return redirect('/home');
+        $fechaDe = $req->date1;
+        $fechaA = $req->date2;
+
+        $ventas = DB::table('venta_encabezados')
+                    ->select(DB::raw('DATE_FORMAT(venta_encabezados.created_at, "%d-%m-%Y") as fecha, total, iva, totalSinIVA, numeroFactura, nombreCliente, venta_encabezados.created_at'))
+                    ->join('clientes','clientes.idPersona','=','venta_encabezados.idPersona')
+                    ->whereBetween('venta_encabezados.created_at',[$fechaDe, $fechaA])
+                    ->orderBy('venta_encabezados.created_at','desc')
+                    ->get();
+        $total = DB::table('venta_encabezados')
+                    ->select(DB::raw('SUM(total) as total'))
+                    ->whereBetween('venta_encabezados.created_at',[$fechaDe, $fechaA])
+                    ->get();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('ventas.general', compact('ventas','total'));
+        return $pdf->stream('VentasGeneral.pdf');
+
+    }
     public function obtenerVentasSemana(Request $request){
         if(!$request->ajax())
             return redirect('/home');

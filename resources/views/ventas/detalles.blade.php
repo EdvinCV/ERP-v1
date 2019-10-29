@@ -73,10 +73,10 @@
        <tr>
        <th>
        @foreach($ventas as $v)
-        <h5>Fecha Venta: {{ $v->created_at }}</h5>
+        <h5>Fecha venta: {{ $v->created_at }}</h5>
         <h5>Forma pago: {{ $v->nombreTipo }}</h5>
         <h5>Cliente: {{ $v->nombreCliente }}</h5>
-        <h5>Direccion: {{ $v->direccion }}</h5>
+        <h5>Dirección: {{ $v->direccion }}</h5>
         <h5>NIT: {{ $v->nit }}</h5>
       @endforeach
        </th>
@@ -95,7 +95,7 @@
             <tr>
               <th class="th">#</th>
               <th class="th">Producto</th>
-              <th class="th">Presentacion</th>
+              <th class="th">Presentación</th>
               <th class="th">Cantidad</th>    
               <th class="th">Precio</th>
               <th class="th">Subtotal</th>
@@ -113,8 +113,8 @@
               <td>{{ $d->producto }}</td>
               <td>{{ $d->presentacion }}</td>
               <td>{{ $d->cantidad }}</td>
-              <td>{{ $d->precio }}</td>
-              <td>{{ $d->subtotal }}</td>
+              <td>{{ number_format((float)$d->precio,2,'.','') }}</td>
+              <td>{{ number_format((float)$d->subtotal,2,'.','') }}</td>
               <td>{{ $d->nombreProveedor }}</td>
             </tr> 
           @endforeach      
@@ -124,9 +124,9 @@
         <hr>
     
         @foreach($ventas as $v)
-          <h5>Subtotal: {{$v->totalSinIVA }}</h5>
-          <h5>IVA: {{ $v->iva }}</h5>
-          <h5>Total: {{ $v->total }}</h5>
+          <h5>Subtotal: {{number_format((float)$v->totalSinIVA,2,'.','') }}</h5>
+          <h5>IVA: {{ number_format((float)$v->iva,2,'.','') }}</h5>
+          <h5>Total: {{ number_format((float)$v->total,2,'.','') }}</h5>
         @endforeach
 
       

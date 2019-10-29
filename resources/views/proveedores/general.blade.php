@@ -63,7 +63,7 @@
   <br>
   <center><img src="assets/images/descarga.jpg" width="230" height="70"></center>
   <center>
-    <h2 style="color:#668c2d">Reporte Proveedores</h2>
+    <h2 style="color:#668c2d">Reporte proveedores</h2>
   </center>
   <hr class="hrt">
  
@@ -75,10 +75,10 @@
             <tr>
               <th class="th">#</th>
               <th class="th">Proveedor</th>
-              <th class="th">Direccion</th>
-              <th class="th">Telefono</th>
+              <th class="th">Dirección</th>
+              <th class="th">Teléfono</th>
               <th class="th">NIT</th>
-              <th class="th">Total Productos</th>
+              <th class="th">Total productos</th>
             </tr>
           </thead>
           <tbody>
@@ -112,7 +112,7 @@
               <thead>
                 <tr>
                   <th style="background-color:#668c2d" class="th">Producto</th>
-                  <th style="background-color:#668c2d" class="th">Presentacion</th>
+                  <th style="background-color:#668c2d" class="th">Presentación</th>
                 </tr>
               </thead>
               <tbody>

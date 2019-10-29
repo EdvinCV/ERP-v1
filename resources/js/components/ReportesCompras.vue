@@ -58,7 +58,7 @@
 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
   <div class="card">
     <div class="header">
-      <center><h2>Historial Ordenes de Compra</h2></center>
+      <center><h2>Historial ordenes de compra</h2></center>
       <hr>
     </div>
     
@@ -66,7 +66,7 @@
       <div class="row">
 			  <div class="col-md-8 col-md-offset-2">
 				  <div class="card ">
-            <center><h3>Elija las fechas:</h3></center>
+            <center><h3>Seleccione el rango de fechas:</h3></center>
           
 
             <div class="card-body d-flex justify-content-between align-items-center">					
@@ -75,7 +75,7 @@
       <v-flex xs11 sm5>
         <v-dialog ref="dialog1" v-model="modal1" :return-value.sync="date1" width="290px">
           <template v-slot:activator="{ on }">
-            <v-text-field v-model="date1" label="Fecha Final" prepend-icon="event"  v-on="on"></v-text-field>
+            <v-text-field v-model="date1" label="Fecha Inicial" prepend-icon="event"  v-on="on"></v-text-field>
           </template>
           <v-date-picker color="#668c2d" v-model="date1" scrollable  locale="gt">
             <v-btn flat color="primary" @click="modal1 = false">Cancel</v-btn>
@@ -105,7 +105,7 @@
         
 					</div>
           	<div class="card-body d-flex justify-content-between align-items-center">
-           <center>  <v-btn @click="guardarEspecificoCompras" style="background-color:#668c2d"  :loading="loading" :disabled="loading" dark class="mb-2">Generar</v-btn></center>
+           <center>  <v-btn @click="guardarEspecificoCompras" style="background-color:#668c2d" :loading="loading" :disabled="loading" class="white--text mb-2">Generar</v-btn></center>
            </div>
 				</div>
 			</div>
@@ -224,9 +224,6 @@
         .catch(function (error) {
             console.log(error.response);
         });
-
-        
-        
       },
       cargaProducto(){
                         let me = this;
@@ -242,6 +239,12 @@
         let me = this;
         me.loader='loading';
         me.loading=true;
+        swal.fire({
+          position: 'center',
+          type: 'success',
+          title: 'Generando reporte, por favor espere...',
+          showConfirmButton: false,
+          timer: 2000});
         axios({
             method: 'post',
             url: '/compra/reportegeneral',

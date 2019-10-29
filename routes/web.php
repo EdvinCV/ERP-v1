@@ -60,6 +60,8 @@ Route::get('/producto', 'ProductoController@index');
 Route::post('/producto/registrar', 'ProductoController@store');
 Route::put('/producto/actualizar', 'ProductoController@update');
 Route::put('/producto/desactivar', 'ProductoController@desactivate');
+Route::get('/producto2', 'ProductoController@index2');
+Route::post('/producto/productosgeneral', 'ProductoController@reportegeneral');
 //Rutas Personas
 Route::get('/persona', 'PersonaController@index');
 // Rutas de Historial de calidad
@@ -109,6 +111,7 @@ Route::get('/compra/comprasdia','OrdenCompraController@obtenerComprasDia');
 Route::get('/compra/compraspendientes','OrdenCompraController@pendientes');
 //RUTAS REPORTES
 Route::post('/ventas/reporteProductos', 'VentasController@reporteVentasProducto');
+Route::post('/ventas/general','VentasController@reporteGeneral');
 Route::post('/ventas/reporteVClientes', 'VentasController@reporteVentasClientes');
 Route::get('/reporteProveedores','ProveedorController@reporteGeneral');
 Route::get('/reporteProveedores/{id}','ProveedorController@reporteEspecifico');

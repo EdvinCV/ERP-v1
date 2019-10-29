@@ -142,4 +142,29 @@ class ProductoController extends Controller
                         ->get();
         return count($productos);
     }
+
+    public function reporteGeneral()
+    {
+        $producto = DB::table('productos')
+            ->select(DB::raw('productos.nombre as producto, productos.precioventa, productos.preciocompra, productos.gastocomercializacion, 
+            productos.utilidad, categorias.nombre as categoria,presentacions.nombre as presentacion,proveedors.nombreProveedor as proveedor'))
+            ->join('categorias','productos.idcategoria','=','categorias.id')
+            ->join('presentacions','productos.idpresentacion','=','presentacions.id')
+            ->join('personas','productos.idpersona','=','personas.id')
+            ->join('proveedors', 'proveedors.idpersona', '=', 'personas.id')
+            ->where('productos.estado','=','1')
+            ->orderBy('categorias.nombre')
+            ->get();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('reportes.productosgeneral', compact('producto'));
+        return $pdf->stream('ProductosGeneral.pdf');  
+    }
+
+    public function index2(Request $request){
+        $producto = DB::table('productos')
+                        ->select(DB::raw('productos.id,productos.codigo'))
+                        ->get();
+        return $producto;
+        
+    }
 }

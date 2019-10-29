@@ -82,6 +82,7 @@ class ProveedorController extends Controller
         $prov = DB::table('proveedors')
                     ->select(DB::raw('proveedors.nombreProveedor, COUNT(productos.id) as total'))
                     ->join('productos','productos.idpersona','=','proveedors.idPersona')
+                    ->where('proveedors.estado','=',1)
                     ->groupBy('productos.idPersona','proveedors.nombreProveedor')
                     ->orderBy('total','desc')
                     ->limit(1)

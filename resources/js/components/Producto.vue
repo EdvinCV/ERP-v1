@@ -2,7 +2,7 @@
 
     <div>
            <div class="contenedor" style="background-color=#668C2D">
-      <center> <h2 style="color:#668C2D">Productos</h2></center>
+      <center> <h2 style="color:#668C2D">Control de productos</h2></center>
         </div>
      <hr>
         <v-toolbar flat color="white" >
@@ -13,7 +13,8 @@
             <v-dialog v-model="dialog" max-width="600px">
                 
                 <template v-slot:activator="{ on }">
-                   <v-btn style="background-color:#668c2d" dark class="mb-2" v-on="on">Nuevo Producto</v-btn>
+                   <v-btn style="background-color:#668c2d" dark class="mb-2" v-on="on">Nuevo producto</v-btn>
+                   <v-btn style="background-color:#668c2d" dark class="mb-2" @click="generarReporte">Listado de productos</v-btn>
                 </template>
                 <v-card>
                <v-card-title style="background-color:#668c2d">
@@ -24,30 +25,30 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                    <v-text-field color="#668c2d" type="text" v-model="editedItem.Producto" label="Nombre Producto" 
+                                    <v-text-field color="#668c2d" type="text" v-model="editedItem.Producto" label="Nombre producto" 
                                     maxlength="200"  required :rules="nameRules" :counter="200"></v-text-field>
                                      <v-layout row>
                                          <v-flex lg6 md6 xs6 pa-2>
-                                    <v-text-field color="#668c2d" label="Precio Venta" :rules="decimalRules" prefix="Q" v-model="editedItem.precioventa"></v-text-field>
+                                    <v-text-field color="#668c2d" label="Precio venta" :rules="decimalRules" prefix="Q" v-model="editedItem.precioventa"></v-text-field>
                                      </v-flex>
                                     <v-flex lg6 md6 xs6 pa-2>
-                                    <v-text-field color="#668c2d" label="Precio Compra" :rules="decimalRules" prefix="Q" v-model="editedItem.preciocompra" ></v-text-field>    
+                                    <v-text-field color="#668c2d" label="Precio compra" :rules="decimalRules" prefix="Q" v-model="editedItem.preciocompra" ></v-text-field>    
                                      </v-flex>
                                      </v-layout>
                                     <v-layout row>
                                         <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field color="#668c2d" @change="porcentajes()" label="Porcentaje de Comercialización" :rules="decimalRules" v-model="editedItem.porcComercializacion"></v-text-field>
+                                            <v-text-field color="#668c2d" @change="porcentajes()" label="Porcentaje de comercialización" :rules="decimalRules" v-model="editedItem.porcComercializacion"></v-text-field>
                                         </v-flex>
                                          <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field color="#668c2d" label="Gasto de Comercialización" :rules="decimalRules" prefix="Q" v-model="editedItem.gastocomercializacion"></v-text-field>
+                                            <v-text-field readonly color="#668c2d" label="Gasto de comercialización" :rules="decimalRules" prefix="Q" v-model="editedItem.gastocomercializacion"></v-text-field>
                                         </v-flex>
                                     </v-layout>
                                       <v-layout row>
                                         <v-flex lg6 md6 xs6 pa-2 @change="porcentajes2()">
-                                            <v-text-field color="#668c2d" @change="imp()" label="Porcentaje de Utilidad" :rules="decimalRules" v-model="editedItem.porcUtilidad" ></v-text-field>
+                                            <v-text-field color="#668c2d" @change="imp()" label="Porcentaje de utilidad" :rules="decimalRules" v-model="editedItem.porcUtilidad" ></v-text-field>
                                         </v-flex>
                                          <v-flex lg6 md6 xs6 pa-2>
-                                            <v-text-field color="#668c2d" label="Utilidad" :rules="decimalRules" prefix="Q" v-model="editedItem.utilidad" ></v-text-field>
+                                            <v-text-field readonly color="#668c2d" label="Utilidad" :rules="decimalRules" prefix="Q" v-model="editedItem.utilidad" ></v-text-field>
                                         </v-flex>
                                     </v-layout>
                                      <v-layout row>
@@ -55,18 +56,18 @@
                                     <v-text-field color="#668c2d" label="Impuesto" :rules="decimalRules" prefix="Q" v-model="editedItem.impuesto"></v-text-field>
                                      </v-flex>
                                        <v-flex lg6 md6 xs6 pa-2>
-                                    <v-text-field color="#668c2d" label="Precio Máximo" :rules="decimalRules" prefix="Q" v-model="editedItem.maximoprecio"></v-text-field>
+                                    <v-text-field color="#668c2d" label="Precio máximo" :rules="decimalRules" prefix="Q" v-model="editedItem.maximoprecio"></v-text-field>
                                      </v-flex>
                                      </v-layout>
                                       <v-layout row>
                                        <v-flex lg6 md6 xs6 pa-2>
-                                    <v-text-field color="#668c2d" label="Precio Mínimo" :rules="decimalRules" prefix="Q" v-model="editedItem.minimoprecio"></v-text-field>
+                                    <v-text-field color="#668c2d" label="Precio mínimo" :rules="decimalRules" prefix="Q" v-model="editedItem.minimoprecio"></v-text-field>
                                      </v-flex>
                                      <v-flex lg6 md6 xs6 pa-2>
                                     <v-text-field color="#668c2d" v-model="editedItem.codigo" label="Código"></v-text-field>
                                     </v-flex>
                                     </v-layout>
-                                    <v-text-field color="#668c2d" v-model="editedItem.cantidadapartado" label="Cantidad Apartado" :rules="numberRules"></v-text-field>
+                                    <v-text-field color="#668c2d" v-model="editedItem.cantidadapartado" label="Cantidad apartado" :rules="numberRules"></v-text-field>
                                     <v-text-field color="#668c2d" v-model="editedItem.existencia" label="Existencia" :rules="numberRules"></v-text-field>
                                     <v-flex xs12>
                                     <v-flex xs12>
@@ -78,7 +79,7 @@
                                             label="nombre" track-by="presentacion"></multiselect>
                                     </v-flex>
                                     <v-flex xs12>
-                                         <multiselect v-model="editedItem.idpersona" :options="personas" placeholder="Seleccione un Proveedor"
+                                         <multiselect v-model="editedItem.idpersona" :options="personas" placeholder="Seleccione un proveedor"
                                             label="nombre" track-by="nombreProveedor"></multiselect>
                                     </v-flex>
                                 </v-flex>                                    
@@ -97,7 +98,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="#668c2d" flat @click="close">Cancelar</v-btn>
-                      <v-btn color="#668c2d" :loading="loading" :disabled="loading" flat @click="save">Guardar</v-btn>
+                      <v-btn color="#668c2d" flat @click="save">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -110,7 +111,7 @@
         <v-text-field
           v-model="search"
           append-icon="search"
-          label="Buscar"
+          label="Buscar..."
           single-line
           hide-details
         ></v-text-field>
@@ -188,8 +189,6 @@
             errorMsj: [],
             select: [],
             categorias: [],
-            loader: null,
-            loading: false,
             presentaciones: [],
             personas: [],
             switch1: false,
@@ -208,11 +207,11 @@
                     value: 'persona'
                 },
                 {
-                    text: 'Precio Venta',
+                    text: 'Precio venta',
                     value: 'precioventa'
                 },
                 {
-                    text: 'Precio Compra',
+                    text: 'Precio compra',
                     value: 'preciocompra'
                 }
                 ],
@@ -230,23 +229,23 @@
                     value: 'persona'
                 },
                 {
-                    text: 'Precio Venta',
+                    text: 'Precio venta',
                     value: 'precioventa'
                 },
                 {
-                    text: 'Precio Compra',
+                    text: 'Precio compra',
                     value: 'preciocompra'
                 },
                 {
-                    text: 'Porcentaje Comercialización',
+                    text: 'Porcentaje comercialización',
                     value: 'porcComercializacion'
                 },
                 {
-                    text: 'Gasto Comercialización',
-                    value: 'gastoComercializacion'
+                    text: 'Gasto comercialización',
+                    value: 'gastocomercializacion'
                 },
                 {
-                    text: 'Porcentaje Utilidad',
+                    text: 'Porcentaje utilidad',
                     value: 'porcUtilidad'
                 },
                 {
@@ -258,11 +257,11 @@
                     value: 'impuesto'
                 },
                 {
-                    text: 'Precio Máximo',
+                    text: 'Precio máximo',
                     value: 'maximoprecio'
                 },
                 {
-                    text: 'Precio Mínimo',
+                    text: 'Precio mínimo',
                     value: 'minimoprecio'
                 },
                 {
@@ -286,6 +285,7 @@
             ],
             bandera:false,
             producto: [],
+            producto2: [],
             idcategoria: -1,
             idpresentacion: -1,
             idpersona: -1,
@@ -334,7 +334,7 @@
         }),
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'Nueva Producto' : 'Editar Producto'
+                return this.editedIndex === -1 ? 'Nueva producto' : 'Editar producto'
             }
             
         },
@@ -348,6 +348,7 @@
             this.cargaCategorias();
             this.cargaPresentaciones();
             this.cargaPersonas();
+            this.cargaProductos();
 
         },
         methods: {
@@ -359,10 +360,10 @@
                 let me = this;
                 var s = me.vercodigo();
                 if (!this.editedItem.Producto)
-                    this.errorMsj.push('El nombre del producto no puede estar vacio.');
+                    this.errorMsj.push('El nombre del producto no puede estar vacio. ');
                     
                 if(!this.editedItem.idcategoria)
-                    this.errorMsj.push('Se debe asignar una categoría.')
+                    this.errorMsj.push('Se debe asignar una categoría. ')
                 if(!this.editedItem.idpresentacion)
                     this.errorMsj.push('Se debe asignar una presentación. ')
                 if(!this.editedItem.idpersona)
@@ -376,10 +377,8 @@
                 if(!this.editedItem.codigo)
                     this.errorMsj.push('Se debe asignar un código. ')
                 console.log('s '+ s);
-                
                 if(this.bandera==false)
                     this.errorMsj.push('El código ya existe. ')
-                
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
@@ -417,20 +416,21 @@
             },
             vercodigo()
             {
+                
                 let me = this;
                 var si = 0;
                 var cod = this.editedItem.codigo;
-                if(me.producto.length>0)
+                if(me.producto2.length>0)
                 {
-                    for(var x =0; x< me.producto.length; x++)
+                    for(var x =0; x< me.producto2.length; x++)
                     {
-                        console.log(me.producto[x].codigo);
+                        console.log(me.producto2[x].codigo);
                     
-                        if(me.producto[x].codigo.toUpperCase() == cod.toUpperCase()&&me.editedItem.id==me.producto[x].id)
+                        if(me.producto2[x].codigo.toUpperCase() == cod.toUpperCase()&&me.editedItem.id==me.producto2[x].id)
                         {
                             me.bandera=true;
                             break;                                            
-                        }else if(me.producto[x].codigo.toUpperCase() == cod.toUpperCase()&&me.editedItem.id!=me.producto[x].id){
+                        }else if(me.producto2[x].codigo.toUpperCase() == cod.toUpperCase()&&me.editedItem.id!=me.producto2[x].id){
                             me.bandera=false;
                             break;
                         }else{
@@ -472,6 +472,16 @@
                     console.log(error.response);
                 });
             },
+            cargaProductos() {
+                let me = this;
+                axios.get('/producto2')
+                .then(function (response) {
+                    me.producto2 = response.data;
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+            },
             initialize() {
                 axios.get('/producto')
                     .then(response => {
@@ -496,7 +506,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, eliminar',
+                    confirmButtonText: 'Eliminar',
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {
@@ -567,13 +577,10 @@
                 let me = this;
                 
                 if (this.validate()) {
-                    me.loader=null;
-                    me.loading=false;
-                    return;
-                }
+                        return;
+                    }
                 if (this.editedIndex > -1) {
-                    me.loader='loading';
-                    me.loading=true;
+                    
                     axios({
                         
                         method: 'put',
@@ -605,8 +612,6 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
-                            me.loader=null;
-                            me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -615,14 +620,10 @@
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
-                            me.loader=null;
-                            me.loading=false;
                         me.initialize();
                         me.close();
                     });                    
                 } else {
-                    me.loader='loading';
-                    me.loading=true;
                     axios({
                         method: 'post',
                         url: '/producto/registrar',
@@ -653,8 +654,6 @@
                             title: response.data,
                             showConfirmButton: false,
                             timer: 1500});
-                            me.loader=null;
-                            me.loading=false;
                         me.initialize();
                         me.close();
                     }).catch(function (error) {
@@ -663,12 +662,40 @@
                             type: 'error',
                             title: error.response.data.error,
                             showConfirmButton: true});
-                            me.loader=null;
-                            me.loading=false;
                         me.initialize();
                         me.close();
                     }); 
                 }
+            },
+            generarReporte(){
+                let me = this;
+                swal.fire({
+                    position: 'center',
+                    type: 'success',
+                    title: 'Generando reporte, por favor espere...',
+                    showConfirmButton: false,
+                    timer: 2000});
+                axios({
+                        method: 'post',
+                        url: '/producto/productosgeneral',
+                        responseType:'arraybuffer',
+                        data: {
+                            id: 6
+                        }
+                    }).then(function (response) {
+                        let blob = new Blob([response.data], { type:   'application/pdf' } )
+                        let link = document.createElement('a')
+                        link.href = window.URL.createObjectURL(blob)
+                        link.download = 'listadoProducto.pdf'
+                        link.click()
+                    }).catch(function (error) {
+                        swal.fire({
+                            position: 'top-end',
+                            type: 'error',
+                            title: error.response.data.error,
+                            showConfirmButton: true});
+
+                    });  
             },
             close() {
                 this.dialog = false;

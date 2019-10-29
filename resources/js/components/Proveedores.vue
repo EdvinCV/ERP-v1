@@ -1,21 +1,21 @@
 <template>
     <div>
            <div class="contenedor" style="backgrounhd-color=#668C2D">
-      <center> <h2 style="color:#668C2D">Proveedores</h2></center>
+      <center> <h2 style="color:#668C2D">Control de proveedores</h2></center>
         </div>
      <hr>
         <v-toolbar flat color="white">
            <v-text-field
           v-model="search"
           append-icon="search"
-          label="Buscar"
+          label="Buscar..."
           single-line
           hide-details
         ></v-text-field>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
-                  <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Nuevo Proveedor</v-btn>
+                  <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Nuevo proveedor</v-btn>
                 </template>
                 <v-card>
             <v-card-title style="background-color:#668c2d">
@@ -28,11 +28,11 @@
                                 <v-flex xs12 sm12 md12>
                                  <v-text-field color="#668c2d" maxlength="50"  required :counter="50" :rules="nameRules" v-model="editedItem.nombre" label="Nombres"></v-text-field>
                                     <v-text-field color="#668c2d" maxlength="50"  required :counter="50" v-model="editedItem.apellido" label="Apellidos"></v-text-field>
-                                    <v-text-field color="#668c2d" maxlength="100"  required :counter="100" v-model="editedItem.direccion" label="Direccion"></v-text-field>
-                                    <v-text-field color="#668c2d" maxlength="20"  required :counter="20" v-model="editedItem.telefono" label="Telefono"></v-text-field>
+                                    <v-text-field color="#668c2d" maxlength="100"  required :counter="100" v-model="editedItem.direccion" label="Dirección"></v-text-field>
+                                    <v-text-field color="#668c2d" maxlength="20"  required :counter="20" v-model="editedItem.telefono" label="Teléfono"></v-text-field>
                                     <v-text-field color="#668c2d" v-model="editedItem.nit" label="NIT"></v-text-field>
-                                    <v-text-field  color="#668c2d" type="email" v-model="editedItem.correo" label="Correo"></v-text-field>
-                                    <v-text-field color="#668c2d" maxlength="200"  required :counter="200" :rules="empresaRules" v-model="editedItem.nombreProveedor" label="Nombre Empresa"></v-text-field>
+                                    <v-text-field  color="#668c2d" type="email" v-model="editedItem.correo" label="Correo electrónico"></v-text-field>
+                                    <v-text-field color="#668c2d" maxlength="200"  required :counter="200" :rules="empresaRules" v-model="editedItem.nombreProveedor" label="Empresa / Organización"></v-text-field>
                                 </v-flex> 
                             </v-layout>
                         </v-container>
@@ -132,7 +132,7 @@
                 { text: 'Apellido', value: 'apellido' },
                 { text: 'Dirección', value: 'direccion' },
                 { text: 'Teléfono', value: 'telefono' },
-                { text: 'Nit', value: 'nit' },
+                { text: 'NIT', value: 'nit' },
                 { text: 'Correo', value: 'correo' },
                 { text: 'Acciones', value: 'action', sortable: false},
             ],
@@ -165,7 +165,7 @@
         }),
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'Nuevo Proveedor' : 'Editar Proveedor'
+                return this.editedIndex === -1 ? 'Nuevo proveedor' : 'Editar proveedor'
             }
         },
         watch: {
@@ -190,11 +190,11 @@
                 this.error = 0;
                 this.errorMsj = [];
                 if (!this.editedItem.nombre)
-                    this.errorMsj.push('Debe ingresar un nombre.');
+                    this.errorMsj.push('Debe ingresar un nombre. ');
                 if (!this.editedItem.direccion)
-                    this.errorMsj.push('Debe ingresar una dirección.');
+                    this.errorMsj.push('Debe ingresar una dirección. ');
                 if (!this.editedItem.nombreProveedor)
-                    this.errorMsj.push('Debe ingresar un nombre de proveedor.');
+                    this.errorMsj.push('Debe ingresar un nombre de empresa. ');
                 if(!this.editedItem.nit){
                     this.editedItem.nit = 'CF';
                     x = true;
@@ -237,13 +237,13 @@
             deleteItem(item) {
                 let me=this;
                 swal.fire({
-                    title: 'Quieres eliminar este proveedor?',
-                    text: "No podras revertir la eliminacion!",
+                    title: '¿Quieres eliminar este proveedor?',
+                    text: "Esta acción no se podrá revertir",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, Eliminalo!',
+                    confirmButtonText: 'Eliminar',
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {

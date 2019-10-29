@@ -78,9 +78,8 @@
               <td>{{ $p->presentacion}}</td>
               <td>{{ $p->nombreProveedor}}</td>
               <td>{{ $p->cantidad}}</td>
-              <td>{{ $p->preciocompra}}</td>
+              <td>{{ number_format((float)$p->preciocompra,2,'.','')}}</td>
               <td id="subtotal">{{ $p->cantidad * $p->preciocompra}}</td>
-              <td><input type="checkbox" name="name1" /></td>
             </tr>
           @endforeach
           <tr>
@@ -89,18 +88,9 @@
             <td>-----</td>
             <td>-----</td>
             <td>-----</td>
-            <td>----- </td>
-            <td>-----</td>
-          </tr>
-          <tr>
-            <td>-</td>
-            <td>-----</td>
-            <td>-----</td>
-            <td>-----</td>
-            <td>-----</td>
             <td>TOTAL </td>
             @foreach($total as $t)
-              <td>{{$t->totalCompra}}</td>
+              <td>{{number_format((float)$t->totalCompra,2,'.','')}}</td>
             @endforeach
           </tr>
           </tbody>

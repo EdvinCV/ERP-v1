@@ -81,11 +81,11 @@
             <tr>
               <td>{{ $p->id}}</td>
               <td>{{ $p->fecha}}</td>
-              <td>{{ $p->gastosParqueo}}</td>
-              <td>{{ $p->combustible}}</td>
-              <td>{{ $p->gastosVarios}}</td>
-              <td>{{ $p->impuestos}}</td>
-              <td>{{ $p->totalCompra}}</td>
+              <td>{{ number_format((float)$p->gastosParqueo,2,'.','')}}</td>
+              <td>{{ number_format((float)$p->combustible,2,'.','')}}</td>
+              <td>{{ number_format((float)$p->gastosVarios,2,'.','')}}</td>
+              <td>{{ number_format((float)$p->impuestos,2,'.','')}}</td>
+              <td>{{ number_format((float)$p->totalCompra,2,'.','')}}</td>
             </tr>
           @endforeach
           <tr>
@@ -96,7 +96,7 @@
             <td>-----</td>
             <td>TOTAL </td>
             @foreach($total as $p)
-                <td>{{$p->total}}</td>
+                <td>{{number_format((float)$p->total,2,'.','')}}</td>
              @endforeach
            
           </tr>
@@ -119,16 +119,16 @@
        <tr>
        <th>
        @foreach($parqueo as $p)
-              <p>Gastos Parqueo: {{$p->parqueo}}</p>
+              <p>Gastos Parqueo: {{number_format((float)$p->parqueo,2,'.','')}}</p>
           @endforeach
           @foreach($combustible as $c)
-              <p>Combustible: {{$c->combustible}}</p>
+              <p>Combustible: {{number_format((float)$c->combustible,2,'.','')}}</p>
           @endforeach
           @foreach($varios as $v)
-              <p>Gastos Varios: {{$v->varios}}</p>
+              <p>Gastos Varios: {{number_format((float)$v->varios,2,'.','')}}</p>
           @endforeach
           @foreach($impuestos as $i)
-              <p>Impuestos: {{$i->impuestos}}</p>
+              <p>Impuestos: {{number_format((float)$i->impuestos,2,'.','')}}</p>
           @endforeach
        </th>
        </tr>

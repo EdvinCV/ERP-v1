@@ -4,14 +4,14 @@
     <div>
        
         <div class="contenedor" style="background-color=#668C2D">
-      <center> <h2 style="color:#668C2D">Presentacion</h2></center>
+      <center> <h2 style="color:#668C2D">Control de presentaciones</h2></center>
         </div>
      <hr>
         <v-toolbar flat color="white">
            <v-text-field
           v-model="search"
           append-icon="search"
-          label="Buscar"
+          label="Buscar..."
           single-line
           hide-details
         ></v-text-field>
@@ -19,7 +19,7 @@
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
-                    <v-btn style="background-color:#668c2d" dark class="mb-2" v-on="on">Nueva Presentacion</v-btn>
+                    <v-btn style="background-color:#668c2d" dark class="mb-2" v-on="on">Nueva presentación</v-btn>
                 </template>
                 <v-card >
                  <v-card-title style="background-color:#668c2d">
@@ -30,7 +30,7 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                      <v-text-field color="#668c2d" type="text" v-model="editedItem.nombre" maxlength="50"  required :rules="nameRules" :counter="50" label="Nombre Presentacion"></v-text-field>
+                                      <v-text-field color="#668c2d" type="text" v-model="editedItem.nombre" maxlength="50"  required :rules="nameRules" :counter="50" label="Nombre presentación"></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -89,9 +89,9 @@
             search: '',
             dialog: false,
                      nameRules: [
-      v => !!v || 'El nombre de la presentacion no puede estar vacio',
-      v => (v && v.length <= 49) || 'El nombre de la presentacion no puede ser mayor a 50',
-       v => /[a-zA-Z]/.test(v) || 'la presentacion solo puede tener letras',
+      v => !!v || 'El nombre de la presentación no puede estar vacío.',
+      v => (v && v.length <= 49) || 'El nombre de la presentación no puede ser mayor a 50.',
+       v => /[a-zA-Z]/.test(v) || 'La presentación solo puede tener letras.',
     
     ],
             error: 0,
@@ -119,7 +119,7 @@
         }),
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'Nueva Presentacion' : 'Editar Presentacion'
+                return this.editedIndex === -1 ? 'Nueva presentación' : 'Editar presentación'
             }
         },
         watch: {
@@ -135,7 +135,7 @@
                 this.error = 0;
                 this.errorMsj = [];
                 if (!this.editedItem.nombre)
-                    this.errorMsj.push('El nombre de la Presentacion no puede estar vacio');
+                    this.errorMsj.push('El nombre de la presentación no puede estar vacío.');
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
@@ -157,13 +157,13 @@
             deleteItem(item) {
                 let me=this;
                 swal.fire({
-                    title: 'Quieres eliminar esta presentación?',
-                    text: "No podras revertir la eliminación!",
+                    title: '¿Quieres eliminar esta presentación?',
+                    text: "Esta acción no se podrá revertir.",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, Eliminalo!',
+                    confirmButtonText: 'Eliminar',
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {

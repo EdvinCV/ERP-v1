@@ -1,21 +1,21 @@
 <template>
     <div>
             <div class="contenedor" style="background-color=#668C2D">
-      <center> <h2 style="color:#668C2D">Categorias</h2></center>
+      <center> <h2 style="color:#668C2D">Control de categorías</h2></center>
         </div>
      <hr>
         <v-toolbar flat color="white">
             <v-text-field
           v-model="search"
           append-icon="search"
-          label="Buscar"
+          label="Buscar..."
           single-line
           hide-details
         ></v-text-field>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="600px">
                 <template v-slot:activator="{ on }">
-                   <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Nueva Categoria</v-btn>
+                   <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Nueva categoría</v-btn>
                 </template>
                 <v-card>
                  <v-card-title style="background-color:#668c2d">
@@ -26,7 +26,7 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                     <v-text-field color="#668c2d" type="text" v-model="editedItem.nombre" maxlength="50"  required :rules="nameRules" :counter="50" label="Nombre Categoria"></v-text-field>
+                                     <v-text-field color="#668c2d" type="text" v-model="editedItem.nombre" maxlength="50"  required :rules="nameRules" :counter="50" label="Nombre categoría"></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -85,9 +85,9 @@
             loading: false,
             dialog: false,
                 nameRules: [
-      v => !!v || 'El nombre de la categoria no puede estar vacio',
-      v => (v && v.length <= 49) || 'El nombre de la categoria no puede ser mayor a 50',
-       v => /[a-zA-Z]/.test(v) || 'la categoria solo puede tener letras',
+      v => !!v || 'El nombre de la categoria no puede estar vacío',
+      v => (v && v.length <= 49) || 'El nombre de la categoría no puede ser mayor a 50',
+       v => /[a-zA-Z]/.test(v) || 'La categoría solo puede tener letras',
     
     ],
             error: 0,
@@ -112,7 +112,7 @@
         }),
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'Nueva Categoria' : 'Editar Categoria'
+                return this.editedIndex === -1 ? 'Nueva categoría' : 'Editar categoría'
             }
         },
         watch: {
@@ -128,7 +128,7 @@
                 this.error = 0;
                 this.errorMsj = [];
                 if (!this.editedItem.nombre)
-                    this.errorMsj.push('El nombre de la categoria no puede estar vacio');
+                    this.errorMsj.push('El nombre de la categoría no puede estar vacio.');
                 if (this.errorMsj.length)
                     this.error = 1;
                 return this.error;
@@ -150,13 +150,13 @@
             deleteItem(item) {
                 let me=this;
                 swal.fire({
-                    title: 'Quieres eliminar esta Categoria?',
-                    text: "No podras revertir la eliminacion!",
+                    title: '¿Quieres eliminar esta categoría?',
+                    text: "Esta acción no se podrá revertir.",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, Eliminalo!',
+                    confirmButtonText: 'Eliminar',
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {

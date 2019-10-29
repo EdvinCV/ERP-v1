@@ -15,7 +15,7 @@
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on }">
-                    <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Asignar Permiso</v-btn>
+                    <v-btn style="background-color:#668c2d"  dark class="mb-2" v-on="on">Asignar permiso</v-btn>
                 </template>
                 <v-card>
                 <v-card-title style="background-color:#668c2d">
@@ -118,7 +118,7 @@
 
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'Asignar Permisos' : 'Editar Permiso'
+                return this.editedIndex === -1 ? 'Asignar permisos' : 'Editar permiso'
             }
         },
 
@@ -196,13 +196,13 @@
             deleteItem(item) {
                 let me=this;
                 swal.fire({
-                    title: 'Quieres eliminar este permiso?',
-                    text: "No podras revertir la eliminacion!",
+                    title: '¿Quieres eliminar este permiso?',
+                    text: "Esta acción no se podrá revertir.",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, Eliminalo!',
+                    confirmButtonText: 'Eliminar',
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {

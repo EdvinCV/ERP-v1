@@ -6,14 +6,14 @@
      <hr>
         <v-container fluid>
             <!--LAYOUT DE CLIENTE -->
-            <h6>Encargado compra</h6>
+            <h5 style="color:#668c2d">Encargado compra</h5>
             <v-layout row>
                 <v-flex lg6 md6 xs6 pa-2 >
                     <multiselect  v-model="editedItem.idEncargado" :options="compras" placeholder="Seleccione un encargado"
                         label="name" track-by="name"></multiselect>
                 </v-flex>
             </v-layout>
-            <h6>Información cliente</h6>
+            <h5 style="color:#668c2d">Información cliente</h5>
             <v-layout row>
                 <v-flex lg6 md6 xs6 pa-2>
                     <multiselect  v-model="editedItem.idCliente" :options="clientes" placeholder="Seleccione un cliente"
@@ -21,7 +21,7 @@
                 </v-flex>
             </v-layout>
             <!--LAYOUT DE PRODUCTOS-->
-            <h6>Ingrese productos</h6> 
+            <h5 style="color:#668c2d">Ingrese productos</h5> 
             <v-layout row>
                 <v-flex lg6 md6 xs6 pa-2>
                     <multiselect @input="buscarProducto()" v-model="editedItem.detProducto" :options="prods" placeholder="Seleccione un producto"
@@ -36,8 +36,9 @@
                     </v-btn>
                 </v-flex>
             </v-layout>
+            <hr>
             <!--LAYOUT PRODUCTOS INGRESADOS-->
-            <h6>Listado Orden Compra</h6>
+            <h5 style="color:#668c2d">Listado Orden Compra</h5>
             <template>
                 <v-data-table
                     :headers="headersAddP"
@@ -133,9 +134,9 @@
                 this.error = 0;
                 this.errorMsj = [];
                 if(!this.editedItem.idCliente)
-                    this.errorMsj.push('Elija un cliente');
+                    this.errorMsj.push('Seleccione un cliente');
                 if(!this.editedItem.idEncargado)
-                    this.errorMsj.push('Elija un encargado');
+                    this.errorMsj.push('Seleccione un encargado');
                 if(this.carrito == '')
                         this.errorMsj.push('No ha seleccionado ningún producto');
                 if (this.errorMsj.length)
@@ -298,7 +299,17 @@
                         })
                         return;
                     }
-                axios({
+                swal.fire({
+                    title: '¿Está seguro de realizar esta venta?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonText: "Cancelar"
+                }).then((result) => {
+                if (result.value) {
+                     axios({
                         method: 'post',
                         url: '/compra/nuevo',
                         data: {
@@ -326,6 +337,9 @@
                         me.close();
                     });      
                     this.carrito = [];
+                   }
+                });
+                    
             }
         }
     }

@@ -36,7 +36,7 @@
                                 <v-text-field color="#668c2d"
                                             v-model="editedItem.email"
                                             :rules="[rules.required, rules.email]"
-                                            label="Correo Electrónico"
+                                            label="Correo electrónico"
                                 ></v-text-field>
 
                                 <v-text-field color="#668c2d"
@@ -103,10 +103,10 @@
                 <td class="text-xs-left">{{ props.item.nombreRol }}</td>
                 <td class="text-xs-left"><v-chip :color="getColor(props.item.estado)" dark>{{ verEstado(props.item.estado) }}</v-chip></td>
                 <td class="justify-right layout px-0">
-                    <v-icon title="Editar Usuario" small class="mr-2" @click="editItem(props.item)">
+                    <v-icon title="Editar usuario" small class="mr-2" @click="editItem(props.item)">
                         edit
                     </v-icon>
-                    <v-icon title="Desactivar Usuario" small @click="deleteItem(props.item)">
+                    <v-icon title="Desactivar usuario" small @click="deleteItem(props.item)">
                         delete
                     </v-icon>
                 </td>
@@ -250,13 +250,13 @@
             deleteItem(item) {
                 let me=this;
                 swal.fire({
-                    title: 'Quieres desactivar este usuario?',
+                    title: '¿Quieres desactivar este usuario?',
                     text: "El usuario se desactivará!",
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, desactivar!',
+                    confirmButtonText: 'Desactivar',
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.value) {

@@ -286,7 +286,7 @@
   </div>
                         
   <div class="form-group">
-    <label for="exampleInputEmail1">Correo electronico</label>
+    <label for="exampleInputEmail1">Correo electrónico</label>
     <input type="text" id="email_address_2" class="form-control" placeholder="Enter your email address" name="email" value="{{ Auth::user()->email }}">
     
   </div>
@@ -304,25 +304,25 @@
                                     @method('PUT')
                         <div class="form-group">
     <label for="exampleInputEmail1">Contraseña actual</label>
-    <input type="password" id="old_password" class="form-control" placeholder="Enter your old password" name="old_password">
+    <input type="password" id="old_password" class="form-control" placeholder="Ingrese contraseña actual" name="old_password">
     
   </div>     
 
   <div class="form-group">
-    <label for="password">Contraseña Nueva</label>
-    <input type="password" id="password" class="form-control" placeholder="Enter your new password" name="password" >
+    <label for="password">Contraseña nueva</label>
+    <input type="password" id="password" class="form-control" placeholder="Ingrese nueve contraseña" name="password" >
     
   </div>     
 
   <div class="form-group">
-    <label for="confirm_password">Confirmar Contraseña</label>
-    <input type="password" id="confirm_password" class="form-control" placeholder="Enter your new password again" name="password_confirmation" style="color:#668C2D">
+    <label for="confirm_password">Confirmar contraseña</label>
+    <input type="password" id="confirm_password" class="form-control" placeholder="Ingrese contraseña nuevamente" name="password_confirmation" style="color:#668C2D">
     
   </div>         
       
   <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary save" style="background-color:#668C2D">Guardar Cambios</button>
+                <button type="submit" class="btn btn-primary save" style="background-color:#668C2D">Guardar cambios</button>
             </div>      
                         
                         
