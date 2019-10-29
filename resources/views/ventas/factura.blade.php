@@ -2,14 +2,11 @@
      $hoy = getdate();
      $total = 0;
 ?>
-
 <head>
 <style>
 	.contenedor{
-        
 		width: 13.5cm;
-        height: 19.9cm;
-        
+        height: 19.9cm; 
 	}
     .nombre{
         padding-top: 2cm;
@@ -31,17 +28,12 @@
     }
     .encabezado{
         padding-top: 0.3cm;
-    
-        
     }
     .detalle{
         padding-top: 0.7cm;
         padding-left: 1cm;
         padding-right: 0.7cm;
         height: 9.9cm;
-        
-        
-        
     }
     .cantidad{
         width: 1.2cm;
@@ -66,9 +58,7 @@
     }
     .final{
         width: 13.5cm;
-        height: 3.3cm;
-        
-        
+        height: 3.3cm;        
     }
     .letras{
         padding-top: 0.5cm;
@@ -83,7 +73,6 @@
     }
 	</style>
 </head>
-
 <html>
      <div class="contenedor">
      <div class="encabezado">
