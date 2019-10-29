@@ -141,7 +141,7 @@
             </div>
             <div class="total">
                 @foreach($ventas as $v)
-                    {{ numb er_format((float)$v->total,2,'.','') }}
+                    {{ number_format((float)$v->total,2,'.','') }}
                 @endforeach
             </div>
         </div>

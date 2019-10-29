@@ -300,7 +300,7 @@
                         return;
                     }
                 swal.fire({
-                    title: '¿Está seguro de realizar esta venta?',
+                    title: '¿Está seguro de realizar esta orden?',
                     type: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
