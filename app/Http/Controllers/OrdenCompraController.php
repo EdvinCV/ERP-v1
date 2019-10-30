@@ -159,27 +159,30 @@ class OrdenCompraController extends Controller
             $utilidadVenta = 0;
             //Agregar detalles.
             $detalles = $req->input('detalles');
-            foreach($detalles as $d){
-                if($d['id'] == 0){
-                    $det = new CompraDetalle;
-                    $det->idProducto = $d['idp'];
-                    $det->cantidad = $d['cantidad'];
-                    $prod = Producto::find($d['idp']);
-                    $det->precioCompra = $prod->preciocompra;
-                    $det->totalCompra = $d['cantidad'] * $prod->preciocompra;
-                    $det->precioVenta = $prod->precioventa;
-                    $det->totalVenta = $prod->precioventa * $d['cantidad'];
-                    $det->idCompraEncabezado = $req->orden;
-                    $det->idPersona = $d['cliente'];
-                    $det->save();
+            if(count($detalles)>0){
+                foreach($detalles as $d){
+                    if($d['id'] == 0){
+                        $det = new CompraDetalle;
+                        $det->idProducto = $d['idp'];
+                        $det->cantidad = $d['cantidad'];
+                        $prod = Producto::find($d['idp']);
+                        $det->precioCompra = $prod->preciocompra;
+                        $det->totalCompra = $d['cantidad'] * $prod->preciocompra;
+                        $det->precioVenta = $prod->precioventa;
+                        $det->totalVenta = $prod->precioventa * $d['cantidad'];
+                        $det->idCompraEncabezado = $req->orden;
+                        $det->idPersona = $d['cliente'];
+                        $det->save();
+                    }
                 }
             }
             //Elimina detalles.
-            $detalles = $req->input('detallesEliminados');
-            if(!$detalles == ''){
-                foreach($detalles as $d){
-                    $detalle=CompraDetalle::findOrFail($d['idDetalle']);
-                    $detalle->delete();
+            $detallesEl = $req->input('detallesEliminados');
+            if($detallesEl){
+                foreach($detallesEl as $d){
+                    $detalle=CompraDetalle::find($d['idDetalle']);
+                    if(isset($detalle) || $detalle != '')
+                        $detalle->delete();
                 }
             }
             //Recalcula campos de encabezado.
