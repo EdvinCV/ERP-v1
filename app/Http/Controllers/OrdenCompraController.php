@@ -159,7 +159,7 @@ class OrdenCompraController extends Controller
             $utilidadVenta = 0;
             //Agregar detalles.
             $detalles = $req->input('detalles');
-            if(count($detalles)>0){
+            if(isset($detalles)){
                 foreach($detalles as $d){
                     if($d['id'] == 0){
                         $det = new CompraDetalle;
